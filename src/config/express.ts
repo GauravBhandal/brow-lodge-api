@@ -6,6 +6,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import config from "./environment";
+import sequelize from "./sequelize";
 
 export default function (app: Express) {
   const allowedHeaders = config.CORS_ORIGIN.split(",");
@@ -13,6 +14,13 @@ export default function (app: Express) {
     allowedHeaders,
   };
   const morganConfig = `:method :url (:response-time ms) :status`;
+
+  // Test DB
+  sequelize
+    .authenticate()
+    .then(() => console.log("Database connected..."))
+    .catch((err) => console.log("Error: " + err));
+
   app.use(helmet());
   app.use(morgan(morganConfig));
   app.use(compressionMiddleware());
