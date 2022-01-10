@@ -1,12 +1,7 @@
-# SineCloud Device Linking Service
+# Care Diary Core API
 
-The purpose of this service is to authenicate, authorise and link a device to a Site.
+This is the backend of the Care Diary.
 
-- [Getting Started](#markdown-header-get-started)
-
-- [Open API](#markdown-header-open-api)
-
-- [Testing and Linting](#markdown-header-testing-and-linting)
 
 ---
 
@@ -28,29 +23,21 @@ To get the Care Diary Core API up and running follow these steps
 
 ---
 
-## Open API
+## DB Migrations
 
-To get open-api working in a docker container, you can run one of these client:
+The following commands can be used to manage migration scripts.
 
-        docker run -p 8081:80 -e SPEC_URL=https://sinedocs.s3.ap-southeast-2.amazonaws.com/open-api/device-linking-api/poc-openapi_e904f6c/openapi.yaml redocly/redoc
+* Create a blank migration script
 
-        docker run -p 8082:8080 -e URL=https://sinedocs.s3.ap-southeast-2.amazonaws.com/open-api/device-linking-api/poc-openapi_e904f6c/openapi.yaml -e VALIDATOR_URL=none swaggerapi/swagger-ui
+        yarn sequelize-cli migration:generate --name test
 
----
+* Run new migrations
 
-## Testing and Linting
+        yarn sequelize-cli db:migrate
 
-We usually stick to the `assert` style of unit testing coupled with function/class `stub` and/or `spy`. The frameworks are [Mocha](https://mochajs.org/), [Chai](https://www.chaijs.com) and [Sinon](https://sinonjs.org) or [Jest](https://jestjs.io)
+* Undo last migrations
 
-The following commands can be used to run tests for the workflows API.
-
-- ESLint
-
-        npm run lint
-
-- Unit tests
-
-        npm run test
+        yarn sequelize-cli db:migrate:undo
 
 ---
 
