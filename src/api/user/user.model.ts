@@ -15,6 +15,7 @@ class UserModel<
 {
   fullName!: User["fullName"];
   email!: User["email"];
+  password!: User["password"];
 }
 
 modelManager.init(
@@ -26,6 +27,10 @@ modelManager.init(
       allowNull: false,
     },
     email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    password: {
       type: Sequelize.STRING,
       allowNull: false,
     },

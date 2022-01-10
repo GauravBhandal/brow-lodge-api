@@ -6,12 +6,10 @@ import {
 import Joi from "joi";
 
 const createUserSchema = wrapSchema({
-  params: Joi.object().keys({
-    userId: requiredUUIDSchema(),
-  }),
   body: Joi.object().keys({
     fullName: Joi.string(),
-    email: Joi.string(),
+    email: Joi.string().required(),
+    password: Joi.string().required(),
   }),
 });
 

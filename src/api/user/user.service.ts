@@ -1,3 +1,5 @@
+import bcrypt from "bcryptjs";
+
 import UserModel from "./user.model";
 import { User, CreateUserProps, UpdateUserProps } from "./user.types";
 import { CustomError } from "../../components/errors";
@@ -5,6 +7,19 @@ import UserErrorCode from "./user.error";
 
 class UserService {
   async createUser(props: CreateUserProps) {
+    // Check if user already exist
+    const existingUser = await UserModel.findOne({
+      where: { email: props.email },
+    });
+
+    if (existingUser) {
+      throw new CustomError(409, UserErrorCode.USER_ALREADY_EXISTS);
+    }
+
+    // Encrypt user password
+    const encryptedPassword = await bcrypt.hash(props.password, 10);
+    props.password = encryptedPassword;
+
     const user = await UserModel.create(props);
     return user;
   }

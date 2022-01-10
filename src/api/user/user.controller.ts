@@ -5,7 +5,7 @@ import userService from "./user.service";
 
 class UserController {
   async createUser(req: Request, res: Response) {
-    const params = _pick(req.body, ["fullName", "email"]);
+    const params = _pick(req.body, ["fullName", "email", "password"]);
 
     const user = await userService.createUser(params);
 
@@ -31,6 +31,7 @@ class UserController {
 
   async getuserById(req: Request, res: Response) {
     const { userId } = req.params;
+
     const user = await userService.getUserById(userId);
 
     res.status(200).json(user);
