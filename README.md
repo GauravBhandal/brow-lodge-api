@@ -1,29 +1,56 @@
-# README #
+# SineCloud Device Linking Service
 
-This README would normally document whatever steps are necessary to get your application up and running.
+The purpose of this service is to authenicate, authorise and link a device to a Site.
 
-### What is this repository for? ###
+- [Getting Started](#markdown-header-get-started)
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+- [Open API](#markdown-header-open-api)
 
-### How do I get set up? ###
+- [Testing and Linting](#markdown-header-testing-and-linting)
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+---
 
-### Contribution guidelines ###
+## Get started
 
-* Writing tests
-* Code review
-* Other guidelines
+To get the Device Linking API up and running follow these steps
 
-### Who do I talk to? ###
+1.  Clone the repo
 
-* Repo owner or admin
-* Other community or team contact
+1.  Install the node modules
+
+         npm ci
+
+1.  Create a `.env` file and copy / update the values from `.env.example`. If you are using docker-dev environment then you can take your environment config from there instead
+
+1.  Run the server using
+
+        npm run nodemon
+
+---
+
+## Open API
+
+To get open-api working in a docker container, you can run one of these client:
+
+        docker run -p 8081:80 -e SPEC_URL=https://sinedocs.s3.ap-southeast-2.amazonaws.com/open-api/device-linking-api/poc-openapi_e904f6c/openapi.yaml redocly/redoc
+
+        docker run -p 8082:8080 -e URL=https://sinedocs.s3.ap-southeast-2.amazonaws.com/open-api/device-linking-api/poc-openapi_e904f6c/openapi.yaml -e VALIDATOR_URL=none swaggerapi/swagger-ui
+
+---
+
+## Testing and Linting
+
+We usually stick to the `assert` style of unit testing coupled with function/class `stub` and/or `spy`. The frameworks are [Mocha](https://mochajs.org/), [Chai](https://www.chaijs.com) and [Sinon](https://sinonjs.org) or [Jest](https://jestjs.io)
+
+The following commands can be used to run tests for the workflows API.
+
+- ESLint
+
+        npm run lint
+
+- Unit tests
+
+        npm run test
+
+---
+
