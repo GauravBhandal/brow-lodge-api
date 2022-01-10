@@ -4,11 +4,11 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { User, UserCreateModelProps } from "./user.types";
+import { User, CreateUserProps } from "./user.types";
 
 class UserModel<
     ModelAttributes = User,
-    ModelCreationAttributes = UserCreateModelProps
+    ModelCreationAttributes = CreateUserProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements User
