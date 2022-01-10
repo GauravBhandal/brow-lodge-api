@@ -4,8 +4,6 @@ import configureExpress from "./config/express";
 import config from "./config/environment";
 import router from "./router";
 
-import { userRoutes } from "./api/user";
-
 const express = Express();
 const app = configureExpress(express);
 

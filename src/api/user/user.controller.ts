@@ -8,9 +8,9 @@ class UserController {
   }
 
   async createUser(req: any, res: any) {
-    const { params } = req;
+    const { fullName, email } = req.body;
 
-    const user = await userService.createUser(params);
+    const user = await userService.createUser({ fullName, email });
 
     res.status(200).json(user);
   }

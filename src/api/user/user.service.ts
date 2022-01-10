@@ -1,16 +1,16 @@
+import UserModel from "./user.model";
+
 class UserService {
   async getUser() {
-    return [
-      {
-        a: 1,
-      },
-    ];
+    const users = await UserModel.findAll();
+
+    return users;
   }
 
   async createUser(params: any) {
-    return {
-      a: "As",
-    };
+    const user = await UserModel.create(params);
+
+    return user;
   }
 }
 
