@@ -12,19 +12,19 @@ The purpose of this service is to authenicate, authorise and link a device to a 
 
 ## Get started
 
-To get the Device Linking API up and running follow these steps
+To get the Care Diary Core API up and running follow these steps
 
 1.  Clone the repo
 
 1.  Install the node modules
 
-         npm ci
+         yarn
 
-1.  Create a `.env` file and copy / update the values from `.env.example`. If you are using docker-dev environment then you can take your environment config from there instead
+1.  Create a `.env` file and copy / update the values from `.env.example`
 
 1.  Run the server using
 
-        npm run nodemon
+        yarn start
 
 ---
 
