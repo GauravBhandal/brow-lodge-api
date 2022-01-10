@@ -1,5 +1,7 @@
 import UserModel from "./user.model";
 import { User, CreateUserProps, UpdateUserProps } from "./user.types";
+import { CustomError } from "../../components/errors";
+import UserErrorCode from "./user.error";
 
 class UserService {
   async createUser(props: CreateUserProps) {
@@ -8,11 +10,15 @@ class UserService {
   }
 
   async updateUser(userId: User["id"], props: UpdateUserProps) {
-    const [, [user]] = await UserModel.update(props, {
+    const user = await UserModel.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+    const [, [updatedUser]] = await UserModel.update(props, {
       where: { id: userId },
       returning: true,
     });
-    return user;
+    return updatedUser;
   }
 
   async deleteUser(userId: User["id"]) {

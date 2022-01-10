@@ -2,17 +2,26 @@ import express from "express";
 
 import controller from "./user.controller";
 import userSchems from "./user.schema";
+import { catchWrap } from "../../components/errors";
 
 const router = express.Router();
 
-router.post("/", userSchems.createUser, controller.createUser);
+router.post("/", userSchems.createUser, catchWrap(controller.createUser));
 
-router.put("/:userId", userSchems.editUser, controller.updateUser);
+router.put("/:userId", userSchems.editUser, catchWrap(controller.updateUser));
 
-router.delete("/:userId", userSchems.deleteUser, controller.deleteUser);
+router.delete(
+  "/:userId",
+  userSchems.deleteUser,
+  catchWrap(controller.deleteUser)
+);
 
-router.get("/:userId", userSchems.getUserById, controller.getuserById);
+router.get(
+  "/:userId",
+  userSchems.getUserById,
+  catchWrap(controller.getuserById)
+);
 
-router.get("/", controller.getUsers);
+router.get("/", catchWrap(controller.getUsers));
 
 export default router;
