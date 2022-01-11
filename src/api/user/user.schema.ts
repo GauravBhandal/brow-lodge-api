@@ -1,8 +1,5 @@
-import {
-  requiredUUIDSchema,
-  wrapSchema,
-  joiMiddleware,
-} from "../../components/joi/commonSchemas";
+import { joiMiddleware } from "../../components/joi/middleware";
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 import Joi from "joi";
 
 const loginUserSchema = wrapSchema({
@@ -36,6 +33,13 @@ const deleteUserSchema = wrapSchema({
   }),
 });
 
+const getUserSchema = wrapSchema({
+  query: Joi.object().keys({
+    page: Joi.number().min(1),
+    pageSize: Joi.number().min(1),
+  }),
+});
+
 const getUserByIdSchema = wrapSchema({
   params: Joi.object().keys({
     userId: requiredUUIDSchema(),
@@ -47,6 +51,6 @@ export default {
   createUser: joiMiddleware(createUserSchema),
   editUser: joiMiddleware(editUserSchema),
   deleteUser: joiMiddleware(deleteUserSchema),
-  //   getUsers: joiMiddleware(getUserSchema),
+  getUsers: joiMiddleware(getUserSchema),
   getUserById: joiMiddleware(getUserByIdSchema),
 };

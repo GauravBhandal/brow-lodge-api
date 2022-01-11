@@ -25,6 +25,7 @@ const handleErrorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("TODO: handleErrorMiddleware", err);
   errorHandler(err, res);
 };
 

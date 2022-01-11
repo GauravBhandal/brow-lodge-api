@@ -27,6 +27,6 @@ router.get(
   catchWrap(controller.getuserById)
 );
 
-router.get("/", catchWrap(controller.getUsers));
+router.get("/", userSchems.getUsers, catchWrap(controller.getUsers));
 
 export default router;

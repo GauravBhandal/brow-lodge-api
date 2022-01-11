@@ -11,6 +11,8 @@ import {
 import { CustomError } from "../../components/errors";
 import UserErrorCode from "./user.error";
 import config from "../../config/environment";
+import { getPagingParams, getPagingData } from "../../components/paging";
+import { QueryParams } from "../../common/types";
 
 class UserService {
   async loginUser(props: LoginUserProps) {
@@ -84,9 +86,15 @@ class UserService {
     return user;
   }
 
-  async getUsers() {
-    const users = await UserModel.findAll();
-    return users;
+  async getUsers(queryParams: QueryParams) {
+    const { page, pageSize } = queryParams;
+    const { offset, limit } = getPagingParams(page, pageSize);
+
+    const data = await UserModel.findAndCountAll({ offset, limit });
+
+    const response = getPagingData(data, page, limit);
+
+    return response;
   }
 
   async getUserById(userId: User["id"]) {

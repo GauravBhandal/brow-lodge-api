@@ -1,16 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import Joi, { Schema, ValidationOptions, SchemaMap } from "joi";
+import { Schema, ValidationOptions } from "joi";
 
 const defaultJoiOptions = {};
-
-export const MIN_CHARACTERS = 2;
-export const MAX_CHARACTERS = 255;
-
-export const requiredUUIDSchema = () =>
-  Joi.string().uuid({ version: "uuidv4" }).required();
-
-export const wrapSchema = (schema: SchemaMap<any>): Schema =>
-  Joi.object().keys(schema).unknown();
 
 const joiExpressMiddleware =
   (schema: Schema, defaultJoiOptions: ValidationOptions) =>
