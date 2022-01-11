@@ -1,17 +1,60 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 import UserModel from "./user.model";
-import { User, CreateUserProps, UpdateUserProps } from "./user.types";
+import {
+  User,
+  LoginUserProps,
+  CreateUserProps,
+  UpdateUserProps,
+} from "./user.types";
 import { CustomError } from "../../components/errors";
 import UserErrorCode from "./user.error";
+import config from "../../config/environment";
 
 class UserService {
+  async loginUser(props: LoginUserProps) {
+    // Check if user exist with the given email
+    const user = await UserModel.findOne({
+      where: { email: props.email },
+      raw: true,
+    });
+
+    // if user don't exists, throw an error
+    if (!user) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    // Check if password matches with one store in database
+    const isPasswordCorrect = await bcrypt.compare(
+      props.password,
+      user.password
+    );
+
+    if (isPasswordCorrect) {
+      // If password is correct, create a jwtToken
+      const token = jwt.sign({ userId: user.id }, config.TOKEN_KEY, {
+        expiresIn: "5h",
+      });
+
+      // Add the jwtToken to response
+      const userWithToken = {
+        ...user,
+        token,
+      };
+      return userWithToken;
+    }
+
+    throw new CustomError(400, UserErrorCode.INVALID_CREDENTIALS);
+  }
+
   async createUser(props: CreateUserProps) {
     // Check if user already exist
     const existingUser = await UserModel.findOne({
       where: { email: props.email },
     });
 
+    // if the user exists, throw an error
     if (existingUser) {
       throw new CustomError(409, UserErrorCode.USER_ALREADY_EXISTS);
     }

@@ -5,6 +5,13 @@ import {
 } from "../../components/joi/commonSchemas";
 import Joi from "joi";
 
+const loginUserSchema = wrapSchema({
+  body: Joi.object().keys({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
+});
+
 const createUserSchema = wrapSchema({
   body: Joi.object().keys({
     fullName: Joi.string(),
@@ -36,6 +43,7 @@ const getUserByIdSchema = wrapSchema({
 });
 
 export default {
+  loginUser: joiMiddleware(loginUserSchema),
   createUser: joiMiddleware(createUserSchema),
   editUser: joiMiddleware(editUserSchema),
   deleteUser: joiMiddleware(deleteUserSchema),

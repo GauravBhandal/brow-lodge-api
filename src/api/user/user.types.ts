@@ -6,6 +6,8 @@ export interface User extends DefaultSchemaConfig {
   password: string;
 }
 
+export type LoginUserProps = Pick<User, "email" | "password">;
+
 export type CreateUserProps = Pick<User, "fullName" | "email" | "password">;
 
 export type UpdateUserProps = Pick<User, "fullName" | "email">;

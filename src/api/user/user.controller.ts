@@ -4,6 +4,14 @@ import { pick as _pick } from "lodash";
 import userService from "./user.service";
 
 class UserController {
+  async loginUser(req: Request, res: Response) {
+    const params = _pick(req.body, ["email", "password"]);
+
+    const user = await userService.loginUser(params);
+
+    res.status(200).json(user);
+  }
+
   async createUser(req: Request, res: Response) {
     const params = _pick(req.body, ["fullName", "email", "password"]);
 

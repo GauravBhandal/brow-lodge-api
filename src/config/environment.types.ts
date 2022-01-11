@@ -8,4 +8,7 @@ export interface ProcessDotEnv {
   DATABASE_HOST: string;
   DATABASE_USERNAME: string;
   DATABASE_PASSWORD: string;
+
+  TOKEN_KEY: string;
+  TOKEN_EXPIRY: string;
 }

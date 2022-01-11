@@ -3,8 +3,13 @@ import express from "express";
 import controller from "./user.controller";
 import userSchems from "./user.schema";
 import { catchWrap } from "../../components/errors";
+import authMiddleware from "../../components/auth";
 
 const router = express.Router();
+
+router.post("/login", userSchems.loginUser, catchWrap(controller.loginUser));
+
+router.use(authMiddleware);
 
 router.post("/", userSchems.createUser, catchWrap(controller.createUser));
 

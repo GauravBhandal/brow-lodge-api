@@ -10,6 +10,9 @@ const environmentSchema = Joi.object().keys({
   DATABASE_HOST: Joi.string().required(),
   DATABASE_USERNAME: Joi.string().required(),
   DATABASE_PASSWORD: Joi.string().required(),
+
+  TOKEN_KEY: Joi.string().required(),
+  TOKEN_EXPIRY: Joi.string().required(),
 });
 
 export default environmentSchema;
