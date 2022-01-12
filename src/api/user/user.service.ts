@@ -12,6 +12,7 @@ import { CustomError } from "../../components/errors";
 import UserErrorCode from "./user.error";
 import config from "../../config/environment";
 import { getPagingParams, getPagingData } from "../../components/paging";
+import { getSortingParams } from "../../components/sorting";
 import { QueryParams } from "../../common/types";
 
 class UserService {
@@ -87,10 +88,16 @@ class UserService {
   }
 
   async getUsers(queryParams: QueryParams) {
-    const { page, pageSize } = queryParams;
-    const { offset, limit } = getPagingParams(page, pageSize);
+    const { page, pageSize, sort } = queryParams;
 
-    const data = await UserModel.findAndCountAll({ offset, limit });
+    const { offset, limit } = getPagingParams(page, pageSize);
+    const order = getSortingParams(sort);
+
+    const data = await UserModel.findAndCountAll({
+      offset,
+      limit,
+      order,
+    });
 
     const response = getPagingData(data, page, limit);
 
@@ -98,7 +105,9 @@ class UserService {
   }
 
   async getUserById(userId: User["id"]) {
-    const user = await UserModel.findOne({ where: { id: userId } });
+    const user = await UserModel.findOne({
+      where: { id: userId },
+    });
     return user;
   }
 }

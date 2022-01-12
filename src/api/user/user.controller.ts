@@ -46,7 +46,7 @@ class UserController {
   }
 
   async getUsers(req: Request, res: Response) {
-    const queryParams = _pick(req.query, ["page", "pageSize"]) as any;
+    const queryParams = _pick(req.query, ["page", "pageSize", "sort"]) as any;
 
     const users = await userService.getUsers(queryParams);
 

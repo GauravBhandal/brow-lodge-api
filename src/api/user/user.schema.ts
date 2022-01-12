@@ -37,6 +37,7 @@ const getUserSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
+    sort: Joi.string(),
   }),
 });
 
