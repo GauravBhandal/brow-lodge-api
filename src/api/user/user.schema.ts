@@ -1,6 +1,7 @@
+import Joi from "joi";
+
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
-import Joi from "joi";
 
 const loginUserSchema = wrapSchema({
   body: Joi.object().keys({

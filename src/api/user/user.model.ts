@@ -37,7 +37,7 @@ modelManager.init(
   },
   {
     paranoid: true,
-    tableName: "user",
+    tableName: "users",
   }
 );
 

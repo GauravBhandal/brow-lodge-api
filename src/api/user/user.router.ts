@@ -9,9 +9,10 @@ const router = express.Router();
 
 router.post("/login", userSchems.loginUser, catchWrap(controller.loginUser));
 
-router.use(authMiddleware);
-
+// TODO: Add authMiddleware to this route once /register endpoint is ready
 router.post("/", userSchems.createUser, catchWrap(controller.createUser));
+
+router.use(authMiddleware);
 
 router.put("/:userId", userSchems.editUser, catchWrap(controller.updateUser));
 
