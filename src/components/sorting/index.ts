@@ -3,7 +3,7 @@ import { Order } from "sequelize";
 
 export const getSortingParams = (sort: string) => {
   const allowedSortOrder = ["DESC", "ASC"];
-  const subStrings = sort.split(":");
+  const subStrings = sort ? sort.split(":") : ["updated", "DESC"];
 
   if (subStrings.length === 2 && allowedSortOrder.includes(subStrings[1])) {
     return [subStrings] as Order;

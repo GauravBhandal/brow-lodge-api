@@ -38,6 +38,41 @@ module.exports = {
             PRIMARY KEY ("id")
           );
      `);
+
+    await queryInterface.sequelize.query(`
+          CREATE TABLE IF NOT EXISTS "staffProfiles" (
+            "id" UUID NOT NULL,
+            "firstName" VARCHAR(255) NOT NULL,
+            "lastName" VARCHAR(255) NOT NULL,
+            "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+            "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+            "deleted" TIMESTAMP WITH TIME ZONE,
+            PRIMARY KEY ("id")
+          );
+    `);
+
+    await queryInterface.sequelize.query(`
+          CREATE TABLE IF NOT EXISTS "clientProfiles" (
+            "id" UUID NOT NULL,
+            "firstName" VARCHAR(255) NOT NULL,
+            "lastName" VARCHAR(255) NOT NULL,
+            "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+            "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+            "deleted" TIMESTAMP WITH TIME ZONE,
+            PRIMARY KEY ("id")
+          );
+    `);
+
+    await queryInterface.sequelize.query(`
+          CREATE TABLE IF NOT EXISTS "progressNotes" (
+            "id" UUID NOT NULL,
+            "notes" VARCHAR NOT NULL,
+            "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+            "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+            "deleted" TIMESTAMP WITH TIME ZONE,
+            PRIMARY KEY ("id")
+          );
+    `);
   },
 
   down: async (queryInterface) => {
@@ -51,6 +86,18 @@ module.exports = {
 
     await queryInterface.sequelize.query(`
           DROP TABLE IF EXISTS "users";
+    `);
+
+    await queryInterface.sequelize.query(`
+          DROP TABLE IF EXISTS "staffProfiles";
+    `);
+
+    await queryInterface.sequelize.query(`
+          DROP TABLE IF EXISTS "clientProfiles";
+    `);
+
+    await queryInterface.sequelize.query(`
+          DROP TABLE IF EXISTS "progressNotes";
     `);
   },
 };
