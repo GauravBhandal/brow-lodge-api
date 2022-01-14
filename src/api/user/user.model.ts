@@ -6,6 +6,7 @@ import modelManager, {
 } from "../../components/sequelize/manager";
 import { User, CreateUserProps } from "./user.types";
 import { Company } from "../company";
+import { Role } from "../role";
 
 class UserModel<
     ModelAttributes = User,
@@ -19,6 +20,7 @@ class UserModel<
   password!: User["password"];
   company!: Company["id"];
   Company?: Company;
+  Roles?: Role[];
 }
 
 modelManager.init(

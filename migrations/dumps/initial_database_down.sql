@@ -1,3 +1,6 @@
+-- 7. Drop users_roles table
+DROP TABLE IF EXISTS "users_roles";
+
 -- 6. Drop progress_notes table
 DROP TABLE IF EXISTS "progress_notes";
 

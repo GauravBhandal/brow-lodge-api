@@ -14,6 +14,7 @@ import config from "../../config/environment";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { QueryParams } from "../../common/types";
+import { RoleModel } from "../role";
 
 class UserService {
   async loginUser(props: LoginUserProps) {
@@ -97,6 +98,14 @@ class UserService {
       offset,
       limit,
       order,
+      include: [
+        {
+          model: RoleModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
     });
 
     const response = getPagingData(data, page, limit);

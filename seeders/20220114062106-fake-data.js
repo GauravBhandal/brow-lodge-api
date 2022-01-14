@@ -25,7 +25,7 @@ module.exports = {
       "roles",
       [
         {
-          id: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          id: "ae09d6cb-7cb8-49bb-90d9-e2e6801ad70e",
           name: "Role 1",
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
@@ -129,6 +129,34 @@ module.exports = {
           id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
           notes: "Company 2 Notes",
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "users_roles",
+      [
+        {
+          id: "60e422c0-efdd-4fac-8230-5cc56de5aa8d",
+          user: "fba6e9df-750f-4023-8dc0-d931e444f9e6",
+          role: "ae09d6cb-7cb8-49bb-90d9-e2e6801ad70e",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "bceb5877-6d34-4d54-a09a-e93481f4542b",
+          user: "fba6e9df-750f-4023-8dc0-d931e444f9e6",
+          role: "88316c9b-e3ca-4e83-a6cd-3df7b95837b3",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "541ca221-7ca8-4679-8fcd-344cb4af9678",
+          user: "54a46a5f-cd9d-435e-816c-c4c0702946aa",
+          role: "88316c9b-e3ca-4e83-a6cd-3df7b95837b3",
           created: new Date(),
           updated: new Date(),
         },

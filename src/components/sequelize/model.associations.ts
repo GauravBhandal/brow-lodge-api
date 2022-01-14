@@ -26,6 +26,10 @@ function initializeRoleModelAssociations() {
   RoleModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
+  RoleModel.belongsToMany(UserModel, {
+    through: "users_roles",
+    foreignKey: "role",
+  });
 }
 
 function initializeStaffProfileModelAssociations() {
@@ -37,6 +41,10 @@ function initializeStaffProfileModelAssociations() {
 function initializeUserModelAssociations() {
   UserModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+  UserModel.belongsToMany(RoleModel, {
+    through: "users_roles",
+    foreignKey: "user",
   });
 }
 

@@ -1,5 +1,6 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
+import { Role } from "../role";
 
 export interface User extends DefaultSchemaConfig {
   fullName: string;
@@ -7,6 +8,7 @@ export interface User extends DefaultSchemaConfig {
   password: string;
   company: Company["id"];
   Company?: Company;
+  Roles?: Role[];
 }
 
 export type LoginUserProps = Pick<User, "email" | "password">;

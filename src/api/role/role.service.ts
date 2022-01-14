@@ -5,6 +5,7 @@ import RoleErrorCode from "./role.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { QueryParams } from "../../common/types";
+import { UserModel } from "../user";
 
 class RoleService {
   async createRole(props: CreateRoleProps) {
@@ -49,6 +50,14 @@ class RoleService {
       offset,
       limit,
       order,
+      include: [
+        {
+          model: UserModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
     });
 
     const response = getPagingData(data, page, limit);
