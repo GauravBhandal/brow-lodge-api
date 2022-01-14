@@ -5,6 +5,7 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
 import { ClientProfile, CreateClientProfileProps } from "./clientProfile.types";
+import { Company } from "../company";
 
 class ClientProfileModel<
     ModelAttributes = ClientProfile,
@@ -15,6 +16,8 @@ class ClientProfileModel<
 {
   firstName!: ClientProfile["firstName"];
   lastName!: ClientProfile["lastName"];
+  company!: Company["id"];
+  Company?: Company;
 }
 
 modelManager.init(

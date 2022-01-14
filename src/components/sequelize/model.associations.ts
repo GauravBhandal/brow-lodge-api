@@ -1,12 +1,44 @@
+import { ClientProfileModel } from "../../api/clientProfile";
+import { RoleModel } from "../../api/role";
+import { StaffProfileModel } from "../../api/staffProfile";
+import { UserModel } from "../../api/user";
 import { CompanyModel } from "../../api/company";
 import { ProgressNoteModel } from "../../api/progressNote";
 
 export default {
   initialize() {
+    initializeClientProfileModelAssociations();
+    initializeRoleModelAssociations();
+    initializeStaffProfileModelAssociations();
+    initializeUserModelAssociations();
     initializeProgressNoteModelAssociations();
     initializeCompanyModelAssociations();
   },
 };
+
+function initializeClientProfileModelAssociations() {
+  ClientProfileModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeRoleModelAssociations() {
+  RoleModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeStaffProfileModelAssociations() {
+  StaffProfileModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeUserModelAssociations() {
+  UserModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
 
 function initializeProgressNoteModelAssociations() {
   ProgressNoteModel.belongsTo(CompanyModel, {
@@ -15,6 +47,7 @@ function initializeProgressNoteModelAssociations() {
 }
 
 function initializeCompanyModelAssociations() {
+  // TODO: I don't think we need add these associations because we never need to access stuff through company table
   CompanyModel.hasMany(ProgressNoteModel, {
     foreignKey: "company",
     sourceKey: "id",

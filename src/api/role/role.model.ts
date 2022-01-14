@@ -5,6 +5,7 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
 import { Role, CreateRoleProps } from "./role.types";
+import { Company } from "../company";
 
 class RoleModel<
     ModelAttributes = Role,
@@ -16,6 +17,8 @@ class RoleModel<
   name!: Role["name"];
   description!: Role["description"];
   permissions!: Role["permissions"];
+  company!: Company["id"];
+  Company?: Company;
 }
 
 modelManager.init(
