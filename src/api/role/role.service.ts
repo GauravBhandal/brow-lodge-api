@@ -11,7 +11,7 @@ class RoleService {
   async createRole(props: CreateRoleProps) {
     // Check if role already exist
     const existingRole = await RoleModel.findOne({
-      where: { name: props.name },
+      where: { name: props.name, company: props.company },
     });
 
     // if the role exists, throw an error

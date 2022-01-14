@@ -13,6 +13,14 @@ export interface User extends DefaultSchemaConfig {
 
 export type LoginUserProps = Pick<User, "email" | "password">;
 
-export type CreateUserProps = Pick<User, "fullName" | "email" | "password">;
+export type RegisterUserProps = Pick<
+  User,
+  "fullName" | "email" | "password"
+> & { companyName: string };
+
+export type CreateUserProps = Pick<
+  User,
+  "fullName" | "email" | "password" | "company"
+>;
 
 export type UpdateUserProps = Pick<User, "fullName" | "email">;

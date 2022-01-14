@@ -12,8 +12,27 @@ class UserController {
     res.status(200).json(user);
   }
 
+  async registerUser(req: Request, res: Response) {
+    const params = _pick(req.body, [
+      "companyName",
+      "fullName",
+      "email",
+      "password",
+    ]);
+
+    const user = await userService.registerUser(params);
+
+    res.status(200).json(user);
+  }
+
   async createUser(req: Request, res: Response) {
-    const params = _pick(req.body, ["fullName", "email", "password"]);
+    // TODO: We are not sending company in the request here
+    const params = _pick(req.body, [
+      "fullName",
+      "email",
+      "password",
+      "company",
+    ]);
 
     const user = await userService.createUser(params);
 

@@ -10,9 +10,18 @@ const loginUserSchema = wrapSchema({
   }),
 });
 
+const registerUserSchema = wrapSchema({
+  body: Joi.object().keys({
+    companyName: Joi.string().required(),
+    fullName: Joi.string().required(),
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
+});
+
 const createUserSchema = wrapSchema({
   body: Joi.object().keys({
-    fullName: Joi.string(),
+    fullName: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required(),
   }),
@@ -50,6 +59,7 @@ const getUserByIdSchema = wrapSchema({
 
 export default {
   loginUser: joiMiddleware(loginUserSchema),
+  registerUser: joiMiddleware(registerUserSchema),
   createUser: joiMiddleware(createUserSchema),
   editUser: joiMiddleware(editUserSchema),
   deleteUser: joiMiddleware(deleteUserSchema),

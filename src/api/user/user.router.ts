@@ -7,6 +7,12 @@ import authMiddleware from "../../components/auth";
 
 const router = express.Router();
 
+router.post(
+  "/register",
+  userSchems.registerUser,
+  catchWrap(controller.registerUser)
+);
+
 router.post("/login", userSchems.loginUser, catchWrap(controller.loginUser));
 
 // TODO: Add authMiddleware to this route once /register endpoint is ready

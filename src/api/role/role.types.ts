@@ -3,15 +3,15 @@ import { Company } from "../company";
 
 export interface Role extends DefaultSchemaConfig {
   name: string;
-  description: string;
-  permissions: Record<string, object>;
+  description?: string;
+  permissions?: Record<string, object>;
   company: Company["id"];
   Company?: Company;
 }
 
 export type CreateRoleProps = Pick<
   Role,
-  "name" | "description" | "permissions"
+  "name" | "description" | "permissions" | "company"
 >;
 
 export type UpdateRoleProps = Pick<

@@ -5,7 +5,13 @@ import roleService from "./role.service";
 
 class RoleController {
   async createRole(req: Request, res: Response) {
-    const params = _pick(req.body, ["name", "description", "permissions"]);
+    // TODO: We are not sending company in the request here
+    const params = _pick(req.body, [
+      "name",
+      "description",
+      "permissions",
+      "company",
+    ]);
 
     const role = await roleService.createRole(params);
 

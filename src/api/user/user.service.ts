@@ -5,6 +5,7 @@ import UserModel from "./user.model";
 import {
   User,
   LoginUserProps,
+  RegisterUserProps,
   CreateUserProps,
   UpdateUserProps,
 } from "./user.types";
@@ -14,7 +15,8 @@ import config from "../../config/environment";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { QueryParams } from "../../common/types";
-import { RoleModel } from "../role";
+import { RoleModel, roleService } from "../role";
+import { companyService } from "../company";
 
 class UserService {
   async loginUser(props: LoginUserProps) {
@@ -50,6 +52,38 @@ class UserService {
     }
 
     throw new CustomError(400, UserErrorCode.INVALID_CREDENTIALS);
+  }
+
+  async registerUser(props: RegisterUserProps) {
+    // Check if user already exist
+    const existingUser = await UserModel.findOne({
+      where: { email: props.email },
+    });
+
+    // if the user exists, throw an error
+    if (existingUser) {
+      throw new CustomError(409, UserErrorCode.USER_ALREADY_EXISTS);
+    }
+
+    // Create company
+    const company = await companyService.createCompany({
+      name: props.companyName,
+    });
+
+    // Create role
+    const role = await roleService.createRole({
+      name: "Super Admin",
+      company: company.id,
+    });
+
+    // Create user
+    const user = await this.createUser({
+      fullName: props.fullName,
+      email: props.fullName,
+      password: props.password,
+      company: company.id,
+    });
+    return user;
   }
 
   async createUser(props: CreateUserProps) {
