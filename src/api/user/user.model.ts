@@ -36,6 +36,7 @@ modelManager.init(
     },
   },
   {
+    underscored: true,
     paranoid: true,
     tableName: "users",
   }

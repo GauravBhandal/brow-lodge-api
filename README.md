@@ -39,5 +39,19 @@ The following commands can be used to manage migration scripts.
 
         yarn sequelize-cli db:migrate:undo
 
+The following commands can be used to manage seeders.
+
+* Create a blank seed script
+
+        yarn sequelize-cli seed:generate --name test
+
+* Run all seed scripts
+
+        yarn sequelize-cli db:seed:all
+
+* Undo all seed scripts
+
+        yarn sequelize-cli db:seed:undo:all
+
 ---
 

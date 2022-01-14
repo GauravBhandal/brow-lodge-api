@@ -9,6 +9,7 @@ import ProgressNoteErrorCode from "./progressNote.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { QueryParams } from "../../common/types";
+import { CompanyModel } from "../company";
 
 class ProgressNoteService {
   async createProgressNote(props: CreateProgressNoteProps) {
@@ -50,6 +51,11 @@ class ProgressNoteService {
       offset,
       limit,
       order,
+      include: [
+        {
+          model: CompanyModel,
+        },
+      ],
     });
 
     const response = getPagingData(data, page, limit);

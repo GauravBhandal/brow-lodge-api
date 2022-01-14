@@ -31,8 +31,9 @@ modelManager.init(
     },
   },
   {
+    underscored: true,
     paranoid: true,
-    tableName: "clientProfiles",
+    tableName: "client_profiles",
   }
 );
 

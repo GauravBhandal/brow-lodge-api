@@ -5,6 +5,7 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
 import { ProgressNote, CreateProgressNoteProps } from "./progressNote.types";
+import { Company } from "../company";
 
 class ProgressNoteModel<
     ModelAttributes = ProgressNote,
@@ -14,6 +15,8 @@ class ProgressNoteModel<
   implements ProgressNote
 {
   notes!: ProgressNote["notes"];
+  company!: Company["id"];
+  Company?: Company;
 }
 
 modelManager.init(
@@ -26,8 +29,9 @@ modelManager.init(
     },
   },
   {
+    underscored: true,
     paranoid: true,
-    tableName: "progressNotes",
+    tableName: "progress_notes",
   }
 );
 
