@@ -17,6 +17,7 @@ import { getSortingParams } from "../../components/sorting";
 import { QueryParams } from "../../common/types";
 import { RoleModel, roleService } from "../role";
 import { companyService } from "../company";
+import { userRoleService } from "./userRole";
 
 class UserService {
   async loginUser(props: LoginUserProps) {
@@ -82,6 +83,7 @@ class UserService {
       email: props.fullName,
       password: props.password,
       company: company.id,
+      roles: [role.id],
     });
     return user;
   }
@@ -101,7 +103,17 @@ class UserService {
     const encryptedPassword = await bcrypt.hash(props.password, 10);
     props.password = encryptedPassword;
 
+    // Create User
     const user = await UserModel.create(props);
+
+    // Assing roles to the new user
+    if (props.roles && props.roles.length) {
+      await userRoleService.createBulkUserRole({
+        user: user.id,
+        roles: props.roles,
+      });
+    }
+
     return user;
   }
 

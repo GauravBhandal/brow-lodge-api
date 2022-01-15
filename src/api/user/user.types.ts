@@ -21,6 +21,6 @@ export type RegisterUserProps = Pick<
 export type CreateUserProps = Pick<
   User,
   "fullName" | "email" | "password" | "company"
->;
+> & { roles?: Role["id"][] };
 
 export type UpdateUserProps = Pick<User, "fullName" | "email">;
