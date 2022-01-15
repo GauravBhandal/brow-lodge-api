@@ -11,7 +11,7 @@ const app = configureExpress(express);
 
 modelsAssociations.initialize();
 
-const port = 9000;
+const port = config.PORT;
 
 app.use((config.URL_PREFIX || "") + "/", router);
 
