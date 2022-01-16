@@ -49,17 +49,17 @@ const deleteUserSchema = wrapSchema({
   }),
 });
 
+const getUserByIdSchema = wrapSchema({
+  params: Joi.object().keys({
+    userId: requiredUUIDSchema(),
+  }),
+});
+
 const getUserSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
     sort: Joi.string(),
-  }),
-});
-
-const getUserByIdSchema = wrapSchema({
-  params: Joi.object().keys({
-    userId: requiredUUIDSchema(),
   }),
 });
 
@@ -69,6 +69,6 @@ export default {
   createUser: joiMiddleware(createUserSchema),
   editUser: joiMiddleware(editUserSchema),
   deleteUser: joiMiddleware(deleteUserSchema),
-  getUsers: joiMiddleware(getUserSchema),
   getUserById: joiMiddleware(getUserByIdSchema),
+  getUsers: joiMiddleware(getUserSchema),
 };

@@ -5,48 +5,63 @@ import roleService from "./role.service";
 
 class RoleController {
   async createRole(req: Request, res: Response) {
-    // TODO: We are not sending company in the request here
-    const params = _pick(req.body, [
-      "name",
-      "description",
-      "permissions",
-      "company",
-    ]);
+    const bodyParams = _pick(req.body, ["name", "description", "permissions"]);
+    const props = {
+      company: req.auth.companyId,
+      ...bodyParams,
+    };
 
-    const role = await roleService.createRole(params);
+    const role = await roleService.createRole(props);
 
     res.status(200).json(role);
   }
 
   async updateRole(req: Request, res: Response) {
     const { roleId } = req.params;
-    const params = _pick(req.body, ["name", "description", "permissions"]);
+    const bodyParams = _pick(req.body, ["name", "description", "permissions"]);
+    const props = {
+      roleId,
+      company: req.auth.companyId,
+      ...bodyParams,
+    };
 
-    const role = await roleService.updateRole(roleId, params);
+    const role = await roleService.updateRole(props);
 
     res.status(200).json(role);
   }
 
   async deleteRole(req: Request, res: Response) {
     const { roleId } = req.params;
+    const props = {
+      roleId,
+      company: req.auth.companyId,
+    };
 
-    const role = await roleService.deleteRole(roleId);
+    await roleService.deleteRole(props);
 
-    res.status(200).json(role);
+    res.status(204).json();
   }
 
   async getroleById(req: Request, res: Response) {
     const { roleId } = req.params;
+    const props = {
+      roleId,
+      company: req.auth.companyId,
+    };
 
-    const role = await roleService.getRoleById(roleId);
+    const role = await roleService.getRoleById(props);
 
     res.status(200).json(role);
   }
 
   async getRoles(req: Request, res: Response) {
     const queryParams = _pick(req.query, ["page", "pageSize", "sort"]) as any;
+    const props = {
+      company: req.auth.companyId,
+      ...queryParams,
+    };
 
-    const roles = await roleService.getRoles(queryParams);
+    const roles = await roleService.getRoles(props);
 
     res.status(200).json(roles);
   }

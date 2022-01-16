@@ -1,10 +1,15 @@
 import RoleModel from "./role.model";
-import { Role, CreateRoleProps, UpdateRoleProps } from "./role.types";
+import {
+  CreateRoleProps,
+  UpdateRoleProps,
+  DeleteRoleProps,
+  GetRoleByIdProps,
+  GetRolesProps,
+} from "./role.types";
 import { CustomError } from "../../components/errors";
 import RoleErrorCode from "./role.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { QueryParams } from "../../common/types";
 import { UserModel } from "../user";
 
 class RoleService {
@@ -23,33 +28,88 @@ class RoleService {
     return role;
   }
 
-  async updateRole(roleId: Role["id"], props: UpdateRoleProps) {
-    const role = await RoleModel.findOne({ where: { id: roleId } });
+  async updateRole(props: UpdateRoleProps) {
+    // Props
+    const { name, description, permissions, company, roleId } = props;
+
+    // Find role by id and company
+    const role = await RoleModel.findOne({ where: { id: roleId, company } });
+
+    // if role not found, throw an error
     if (!role) {
       throw new CustomError(404, RoleErrorCode.ROLE_NOT_FOUND);
     }
-    const [, [updatedRole]] = await RoleModel.update(props, {
-      where: { id: roleId },
-      returning: true,
-    });
+
+    // Finally, update the role
+    const [, [updatedRole]] = await RoleModel.update(
+      {
+        name,
+        description,
+        permissions,
+      },
+      {
+        where: { id: roleId, company },
+        returning: true,
+      }
+    );
+
     return updatedRole;
   }
 
-  async deleteRole(roleId: Role["id"]) {
-    const role = await RoleModel.destroy({ where: { id: roleId } });
+  async deleteRole(props: DeleteRoleProps) {
+    // Props
+    const { roleId, company } = props;
+
+    // Find and delete the role by roleId and company
+    const role = await RoleModel.destroy({ where: { id: roleId, company } });
+
+    // If no role has been deleted, then throw an error
+    if (!role) {
+      throw new CustomError(404, RoleErrorCode.ROLE_NOT_FOUND);
+    }
+
     return role;
   }
 
-  async getRoles(queryParams: QueryParams) {
-    const { page, pageSize, sort } = queryParams;
+  async getRoleById(props: GetRoleByIdProps) {
+    // Props
+    const { roleId, company } = props;
+
+    // Find  the user by userId and company
+    const role = await RoleModel.findOne({
+      where: { id: roleId, company },
+    });
+
+    // If no role has been found, then throw an error
+    if (!role) {
+      throw new CustomError(404, RoleErrorCode.ROLE_NOT_FOUND);
+    }
+
+    return role;
+  }
+
+  async getRoles(props: GetRolesProps) {
+    // Props
+    const { page, pageSize, sort, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
 
+    // Count total roles in the given company
+    const count = await UserModel.count({
+      where: {
+        company,
+      },
+    });
+
+    // Find all roles for matching props and company
     const data = await RoleModel.findAndCountAll({
       offset,
       limit,
       order,
+      where: {
+        company,
+      },
       include: [
         {
           model: UserModel,
@@ -60,16 +120,10 @@ class RoleService {
       ],
     });
 
-    const response = getPagingData(data, page, limit);
+    // TODO: Clean up getPagingData function
+    const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;
-  }
-
-  async getRoleById(roleId: Role["id"]) {
-    const role = await RoleModel.findOne({
-      where: { id: roleId },
-    });
-    return role;
   }
 }
 

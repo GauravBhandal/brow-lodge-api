@@ -28,6 +28,12 @@ const deleteRoleSchema = wrapSchema({
   }),
 });
 
+const getRoleByIdSchema = wrapSchema({
+  params: Joi.object().keys({
+    roleId: requiredUUIDSchema(),
+  }),
+});
+
 const getRoleSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
@@ -36,16 +42,10 @@ const getRoleSchema = wrapSchema({
   }),
 });
 
-const getRoleByIdSchema = wrapSchema({
-  params: Joi.object().keys({
-    roleId: requiredUUIDSchema(),
-  }),
-});
-
 export default {
   createRole: joiMiddleware(createRoleSchema),
   editRole: joiMiddleware(editRoleSchema),
   deleteRole: joiMiddleware(deleteRoleSchema),
-  getRoles: joiMiddleware(getRoleSchema),
   getRoleById: joiMiddleware(getRoleByIdSchema),
+  getRoles: joiMiddleware(getRoleSchema),
 };

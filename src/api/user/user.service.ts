@@ -8,8 +8,8 @@ import {
   CreateUserProps,
   UpdateUserProps,
   DeleteUserProps,
-  GetUsersProps,
   GetUserByIdProps,
+  GetUsersProps,
 } from "./user.types";
 import { CustomError } from "../../components/errors";
 import UserErrorCode from "./user.error";
@@ -143,7 +143,7 @@ class UserService {
     // If the password is provided, then encrypt  it
     let encryptedPassword;
     if (password) {
-      encryptedPassword = await bcrypt.hash(props.password, 10);
+      encryptedPassword = await bcrypt.hash(password, 10);
     }
 
     // Finally, update the user
@@ -157,7 +157,7 @@ class UserService {
         company,
       },
       {
-        where: { id: props.userId, company: props.company },
+        where: { id: userId, company },
         returning: true,
       }
     );
@@ -172,6 +172,20 @@ class UserService {
     });
 
     // If no user has been deleted, then throw an error
+    if (!user) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    return user;
+  }
+
+  async getUserById(props: GetUserByIdProps) {
+    // Find  the user by userId and company
+    const user = await UserModel.findOne({
+      where: { id: props.userId, company: props.company },
+    });
+
+    // If no user has been found, then throw an error
     if (!user) {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
@@ -216,20 +230,6 @@ class UserService {
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;
-  }
-
-  async getUserById(props: GetUserByIdProps) {
-    // Find  the user by userId and company
-    const user = await UserModel.findOne({
-      where: { id: props.userId, company: props.company },
-    });
-
-    // If no user has been found, then throw an error
-    if (!user) {
-      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
-    }
-
-    return user;
   }
 }
 

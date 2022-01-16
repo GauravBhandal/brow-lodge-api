@@ -8,6 +8,7 @@ class UserController {
     const props = _pick(req.body, ["email", "password"]);
 
     const user = await userService.loginUser(props);
+
     res.status(200).json(user);
   }
 
@@ -21,6 +22,7 @@ class UserController {
     ]);
 
     const user = await userService.registerUser(props);
+
     res.status(200).json(user);
   }
 
@@ -38,6 +40,7 @@ class UserController {
     };
 
     const user = await userService.createUser(props);
+
     res.status(200).json(user);
   }
 
@@ -57,6 +60,7 @@ class UserController {
     };
 
     const user = await userService.updateUser(props);
+
     res.status(200).json(user);
   }
 
@@ -68,6 +72,7 @@ class UserController {
     };
 
     await userService.deleteUser(props);
+
     res.status(204).json();
   }
 
@@ -79,6 +84,7 @@ class UserController {
     };
 
     const user = await userService.getUserById(props);
+
     res.status(200).json(user);
   }
 
@@ -90,6 +96,7 @@ class UserController {
     };
 
     const users = await userService.getUsers(props);
+
     res.status(200).json(users); // TODO: How is .json working on array of objects?
   }
 }
