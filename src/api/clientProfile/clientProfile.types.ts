@@ -28,7 +28,7 @@ export interface CreateClientProfileProps {
   emergencyContactPhone: ClientProfile["emergencyContactPhone"];
   emergencyContactRelation: ClientProfile["emergencyContactRelation"];
   height: ClientProfile["height"];
-  company: Company["id"];
+  company: ClientProfile["company"];
 }
 
 export interface UpdateClientProfileProps extends CreateClientProfileProps {
@@ -37,11 +37,11 @@ export interface UpdateClientProfileProps extends CreateClientProfileProps {
 
 export interface DeleteClientProfileProps {
   id: ClientProfile["id"];
-  company: Company["id"];
+  company: ClientProfile["company"];
 }
 
 export interface GetClientProfileByIdProps extends DeleteClientProfileProps {}
 
 export interface GetClientProfilesProps extends QueryParams {
-  company: Company["id"];
+  company: ClientProfile["company"];
 }

@@ -1,3 +1,5 @@
+import { omit as _omit } from "lodash";
+
 import RoleModel from "./role.model";
 import {
   CreateRoleProps,
@@ -30,10 +32,11 @@ class RoleService {
 
   async updateRole(props: UpdateRoleProps) {
     // Props
-    const { name, description, permissions, company, roleId } = props;
+    const { id, company } = props;
+    const updateProps = _omit(props, ["id", "company"]);
 
     // Find role by id and company
-    const role = await RoleModel.findOne({ where: { id: roleId, company } });
+    const role = await RoleModel.findOne({ where: { id, company } });
 
     // if role not found, throw an error
     if (!role) {
@@ -41,27 +44,20 @@ class RoleService {
     }
 
     // Finally, update the role
-    const [, [updatedRole]] = await RoleModel.update(
-      {
-        name,
-        description,
-        permissions,
-      },
-      {
-        where: { id: roleId, company },
-        returning: true,
-      }
-    );
+    const [, [updatedRole]] = await RoleModel.update(updateProps, {
+      where: { id, company },
+      returning: true,
+    });
 
     return updatedRole;
   }
 
   async deleteRole(props: DeleteRoleProps) {
     // Props
-    const { roleId, company } = props;
+    const { id, company } = props;
 
-    // Find and delete the role by roleId and company
-    const role = await RoleModel.destroy({ where: { id: roleId, company } });
+    // Find and delete the role by id and company
+    const role = await RoleModel.destroy({ where: { id, company } });
 
     // If no role has been deleted, then throw an error
     if (!role) {
@@ -73,11 +69,11 @@ class RoleService {
 
   async getRoleById(props: GetRoleByIdProps) {
     // Props
-    const { roleId, company } = props;
+    const { id, company } = props;
 
-    // Find  the user by userId and company
+    // Find  the role by id and company
     const role = await RoleModel.findOne({
-      where: { id: roleId, company },
+      where: { id, company },
     });
 
     // If no role has been found, then throw an error
