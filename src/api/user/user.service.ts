@@ -92,6 +92,7 @@ class UserService {
       company: company.id,
       roles: [role.id],
     });
+
     return user;
   }
 
@@ -125,42 +126,75 @@ class UserService {
   }
 
   async updateUser(props: UpdateUserProps) {
+    // Props
+    const { firstName, lastName, email, password, blocked, userId, company } =
+      props;
+
+    // Find user by id and company
     const user = await UserModel.findOne({
-      where: { id: props.userId, company: props.company },
+      where: { id: userId, company },
     });
+
+    // if user not found, throw an error
     if (!user) {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
-    const [, [updatedUser]] = await UserModel.update(props, {
-      where: { id: props.userId, company: props.company },
-      returning: true,
-    });
+
+    // If the password is provided, then encrypt  it
+    let encryptedPassword;
+    if (password) {
+      encryptedPassword = await bcrypt.hash(props.password, 10);
+    }
+
+    // Finally, update the user
+    const [, [updatedUser]] = await UserModel.update(
+      {
+        firstName,
+        lastName,
+        email,
+        password: encryptedPassword,
+        blocked,
+        company,
+      },
+      {
+        where: { id: props.userId, company: props.company },
+        returning: true,
+      }
+    );
+
     return updatedUser;
   }
 
   async deleteUser(props: DeleteUserProps) {
+    // Find and delete the user by userId and company
     const user = await UserModel.destroy({
       where: { id: props.userId, company: props.company },
     });
 
+    // If no user has been deleted, then throw an error
     if (!user) {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
+
     return user;
   }
 
   async getUsers(props: GetUsersProps) {
+    // Props
     const { page, pageSize, sort, company } = props;
 
+    // Convert props to sequelize compatible props
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
 
+    // Count total users in the given company
     const count = await UserModel.count({
       where: {
         company,
       },
     });
 
+    // Find all users for matching props and company
     const data = await UserModel.findAll({
       offset,
       limit,
@@ -180,17 +214,21 @@ class UserService {
 
     // TODO: Clean up getPagingData function
     const response = getPagingData({ count, rows: data }, page, limit);
+
     return response;
   }
 
   async getUserById(props: GetUserByIdProps) {
+    // Find  the user by userId and company
     const user = await UserModel.findOne({
       where: { id: props.userId, company: props.company },
     });
 
+    // If no user has been found, then throw an error
     if (!user) {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
+
     return user;
   }
 }

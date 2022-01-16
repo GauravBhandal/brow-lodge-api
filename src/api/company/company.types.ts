@@ -4,6 +4,16 @@ export interface Company extends DefaultSchemaConfig {
   name: string;
 }
 
-export type CreateCompanyProps = Pick<Company, "name">;
+export interface CreateCompanyProps {
+  name: Company["name"];
+}
 
-export type UpdateCompanyProps = Pick<Company, "name">;
+export interface UpdateCompanyProps extends CreateCompanyProps {
+  companyId: Company["id"];
+  company: Company["id"];
+}
+
+export interface GetCompanyByIdProps {
+  companyId: Company["id"];
+  company: Company["id"];
+}
