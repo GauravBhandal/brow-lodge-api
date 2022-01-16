@@ -6,8 +6,11 @@ import { companyRoutes } from "../api/company";
 import { clientProfileRoutes } from "../api/clientProfile";
 import { staffProfileRoutes } from "../api/staffProfile";
 import { progressNoteRoutes } from "../api/progressNote";
+import authMiddleware from "../components/auth";
+
 
 const router = express.Router();
+router.use(authMiddleware);
 
 router.use("/user", userRoutes);
 router.use("/role", roleRoutes);

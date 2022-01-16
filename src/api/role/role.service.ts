@@ -96,14 +96,14 @@ class RoleService {
     const order = getSortingParams(sort);
 
     // Count total roles in the given company
-    const count = await UserModel.count({
+    const count = await RoleModel.count({
       where: {
         company,
       },
     });
 
     // Find all roles for matching props and company
-    const data = await RoleModel.findAndCountAll({
+    const data = await RoleModel.findAll({
       offset,
       limit,
       order,
