@@ -7,6 +7,14 @@ const createClientProfileSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
+    preferredName: Joi.string().required(),
+    gender: Joi.string().valid("male", "female", "other"),
+    dateOfBirth: Joi.date(),
+    address: Joi.string(),
+    emergencyContactName: Joi.string(),
+    emergencyContactPhone: Joi.string(),
+    emergencyContactRelation: Joi.string(),
+    height: Joi.number().min(1),
   }),
 });
 
@@ -15,12 +23,26 @@ const editClientProfileSchema = wrapSchema({
     clientProfileId: requiredUUIDSchema(),
   }),
   body: Joi.object().keys({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
+    preferredName: Joi.string(),
+    gender: Joi.string().valid("male", "female", "other"),
+    dateOfBirth: Joi.date(),
+    address: Joi.string(),
+    emergencyContactName: Joi.string(),
+    emergencyContactPhone: Joi.string(),
+    emergencyContactRelation: Joi.string(),
+    height: Joi.number().min(1),
   }),
 });
 
 const deleteClientProfileSchema = wrapSchema({
+  params: Joi.object().keys({
+    clientProfileId: requiredUUIDSchema(),
+  }),
+});
+
+const getClientProfileByIdSchema = wrapSchema({
   params: Joi.object().keys({
     clientProfileId: requiredUUIDSchema(),
   }),
@@ -34,16 +56,10 @@ const getClientProfileSchema = wrapSchema({
   }),
 });
 
-const getClientProfileByIdSchema = wrapSchema({
-  params: Joi.object().keys({
-    clientProfileId: requiredUUIDSchema(),
-  }),
-});
-
 export default {
   createClientProfile: joiMiddleware(createClientProfileSchema),
   editClientProfile: joiMiddleware(editClientProfileSchema),
   deleteClientProfile: joiMiddleware(deleteClientProfileSchema),
-  getClientProfiles: joiMiddleware(getClientProfileSchema),
   getClientProfileById: joiMiddleware(getClientProfileByIdSchema),
+  getClientProfiles: joiMiddleware(getClientProfileSchema),
 };

@@ -1,14 +1,15 @@
 import ClientProfileModel from "./clientProfile.model";
 import {
-  ClientProfile,
   CreateClientProfileProps,
+  DeleteClientProfileProps,
+  GetClientProfileByIdProps,
+  GetClientProfilesProps,
   UpdateClientProfileProps,
 } from "./clientProfile.types";
 import { CustomError } from "../../components/errors";
 import ClientProfileErrorCode from "./clientProfile.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { QueryParams } from "../../common/types";
 
 class ClientProfileService {
   async createClientProfile(props: CreateClientProfileProps) {
@@ -16,55 +17,127 @@ class ClientProfileService {
     return clientProfile;
   }
 
-  async updateClientProfile(
-    clientProfileId: ClientProfile["id"],
-    props: UpdateClientProfileProps
-  ) {
+  async updateClientProfile(props: UpdateClientProfileProps) {
+    // Props
+    const {
+      clientProfileId,
+      company,
+      firstName,
+      lastName,
+      preferredName,
+      gender,
+      dateOfBirth,
+      address,
+      emergencyContactName,
+      emergencyContactPhone,
+      emergencyContactRelation,
+      height,
+    } = props;
+
+    // Find clientProfile by id and company
     const clientProfile = await ClientProfileModel.findOne({
-      where: { id: clientProfileId },
+      where: { id: clientProfileId, company },
     });
+
+    // if clientProfile not found, throw an error
     if (!clientProfile) {
       throw new CustomError(
         404,
         ClientProfileErrorCode.CLIENT_PROFILE_NOT_FOUND
       );
     }
-    const [, [updatedClientProfile]] = await ClientProfileModel.update(props, {
-      where: { id: clientProfileId },
-      returning: true,
-    });
+
+    // Finally, update the clientProfile
+    const [, [updatedClientProfile]] = await ClientProfileModel.update(
+      {
+        firstName,
+        lastName,
+        preferredName,
+        gender,
+        dateOfBirth,
+        address,
+        emergencyContactName,
+        emergencyContactPhone,
+        emergencyContactRelation,
+        height,
+      },
+      {
+        where: { id: clientProfileId, company },
+        returning: true,
+      }
+    );
+
     return updatedClientProfile;
   }
 
-  async deleteClientProfile(clientProfileId: ClientProfile["id"]) {
+  async deleteClientProfile(props: DeleteClientProfileProps) {
+    // Props
+    const { clientProfileId, company } = props;
+
+    // Find and delete the clientProfile by clientProfileId and company
     const clientProfile = await ClientProfileModel.destroy({
-      where: { id: clientProfileId },
+      where: { id: clientProfileId, company },
     });
+
+    // If no clientProfile has been deleted, then throw an error
+    if (!clientProfile) {
+      throw new CustomError(
+        404,
+        ClientProfileErrorCode.CLIENT_PROFILE_NOT_FOUND
+      );
+    }
+
     return clientProfile;
   }
 
-  async getClientProfiles(queryParams: QueryParams) {
-    const { page, pageSize, sort } = queryParams;
+  async getClientProfileById(props: GetClientProfileByIdProps) {
+    // Props
+    const { clientProfileId, company } = props;
+
+    // Find  the clientProfile by clientProfileId and company
+    const clientProfile = await ClientProfileModel.findOne({
+      where: { id: clientProfileId, company },
+    });
+
+    // If no clientProfile has been found, then throw an error
+    if (!clientProfile) {
+      throw new CustomError(
+        404,
+        ClientProfileErrorCode.CLIENT_PROFILE_NOT_FOUND
+      );
+    }
+
+    return clientProfile;
+  }
+
+  async getClientProfiles(props: GetClientProfilesProps) {
+    // Props
+    const { page, pageSize, sort, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
 
-    const data = await ClientProfileModel.findAndCountAll({
+    // Count total clientProfiles in the given company
+    const count = await ClientProfileModel.count({
+      where: {
+        company,
+      },
+    });
+
+    // Find all clientProfiles for matching props and company
+    const data = await ClientProfileModel.findAll({
       offset,
       limit,
       order,
+      where: {
+        company,
+      },
     });
 
-    const response = getPagingData(data, page, limit);
+    // TODO: Clean up getPagingData function
+    const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;
-  }
-
-  async getClientProfileById(clientProfileId: ClientProfile["id"]) {
-    const clientProfile = await ClientProfileModel.findOne({
-      where: { id: clientProfileId },
-    });
-    return clientProfile;
   }
 }
 
