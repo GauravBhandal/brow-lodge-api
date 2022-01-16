@@ -12,8 +12,8 @@ export interface Role extends DefaultSchemaConfig {
 
 export interface CreateRoleProps {
   name: Role["name"];
-  description: Role["description"];
-  permissions: Role["permissions"];
+  description?: Role["description"];
+  permissions?: Role["permissions"];
   company: Role["company"];
 }
 
