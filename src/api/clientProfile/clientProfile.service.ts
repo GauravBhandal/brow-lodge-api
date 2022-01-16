@@ -1,3 +1,5 @@
+import { omit as _omit } from "lodash";
+
 import ClientProfileModel from "./clientProfile.model";
 import {
   CreateClientProfileProps,
@@ -19,24 +21,14 @@ class ClientProfileService {
 
   async updateClientProfile(props: UpdateClientProfileProps) {
     // Props
-    const {
-      clientProfileId,
-      company,
-      firstName,
-      lastName,
-      preferredName,
-      gender,
-      dateOfBirth,
-      address,
-      emergencyContactName,
-      emergencyContactPhone,
-      emergencyContactRelation,
-      height,
-    } = props;
+    const { id, company } = props;
+    const updateProps = _omit(props, ["id", "company"]);
+
+    console.log("updateProps", updateProps);
 
     // Find clientProfile by id and company
     const clientProfile = await ClientProfileModel.findOne({
-      where: { id: clientProfileId, company },
+      where: { id, company },
     });
 
     // if clientProfile not found, throw an error
@@ -49,20 +41,9 @@ class ClientProfileService {
 
     // Finally, update the clientProfile
     const [, [updatedClientProfile]] = await ClientProfileModel.update(
+      updateProps,
       {
-        firstName,
-        lastName,
-        preferredName,
-        gender,
-        dateOfBirth,
-        address,
-        emergencyContactName,
-        emergencyContactPhone,
-        emergencyContactRelation,
-        height,
-      },
-      {
-        where: { id: clientProfileId, company },
+        where: { id, company },
         returning: true,
       }
     );
@@ -72,11 +53,11 @@ class ClientProfileService {
 
   async deleteClientProfile(props: DeleteClientProfileProps) {
     // Props
-    const { clientProfileId, company } = props;
+    const { id, company } = props;
 
-    // Find and delete the clientProfile by clientProfileId and company
+    // Find and delete the clientProfile by id and company
     const clientProfile = await ClientProfileModel.destroy({
-      where: { id: clientProfileId, company },
+      where: { id, company },
     });
 
     // If no clientProfile has been deleted, then throw an error
@@ -92,11 +73,11 @@ class ClientProfileService {
 
   async getClientProfileById(props: GetClientProfileByIdProps) {
     // Props
-    const { clientProfileId, company } = props;
+    const { id, company } = props;
 
-    // Find  the clientProfile by clientProfileId and company
+    // Find  the clientProfile by id and company
     const clientProfile = await ClientProfileModel.findOne({
-      where: { id: clientProfileId, company },
+      where: { id, company },
     });
 
     // If no clientProfile has been found, then throw an error

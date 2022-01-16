@@ -18,7 +18,7 @@ class ClientProfileController {
   async updateClientProfile(req: Request, res: Response) {
     const { clientProfileId } = req.params;
     const props = {
-      clientProfileId,
+      id: clientProfileId,
       company: req.auth.companyId,
       ...req.body,
     };
@@ -31,7 +31,7 @@ class ClientProfileController {
   async deleteClientProfile(req: Request, res: Response) {
     const { clientProfileId } = req.params;
     const props = {
-      clientProfileId,
+      id: clientProfileId,
       company: req.auth.companyId,
     };
 
@@ -43,7 +43,7 @@ class ClientProfileController {
   async getclientProfileById(req: Request, res: Response) {
     const { clientProfileId } = req.params;
     const props = {
-      clientProfileId,
+      id: clientProfileId,
       company: req.auth.companyId,
     };
 

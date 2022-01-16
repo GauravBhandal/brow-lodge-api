@@ -32,11 +32,11 @@ export interface CreateClientProfileProps {
 }
 
 export interface UpdateClientProfileProps extends CreateClientProfileProps {
-  clientProfileId: ClientProfile["id"];
+  id: ClientProfile["id"];
 }
 
 export interface DeleteClientProfileProps {
-  clientProfileId: ClientProfile["id"];
+  id: ClientProfile["id"];
   company: Company["id"];
 }
 
