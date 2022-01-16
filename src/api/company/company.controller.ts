@@ -8,7 +8,7 @@ class CompanyController {
     const { companyId } = req.params;
     const bodyParams = _pick(req.body, ["name"]);
     const props = {
-      companyId,
+      id: companyId,
       company: req.auth.companyId,
       ...bodyParams,
     };
@@ -20,7 +20,7 @@ class CompanyController {
   async getcompanyById(req: Request, res: Response) {
     const { companyId } = req.params;
     const props = {
-      companyId,
+      id: companyId,
       company: req.auth.companyId,
     };
 
