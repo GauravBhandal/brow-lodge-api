@@ -47,20 +47,24 @@ module.exports = {
       [
         {
           id: "fba6e9df-750f-4023-8dc0-d931e444f9e6",
-          full_name: "Yasmine Sidhu",
+          first_name: "Yasmine",
+          last_name: "Sidhu",
           email: "yasmine@carediary.com.au",
           password:
             "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
+          blocked: false,
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
           updated: new Date(),
         },
         {
           id: "54a46a5f-cd9d-435e-816c-c4c0702946aa",
-          full_name: "Pavi Sidhu",
+          first_name: "Pavi",
+          last_name: "Sidhu",
           email: "pavi@carediary.com.au",
           password:
             "$2a$10$okPk0rYX36SPHFdzsfMJHOVP47ND9tPIHMMAX63Fx4sBwYLME9Vem",
+          blocked: false,
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
           created: new Date(),
           updated: new Date(),

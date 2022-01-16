@@ -3,18 +3,19 @@ import jwt from "jsonwebtoken";
 
 import UserModel from "./user.model";
 import {
-  User,
   LoginUserProps,
   RegisterUserProps,
   CreateUserProps,
   UpdateUserProps,
+  DeleteUserProps,
+  GetUsersProps,
+  GetUserByIdProps,
 } from "./user.types";
 import { CustomError } from "../../components/errors";
 import UserErrorCode from "./user.error";
 import config from "../../config/environment";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { QueryParams } from "../../common/types";
 import { RoleModel, roleService } from "../role";
 import { companyService } from "../company";
 import { userRoleService } from "./userRole";
@@ -40,9 +41,13 @@ class UserService {
 
     if (isPasswordCorrect) {
       // If password is correct, create a jwtToken
-      const token = jwt.sign({ userId: user.id }, config.TOKEN_KEY, {
-        expiresIn: "5h",
-      });
+      const token = jwt.sign(
+        { userId: user.id, companyId: user.company },
+        config.TOKEN_KEY,
+        {
+          expiresIn: "5h",
+        }
+      );
 
       // Add the jwtToken to response
       const userWithToken = {
@@ -79,9 +84,11 @@ class UserService {
 
     // Create user
     const user = await this.createUser({
-      fullName: props.fullName,
-      email: props.fullName,
+      firstName: props.firstName,
+      lastName: props.lastName,
+      email: props.email,
       password: props.password,
+      blocked: false,
       company: company.id,
       roles: [role.id],
     });
@@ -117,33 +124,50 @@ class UserService {
     return user;
   }
 
-  async updateUser(userId: User["id"], props: UpdateUserProps) {
-    const user = await UserModel.findOne({ where: { id: userId } });
+  async updateUser(props: UpdateUserProps) {
+    const user = await UserModel.findOne({
+      where: { id: props.userId, company: props.company },
+    });
     if (!user) {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
     const [, [updatedUser]] = await UserModel.update(props, {
-      where: { id: userId },
+      where: { id: props.userId, company: props.company },
       returning: true,
     });
     return updatedUser;
   }
 
-  async deleteUser(userId: User["id"]) {
-    const user = await UserModel.destroy({ where: { id: userId } });
+  async deleteUser(props: DeleteUserProps) {
+    const user = await UserModel.destroy({
+      where: { id: props.userId, company: props.company },
+    });
+
+    if (!user) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
     return user;
   }
 
-  async getUsers(queryParams: QueryParams) {
-    const { page, pageSize, sort } = queryParams;
+  async getUsers(props: GetUsersProps) {
+    const { page, pageSize, sort, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
 
-    const data = await UserModel.findAndCountAll({
+    const count = await UserModel.count({
+      where: {
+        company,
+      },
+    });
+
+    const data = await UserModel.findAll({
       offset,
       limit,
       order,
+      where: {
+        company,
+      },
       include: [
         {
           model: RoleModel,
@@ -154,15 +178,19 @@ class UserService {
       ],
     });
 
-    const response = getPagingData(data, page, limit);
-
+    // TODO: Clean up getPagingData function
+    const response = getPagingData({ count, rows: data }, page, limit);
     return response;
   }
 
-  async getUserById(userId: User["id"]) {
+  async getUserById(props: GetUserByIdProps) {
     const user = await UserModel.findOne({
-      where: { id: userId },
+      where: { id: props.userId, company: props.company },
     });
+
+    if (!user) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
     return user;
   }
 }

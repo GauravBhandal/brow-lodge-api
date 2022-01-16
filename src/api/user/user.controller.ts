@@ -5,71 +5,92 @@ import userService from "./user.service";
 
 class UserController {
   async loginUser(req: Request, res: Response) {
-    const params = _pick(req.body, ["email", "password"]);
+    const props = _pick(req.body, ["email", "password"]);
 
-    const user = await userService.loginUser(params);
-
+    const user = await userService.loginUser(props);
     res.status(200).json(user);
   }
 
   async registerUser(req: Request, res: Response) {
-    const params = _pick(req.body, [
+    const props = _pick(req.body, [
       "companyName",
-      "fullName",
+      "firstName",
+      "lastName",
       "email",
       "password",
     ]);
 
-    const user = await userService.registerUser(params);
-
+    const user = await userService.registerUser(props);
     res.status(200).json(user);
   }
 
   async createUser(req: Request, res: Response) {
-    // TODO: We are not sending company in the request here
-    const params = _pick(req.body, [
-      "fullName",
+    const bodyParams = _pick(req.body, [
+      "firstName",
+      "lastName",
       "email",
       "password",
-      "company",
+      "blocked",
     ]);
+    const props = {
+      company: req.auth.companyId,
+      ...bodyParams,
+    };
 
-    const user = await userService.createUser(params);
-
+    const user = await userService.createUser(props);
     res.status(200).json(user);
   }
 
   async updateUser(req: Request, res: Response) {
     const { userId } = req.params;
-    const params = _pick(req.body, ["fullName", "email"]);
+    const bodyParams = _pick(req.body, [
+      "firstName",
+      "lastName",
+      "email",
+      "password",
+      "blocked",
+    ]);
+    const props = {
+      userId,
+      company: req.auth.companyId,
+      ...bodyParams,
+    };
 
-    const user = await userService.updateUser(userId, params);
-
+    const user = await userService.updateUser(props);
     res.status(200).json(user);
   }
 
   async deleteUser(req: Request, res: Response) {
     const { userId } = req.params;
+    const props = {
+      company: req.auth.companyId,
+      userId,
+    };
 
-    const user = await userService.deleteUser(userId);
-
-    res.status(200).json(user);
+    await userService.deleteUser(props);
+    res.status(204).json();
   }
 
   async getuserById(req: Request, res: Response) {
     const { userId } = req.params;
+    const props = {
+      company: req.auth.companyId,
+      userId,
+    };
 
-    const user = await userService.getUserById(userId);
-
+    const user = await userService.getUserById(props);
     res.status(200).json(user);
   }
 
   async getUsers(req: Request, res: Response) {
     const queryParams = _pick(req.query, ["page", "pageSize", "sort"]) as any;
+    const props = {
+      company: req.auth.companyId,
+      ...queryParams,
+    };
 
-    const users = await userService.getUsers(queryParams);
-
-    res.status(200).json(users);
+    const users = await userService.getUsers(props);
+    res.status(200).json(users); // TODO: How is .json working on array of objects?
   }
 }
 

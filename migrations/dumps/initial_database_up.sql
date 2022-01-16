@@ -24,9 +24,11 @@ CREATE TABLE IF NOT EXISTS "roles" (
 -- 3. Create users table
 CREATE TABLE IF NOT EXISTS "users" (
     "id" UUID NOT NULL,
-    "full_name" VARCHAR(255) NOT NULL,
+    "first_name" VARCHAR(255) NOT NULL,
+    "last_name" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL UNIQUE,
     "password" VARCHAR(255) NOT NULL,
+    "blocked" BOOLEAN NOT NULL DEFAULT FALSE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,

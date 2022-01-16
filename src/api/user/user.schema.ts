@@ -13,7 +13,8 @@ const loginUserSchema = wrapSchema({
 const registerUserSchema = wrapSchema({
   body: Joi.object().keys({
     companyName: Joi.string().required(),
-    fullName: Joi.string().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required(),
   }),
@@ -21,9 +22,11 @@ const registerUserSchema = wrapSchema({
 
 const createUserSchema = wrapSchema({
   body: Joi.object().keys({
-    fullName: Joi.string().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required(),
+    blocked: Joi.boolean().required(),
   }),
 });
 
@@ -32,8 +35,11 @@ const editUserSchema = wrapSchema({
     userId: requiredUUIDSchema(),
   }),
   body: Joi.object().keys({
-    fullName: Joi.string(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
     email: Joi.string(),
+    password: Joi.string(),
+    blocked: Joi.boolean(),
   }),
 });
 

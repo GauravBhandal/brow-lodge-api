@@ -15,9 +15,11 @@ class UserModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements User
 {
-  fullName!: User["fullName"];
+  firstName!: User["firstName"];
+  lastName!: User["lastName"];
   email!: User["email"];
   password!: User["password"];
+  blocked!: boolean;
   company!: Company["id"];
   Company?: Company;
   Roles?: Role[];
@@ -27,7 +29,11 @@ modelManager.init(
   "User",
   UserModel,
   {
-    fullName: {
+    firstName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    lastName: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -39,10 +45,14 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    blocked: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
   },
   {
     underscored: true,
-    paranoid: true,
+    paranoid: false, // false -> otherwise it prevents deleting and recreating a user with same email
     tableName: "users",
   }
 );
