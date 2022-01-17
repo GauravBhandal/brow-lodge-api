@@ -184,6 +184,14 @@ class UserService {
       returning: true,
     });
 
+    // update user role
+    if (props.roles && props.roles.length) {
+      await userRoleService.updateBulkUserRole({
+        user: id,
+        roles: props.roles,
+      });
+    }
+
     return updatedUser;
   }
 
