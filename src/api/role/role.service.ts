@@ -11,6 +11,7 @@ import RoleErrorCode from "./role.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { UserModel } from "../user";
+import { getFilters } from "../../components/filters";
 
 class RoleService {
   async createRole(props: CreateRoleProps) {
@@ -90,15 +91,17 @@ class RoleService {
 
   async getRoles(props: GetRolesProps) {
     // Props
-    const { page, pageSize, sort, company } = props;
+    const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
+    const filters = getFilters(where);
 
     // Count total roles in the given company
     const count = await RoleModel.count({
       where: {
         company,
+        ...filters,
       },
     });
 
@@ -109,6 +112,7 @@ class RoleService {
       order,
       where: {
         company,
+        ...filters,
       },
       include: [
         {
