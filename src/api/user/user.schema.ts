@@ -27,6 +27,9 @@ const createUserSchema = wrapSchema({
     email: Joi.string().required(),
     password: Joi.string().required(),
     blocked: Joi.boolean().required(),
+    roles: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .required(),
   }),
 });
 
@@ -40,6 +43,7 @@ const editUserSchema = wrapSchema({
     email: Joi.string(),
     password: Joi.string(),
     blocked: Joi.boolean(),
+    roles: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 

@@ -38,16 +38,9 @@ class UserController {
   }
 
   async createUser(req: Request, res: Response) {
-    const bodyParams = _pick(req.body, [
-      "firstName",
-      "lastName",
-      "email",
-      "password",
-      "blocked",
-    ]);
     const props = {
       company: req.auth.companyId,
-      ...bodyParams,
+      ...req.body,
     };
 
     const user = await userService.createUser(props);
@@ -57,17 +50,11 @@ class UserController {
 
   async updateUser(req: Request, res: Response) {
     const { userId } = req.params;
-    const bodyParams = _pick(req.body, [
-      "firstName",
-      "lastName",
-      "email",
-      "password",
-      "blocked",
-    ]);
+
     const props = {
       id: userId,
       company: req.auth.companyId,
-      ...bodyParams,
+      ...req.body,
     };
 
     const user = await userService.updateUser(props);

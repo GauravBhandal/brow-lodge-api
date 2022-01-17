@@ -211,6 +211,14 @@ class UserService {
     // Find  the user by id and company
     const user = await UserModel.findOne({
       where: { id, company },
+      include: [
+        {
+          model: RoleModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
     });
 
     // If no user has been found, then throw an error
