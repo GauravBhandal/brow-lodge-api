@@ -4,6 +4,7 @@ import { omit as _omit } from "lodash";
 
 import UserModel from "./user.model";
 import {
+  MeProps,
   LoginUserProps,
   RegisterUserProps,
   CreateUserProps,
@@ -22,11 +23,41 @@ import { companyService } from "../company";
 import { userRoleService } from "./userRole";
 
 class UserService {
+  async me(props: MeProps) {
+    const { id, company } = props;
+
+    const user = await UserModel.findOne({
+      where: { id, company },
+      include: [
+        {
+          model: RoleModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+
+    // if user don't exists, throw an error
+    if (!user) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    return user;
+  }
+
   async loginUser(props: LoginUserProps) {
     // Check if user exist with the given email
     const user = await UserModel.findOne({
       where: { email: props.email },
-      raw: true,
+      include: [
+        {
+          model: RoleModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
     });
 
     // if user don't exists, throw an error
@@ -52,8 +83,8 @@ class UserService {
 
       // Add the jwtToken to response
       const userWithToken = {
-        ...user,
-        token,
+        user,
+        jwt: token,
       };
       return userWithToken;
     }

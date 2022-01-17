@@ -22,6 +22,11 @@ export interface RegisterUserProps {
   password: User["password"];
 }
 
+export interface MeProps {
+  id: User["id"];
+  company: User["company"];
+}
+
 export interface LoginUserProps {
   email: User["email"];
   password: User["password"];
@@ -41,10 +46,7 @@ export interface UpdateUserProps extends CreateUserProps {
   id: User["id"];
 }
 
-export interface DeleteUserProps {
-  id: User["id"];
-  company: User["company"];
-}
+export interface DeleteUserProps extends MeProps {}
 
 export interface GetUserByIdProps extends DeleteUserProps {}
 

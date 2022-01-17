@@ -6,13 +6,15 @@ import { catchWrap } from "../../components/errors";
 
 const router = express.Router();
 
+router.get("/me", catchWrap(controller.me));
+
+router.post("/login", userSchems.loginUser, catchWrap(controller.loginUser));
+
 router.post(
   "/register",
   userSchems.registerUser,
   catchWrap(controller.registerUser)
 );
-
-router.post("/login", userSchems.loginUser, catchWrap(controller.loginUser));
 
 router.post("/", userSchems.createUser, catchWrap(controller.createUser));
 

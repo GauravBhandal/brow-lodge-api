@@ -5,14 +5,14 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import config from "./environment";
 import sequelize from "./sequelize";
 
 export default function (app: Express) {
-  const allowedHeaders = config.CORS_ORIGIN.split(",");
-  const corsOptions = {
-    allowedHeaders,
-  };
+  // TODO: Currently, allowing all CROS requests
+  // const allowedHeaders = config.CORS_ORIGIN.split(",");
+  // const corsOptions = {
+  //   allowedHeaders,
+  // };
   const morganConfig = `:method :url (:response-time ms) :status`;
 
   // Test DB
@@ -24,7 +24,7 @@ export default function (app: Express) {
   app.use(helmet());
   app.use(morgan(morganConfig));
   app.use(compressionMiddleware());
-  app.use(cors(corsOptions));
+  app.use(cors()); //TODO: Currently, allowing all CROS requests
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json({ type: ["json", "+json"] }));
 
