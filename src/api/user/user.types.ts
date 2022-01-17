@@ -38,16 +38,16 @@ export interface CreateUserProps {
 }
 
 export interface UpdateUserProps extends CreateUserProps {
-  userId: User["id"];
+  id: User["id"];
 }
 
 export interface DeleteUserProps {
-  userId: User["id"];
-  company: Company["id"];
+  id: User["id"];
+  company: User["company"];
 }
 
 export interface GetUserByIdProps extends DeleteUserProps {}
 
 export interface GetUsersProps extends QueryParams {
-  company: Company["id"];
+  company: User["company"];
 }

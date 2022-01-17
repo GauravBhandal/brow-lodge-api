@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { omit as _omit } from "lodash";
 
 import UserModel from "./user.model";
 import {
@@ -127,12 +128,12 @@ class UserService {
 
   async updateUser(props: UpdateUserProps) {
     // Props
-    const { firstName, lastName, email, password, blocked, userId, company } =
-      props;
+    const { id, company, password } = props;
+    const updateProps = _omit(props, ["id", "company"]);
 
     // Find user by id and company
     const user = await UserModel.findOne({
-      where: { id: userId, company },
+      where: { id, company },
     });
 
     // if user not found, throw an error
@@ -141,34 +142,26 @@ class UserService {
     }
 
     // If the password is provided, then encrypt  it
-    let encryptedPassword;
     if (password) {
-      encryptedPassword = await bcrypt.hash(password, 10);
+      updateProps.password = await bcrypt.hash(password, 10);
     }
 
     // Finally, update the user
-    const [, [updatedUser]] = await UserModel.update(
-      {
-        firstName,
-        lastName,
-        email,
-        password: encryptedPassword,
-        blocked,
-        company,
-      },
-      {
-        where: { id: userId, company },
-        returning: true,
-      }
-    );
+    const [, [updatedUser]] = await UserModel.update(updateProps, {
+      where: { id, company },
+      returning: true,
+    });
 
     return updatedUser;
   }
 
   async deleteUser(props: DeleteUserProps) {
-    // Find and delete the user by userId and company
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the user by id and company
     const user = await UserModel.destroy({
-      where: { id: props.userId, company: props.company },
+      where: { id, company },
     });
 
     // If no user has been deleted, then throw an error
@@ -180,9 +173,12 @@ class UserService {
   }
 
   async getUserById(props: GetUserByIdProps) {
-    // Find  the user by userId and company
+    // Props
+    const { id, company } = props;
+
+    // Find  the user by id and company
     const user = await UserModel.findOne({
-      where: { id: props.userId, company: props.company },
+      where: { id, company },
     });
 
     // If no user has been found, then throw an error

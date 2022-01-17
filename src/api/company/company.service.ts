@@ -1,6 +1,5 @@
 import CompanyModel from "./company.model";
 import {
-  Company,
   CreateCompanyProps,
   GetCompanyByIdProps,
   UpdateCompanyProps,
@@ -17,16 +16,16 @@ class CompanyService {
 
   async updateCompany(props: UpdateCompanyProps) {
     // Props
-    const { company, companyId, name } = props;
+    const { company, id, name } = props;
 
     // If the user tries to update someone else's company
-    if (company !== companyId) {
+    if (company !== id) {
       throw new CustomError(404, CompanyErrorCode.COMPANY_NOT_FOUND);
     }
 
     // Check if company exists
     const exsitingCompany = await CompanyModel.findOne({
-      where: { id: companyId },
+      where: { id },
     });
 
     // If not, then throw an error
@@ -38,7 +37,7 @@ class CompanyService {
     const [, [updatedCompany]] = await CompanyModel.update(
       { name },
       {
-        where: { id: companyId },
+        where: { id },
         returning: true,
       }
     );
@@ -48,13 +47,13 @@ class CompanyService {
 
   async getCompanyById(props: GetCompanyByIdProps) {
     // If the user tries to get someone else's comapny
-    if (props.company !== props.companyId) {
+    if (props.company !== props.id) {
       throw new CustomError(404, CompanyErrorCode.COMPANY_NOT_FOUND);
     }
 
     // Find company by id
     const company = await CompanyModel.findOne({
-      where: { id: props.companyId },
+      where: { id: props.id },
     });
 
     return company;

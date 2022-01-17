@@ -48,11 +48,22 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     PRIMARY KEY ("id")
 );
 
--- 5. Create client_profiles table
+-- 5. Create enum_gender type
+CREATE TYPE "enum_gender" AS ENUM ('male', 'female', 'other');
+
+-- 6. Create client_profiles table
 CREATE TABLE IF NOT EXISTS "client_profiles" (
     "id" UUID NOT NULL,
     "first_name" VARCHAR(255) NOT NULL,
     "last_name" VARCHAR(255) NOT NULL,
+    "preferred_name" VARCHAR(255) NOT NULL,
+    "gender" enum_gender,
+    "date_of_birth" DATE,
+    "address" VARCHAR(255),
+    "emergency_contact_name" VARCHAR(255),
+    "emergency_contact_phone" VARCHAR(255),
+    "emergency_contact_relation" VARCHAR(255),
+    "height" INTEGER,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -60,7 +71,7 @@ CREATE TABLE IF NOT EXISTS "client_profiles" (
     PRIMARY KEY ("id")
 );
 
--- 6. Create progress_notes table
+-- 7. Create progress_notes table
 CREATE TABLE IF NOT EXISTS "progress_notes" (
     "id" UUID NOT NULL,
     "notes" VARCHAR NOT NULL,
@@ -71,7 +82,7 @@ CREATE TABLE IF NOT EXISTS "progress_notes" (
     PRIMARY KEY ("id")
 );
 
--- 7. Create users_roles table
+-- 8. Create users_roles table
 CREATE TABLE IF NOT EXISTS "users_roles" (
     "id" UUID NOT NULL,
     "user" UUID NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE,

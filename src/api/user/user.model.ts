@@ -5,7 +5,6 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
 import { User, CreateUserProps } from "./user.types";
-import { Company } from "../company";
 import { Role } from "../role";
 
 class UserModel<
@@ -20,8 +19,8 @@ class UserModel<
   email!: User["email"];
   password!: User["password"];
   blocked!: boolean;
-  company!: Company["id"];
-  Company?: Company;
+  company!: User["company"];
+  Company: User["Company"];
   Roles?: Role[];
 }
 

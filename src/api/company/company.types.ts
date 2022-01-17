@@ -9,11 +9,11 @@ export interface CreateCompanyProps {
 }
 
 export interface UpdateCompanyProps extends CreateCompanyProps {
-  companyId: Company["id"];
+  id: Company["id"];
   company: Company["id"];
 }
 
 export interface GetCompanyByIdProps {
-  companyId: Company["id"];
+  id: Company["id"];
   company: Company["id"];
 }

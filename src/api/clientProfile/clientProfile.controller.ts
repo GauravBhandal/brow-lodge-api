@@ -5,42 +5,50 @@ import clientProfileService from "./clientProfile.service";
 
 class ClientProfileController {
   async createClientProfile(req: Request, res: Response) {
-    const params = _pick(req.body, ["firstName", "lastName"]);
+    const props = {
+      company: req.auth.companyId,
+      ...req.body,
+    };
 
-    const clientProfile = await clientProfileService.createClientProfile(
-      params
-    );
+    const clientProfile = await clientProfileService.createClientProfile(props);
 
     res.status(200).json(clientProfile);
   }
 
   async updateClientProfile(req: Request, res: Response) {
     const { clientProfileId } = req.params;
-    const params = _pick(req.body, ["firstName", "lastName"]);
+    const props = {
+      id: clientProfileId,
+      company: req.auth.companyId,
+      ...req.body,
+    };
 
-    const clientProfile = await clientProfileService.updateClientProfile(
-      clientProfileId,
-      params
-    );
+    const clientProfile = await clientProfileService.updateClientProfile(props);
 
     res.status(200).json(clientProfile);
   }
 
   async deleteClientProfile(req: Request, res: Response) {
     const { clientProfileId } = req.params;
+    const props = {
+      id: clientProfileId,
+      company: req.auth.companyId,
+    };
 
-    const clientProfile = await clientProfileService.deleteClientProfile(
-      clientProfileId
-    );
+    await clientProfileService.deleteClientProfile(props);
 
-    res.status(200).json(clientProfile);
+    res.status(204).json();
   }
 
   async getclientProfileById(req: Request, res: Response) {
     const { clientProfileId } = req.params;
+    const props = {
+      id: clientProfileId,
+      company: req.auth.companyId,
+    };
 
     const clientProfile = await clientProfileService.getClientProfileById(
-      clientProfileId
+      props
     );
 
     res.status(200).json(clientProfile);
@@ -48,10 +56,12 @@ class ClientProfileController {
 
   async getClientProfiles(req: Request, res: Response) {
     const queryParams = _pick(req.query, ["page", "pageSize", "sort"]) as any;
+    const props = {
+      company: req.auth.companyId,
+      ...queryParams,
+    };
 
-    const clientProfiles = await clientProfileService.getClientProfiles(
-      queryParams
-    );
+    const clientProfiles = await clientProfileService.getClientProfiles(props);
 
     res.status(200).json(clientProfiles);
   }

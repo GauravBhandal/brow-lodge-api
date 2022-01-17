@@ -5,7 +5,6 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
 import { ClientProfile, CreateClientProfileProps } from "./clientProfile.types";
-import { Company } from "../company";
 
 class ClientProfileModel<
     ModelAttributes = ClientProfile,
@@ -16,8 +15,16 @@ class ClientProfileModel<
 {
   firstName!: ClientProfile["firstName"];
   lastName!: ClientProfile["lastName"];
-  company!: Company["id"];
-  Company?: Company;
+  preferredName!: ClientProfile["lastName"];
+  gender: ClientProfile["gender"];
+  dateOfBirth: ClientProfile["dateOfBirth"];
+  address: ClientProfile["address"];
+  emergencyContactName: ClientProfile["emergencyContactName"];
+  emergencyContactPhone: ClientProfile["emergencyContactPhone"];
+  emergencyContactRelation: ClientProfile["emergencyContactRelation"];
+  height: ClientProfile["height"];
+  company!: ClientProfile["company"];
+  Company: ClientProfile["Company"];
 }
 
 modelManager.init(
@@ -31,6 +38,31 @@ modelManager.init(
     lastName: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    preferredName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    gender: {
+      type: Sequelize.STRING,
+    },
+    dateOfBirth: {
+      type: Sequelize.DATEONLY,
+    },
+    address: {
+      type: Sequelize.STRING,
+    },
+    emergencyContactName: {
+      type: Sequelize.STRING,
+    },
+    emergencyContactPhone: {
+      type: Sequelize.STRING,
+    },
+    emergencyContactRelation: {
+      type: Sequelize.STRING,
+    },
+    height: {
+      type: Sequelize.NUMBER,
     },
   },
   {

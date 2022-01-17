@@ -3,11 +3,8 @@ import express from "express";
 import controller from "./clientProfile.controller";
 import clientProfileSchems from "./clientProfile.schema";
 import { catchWrap } from "../../components/errors";
-import authMiddleware from "../../components/auth";
 
 const router = express.Router();
-
-router.use(authMiddleware);
 
 router.post(
   "/",

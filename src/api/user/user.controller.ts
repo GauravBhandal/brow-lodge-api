@@ -54,7 +54,7 @@ class UserController {
       "blocked",
     ]);
     const props = {
-      userId,
+      id: userId,
       company: req.auth.companyId,
       ...bodyParams,
     };
@@ -67,8 +67,8 @@ class UserController {
   async deleteUser(req: Request, res: Response) {
     const { userId } = req.params;
     const props = {
+      id: userId,
       company: req.auth.companyId,
-      userId,
     };
 
     await userService.deleteUser(props);
@@ -79,8 +79,8 @@ class UserController {
   async getuserById(req: Request, res: Response) {
     const { userId } = req.params;
     const props = {
+      id: userId,
       company: req.auth.companyId,
-      userId,
     };
 
     const user = await userService.getUserById(props);

@@ -20,7 +20,7 @@ class RoleController {
     const { roleId } = req.params;
     const bodyParams = _pick(req.body, ["name", "description", "permissions"]);
     const props = {
-      roleId,
+      id: roleId,
       company: req.auth.companyId,
       ...bodyParams,
     };
@@ -33,7 +33,7 @@ class RoleController {
   async deleteRole(req: Request, res: Response) {
     const { roleId } = req.params;
     const props = {
-      roleId,
+      id: roleId,
       company: req.auth.companyId,
     };
 
@@ -45,7 +45,7 @@ class RoleController {
   async getroleById(req: Request, res: Response) {
     const { roleId } = req.params;
     const props = {
-      roleId,
+      id: roleId,
       company: req.auth.companyId,
     };
 
