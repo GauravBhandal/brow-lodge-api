@@ -60,6 +60,7 @@ const getUserSchema = wrapSchema({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
     sort: Joi.string(),
+    where: Joi.any(), //TODO use regular operation for applying schema for where props
   }),
 });
 

@@ -23,7 +23,7 @@ const getFilterOperations = (op: string, value: string) => {
 };
 //TODO error handling
 
-export const getFilters = (whereProps: any) => {
+export const getFilters = (whereProps: any = {}) => {
   let filters: Record<string, any> = {}; //Var to store final filters
   let orFilterForSameKey: Array<any> = []; //Var to store filter operations for same key
 
