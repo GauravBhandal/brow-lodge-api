@@ -21,6 +21,7 @@ import { getSortingParams } from "../../components/sorting";
 import { RoleModel, roleService } from "../role";
 import { companyService } from "../company";
 import { userRoleService } from "./userRole";
+import { getFilters } from "../../components/filters";
 
 class UserService {
   async me(props: MeProps) {
@@ -183,6 +184,14 @@ class UserService {
       returning: true,
     });
 
+    // update user role
+    if (props.roles && props.roles.length) {
+      await userRoleService.updateBulkUserRole({
+        user: id,
+        roles: props.roles,
+      });
+    }
+
     return updatedUser;
   }
 
@@ -210,6 +219,14 @@ class UserService {
     // Find  the user by id and company
     const user = await UserModel.findOne({
       where: { id, company },
+      include: [
+        {
+          model: RoleModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
     });
 
     // If no user has been found, then throw an error
@@ -222,16 +239,18 @@ class UserService {
 
   async getUsers(props: GetUsersProps) {
     // Props
-    const { page, pageSize, sort, company } = props;
+    const { page, pageSize, sort, company, where } = props;
 
     // Convert props to sequelize compatible props
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
+    const filters = getFilters(where);
 
     // Count total users in the given company
     const count = await UserModel.count({
       where: {
         company,
+        ...filters,
       },
     });
 
@@ -242,6 +261,7 @@ class UserService {
       order,
       where: {
         company,
+        ...filters,
       },
       include: [
         {

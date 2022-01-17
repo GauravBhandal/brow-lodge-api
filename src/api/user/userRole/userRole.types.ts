@@ -7,7 +7,13 @@ export interface UserRole extends DefaultSchemaConfig {
   role: Role["id"];
 }
 
-export type CreateUserRoleProps = {
+export interface CreateBulkUserRoleProps {
   user: UserRole["user"];
   roles: UserRole["role"][];
-};
+}
+
+export interface UpdateBulkUserRoleProps extends CreateBulkUserRoleProps {}
+
+export interface DeleteBulkUserRoleProps {
+  user: UserRole["user"];
+}

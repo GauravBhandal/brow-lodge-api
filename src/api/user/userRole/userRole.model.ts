@@ -4,11 +4,11 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../../components/sequelize/manager";
-import { UserRole, CreateUserRoleProps } from "./userRole.types";
+import { UserRole, CreateBulkUserRoleProps } from "./userRole.types";
 
 class UserRoleModel<
     ModelAttributes = UserRole,
-    ModelCreationAttributes = CreateUserRoleProps
+    ModelCreationAttributes = CreateBulkUserRoleProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements UserRole
@@ -32,7 +32,7 @@ modelManager.init(
   },
   {
     underscored: true,
-    paranoid: true,
+    paranoid: false, // <-- We are setting to false because of the update functionality of this Model
     tableName: "users_roles",
   }
 );
