@@ -15,7 +15,7 @@ class ClientProfileModel<
 {
   firstName!: ClientProfile["firstName"];
   lastName!: ClientProfile["lastName"];
-  preferredName!: ClientProfile["lastName"];
+  preferredName!: ClientProfile["preferredName"];
   gender: ClientProfile["gender"];
   dateOfBirth: ClientProfile["dateOfBirth"];
   address: ClientProfile["address"];
