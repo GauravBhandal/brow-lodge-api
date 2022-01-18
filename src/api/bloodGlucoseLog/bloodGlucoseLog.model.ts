@@ -19,7 +19,7 @@ class BloodGlucoseLogModel<
   date!: BloodGlucoseLog["date"];
   time!: BloodGlucoseLog["time"];
   reading!: BloodGlucoseLog["reading"];
-  comments!: BloodGlucoseLog["comments"];
+  comments: BloodGlucoseLog["comments"];
   staff!: BloodGlucoseLog["staff"];
   Staff: BloodGlucoseLog["Staff"];
   client!: BloodGlucoseLog["client"];
