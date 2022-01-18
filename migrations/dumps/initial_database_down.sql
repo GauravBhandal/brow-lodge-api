@@ -1,3 +1,6 @@
+-- 9. Create blood_glucose_logs table
+DROP TABLE IF EXISTS "blood_glucose_logs";
+
 -- 8. Drop users_roles table
 DROP TABLE IF EXISTS "users_roles";
 

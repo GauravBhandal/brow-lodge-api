@@ -4,6 +4,7 @@ import { StaffProfileModel } from "../../api/staffProfile";
 import { UserModel } from "../../api/user";
 import { CompanyModel } from "../../api/company";
 import { ProgressNoteModel } from "../../api/progressNote";
+import { BloodGlucoseLogModel } from "../../api/bloodGlucoseLog";
 
 export default {
   initialize() {
@@ -11,8 +12,9 @@ export default {
     initializeRoleModelAssociations();
     initializeStaffProfileModelAssociations();
     initializeUserModelAssociations();
-    initializeProgressNoteModelAssociations();
     initializeCompanyModelAssociations();
+    initializeProgressNoteModelAssociations();
+    initializeBloodGlucoseLogModelAssociations();
   },
 };
 
@@ -48,6 +50,14 @@ function initializeUserModelAssociations() {
   });
 }
 
+function initializeCompanyModelAssociations() {
+  // TODO: I don't think we need add these associations because we never need to access stuff through company table
+  CompanyModel.hasMany(ProgressNoteModel, {
+    foreignKey: "company",
+    sourceKey: "id",
+  });
+}
+
 function initializeProgressNoteModelAssociations() {
   ProgressNoteModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -62,10 +72,16 @@ function initializeProgressNoteModelAssociations() {
   });
 }
 
-function initializeCompanyModelAssociations() {
-  // TODO: I don't think we need add these associations because we never need to access stuff through company table
-  CompanyModel.hasMany(ProgressNoteModel, {
-    foreignKey: "company",
-    sourceKey: "id",
+function initializeBloodGlucoseLogModelAssociations() {
+  BloodGlucoseLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  BloodGlucoseLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  BloodGlucoseLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
   });
 }
