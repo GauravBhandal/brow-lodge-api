@@ -1,4 +1,7 @@
--- 15. DROP oxygen_saturation_logs table
+-- 17. DROP seizure_logs table
+DROP TABLE IF EXISTS "seizure_logs";
+
+-- 16. DROP oxygen_saturation_logs table
 DROP TABLE IF EXISTS "oxygen_saturation_logs";
 
 -- 15. DROP weight_logs table
