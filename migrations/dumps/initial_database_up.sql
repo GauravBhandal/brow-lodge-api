@@ -117,13 +117,13 @@ CREATE TABLE IF NOT EXISTS "blood_glucose_logs" (
 );
 
 --10. Create blood_pressure_logs table
-CREATE TABLE IF NOT EXISTS "blood_pressure_logs"{
+CREATE TABLE IF NOT EXISTS "blood_pressure_logs"(
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
     "time" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "upper" INTEGER,
-    "lower" INTEGER,
-    "pulse" INTEGER,
+    "upper" INTEGER NOT NULL,
+    "lower" INTEGER NOT NULL,
+    "pulse" INTEGER NOT NULL,
     "comments" VARCHAR,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -132,4 +132,4 @@ CREATE TABLE IF NOT EXISTS "blood_pressure_logs"{
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
-}
+);

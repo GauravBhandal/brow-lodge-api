@@ -21,7 +21,7 @@ class BloodPressureLogModel<
   upper!: BloodPressureLog["upper"];
   lower!: BloodPressureLog["lower"];
   pulse!: BloodPressureLog["pulse"];
-  comments!: BloodPressureLog["comments"];
+  comments: BloodPressureLog["comments"];
   staff!: BloodPressureLog["staff"];
   Staff: BloodPressureLog["Staff"];
   client!: BloodPressureLog["client"];
