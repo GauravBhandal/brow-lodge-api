@@ -221,3 +221,21 @@ CREATE TABLE IF NOT EXISTS "oxygen_saturation_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 17. Create seizure_logs table
+CREATE TABLE IF NOT EXISTS "seizure_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "seizure" VARCHAR NOT NULL,
+    "recovery" VARCHAR NOT NULL,
+    "comments" VARCHAR,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

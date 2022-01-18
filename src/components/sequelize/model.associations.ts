@@ -11,6 +11,7 @@ import { WeightLogModel } from "../../api/weightLog";
 import { SleepLogModel } from "../../api/sleepLog";
 import { TemperatureLogModel } from "../../api/temperatureLog";
 import { OxygenSaturationLogModel } from "../../api/oxygenSaturationLog";
+import { SeizureLogModel } from "../../api/seizureLog";
 
 export default {
   initialize() {
@@ -27,6 +28,7 @@ export default {
     initializeSleepLogModelAssociations();
     initializeTemperatureLogModelAssociations();
     initializeOxygenSaturationLogModelAssociations();
+    initializeSeizureLogModelAssociations();
   },
 };
 
@@ -177,6 +179,20 @@ function initializeOxygenSaturationLogModelAssociations() {
     as: "Staff",
   });
   OxygenSaturationLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeSeizureLogModelAssociations() {
+  SeizureLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  SeizureLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  SeizureLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
