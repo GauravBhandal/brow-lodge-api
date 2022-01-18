@@ -1,3 +1,9 @@
+-- 13. Create sleep_logs table
+DROP TABLE IF EXISTS "sleep_logs";
+
+-- 12. DROP enum_sleep_activity type
+DROP TYPE "enum_sleep_activity";
+
 -- 11. Create blood_pressure_logs table
 DROP TABLE IF EXISTS "blood_pressure_logs";
 
