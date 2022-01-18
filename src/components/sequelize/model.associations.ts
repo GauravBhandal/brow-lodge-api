@@ -12,6 +12,8 @@ import { SleepLogModel } from "../../api/sleepLog";
 import { TemperatureLogModel } from "../../api/temperatureLog";
 import { OxygenSaturationLogModel } from "../../api/oxygenSaturationLog";
 import { SeizureLogModel } from "../../api/seizureLog";
+import { PrnAdminLogModel } from "../../api/prnAdminLog";
+import { PrnBalanceLogModel } from "../../api/prnBalanceLog";
 
 export default {
   initialize() {
@@ -29,6 +31,8 @@ export default {
     initializeTemperatureLogModelAssociations();
     initializeOxygenSaturationLogModelAssociations();
     initializeSeizureLogModelAssociations();
+    initializePrnAdminLogModelAssociations();
+    initializePrnBalanceLogModelAssociations();
   },
 };
 
@@ -193,6 +197,34 @@ function initializeSeizureLogModelAssociations() {
     as: "Staff",
   });
   SeizureLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializePrnAdminLogModelAssociations() {
+  PrnAdminLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PrnAdminLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  PrnAdminLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializePrnBalanceLogModelAssociations() {
+  PrnBalanceLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PrnBalanceLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  PrnBalanceLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });

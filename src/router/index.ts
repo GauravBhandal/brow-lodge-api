@@ -13,6 +13,8 @@ import { bowelLogRoutes } from "../api/bowelLog";
 import { weightLogRoutes } from "../api/weightLog";
 import { sleepLogRoutes } from "../api/sleepLog";
 import { temperatureLogRoutes } from "../api/temperatureLog";
+import { prnAdminLogRoutes } from "../api/prnAdminLog";
+import { prnBalanceLogRoutes } from "../api/prnBalanceLog";
 import { oxygenSaturationLogRoutes } from "../api/oxygenSaturationLog";
 import { seizureLogRoutes } from "../api/seizureLog";
 
@@ -31,6 +33,8 @@ router.use("/bowel-log", bowelLogRoutes);
 router.use("/weight-log", weightLogRoutes);
 router.use("/sleep-log", sleepLogRoutes);
 router.use("/temperature-log", temperatureLogRoutes);
+router.use("/prn-admin-log", prnAdminLogRoutes);
+router.use("/prn-Balance-log", prnBalanceLogRoutes);
 router.use("/oxygen-saturation-log", oxygenSaturationLogRoutes);
 router.use("/seizure-log", seizureLogRoutes);
 
