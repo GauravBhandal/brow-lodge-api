@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS "bowel_logs" (
     PRIMARY KEY ("id")
 );
 
---11. Create blood_pressure_logs table
+-- 11. Create blood_pressure_logs table
 CREATE TABLE IF NOT EXISTS "blood_pressure_logs"(
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -150,8 +150,43 @@ CREATE TABLE IF NOT EXISTS "blood_pressure_logs"(
     PRIMARY KEY ("id")
 );
 
--- 12. Create weight_logs table
-CREATE TABLE IF NOT EXISTS "blood_glucose_logs" (
+-- 12. Create enum_sleep_activity type
+CREATE TYPE "enum_sleep_activity" AS ENUM ('sleep', 'awake');
+
+-- 13. Create sleep_logs table
+CREATE TABLE IF NOT EXISTS "sleep_logs"(
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "activity" enum_sleep_activity NOT NULL,
+    "comments" VARCHAR,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 14. Create temperature_logs table
+CREATE TABLE IF NOT EXISTS "temperature_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "reading" DOUBLE PRECISION NOT NULL,
+    "comments" VARCHAR,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 15. Create weight_logs table
+CREATE TABLE IF NOT EXISTS "weight_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
     "time" TIMESTAMP WITH TIME ZONE NOT NULL,

@@ -8,6 +8,8 @@ import { BloodGlucoseLogModel } from "../../api/bloodGlucoseLog";
 import { BloodPressureLogModel } from "../../api/bloodPressureLog";
 import { BowelLogModel } from "../../api/bowelLog";
 import { WeightLogModel } from "../../api/weightLog";
+import { SleepLogModel } from "../../api/sleepLog";
+import { TemperatureLogModel } from "../../api/temperatureLog";
 
 export default {
   initialize() {
@@ -21,6 +23,8 @@ export default {
     initializeBloodPressureLogModelAssociations();
     initializeBowelLogModelAssociations();
     initializeWeightLogModelAssociations();
+    initializeSleepLogModelAssociations();
+    initializeTemperatureLogModelAssociations();
   },
 };
 
@@ -120,15 +124,43 @@ function initializeBloodPressureLogModelAssociations() {
   });
 }
 
-function initializeWeightLogModelAssociations() {
-  BloodGlucoseLogModel.belongsTo(CompanyModel, {
+function initializeSleepLogModelAssociations() {
+  SleepLogModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
-  BloodGlucoseLogModel.belongsTo(StaffProfileModel, {
+  SleepLogModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
-  BloodGlucoseLogModel.belongsTo(ClientProfileModel, {
+  SleepLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeTemperatureLogModelAssociations() {
+  TemperatureLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TemperatureLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  TemperatureLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeWeightLogModelAssociations() {
+  WeightLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  WeightLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  WeightLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });

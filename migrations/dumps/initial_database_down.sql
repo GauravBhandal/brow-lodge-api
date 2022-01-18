@@ -1,5 +1,14 @@
--- 11. Create weight_logs table
+-- 15. DROP weight_logs table
 DROP TABLE IF EXISTS "weight_logs";
+
+-- 14. DROP temperature_logs table
+DROP TABLE IF EXISTS "temperature_logs";
+
+-- 13. DROP sleep_logs table
+DROP TABLE IF EXISTS "sleep_logs";
+
+-- 12. DROP enum_sleep_activity type
+DROP TYPE "enum_sleep_activity";
 
 -- 11. Create blood_pressure_logs table
 DROP TABLE IF EXISTS "blood_pressure_logs";
