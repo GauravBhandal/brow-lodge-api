@@ -200,3 +200,24 @@ CREATE TABLE IF NOT EXISTS "weight_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 16. Create oxygen_saturation_logs table
+CREATE TABLE IF NOT EXISTS "oxygen_saturation_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "reading" DOUBLE PRECISION NOT NULL,
+    "probe_placement" VARCHAR(255) NOT NULL,
+    "suctioning_required" BOOLEAN NOT NULL,
+    "type_of_suctioning" VARCHAR(255),
+    "suction_amount" VARCHAR(255),
+    "secretion_description" VARCHAR(255),
+    "reading_post_suctioning" DOUBLE PRECISION,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
