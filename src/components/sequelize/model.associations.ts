@@ -6,6 +6,7 @@ import { CompanyModel } from "../../api/company";
 import { ProgressNoteModel } from "../../api/progressNote";
 import { BloodGlucoseLogModel } from "../../api/bloodGlucoseLog";
 import { BloodPressureLogModel } from "../../api/bloodPressureLog";
+import { BowelLogModel } from "../../api/bowelLog";
 
 export default {
   initialize() {
@@ -17,6 +18,7 @@ export default {
     initializeProgressNoteModelAssociations();
     initializeBloodGlucoseLogModelAssociations();
     initializeBloodPressureLogModelAssociations();
+    initializeBowelLogModelAssociations();
   },
 };
 
@@ -83,6 +85,20 @@ function initializeBloodGlucoseLogModelAssociations() {
     as: "Staff",
   });
   BloodGlucoseLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeBowelLogModelAssociations() {
+  BowelLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  BowelLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  BowelLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
