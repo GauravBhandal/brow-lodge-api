@@ -902,7 +902,6 @@ module.exports = {
           dosage: "1.5 ml",
           reason: "unsettled",
           outcome: "settled",
-          comments: "Company 1 comments",
           staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
           client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
@@ -917,7 +916,37 @@ module.exports = {
           dosage: "1.5 ml",
           reason: "unsettled",
           outcome: "settled",
-          comments: "Company 2 comments",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "prn_balance_logs",
+      [
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          time: new Date(),
+          name: "Endone",
+          balance: 1.2,
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          time: new Date(),
+          name: "Targin",
+          balance: 1.5,
           staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
           client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
@@ -930,6 +959,7 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
+    await queryInterface.bulkDelete("prn_balance_logs", null, {});
     await queryInterface.bulkDelete("prn_admin_logs", null, {});
     await queryInterface.bulkDelete("weight_logs", null, {});
     await queryInterface.bulkDelete("temperature_logs", null, {});

@@ -1,3 +1,6 @@
+-- 17. DROP prn_balance_logs table
+DROP TABLE IF EXISTS "prn_balance_logs";
+
 -- 16. DROP prn_admin_logs table
 DROP TABLE IF EXISTS "prn_admin_logs";
 

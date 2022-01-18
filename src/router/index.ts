@@ -14,6 +14,7 @@ import { weightLogRoutes } from "../api/weightLog";
 import { sleepLogRoutes } from "../api/sleepLog";
 import { temperatureLogRoutes } from "../api/temperatureLog";
 import { prnAdminLogRoutes } from "../api/prnAdminLog";
+import { prnBalanceLogRoutes } from "../api/prnBalanceLog";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -31,5 +32,6 @@ router.use("/weight-log", weightLogRoutes);
 router.use("/sleep-log", sleepLogRoutes);
 router.use("/temperature-log", temperatureLogRoutes);
 router.use("/prn-admin-log", prnAdminLogRoutes);
+router.use("/prn-Balance-log", prnBalanceLogRoutes);
 
 export default router;
