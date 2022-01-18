@@ -1,8 +1,14 @@
--- 17. DROP prn_balance_logs table
+-- 19. DROP prn_balance_logs table
 DROP TABLE IF EXISTS "prn_balance_logs";
 
--- 16. DROP prn_admin_logs table
+-- 18. DROP prn_admin_logs table
 DROP TABLE IF EXISTS "prn_admin_logs";
+
+-- 17. DROP seizure_logs table
+DROP TABLE IF EXISTS "seizure_logs";
+
+-- 16. DROP oxygen_saturation_logs table
+DROP TABLE IF EXISTS "oxygen_saturation_logs";
 
 -- 15. DROP weight_logs table
 DROP TABLE IF EXISTS "weight_logs";

@@ -892,6 +892,82 @@ module.exports = {
     );
 
     await queryInterface.bulkInsert(
+      "oxygen_saturation_logs",
+      [
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          time: new Date(),
+          reading: 89.1,
+          probe_placement: "Somewhere company 1",
+          suctioning_required: true,
+          type_of_suctioning: "Somewhere company 1",
+          suction_amount: "Somewhere company 1",
+          secretion_description: "Somewhere company 1",
+          reading_post_suctioning: 71.45,
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          time: new Date(),
+          reading: 71.45,
+          probe_placement: "Somewhere company 2",
+          suctioning_required: true,
+          type_of_suctioning: "Somewhere company 2",
+          suction_amount: "Somewhere company 2",
+          secretion_description: "Somewhere company 2",
+          reading_post_suctioning: 71.45,
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "seizure_logs",
+      [
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          start_time: new Date(),
+          end_time: new Date(),
+          seizure: "seizure company 1",
+          recovery: "recovery company 1",
+          comments: "comments company 1",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          start_time: new Date(),
+          end_time: new Date(),
+          seizure: "seizure company 1",
+          recovery: "recovery company 1",
+          comments: "comments company 1",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
       "prn_admin_logs",
       [
         {
@@ -961,6 +1037,8 @@ module.exports = {
   down: async (queryInterface) => {
     await queryInterface.bulkDelete("prn_balance_logs", null, {});
     await queryInterface.bulkDelete("prn_admin_logs", null, {});
+    await queryInterface.bulkDelete("seizure_logs", null, {});
+    await queryInterface.bulkDelete("oxygen_saturation_logs", null, {});
     await queryInterface.bulkDelete("weight_logs", null, {});
     await queryInterface.bulkDelete("temperature_logs", null, {});
     await queryInterface.bulkDelete("sleep_logs", null, {});
