@@ -10,6 +10,7 @@ import { BowelLogModel } from "../../api/bowelLog";
 import { WeightLogModel } from "../../api/weightLog";
 import { SleepLogModel } from "../../api/sleepLog";
 import { TemperatureLogModel } from "../../api/temperatureLog";
+import { PrnAdminLogModel } from "../../api/prnAdminLog";
 
 export default {
   initialize() {
@@ -25,6 +26,7 @@ export default {
     initializeWeightLogModelAssociations();
     initializeSleepLogModelAssociations();
     initializeTemperatureLogModelAssociations();
+    initializePrnAdminLogModelAssociations();
   },
 };
 
@@ -161,6 +163,20 @@ function initializeWeightLogModelAssociations() {
     as: "Staff",
   });
   WeightLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializePrnAdminLogModelAssociations() {
+  PrnAdminLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PrnAdminLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  PrnAdminLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });

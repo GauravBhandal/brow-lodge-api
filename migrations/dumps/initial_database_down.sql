@@ -1,3 +1,6 @@
+-- 16. DROP prn_admin_logs table
+DROP TABLE IF EXISTS "prn_admin_logs";
+
 -- 15. DROP weight_logs table
 DROP TABLE IF EXISTS "weight_logs";
 
