@@ -6,7 +6,7 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createRoleSchema = wrapSchema({
   body: Joi.object().keys({
     name: Joi.string().required(),
-    description: Joi.string(),
+    description: Joi.string().allow(""),
     permissions: Joi.object(),
   }),
 });
@@ -17,7 +17,7 @@ const editRoleSchema = wrapSchema({
   }),
   body: Joi.object().keys({
     name: Joi.string().required(),
-    description: Joi.string(),
+    description: Joi.string().allow(""),
     permissions: Joi.object(),
   }),
 });

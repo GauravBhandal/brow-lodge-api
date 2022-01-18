@@ -54,9 +54,11 @@ function initializeProgressNoteModelAssociations() {
   });
   ProgressNoteModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
   });
   ProgressNoteModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
+    as: "Client",
   });
 }
 

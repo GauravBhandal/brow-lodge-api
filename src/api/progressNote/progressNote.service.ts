@@ -79,9 +79,11 @@ class ProgressNoteService {
         },
         {
           model: StaffProfileModel,
+          as: "Staff",
         },
         {
           model: ClientProfileModel,
+          as: "Client",
         },
       ],
     });
@@ -125,9 +127,11 @@ class ProgressNoteService {
         },
         {
           model: StaffProfileModel,
+          as: "Staff",
         },
         {
           model: ClientProfileModel,
+          as: "Client",
         },
       ],
     });

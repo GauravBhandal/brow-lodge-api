@@ -16,7 +16,8 @@ const createProgressNoteSchema = wrapSchema({
 });
 
 const editProgressNoteSchema = wrapSchema({
-  params: Joi.object().keys({
+  params: Joi.object().keys({ progressNoteId: requiredUUIDSchema() }),
+  body: Joi.object().keys({
     date: Joi.date().required(),
     shiftStartTime: Joi.date().required(),
     shiftEndTime: Joi.date().required(),
@@ -24,9 +25,6 @@ const editProgressNoteSchema = wrapSchema({
     dietAndFluids: Joi.string().required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
-  }),
-  body: Joi.object().keys({
-    notes: Joi.string().required(),
   }),
 });
 

@@ -5,7 +5,7 @@ import staffProfileService from "./staffProfile.service";
 
 class StaffProfileController {
   async createStaffProfile(req: Request, res: Response) {
-    const params = _pick(req.body, ["firstName", "lastName"]);
+    const params = _pick(req.body, ["firstName", "lastName", "preferredName"]);
 
     const staffProfile = await staffProfileService.createStaffProfile(params);
 
@@ -14,7 +14,7 @@ class StaffProfileController {
 
   async updateStaffProfile(req: Request, res: Response) {
     const { staffProfileId } = req.params;
-    const params = _pick(req.body, ["firstName", "lastName"]);
+    const params = _pick(req.body, ["firstName", "lastName", "preferredName"]);
 
     const staffProfile = await staffProfileService.updateStaffProfile(
       staffProfileId,

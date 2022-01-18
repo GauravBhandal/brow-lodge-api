@@ -7,6 +7,7 @@ const createStaffProfileSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
+    preferredName: Joi.string().required(),
   }),
 });
 
@@ -17,6 +18,7 @@ const editStaffProfileSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
+    preferredName: Joi.string().required(),
   }),
 });
 
