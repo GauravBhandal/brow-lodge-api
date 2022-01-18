@@ -1,3 +1,6 @@
+-- 14. Create temperature_logs table
+DROP TABLE IF EXISTS "temperature_logs";
+
 -- 13. Create sleep_logs table
 DROP TABLE IF EXISTS "sleep_logs";
 
