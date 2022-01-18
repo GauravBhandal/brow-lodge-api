@@ -5,13 +5,25 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createProgressNoteSchema = wrapSchema({
   body: Joi.object().keys({
+    date: Joi.date().required(),
+    shiftStartTime: Joi.date().required(),
+    shiftEndTime: Joi.date().required(),
     notes: Joi.string().required(),
+    dietAndFluids: Joi.string().required(),
+    staff: requiredUUIDSchema(),
+    client: requiredUUIDSchema(),
   }),
 });
 
 const editProgressNoteSchema = wrapSchema({
   params: Joi.object().keys({
-    progressNoteId: requiredUUIDSchema(),
+    date: Joi.date().required(),
+    shiftStartTime: Joi.date().required(),
+    shiftEndTime: Joi.date().required(),
+    notes: Joi.string().required(),
+    dietAndFluids: Joi.string().required(),
+    staff: requiredUUIDSchema(),
+    client: requiredUUIDSchema(),
   }),
   body: Joi.object().keys({
     notes: Joi.string().required(),
@@ -24,17 +36,18 @@ const deleteProgressNoteSchema = wrapSchema({
   }),
 });
 
+const getProgressNoteByIdSchema = wrapSchema({
+  params: Joi.object().keys({
+    progressNoteId: requiredUUIDSchema(),
+  }),
+});
+
 const getProgressNoteSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
     sort: Joi.string(),
-  }),
-});
-
-const getProgressNoteByIdSchema = wrapSchema({
-  params: Joi.object().keys({
-    progressNoteId: requiredUUIDSchema(),
+    where: Joi.any(), //TODO use regular operation for applying schema for where props
   }),
 });
 
@@ -42,6 +55,6 @@ export default {
   createProgressNote: joiMiddleware(createProgressNoteSchema),
   editProgressNote: joiMiddleware(editProgressNoteSchema),
   deleteProgressNote: joiMiddleware(deleteProgressNoteSchema),
-  getProgressNotes: joiMiddleware(getProgressNoteSchema),
   getProgressNoteById: joiMiddleware(getProgressNoteByIdSchema),
+  getProgressNotes: joiMiddleware(getProgressNoteSchema),
 };

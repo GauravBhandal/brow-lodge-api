@@ -1,15 +1,21 @@
+import { omit as _omit } from "lodash";
+
 import ProgressNoteModel from "./progressNote.model";
 import {
-  ProgressNote,
   CreateProgressNoteProps,
   UpdateProgressNoteProps,
+  DeleteProgressNoteProps,
+  GetProgressNoteByIdProps,
+  GetProgressNotesProps,
 } from "./progressNote.types";
 import { CustomError } from "../../components/errors";
 import ProgressNoteErrorCode from "./progressNote.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { QueryParams } from "../../common/types";
 import { CompanyModel } from "../company";
+import { StaffProfileModel } from "../staffProfile";
+import { ClientProfileModel } from "../clientProfile";
+import { getFilters } from "../../components/filters";
 
 class ProgressNoteService {
   async createProgressNote(props: CreateProgressNoteProps) {
@@ -17,57 +23,119 @@ class ProgressNoteService {
     return progressNote;
   }
 
-  async updateProgressNote(
-    progressNoteId: ProgressNote["id"],
-    props: UpdateProgressNoteProps
-  ) {
+  async updateProgressNote(props: UpdateProgressNoteProps) {
+    // Props
+    const { id, company } = props;
+    const updateProps = _omit(props, ["id", "company"]);
+
+    // Find progressNote by id and company
     const progressNote = await ProgressNoteModel.findOne({
-      where: { id: progressNoteId },
+      where: { id, company },
     });
+
+    // if progressNote not found, throw an error
     if (!progressNote) {
       throw new CustomError(404, ProgressNoteErrorCode.PROGRESS_NOTE_NOT_FOUND);
     }
-    const [, [updatedProgressNote]] = await ProgressNoteModel.update(props, {
-      where: { id: progressNoteId },
-      returning: true,
-    });
+
+    // Finally, update the progressNote
+    const [, [updatedProgressNote]] = await ProgressNoteModel.update(
+      updateProps,
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
     return updatedProgressNote;
   }
 
-  async deleteProgressNote(progressNoteId: ProgressNote["id"]) {
+  async deleteProgressNote(props: DeleteProgressNoteProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the progressNote by id and company
     const progressNote = await ProgressNoteModel.destroy({
-      where: { id: progressNoteId },
+      where: { id, company },
     });
+
+    // if progressNote has been deleted, throw an error
+    if (!progressNote) {
+      throw new CustomError(404, ProgressNoteErrorCode.PROGRESS_NOTE_NOT_FOUND);
+    }
+
     return progressNote;
   }
 
-  async getProgressNotes(queryParams: QueryParams) {
-    const { page, pageSize, sort } = queryParams;
+  async getProgressNoteById(props: GetProgressNoteByIdProps) {
+    // Props
+    const { id, company } = props;
 
-    const { offset, limit } = getPagingParams(page, pageSize);
-    const order = getSortingParams(sort);
-
-    const data = await ProgressNoteModel.findAndCountAll({
-      offset,
-      limit,
-      order,
+    // Find  the progressNote by id and company
+    const progressNote = await ProgressNoteModel.findOne({
+      where: { id, company },
       include: [
         {
           model: CompanyModel,
         },
+        {
+          model: StaffProfileModel,
+        },
+        {
+          model: ClientProfileModel,
+        },
       ],
     });
 
-    const response = getPagingData(data, page, limit);
+    // If no progressNote has been found, then throw an error
+    if (!progressNote) {
+      throw new CustomError(404, ProgressNoteErrorCode.PROGRESS_NOTE_NOT_FOUND);
+    }
 
-    return response;
+    return progressNote;
   }
 
-  async getProgressNoteById(progressNoteId: ProgressNote["id"]) {
-    const progressNote = await ProgressNoteModel.findOne({
-      where: { id: progressNoteId },
+  async getProgressNotes(props: GetProgressNotesProps) {
+    // Props
+    const { page, pageSize, sort, where, company } = props;
+
+    const { offset, limit } = getPagingParams(page, pageSize);
+    const order = getSortingParams(sort);
+    const filters = getFilters(where);
+
+    // Count total progressNotes in the given company
+    const count = await ProgressNoteModel.count({
+      where: {
+        company,
+        ...filters,
+      },
     });
-    return progressNote;
+
+    // Find all progressNotes for matching props and company
+    const data = await ProgressNoteModel.findAll({
+      offset,
+      limit,
+      order,
+      where: {
+        company,
+        ...filters,
+      },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: StaffProfileModel,
+        },
+        {
+          model: ClientProfileModel,
+        },
+      ],
+    });
+
+    // TODO: Clean up getPagingData function
+    const response = getPagingData({ count, rows: data }, page, limit);
+
+    return response;
   }
 }
 

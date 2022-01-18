@@ -617,7 +617,7 @@ module.exports = {
       "client_profiles",
       [
         {
-          id: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          id: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
           first_name: "Chris",
           last_name: "Green",
           preferred_name: "Chris",
@@ -626,7 +626,7 @@ module.exports = {
           updated: new Date(),
         },
         {
-          id: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          id: "346fd1cf-ceea-4e85-b8ac-54acca970843",
           first_name: "John",
           last_name: "Wills",
           preferred_name: "John",
@@ -643,14 +643,26 @@ module.exports = {
       [
         {
           id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          shift_start_time: new Date(),
+          shift_end_time: new Date(),
           notes: "Company 1 Notes",
+          diet_and_fluids: "Company 1 diet_and_fluids",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
           updated: new Date(),
         },
         {
           id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          shift_start_time: new Date(),
+          shift_end_time: new Date(),
           notes: "Company 2 Notes",
+          diet_and_fluids: "Company 2 diet_and_fluids",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
           created: new Date(),
           updated: new Date(),

@@ -5,51 +5,66 @@ import progressNoteService from "./progressNote.service";
 
 class ProgressNoteController {
   async createProgressNote(req: Request, res: Response) {
-    const params = _pick(req.body, ["notes"]);
+    const props = {
+      company: req.auth.companyId,
+      ...req.body,
+    };
 
-    const progressNote = await progressNoteService.createProgressNote(params);
+    const progressNote = await progressNoteService.createProgressNote(props);
 
     res.status(200).json(progressNote);
   }
 
   async updateProgressNote(req: Request, res: Response) {
     const { progressNoteId } = req.params;
-    const params = _pick(req.body, ["notes"]);
+    const props = {
+      id: progressNoteId,
+      company: req.auth.companyId,
+      ...req.body,
+    };
 
-    const progressNote = await progressNoteService.updateProgressNote(
-      progressNoteId,
-      params
-    );
+    const progressNote = await progressNoteService.updateProgressNote(props);
 
     res.status(200).json(progressNote);
   }
 
   async deleteProgressNote(req: Request, res: Response) {
     const { progressNoteId } = req.params;
+    const props = {
+      id: progressNoteId,
+      company: req.auth.companyId,
+    };
 
-    const progressNote = await progressNoteService.deleteProgressNote(
-      progressNoteId
-    );
+    await progressNoteService.deleteProgressNote(props);
 
-    res.status(200).json(progressNote);
+    res.status(204).json();
   }
 
   async getprogressNoteById(req: Request, res: Response) {
     const { progressNoteId } = req.params;
+    const props = {
+      id: progressNoteId,
+      company: req.auth.companyId,
+    };
 
-    const progressNote = await progressNoteService.getProgressNoteById(
-      progressNoteId
-    );
+    const progressNote = await progressNoteService.getProgressNoteById(props);
 
     res.status(200).json(progressNote);
   }
 
   async getProgressNotes(req: Request, res: Response) {
-    const queryParams = _pick(req.query, ["page", "pageSize", "sort"]) as any;
+    const queryParams = _pick(req.query, [
+      "page",
+      "pageSize",
+      "sort",
+      "where",
+    ]) as any;
+    const props = {
+      company: req.auth.companyId,
+      ...queryParams,
+    };
 
-    const progressNotes = await progressNoteService.getProgressNotes(
-      queryParams
-    );
+    const progressNotes = await progressNoteService.getProgressNotes(props);
 
     res.status(200).json(progressNotes);
   }

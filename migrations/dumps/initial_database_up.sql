@@ -74,7 +74,13 @@ CREATE TABLE IF NOT EXISTS "client_profiles" (
 -- 7. Create progress_notes table
 CREATE TABLE IF NOT EXISTS "progress_notes" (
     "id" UUID NOT NULL,
+    "date" DATE NOT NULL,
+    "shift_start_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "shift_end_time" TIME WITHOUT TIME ZONE NOT NULL,
     "notes" VARCHAR NOT NULL,
+    "diet_and_fluids" VARCHAR NOT NULL,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,

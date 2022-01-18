@@ -5,7 +5,6 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
 import { ProgressNote, CreateProgressNoteProps } from "./progressNote.types";
-import { Company } from "../company";
 
 class ProgressNoteModel<
     ModelAttributes = ProgressNote,
@@ -14,16 +13,40 @@ class ProgressNoteModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements ProgressNote
 {
+  date!: ProgressNote["date"];
+  shiftStartTime!: ProgressNote["shiftStartTime"];
+  shiftEndTime!: ProgressNote["shiftEndTime"];
   notes!: ProgressNote["notes"];
-  company!: Company["id"];
-  Company?: Company;
+  dietAndFluids!: ProgressNote["dietAndFluids"];
+  staff!: ProgressNote["staff"];
+  Staff: ProgressNote["Staff"];
+  client!: ProgressNote["client"];
+  Client: ProgressNote["Client"];
+  company!: ProgressNote["company"];
+  Company: ProgressNote["Company"];
 }
 
 modelManager.init(
   "ProgressNote",
   ProgressNoteModel,
   {
+    date: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    shiftStartTime: {
+      type: Sequelize.TIME,
+      allowNull: false,
+    },
+    shiftEndTime: {
+      type: Sequelize.TIME,
+      allowNull: false,
+    },
     notes: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    dietAndFluids: {
       type: Sequelize.STRING,
       allowNull: false,
     },
