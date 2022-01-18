@@ -13,6 +13,7 @@ import { bowelLogRoutes } from "../api/bowelLog";
 import { weightLogRoutes } from "../api/weightLog";
 import { sleepLogRoutes } from "../api/sleepLog";
 import { temperatureLogRoutes } from "../api/temperatureLog";
+import { oxygenSaturationLogRoutes } from "../api/oxygenSaturationLog";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -29,5 +30,6 @@ router.use("/bowel-log", bowelLogRoutes);
 router.use("/weight-log", weightLogRoutes);
 router.use("/sleep-log", sleepLogRoutes);
 router.use("/temperature-log", temperatureLogRoutes);
+router.use("/oxygen-saturation-log", oxygenSaturationLogRoutes);
 
 export default router;

@@ -1,3 +1,6 @@
+-- 15. DROP oxygen_saturation_logs table
+DROP TABLE IF EXISTS "oxygen_saturation_logs";
+
 -- 15. DROP weight_logs table
 DROP TABLE IF EXISTS "weight_logs";
 
