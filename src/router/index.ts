@@ -11,6 +11,7 @@ import { bloodGlucoseLogRoutes } from "../api/bloodGlucoseLog";
 import { bloodPressureLogRoutes } from "../api/bloodPressureLog";
 import { bowelLogRoutes } from "../api/bowelLog";
 import { sleepLogRoutes } from "../api/sleepLog";
+import { temperatureLogRoutes } from "../api/temperatureLog";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -25,5 +26,6 @@ router.use("/blood-glucose-log", bloodGlucoseLogRoutes);
 router.use("/blood-pressure-log", bloodPressureLogRoutes);
 router.use("/bowel-log", bowelLogRoutes);
 router.use("/sleep-log", sleepLogRoutes);
+router.use("/temperature-log", temperatureLogRoutes);
 
 export default router;
