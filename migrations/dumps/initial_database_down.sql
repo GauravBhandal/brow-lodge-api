@@ -1,3 +1,6 @@
+-- 9. Create blood_pressure_logs table
+DROP TABLE IF EXISTS "blood_pressure_logs";
+
 -- 9. Create blood_glucose_logs table
 DROP TABLE IF EXISTS "blood_glucose_logs";
 
