@@ -1,3 +1,9 @@
+-- 21. DROP transport_behaviours table
+DROP TABLE IF EXISTS "transport_behaviours";
+
+-- 20. DROP client_behaviours table
+DROP TABLE IF EXISTS "client_behaviours";
+
 -- 19. DROP prn_balance_logs table
 DROP TABLE IF EXISTS "prn_balance_logs";
 
