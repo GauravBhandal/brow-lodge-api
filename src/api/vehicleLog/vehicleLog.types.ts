@@ -6,12 +6,12 @@ import { QueryParams } from "../../common/types";
 
 export interface VehicleLog extends DefaultSchemaConfig {
   date: Date;
-  start_time: Date;
-  end_time: Date;
-  odometer_reading_start: Number;
-  odometer_reading_end: Number;
-  purpose_of_the_journey: string;
-  total_km: Number;
+  startTime: Date;
+  endTime: Date;
+  odometerReadingStart: Number;
+  odometerReadingEnd: Number;
+  purposeOfTheJourney: string;
+  totalKm: Number;
   vehicle: "private" | "company" | "other";
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
@@ -23,12 +23,12 @@ export interface VehicleLog extends DefaultSchemaConfig {
 
 export interface CreateVehicleLogProps {
   date: VehicleLog["date"];
-  start_time: VehicleLog["start_time"];
-  end_time: VehicleLog["end_time"];
-  odometer_reading_start: VehicleLog["odometer_reading_start"];
-  odometer_reading_end: VehicleLog["odometer_reading_end"];
-  purpose_of_the_journey: VehicleLog["purpose_of_the_journey"];
-  total_km: VehicleLog["total_km"];
+  startTime: VehicleLog["startTime"];
+  endTime: VehicleLog["endTime"];
+  odometerReadingStart: VehicleLog["odometerReadingStart"];
+  odometerReadingEnd: VehicleLog["odometerReadingEnd"];
+  purposeOfTheJourney: VehicleLog["purposeOfTheJourney"];
+  totalKm: VehicleLog["totalKm"];
   vehicle: VehicleLog["vehicle"];
   staff: VehicleLog["staff"];
   client: VehicleLog["client"];
