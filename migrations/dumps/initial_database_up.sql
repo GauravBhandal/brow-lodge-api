@@ -350,3 +350,24 @@ CREATE TABLE IF NOT EXISTS "injury_reports" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 25. Create enum_status type
+CREATE TYPE "enum_status" AS ENUM ('approved', 'pending','rejected');
+
+
+-- 26. Create expense_reimbursements table
+CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "total_cost" DOUBLE PRECISION NOT NULL,
+    "description" VARCHAR(255) NOT NULL,
+    "comments" VARCHAR(255) ,
+    "status" enum_status NOT NULL,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
