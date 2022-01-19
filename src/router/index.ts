@@ -17,6 +17,8 @@ import { prnAdminLogRoutes } from "../api/prnAdminLog";
 import { prnBalanceLogRoutes } from "../api/prnBalanceLog";
 import { oxygenSaturationLogRoutes } from "../api/oxygenSaturationLog";
 import { seizureLogRoutes } from "../api/seizureLog";
+import { clientBehaviourRoutes } from "../api/clientBehaviour";
+import { transportBehaviourRoutes } from "../api/transportBehaviour";
 import { vehicleLogRoutes } from "../api/vehicleLog";
 import { injuryReportRoutes } from "../api/injuryReport";
 
@@ -36,9 +38,11 @@ router.use("/weight-log", weightLogRoutes);
 router.use("/sleep-log", sleepLogRoutes);
 router.use("/temperature-log", temperatureLogRoutes);
 router.use("/prn-admin-log", prnAdminLogRoutes);
-router.use("/prn-Balance-log", prnBalanceLogRoutes);
+router.use("/prn-balance-log", prnBalanceLogRoutes);
 router.use("/oxygen-saturation-log", oxygenSaturationLogRoutes);
 router.use("/seizure-log", seizureLogRoutes);
+router.use("/client-behaviour", clientBehaviourRoutes);
+router.use("/transport-behaviour", transportBehaviourRoutes);
 router.use("/vehicle-log", vehicleLogRoutes);
 router.use("/injury-report", injuryReportRoutes);
 

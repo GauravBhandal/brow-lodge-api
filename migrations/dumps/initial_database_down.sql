@@ -1,11 +1,17 @@
--- 21. DROP injury_reports table
+-- 24. DROP injury_reports table
 DROP TABLE IF EXISTS "injury_reports";
 
--- 21. DROP vehicle_logs table
+-- 23. DROP vehicle_logs table
 DROP TABLE IF EXISTS "vehicle_logs";
 
--- 20. DROP enum_vehicle type
+-- 22. DROP enum_vehicle type
 DROP TYPE "enum_vehicle";
+
+-- 21. DROP transport_behaviours table
+DROP TABLE IF EXISTS "transport_behaviours";
+
+-- 20. DROP client_behaviours table
+DROP TABLE IF EXISTS "client_behaviours";
 
 -- 19. DROP prn_balance_logs table
 DROP TABLE IF EXISTS "prn_balance_logs";

@@ -258,7 +258,6 @@ CREATE TABLE IF NOT EXISTS "prn_admin_logs" (
     PRIMARY KEY ("id")
 );
 
-
 -- 19. Create prn_balance_logs table
 CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
     "id" UUID NOT NULL,
@@ -275,12 +274,49 @@ CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
     PRIMARY KEY ("id")
 );
 
+-- 20. Create client_behaviours table
+CREATE TABLE IF NOT EXISTS "client_behaviours" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "what_happened_before" VARCHAR NOT NULL,
+    "explain_behaviour" VARCHAR NOT NULL,
+    "actions_taken" VARCHAR NOT NULL,
+    "response_to_actions" VARCHAR NOT NULL,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
 
--- 20. Create enum_vehicle type
+-- 21. Create transport_behaviours table
+CREATE TABLE IF NOT EXISTS "transport_behaviours" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "purpose_of_the_journey" VARCHAR NOT NULL,
+    "explain_behaviour" VARCHAR NOT NULL,
+    "actions_taken" VARCHAR NOT NULL,
+    "response_to_actions" VARCHAR NOT NULL,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 22. Create enum_vehicle type
 CREATE TYPE "enum_vehicle" AS ENUM ('private', 'company','other');
 
 
--- 21. Create vehicle_logs table
+-- 23. Create vehicle_logs table
 CREATE TABLE IF NOT EXISTS "vehicle_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,

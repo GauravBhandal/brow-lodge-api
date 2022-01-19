@@ -14,12 +14,12 @@ class VehicleLogModel<
   implements VehicleLog
 {
   date!: VehicleLog["date"];
-  start_time!: VehicleLog["start_time"];
-  end_time!: VehicleLog["end_time"];
-  odometer_reading_start!: VehicleLog["odometer_reading_start"];
-  odometer_reading_end!: VehicleLog["odometer_reading_end"];
-  purpose_of_the_journey!: VehicleLog["purpose_of_the_journey"];
-  total_km!: VehicleLog["total_km"];
+  startTime!: VehicleLog["startTime"];
+  endTime!: VehicleLog["endTime"];
+  odometerReadingStart!: VehicleLog["odometerReadingStart"];
+  odometerReadingEnd!: VehicleLog["odometerReadingEnd"];
+  purposeOfTheJourney!: VehicleLog["purposeOfTheJourney"];
+  totalKm!: VehicleLog["totalKm"];
   vehicle!: VehicleLog["vehicle"];
   staff!: VehicleLog["staff"];
   Staff: VehicleLog["Staff"];
@@ -37,27 +37,27 @@ modelManager.init(
       type: Sequelize.DATE,
       allowNull: false,
     },
-    start_time: {
+    startTime: {
       type: Sequelize.DATE,
       allowNull: false,
     },
-    end_time: {
+    endTime: {
       type: Sequelize.DATE,
       allowNull: false,
     },
-    odometer_reading_start: {
+    odometerReadingStart: {
       type: Sequelize.BIGINT,
       allowNull: false,
     },
-    odometer_reading_end: {
+    odometerReadingEnd: {
       type: Sequelize.BIGINT,
       allowNull: false,
     },
-    purpose_of_the_journey: {
+    purposeOfTheJourney: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    total_km: {
+    totalKm: {
       type: Sequelize.NUMBER,
       allowNull: false,
     },
