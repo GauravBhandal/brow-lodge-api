@@ -1,3 +1,6 @@
+-- 29. DROP client_assets table
+DROP TABLE IF EXISTS "client_assets";
+
 -- 29. DROP doctor_visits table
 DROP TABLE IF EXISTS "doctor_visits";
 
