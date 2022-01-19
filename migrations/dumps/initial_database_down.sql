@@ -1,3 +1,6 @@
+-- 21. DROP injury_reports table
+DROP TABLE IF EXISTS "injury_reports";
+
 -- 21. DROP vehicle_logs table
 DROP TABLE IF EXISTS "vehicle_logs";
 
