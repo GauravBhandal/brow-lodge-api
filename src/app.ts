@@ -5,6 +5,7 @@ import config from "./config/environment";
 import router from "./router";
 import { handleErrorMiddleware } from "./components/errors";
 import modelsAssociations from "./components/sequelize/model.associations";
+import joiErrorMiddleware from "./components/joi/middleware";
 
 const express = Express();
 const app = configureExpress(express);
@@ -15,6 +16,7 @@ const port = config.PORT;
 
 app.use((config.URL_PREFIX || "") + "/", router);
 
+app.use(joiErrorMiddleware); // <--Always apply this before handleErrorMiddleware
 app.use(handleErrorMiddleware);
 
 app.listen(port, () => {
