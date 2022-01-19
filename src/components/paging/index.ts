@@ -1,4 +1,4 @@
-export const DEFAULT_PAGE_SIZE = 10;
+export const DEFAULT_PAGE_SIZE = 500; // TODO: Sending 500 records by default may cause issues
 export const DEFAULT_PAGE_NUMBER = 0;
 
 export const getPagingParams = (page: number, pageSize: number) => {
