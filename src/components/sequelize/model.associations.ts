@@ -15,6 +15,7 @@ import { SeizureLogModel } from "../../api/seizureLog";
 import { PrnAdminLogModel } from "../../api/prnAdminLog";
 import { PrnBalanceLogModel } from "../../api/prnBalanceLog";
 import { ClientBehaviourModel } from "../../api/clientBehaviour";
+import { TransportBehaviourModel } from "../../api/transportBehaviour";
 
 export default {
   initialize() {
@@ -35,6 +36,7 @@ export default {
     initializePrnAdminLogModelAssociations();
     initializePrnBalanceLogModelAssociations();
     initializeClientBehaviourModelAssociations();
+    initializeTransportBehaviourModelAssociations();
   },
 };
 
@@ -241,6 +243,20 @@ function initializeClientBehaviourModelAssociations() {
     as: "Staff",
   });
   ClientBehaviourModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeTransportBehaviourModelAssociations() {
+  TransportBehaviourModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TransportBehaviourModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  TransportBehaviourModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
