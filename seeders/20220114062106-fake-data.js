@@ -1278,9 +1278,41 @@ module.exports = {
       ],
       {}
     );
+
+    await queryInterface.bulkInsert(
+      "company_assets",
+      [
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          asset_name: "Company 1 asset",
+          location: "Company 1 type",
+          description: "Company 1 type",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          asset_name: "Company 2 asset",
+          location: "Company 2 type",
+          description: "Company 2 type",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface) => {
+    await queryInterface.bulkDelete("company_assets", null, {});
     await queryInterface.bulkDelete("client_assets", null, {});
     await queryInterface.bulkDelete("doctor_visits", null, {});
     await queryInterface.bulkDelete("expense_reimbursements", null, {});

@@ -21,6 +21,7 @@ import { InjuryReportModel } from "../../api/injuryReport";
 import { ExpenseReimbursementModel } from "../../api/expenseReimbursement";
 import { DoctorVisitModel } from "../../api/doctorVisit";
 import { ClientAssetModel } from "../../api/clientAsset";
+import { CompanyAssetModel } from "../../api/companyAsset";
 
 export default {
   initialize() {
@@ -47,6 +48,7 @@ export default {
     initializeExpenseReimbursementModelAssociations();
     initializeDoctorVisitModelAssociations();
     initializeClientAssetModelAssociations();
+    initializeCompanyAssetModelAssociations();
   },
 };
 
@@ -337,6 +339,20 @@ function initializeClientAssetModelAssociations() {
     as: "Staff",
   });
   ClientAssetModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeCompanyAssetModelAssociations() {
+  CompanyAssetModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  CompanyAssetModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  CompanyAssetModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
