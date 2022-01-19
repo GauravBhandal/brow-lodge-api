@@ -336,7 +336,7 @@ CREATE TABLE IF NOT EXISTS "vehicle_logs" (
     PRIMARY KEY ("id")
 );
 
--- 22. Create injury_reports table
+-- 24. Create injury_reports table
 CREATE TABLE IF NOT EXISTS "injury_reports" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
