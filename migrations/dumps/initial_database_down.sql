@@ -1,3 +1,9 @@
+-- 21. DROP vehicle_logs table
+DROP TABLE IF EXISTS "vehicle_logs";
+
+-- 20. DROP enum_vehicle type
+DROP TYPE "enum_vehicle";
+
 -- 19. DROP prn_balance_logs table
 DROP TABLE IF EXISTS "prn_balance_logs";
 

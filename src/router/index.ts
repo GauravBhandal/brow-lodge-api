@@ -17,6 +17,7 @@ import { prnAdminLogRoutes } from "../api/prnAdminLog";
 import { prnBalanceLogRoutes } from "../api/prnBalanceLog";
 import { oxygenSaturationLogRoutes } from "../api/oxygenSaturationLog";
 import { seizureLogRoutes } from "../api/seizureLog";
+import { vehicleLogRoutes } from "../api/vehicleLog";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -37,5 +38,6 @@ router.use("/prn-admin-log", prnAdminLogRoutes);
 router.use("/prn-Balance-log", prnBalanceLogRoutes);
 router.use("/oxygen-saturation-log", oxygenSaturationLogRoutes);
 router.use("/seizure-log", seizureLogRoutes);
+router.use("/vehicle-log", vehicleLogRoutes);
 
 export default router;

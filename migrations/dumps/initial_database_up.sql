@@ -274,3 +274,28 @@ CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+
+-- 20. Create enum_vehicle type
+CREATE TYPE "enum_vehicle" AS ENUM ('private', 'company','other');
+
+
+-- 21. Create vehicle_logs table
+CREATE TABLE IF NOT EXISTS "vehicle_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "odometer_reading_start" BIGINT NOT NULL,
+    "odometer_reading_end" BIGINT NOT NULL,
+    "purpose_of_the_journey" VARCHAR(255) NOT NULL,
+    "total_km" DOUBLE PRECISION NOT NULL,
+    "vehicle" enum_vehicle NOT NULL,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
