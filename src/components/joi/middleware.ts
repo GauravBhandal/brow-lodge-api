@@ -68,7 +68,7 @@ const joiExpressErrorMiddleware =
       if (responseCallback instanceof Function) {
         return responseCallback(err, req, res, next);
       }
-      res.status(400).send({ name, message });
+      res.status(400).send({ statusCode: 400, name, message });
     } else {
       next(err);
     }

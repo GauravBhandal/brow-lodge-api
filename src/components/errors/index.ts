@@ -11,12 +11,22 @@ class CustomError extends Error {
   }
 }
 
-const errorHandler = (err: any, res: Response) => {
-  const { statusCode, message } = err;
-  res.status(statusCode).json({
-    statusCode,
-    message,
-  });
+const sanitizeError = (error: any) => {
+  let { statusCode, message } = error;
+
+  if (error.name === "UnauthorizedError") {
+    statusCode = 401;
+  } else if (error.name === "SequelizeDatabaseError") {
+    statusCode = 400;
+    message = "DATABASE_VALIDATION_ERROR";
+  }
+
+  if (!statusCode) {
+    statusCode = 500;
+    message = "INTERNAL_SERVER_ERROR";
+  }
+
+  return { statusCode, message };
 };
 
 const handleErrorMiddleware = (
@@ -25,8 +35,13 @@ const handleErrorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("TODO: handleErrorMiddleware", err);
-  errorHandler(err, res);
+  const customErr = sanitizeError(err);
+  console.log("TODO: add error logger and sentry", err);
+  const { statusCode, message } = customErr;
+  res.status(statusCode).json({
+    statusCode,
+    message,
+  });
 };
 
 const catchWrap =
