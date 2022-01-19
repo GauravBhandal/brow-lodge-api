@@ -1145,9 +1145,39 @@ module.exports = {
       ],
       {}
     );
+
+    await queryInterface.bulkInsert(
+      "injury_logs",
+      [
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          time: new Date(),
+          description: "company 1",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          time: new Date(),
+          description: "company 2",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface) => {
+    await queryInterface.bulkDelete("injury_reports", null, {});
     await queryInterface.bulkDelete("vehicle_logs", null, {});
     await queryInterface.bulkDelete("transport_behaviours", null, {});
     await queryInterface.bulkDelete("client_behaviours", null, {});

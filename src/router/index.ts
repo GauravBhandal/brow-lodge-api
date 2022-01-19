@@ -20,6 +20,7 @@ import { seizureLogRoutes } from "../api/seizureLog";
 import { clientBehaviourRoutes } from "../api/clientBehaviour";
 import { transportBehaviourRoutes } from "../api/transportBehaviour";
 import { vehicleLogRoutes } from "../api/vehicleLog";
+import { injuryReportRoutes } from "../api/injuryReport";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -43,5 +44,6 @@ router.use("/seizure-log", seizureLogRoutes);
 router.use("/client-behaviour", clientBehaviourRoutes);
 router.use("/transport-behaviour", transportBehaviourRoutes);
 router.use("/vehicle-log", vehicleLogRoutes);
+router.use("/injury-report", injuryReportRoutes);
 
 export default router;

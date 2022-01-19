@@ -17,6 +17,7 @@ import { PrnBalanceLogModel } from "../../api/prnBalanceLog";
 import { ClientBehaviourModel } from "../../api/clientBehaviour";
 import { TransportBehaviourModel } from "../../api/transportBehaviour";
 import { VehicleLogModel } from "../../api/vehicleLog";
+import { InjuryReportModel } from "../../api/injuryReport";
 
 export default {
   initialize() {
@@ -39,6 +40,7 @@ export default {
     initializeClientBehaviourModelAssociations();
     initializeTransportBehaviourModelAssociations();
     initializeVehicleLogModelAssociations();
+    initializeInjuryReportModelAssociations();
   },
 };
 
@@ -273,6 +275,20 @@ function initializeVehicleLogModelAssociations() {
     as: "Staff",
   });
   VehicleLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeInjuryReportModelAssociations() {
+  InjuryReportModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  InjuryReportModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  InjuryReportModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
