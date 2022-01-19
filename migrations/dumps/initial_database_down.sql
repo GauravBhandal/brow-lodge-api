@@ -1,3 +1,12 @@
+-- 26. DROP expense_reimbursements table
+DROP TABLE IF EXISTS "expense_reimbursements";
+
+-- 25. DROP enum_status type
+DROP TYPE "enum_status";
+
+-- 24. DROP injury_reports table
+DROP TABLE IF EXISTS "injury_reports";
+
 -- 23. DROP vehicle_logs table
 DROP TABLE IF EXISTS "vehicle_logs";
 

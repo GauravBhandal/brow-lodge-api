@@ -17,6 +17,8 @@ import { PrnBalanceLogModel } from "../../api/prnBalanceLog";
 import { ClientBehaviourModel } from "../../api/clientBehaviour";
 import { TransportBehaviourModel } from "../../api/transportBehaviour";
 import { VehicleLogModel } from "../../api/vehicleLog";
+import { InjuryReportModel } from "../../api/injuryReport";
+import { ExpenseReimbursementModel } from "../../api/expenseReimbursement";
 
 export default {
   initialize() {
@@ -39,6 +41,8 @@ export default {
     initializeClientBehaviourModelAssociations();
     initializeTransportBehaviourModelAssociations();
     initializeVehicleLogModelAssociations();
+    initializeInjuryReportModelAssociations();
+    initializeExpenseReimbursementModelAssociations();
   },
 };
 
@@ -273,6 +277,34 @@ function initializeVehicleLogModelAssociations() {
     as: "Staff",
   });
   VehicleLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeInjuryReportModelAssociations() {
+  InjuryReportModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  InjuryReportModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  InjuryReportModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeExpenseReimbursementModelAssociations() {
+  ExpenseReimbursementModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ExpenseReimbursementModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ExpenseReimbursementModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
