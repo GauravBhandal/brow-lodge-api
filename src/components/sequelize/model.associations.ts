@@ -16,6 +16,7 @@ import { PrnAdminLogModel } from "../../api/prnAdminLog";
 import { PrnBalanceLogModel } from "../../api/prnBalanceLog";
 import { ClientBehaviourModel } from "../../api/clientBehaviour";
 import { TransportBehaviourModel } from "../../api/transportBehaviour";
+import { VehicleLogModel } from "../../api/vehicleLog";
 
 export default {
   initialize() {
@@ -37,6 +38,7 @@ export default {
     initializePrnBalanceLogModelAssociations();
     initializeClientBehaviourModelAssociations();
     initializeTransportBehaviourModelAssociations();
+    initializeVehicleLogModelAssociations();
   },
 };
 
@@ -257,6 +259,20 @@ function initializeTransportBehaviourModelAssociations() {
     as: "Staff",
   });
   TransportBehaviourModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeVehicleLogModelAssociations() {
+  VehicleLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  VehicleLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  VehicleLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
