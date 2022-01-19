@@ -14,6 +14,7 @@ import { OxygenSaturationLogModel } from "../../api/oxygenSaturationLog";
 import { SeizureLogModel } from "../../api/seizureLog";
 import { PrnAdminLogModel } from "../../api/prnAdminLog";
 import { PrnBalanceLogModel } from "../../api/prnBalanceLog";
+import { ClientBehaviourModel } from "../../api/clientBehaviour";
 
 export default {
   initialize() {
@@ -33,6 +34,7 @@ export default {
     initializeSeizureLogModelAssociations();
     initializePrnAdminLogModelAssociations();
     initializePrnBalanceLogModelAssociations();
+    initializeClientBehaviourModelAssociations();
   },
 };
 
@@ -225,6 +227,20 @@ function initializePrnBalanceLogModelAssociations() {
     as: "Staff",
   });
   PrnBalanceLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeClientBehaviourModelAssociations() {
+  ClientBehaviourModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ClientBehaviourModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ClientBehaviourModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
