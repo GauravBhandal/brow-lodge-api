@@ -351,9 +351,8 @@ CREATE TABLE IF NOT EXISTS "injury_reports" (
     PRIMARY KEY ("id")
 );
 
--- 25. Create enum_status type
-CREATE TYPE "enum_status" AS ENUM ('approved', 'pending','rejected');
-
+-- 25. Create enum_expense_reimbursement_status type
+CREATE TYPE "enum_expense_reimbursement_status" AS ENUM ('approved', 'pending','rejected');
 
 -- 26. Create expense_reimbursements table
 CREATE TABLE IF NOT EXISTS "expense_reimbursements" (

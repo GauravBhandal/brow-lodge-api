@@ -16,8 +16,8 @@ DROP TYPE "enum_health_practitioner";
 -- 26. DROP expense_reimbursements table
 DROP TABLE IF EXISTS "expense_reimbursements";
 
--- 25. DROP enum_status type
-DROP TYPE "enum_status";
+-- 25. DROP enum_expense_reimbursement_status type
+DROP TYPE "enum_expense_reimbursement_status";
 
 -- 24. DROP injury_reports table
 DROP TABLE IF EXISTS "injury_reports";
