@@ -310,10 +310,6 @@ function initializeExpenseReimbursementModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
-  ExpenseReimbursementModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
-    as: "Client",
-  });
 }
 
 function initializeDoctorVisitModelAssociations() {
