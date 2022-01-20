@@ -25,6 +25,7 @@ import { expenseReimbursementRoutes } from "../api/expenseReimbursement";
 import { doctorVisitRoutes } from "../api/doctorVisit";
 import { clientAssetRoutes } from "../api/clientAsset";
 import { companyAssetRoutes } from "../api/companyAsset";
+import { repairRequestRoutes } from "../api/repairRequest";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -53,5 +54,6 @@ router.use("/expense-reimbursement", expenseReimbursementRoutes);
 router.use("/doctor-visit", doctorVisitRoutes);
 router.use("/client-asset", clientAssetRoutes);
 router.use("/company-asset", companyAssetRoutes);
+router.use("/repair-request", repairRequestRoutes);
 
 export default router;

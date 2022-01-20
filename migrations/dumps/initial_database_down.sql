@@ -1,3 +1,12 @@
+-- 34. DROP repair_requests table
+DROP TABLE IF EXISTS "repair_requests";
+
+-- 33. DROP enum_repair_requests_priority type
+DROP TYPE "enum_repair_requests_priority";
+
+-- 32. DROP enum_repair_requests_status type
+DROP TYPE "enum_repair_requests_status";
+
 -- 31. DROP company_assets table
 DROP TABLE IF EXISTS "company_assets";
 

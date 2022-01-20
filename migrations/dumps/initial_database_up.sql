@@ -427,3 +427,25 @@ CREATE TABLE IF NOT EXISTS "company_assets" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 32. Create enum_repair_requests_priority type
+CREATE TYPE "enum_repair_requests_priority" AS ENUM ('low', 'medium','high');
+
+-- 33. Create enum_repair_requests_status type
+CREATE TYPE "enum_repair_requests_status" AS ENUM ('completed', 'pending','rejected','scheduled');
+
+-- 34. Create repair_requests table
+CREATE TABLE IF NOT EXISTS "repair_requests" (
+    "id" UUID NOT NULL,
+    "problem" VARCHAR NOT NULL,
+    "risk" VARCHAR NOT NULL,
+    "location" VARCHAR(255) NOT NULL ,
+    "priority" enum_repair_requests_priority NOT NULL,
+    "status" enum_repair_requests_status NOT NULL,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
