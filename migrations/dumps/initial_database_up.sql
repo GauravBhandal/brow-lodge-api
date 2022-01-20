@@ -361,7 +361,7 @@ CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
     "total_cost" DOUBLE PRECISION NOT NULL,
     "description" VARCHAR(255) NOT NULL,
     "comments" VARCHAR(255) ,
-    "status" enum_status NOT NULL,
+    "status" enum_expense_reimbursement_status NOT NULL,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
