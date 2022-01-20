@@ -1308,9 +1308,41 @@ module.exports = {
       ],
       {}
     );
+
+    await queryInterface.bulkInsert(
+      "repair_requests",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          problem: "company 1 problem",
+          risk: "company 1 risk",
+          location: "Seaton",
+          repair_requests_priority: "high",
+          repair_requests_status: "pending",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          problem: "company 2 problem",
+          risk: "company 2 risk",
+          location: "fulham",
+          repair_requests_priority: "low",
+          repair_requests_status: "completed",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface) => {
+    await queryInterface.bulkDelete("repair_requests", null, {});
     await queryInterface.bulkDelete("company_assets", null, {});
     await queryInterface.bulkDelete("client_assets", null, {});
     await queryInterface.bulkDelete("doctor_visits", null, {});
