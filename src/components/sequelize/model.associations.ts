@@ -364,8 +364,4 @@ function initializeRepairRequestModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
-  RepairRequestModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
-    as: "Client",
-  });
 }
