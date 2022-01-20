@@ -9,5 +9,6 @@ export default jwtMiddleware({
   path: [
     `${config.URL_PREFIX}/user/login`,
     `${config.URL_PREFIX}/user/register`,
+    `${config.URL_PREFIX}/user/forgot-password`,
   ],
 });

@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS "users" (
     "last_name" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL UNIQUE,
     "password" VARCHAR(255) NOT NULL,
+    "reset_password_token" VARCHAR(255),
     "blocked" BOOLEAN NOT NULL DEFAULT FALSE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,

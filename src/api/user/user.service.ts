@@ -7,6 +7,7 @@ import {
   MeProps,
   LoginUserProps,
   RegisterUserProps,
+  ForgotPasswordProps,
   CreateUserProps,
   UpdateUserProps,
   DeleteUserProps,
@@ -127,6 +128,36 @@ class UserService {
     });
 
     return user;
+  }
+
+  async forgotPassword(props: ForgotPasswordProps) {
+    // Check if user exist
+    const existingUser = await UserModel.findOne({
+      where: { email: props.email },
+    });
+
+    // if user not found, throw an error
+    if (!existingUser) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    // Create new password reset token
+
+    // Update the user and assign the new password reset token
+    const [, [updatedUser]] = await UserModel.update(
+      {
+        resetPasswordToken: "abc",
+      },
+      {
+        where: { id: existingUser.id },
+        returning: true,
+      }
+    );
+
+    // Send password reset email to the user
+    const passwordResetUrl = `BASE_URL?token=${updatedUser.resetPasswordToken}&userId=${updatedUser.id}`;
+
+    return { ok: true };
   }
 
   async createUser(props: CreateUserProps) {

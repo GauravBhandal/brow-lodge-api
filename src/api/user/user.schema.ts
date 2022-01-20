@@ -20,6 +20,12 @@ const registerUserSchema = wrapSchema({
   }),
 });
 
+const forgotPasswordSchema = wrapSchema({
+  body: Joi.object().keys({
+    email: Joi.string().required(),
+  }),
+});
+
 const createUserSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
@@ -71,6 +77,7 @@ const getUserSchema = wrapSchema({
 export default {
   loginUser: joiMiddleware(loginUserSchema),
   registerUser: joiMiddleware(registerUserSchema),
+  forgotPassword: joiMiddleware(forgotPasswordSchema),
   createUser: joiMiddleware(createUserSchema),
   editUser: joiMiddleware(editUserSchema),
   deleteUser: joiMiddleware(deleteUserSchema),
