@@ -7,8 +7,8 @@ export interface RepairRequest extends DefaultSchemaConfig {
   problem: string;
   risk: string;
   location: string;
-  repairRequestsPriority: "low" | "medium" | "high";
-  repairRequestsStatus: "completed" | "pending" | "rejected" | "scheduled";
+  priority: "low" | "medium" | "high";
+  status: "completed" | "pending" | "rejected" | "scheduled";
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
   company: Company["id"];
@@ -19,8 +19,8 @@ export interface CreateRepairRequestProps {
   problem: RepairRequest["problem"];
   risk: RepairRequest["risk"];
   location: RepairRequest["location"];
-  repairRequestsPriority: RepairRequest["repairRequestsPriority"];
-  repairRequestsStatus: RepairRequest["repairRequestsStatus"];
+  priority: RepairRequest["priority"];
+  status: RepairRequest["status"];
   staff: RepairRequest["staff"];
   company: RepairRequest["company"];
 }

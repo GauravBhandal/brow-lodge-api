@@ -16,8 +16,8 @@ class RepairRequestModel<
   problem!: RepairRequest["problem"];
   risk!: RepairRequest["risk"];
   location!: RepairRequest["location"];
-  repairRequestsPriority!: RepairRequest["repairRequestsPriority"];
-  repairRequestsStatus!: RepairRequest["repairRequestsStatus"];
+  priority!: RepairRequest["priority"];
+  status!: RepairRequest["status"];
   staff!: RepairRequest["staff"];
   Staff: RepairRequest["Staff"];
   company!: RepairRequest["company"];
@@ -40,11 +40,11 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    repairRequestsPriority: {
+    priority: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    repairRequestsStatus: {
+    status: {
       type: Sequelize.STRING,
       allowNull: false,
     },
