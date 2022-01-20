@@ -24,6 +24,7 @@ import { ClientAssetModel } from "../../api/clientAsset";
 import { CompanyAssetModel } from "../../api/companyAsset";
 import { RepairRequestModel } from "../../api/repairRequest";
 import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
+import { CorporateRiskModel } from "../../api/corporateRisk";
 
 export default {
   initialize() {
@@ -53,6 +54,7 @@ export default {
     initializeCompanyAssetModelAssociations();
     initializeRepairRequestModelAssociations();
     initializeConflictOfInterestModelAssociations();
+    initializeCorporateRiskModelAssociations();
   },
 };
 
@@ -373,10 +375,20 @@ function initializeRepairRequestModelAssociations() {
 }
 
 function initializeConflictOfInterestModelAssociations() {
-  RepairRequestModel.belongsTo(CompanyModel, {
+  ConflictOfInterestModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
-  RepairRequestModel.belongsTo(StaffProfileModel, {
+  ConflictOfInterestModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+}
+
+function initializeCorporateRiskModelAssociations() {
+  CorporateRiskModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  CorporateRiskModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
