@@ -348,8 +348,4 @@ function initializeCompanyAssetModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
-  CompanyAssetModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
-    as: "Client",
-  });
 }

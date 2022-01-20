@@ -14,7 +14,6 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
-import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
 
 class CompanyAssetService {
@@ -81,10 +80,6 @@ class CompanyAssetService {
           model: StaffProfileModel,
           as: "Staff",
         },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
       ],
     });
 
@@ -128,10 +123,6 @@ class CompanyAssetService {
         {
           model: StaffProfileModel,
           as: "Staff",
-        },
-        {
-          model: ClientProfileModel,
-          as: "Client",
         },
       ],
     });

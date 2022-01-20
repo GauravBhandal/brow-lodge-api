@@ -1,7 +1,6 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
-import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
 
 export interface CompanyAsset extends DefaultSchemaConfig {
@@ -11,8 +10,6 @@ export interface CompanyAsset extends DefaultSchemaConfig {
   description?: string;
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
-  client: ClientProfile["id"];
-  Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
 }
@@ -23,7 +20,6 @@ export interface CreateCompanyAssetProps {
   location: CompanyAsset["location"];
   description: CompanyAsset["description"];
   staff: CompanyAsset["staff"];
-  client: CompanyAsset["client"];
   company: CompanyAsset["company"];
 }
 
