@@ -4,7 +4,7 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { CompanyAsset, CreateCompanyAssetProps } from "./clientAsset.types";
+import { CompanyAsset, CreateCompanyAssetProps } from "./companyAsset.types";
 
 class CompanyAssetModel<
     ModelAttributes = CompanyAsset,

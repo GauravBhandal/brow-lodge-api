@@ -49,9 +49,9 @@ router.use("/client-behaviour", clientBehaviourRoutes);
 router.use("/transport-behaviour", transportBehaviourRoutes);
 router.use("/vehicle-log", vehicleLogRoutes);
 router.use("/injury-report", injuryReportRoutes);
-router.use("/expense-reimbursements", expenseReimbursementRoutes);
-router.use("/doctor-visits", doctorVisitRoutes);
-router.use("/client-assets", clientAssetRoutes);
-router.use("/company-assets", companyAssetRoutes);
+router.use("/expense-reimbursement", expenseReimbursementRoutes);
+router.use("/doctor-visit", doctorVisitRoutes);
+router.use("/client-asset", clientAssetRoutes);
+router.use("/company-asset", companyAssetRoutes);
 
 export default router;

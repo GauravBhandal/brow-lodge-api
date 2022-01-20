@@ -379,7 +379,7 @@ CREATE TYPE "enum_health_practitioner" AS ENUM ('behaviourTherapist', 'continenc
 CREATE TYPE "enum_appointment_type" AS ENUM ('inPerson', 'online','overThePhone');
 
 -- 29. Create doctor_visits table
-CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
+CREATE TABLE IF NOT EXISTS "doctor_visits" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
     "time" TIMESTAMP WITH TIME ZONE NOT NULL,
