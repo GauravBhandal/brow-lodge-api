@@ -26,6 +26,7 @@ import { doctorVisitRoutes } from "../api/doctorVisit";
 import { clientAssetRoutes } from "../api/clientAsset";
 import { companyAssetRoutes } from "../api/companyAsset";
 import { repairRequestRoutes } from "../api/repairRequest";
+import { conflictOfInterestRoutes } from "../api/conflictOfInterest";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -55,5 +56,6 @@ router.use("/doctor-visit", doctorVisitRoutes);
 router.use("/client-asset", clientAssetRoutes);
 router.use("/company-asset", companyAssetRoutes);
 router.use("/repair-request", repairRequestRoutes);
+router.use("/conflict-of-interest", conflictOfInterestRoutes);
 
 export default router;

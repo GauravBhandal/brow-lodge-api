@@ -1,3 +1,6 @@
+-- 35. DROP conflict_of_interests table
+DROP TABLE IF EXISTS "conflict_of_interests";
+
 -- 34. DROP repair_requests table
 DROP TABLE IF EXISTS "repair_requests";
 
