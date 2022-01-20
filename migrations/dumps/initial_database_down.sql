@@ -1,3 +1,18 @@
+-- 31. DROP company_assets table
+DROP TABLE IF EXISTS "company_assets";
+
+-- 30. DROP client_assets table
+DROP TABLE IF EXISTS "client_assets";
+
+-- 29. DROP doctor_visits table
+DROP TABLE IF EXISTS "doctor_visits";
+
+-- 28. DROP enum_appointment_type type
+DROP TYPE "enum_appointment_type";
+
+-- 27. DROP enum_health_practitioner type
+DROP TYPE "enum_health_practitioner";
+
 -- 26. DROP expense_reimbursements table
 DROP TABLE IF EXISTS "expense_reimbursements";
 

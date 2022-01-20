@@ -371,3 +371,62 @@ CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 27. Create enum_health_practitioner type
+CREATE TYPE "enum_health_practitioner" AS ENUM ('behaviourTherapist', 'continence','dentist', 'dietician','doctor','nurse','occupationalTherapist','physiotherapist','podiatrist','psychologist','speechPathologist','other');
+
+-- 28. Create enum_appointment_type type
+CREATE TYPE "enum_appointment_type" AS ENUM ('inPerson', 'online','overThePhone');
+
+-- 29. Create doctor_visits table
+CREATE TABLE IF NOT EXISTS "doctor_visits" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "doctor_name" VARCHAR(255) NOT NULL,
+    "health_practitioner" enum_health_practitioner NOT NULL,
+    "reason_for_visit" VARCHAR(255) NOT NULL ,
+    "doctor_instructions" VARCHAR(255) NOT NULL ,
+    "location" VARCHAR(255) ,
+    "appointment_type" enum_appointment_type ,
+    "next_appointment_date" TIMESTAMP WITH TIME ZONE,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 30. Create client_assets table
+CREATE TABLE IF NOT EXISTS "client_assets" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "asset_name" VARCHAR(255) NOT NULL,
+    "location" VARCHAR(255) NOT NULL,
+    "description" VARCHAR(255) ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 31. Create company_assets table
+CREATE TABLE IF NOT EXISTS "company_assets" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "asset_name" VARCHAR(255) NOT NULL,
+    "location" VARCHAR(255) NOT NULL,
+    "description" VARCHAR(255) ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

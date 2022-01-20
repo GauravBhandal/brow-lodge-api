@@ -45,7 +45,7 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    Comment: {
+    comments: {
       type: Sequelize.STRING,
     },
     status: {
