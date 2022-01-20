@@ -490,3 +490,19 @@ CREATE TABLE IF NOT EXISTS "corporate_risks" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 40. Create who_logs table
+CREATE TABLE IF NOT EXISTS "who_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "category" VARCHAR(255) NOT NULL,
+    "location" VARCHAR(255) ,
+    "next_review_date" TIMESTAMP WITH TIME ZONE,
+    "comments" VARCHAR ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

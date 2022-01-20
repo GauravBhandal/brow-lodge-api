@@ -1,3 +1,6 @@
+-- 40. DROP who_logs table
+DROP TABLE IF EXISTS "who_logs";
+
 -- 39. DROP corporate_risks table
 DROP TABLE IF EXISTS "corporate_risks";
 
