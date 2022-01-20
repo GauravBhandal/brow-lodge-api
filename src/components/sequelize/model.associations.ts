@@ -23,6 +23,8 @@ import { DoctorVisitModel } from "../../api/doctorVisit";
 import { ClientAssetModel } from "../../api/clientAsset";
 import { CompanyAssetModel } from "../../api/companyAsset";
 import { RepairRequestModel } from "../../api/repairRequest";
+import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
+import { CorporateRiskModel } from "../../api/corporateRisk";
 
 export default {
   initialize() {
@@ -51,6 +53,8 @@ export default {
     initializeClientAssetModelAssociations();
     initializeCompanyAssetModelAssociations();
     initializeRepairRequestModelAssociations();
+    initializeConflictOfInterestModelAssociations();
+    initializeCorporateRiskModelAssociations();
   },
 };
 
@@ -357,6 +361,26 @@ function initializeRepairRequestModelAssociations() {
     foreignKey: { name: "company", allowNull: false },
   });
   RepairRequestModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+}
+
+function initializeConflictOfInterestModelAssociations() {
+  ConflictOfInterestModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ConflictOfInterestModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+}
+
+function initializeCorporateRiskModelAssociations() {
+  CorporateRiskModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  CorporateRiskModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });

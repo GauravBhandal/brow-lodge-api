@@ -449,3 +449,44 @@ CREATE TABLE IF NOT EXISTS "repair_requests" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 35. Create conflict_of_interests table
+CREATE TABLE IF NOT EXISTS "conflict_of_interests" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "conflict_description" VARCHAR(255) NOT NULL,
+    "mitigation_strategy" VARCHAR(255) NOT NULL ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 36. Create enum_corporate_risks_level_of_risk type
+CREATE TYPE "enum_corporate_risks_level_of_risk" AS ENUM ('low', 'medium','high');
+
+-- 37. Create enum_corporate_risks_likelihood type
+CREATE TYPE "enum_corporate_risks_likelihood" AS ENUM ('rare', 'unlikely','possible','likely','almostCertain');
+
+-- 38. Create enum_corporate_risks_consequences type
+CREATE TYPE "enum_corporate_risks_consequences" AS ENUM ('minimal', 'minor','moderate','significant','severe');
+
+-- 39. Create corporate_risks table
+CREATE TABLE IF NOT EXISTS "corporate_risks" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "level_of_risk" enum_corporate_risks_level_of_risk NOT NULL,
+    "likelihood" enum_corporate_risks_likelihood NOT NULL,
+    "consequences" enum_corporate_risks_consequences NOT NULL,
+    "risk_description" VARCHAR(255) NOT NULL,
+    "mitigation_strategy" VARCHAR(255) NOT NULL ,
+    "monitoring_strategy" VARCHAR(255) NOT NULL ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
