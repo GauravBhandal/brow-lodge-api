@@ -103,8 +103,8 @@ CREATE TABLE IF NOT EXISTS "users_roles" (
 -- 9. Create blood_glucose_logs table
 CREATE TABLE IF NOT EXISTS "blood_glucose_logs" (
     "id" UUID NOT NULL,
-    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "date" DATE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "reading" DOUBLE PRECISION NOT NULL,
     "comments" VARCHAR,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
