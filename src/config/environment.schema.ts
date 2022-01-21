@@ -13,6 +13,11 @@ const environmentSchema = Joi.object().keys({
 
   TOKEN_KEY: Joi.string().required(),
   TOKEN_EXPIRY: Joi.string().required(),
+
+  AWS_S3_BUCKET_NAME: Joi.string().required(),
+  AWS_S3_BUCKET_REGION: Joi.string().required(),
+  AWS_ACCESS_KEY: Joi.string().required(),
+  AWS_SECRET_KEY: Joi.string().required(),
 });
 
 export default environmentSchema;

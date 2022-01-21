@@ -1,0 +1,68 @@
+import { omit as _omit } from "lodash";
+
+import DocumentLogModel from "./documentLog.model";
+import {
+  CreateDocumentLogProps,
+  DeleteDocumentLogProps,
+  GetDocumentLogByIdProps,
+} from "./documentLog.types";
+import { CustomError } from "../../components/errors";
+import DocumentLogErrorCode from "./documentLog.error";
+import { uploadFile } from "../../components/s3";
+import { removeFileFromLocal } from "../../components/upload";
+
+class DocumentLogService {
+  async createDocumentLog(props: CreateDocumentLogProps) {
+    const { file } = props;
+
+    // if documentLog has been deleted, throw an error
+    if (!file) {
+      throw new CustomError(500, "FAILED_TO_UPLOAD");
+    }
+
+    // upload file to S3
+    const uploadedFile = await uploadFile(file);
+
+    // delete file frim local server
+    await removeFileFromLocal(file.path);
+
+    // const documentLog = await DocumentLogModel.create(props);
+    return { ok: true };
+  }
+
+  async deleteDocumentLog(props: DeleteDocumentLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the documentLog by id and company
+    const documentLog = await DocumentLogModel.destroy({
+      where: { id, company },
+    });
+
+    // if documentLog has been deleted, throw an error
+    if (!documentLog) {
+      throw new CustomError(404, DocumentLogErrorCode.DOCUMENT_LOG_NOT_FOUND);
+    }
+
+    return documentLog;
+  }
+
+  async getDocumentLogById(props: GetDocumentLogByIdProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find  the documentLog by id and company
+    const documentLog = await DocumentLogModel.findOne({
+      where: { id, company },
+    });
+
+    // If no documentLog has been found, then throw an error
+    if (!documentLog) {
+      throw new CustomError(404, DocumentLogErrorCode.DOCUMENT_LOG_NOT_FOUND);
+    }
+
+    return documentLog;
+  }
+}
+
+export default new DocumentLogService();

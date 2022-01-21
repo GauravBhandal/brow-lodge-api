@@ -1,3 +1,6 @@
+-- 35. DROP document_logs table
+DROP TABLE IF EXISTS "document_logs";
+
 -- 34. DROP repair_requests table
 DROP TABLE IF EXISTS "repair_requests";
 

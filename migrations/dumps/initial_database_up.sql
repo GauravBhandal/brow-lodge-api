@@ -451,3 +451,14 @@ CREATE TABLE IF NOT EXISTS "repair_requests" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 35. Create document_logs table
+CREATE TABLE IF NOT EXISTS "document_logs" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
