@@ -1,3 +1,15 @@
+-- 43. DROP client_risks table
+DROP TABLE IF EXISTS "client_risks";
+
+-- 42. DROP enum_client_risks_consequences type
+DROP TYPE "enum_client_risks_consequences";
+
+-- 41. DROP enum_client_risks_likelihood type
+DROP TYPE "enum_client_risks_likelihood";
+
+-- 40. DROP enum_client_risks_level_of_risk type
+DROP TYPE "enum_client_risks_level_of_risk";
+
 -- 39. DROP corporate_risks table
 DROP TABLE IF EXISTS "corporate_risks";
 

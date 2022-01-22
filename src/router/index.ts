@@ -28,6 +28,7 @@ import { companyAssetRoutes } from "../api/companyAsset";
 import { repairRequestRoutes } from "../api/repairRequest";
 import { conflictOfInterestRoutes } from "../api/conflictOfInterest";
 import { corporateRiskRoutes } from "../api/corporateRisk";
+import { clientRiskRoutes } from "../api/clientRisk";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -59,5 +60,6 @@ router.use("/company-asset", companyAssetRoutes);
 router.use("/repair-request", repairRequestRoutes);
 router.use("/conflict-of-interest", conflictOfInterestRoutes);
 router.use("/corporate-risk", corporateRiskRoutes);
+router.use("/client-risk", clientRiskRoutes);
 
 export default router;

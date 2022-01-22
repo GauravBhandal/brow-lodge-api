@@ -490,3 +490,31 @@ CREATE TABLE IF NOT EXISTS "corporate_risks" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 40. Create enum_client_risks_level_of_risk type
+CREATE TYPE "enum_client_risks_level_of_risk" AS ENUM ('low', 'medium','high');
+
+-- 41. Create enum_client_risks_likelihood type
+CREATE TYPE "enum_client_risks_likelihood" AS ENUM ('rare', 'unlikely','possible','likely','almostCertain');
+
+-- 42. Create enum_client_risks_consequences type
+CREATE TYPE "enum_client_risks_consequences" AS ENUM ('minimal', 'minor','moderate','significant','severe');
+
+-- 43. Create client_risks table
+CREATE TABLE IF NOT EXISTS "client_risks" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "level_of_risk" enum_client_risks_level_of_risk NOT NULL,
+    "likelihood" enum_client_risks_likelihood NOT NULL,
+    "consequences" enum_client_risks_consequences NOT NULL,
+    "risk_description" VARCHAR NOT NULL,
+    "mitigation_strategy" VARCHAR NOT NULL ,
+    "monitoring_strategy" VARCHAR NOT NULL ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
