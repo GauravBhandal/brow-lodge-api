@@ -26,7 +26,7 @@ class MeetingLogModel<
   action!: MeetingLog["action"];
   staff!: MeetingLog["staff"];
   Staff: MeetingLog["Staff"];
-  client!: MeetingLog["client"];
+  client: MeetingLog["client"];
   Client: MeetingLog["Client"];
   company!: MeetingLog["company"];
   Company: MeetingLog["Company"];

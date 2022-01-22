@@ -18,7 +18,7 @@ export interface MeetingLog extends DefaultSchemaConfig {
   action: string;
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
-  client: ClientProfile["id"];
+  client?: ClientProfile["id"];
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;

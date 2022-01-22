@@ -517,7 +517,7 @@ CREATE TABLE IF NOT EXISTS "meeting_logs" (
     "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
     "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
     "meeting_type" enum_meeting_type NOT NULL,
-    "location" VARCHAR(255) NOT NULL, ,
+    "location" VARCHAR(255) NOT NULL,
     "purpose" VARCHAR NOT NULL, 
     "attendees" VARCHAR  NOT NULL,
     "apologies" VARCHAR NOT NULL,

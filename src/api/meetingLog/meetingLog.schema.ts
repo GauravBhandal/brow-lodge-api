@@ -8,7 +8,7 @@ const createMeetingLogSchema = wrapSchema({
     date: Joi.date().required(),
     startTime: Joi.date().required(),
     endTime: Joi.date().required(),
-    meetingType: Joi.string().required(),
+    meetingType: Joi.string().required(), // TODO: Add one off
     location: Joi.string().required(),
     purpose: Joi.string().required(),
     attendees: Joi.string().required(),
@@ -27,7 +27,7 @@ const editMeetingLogSchema = wrapSchema({
     date: Joi.date().required(),
     startTime: Joi.date().required(),
     endTime: Joi.date().required(),
-    meetingType: Joi.string().required(),
+    meetingType: Joi.string().required(), // TODO: Add one off
     location: Joi.string().required(),
     purpose: Joi.string().required(),
     attendees: Joi.string().required(),

@@ -1411,7 +1411,6 @@ module.exports = {
           next_review_date: new Date(),
           comments: "company 1",
           staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
-
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
           updated: new Date(),
