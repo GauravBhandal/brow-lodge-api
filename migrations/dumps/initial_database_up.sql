@@ -490,3 +490,45 @@ CREATE TABLE IF NOT EXISTS "corporate_risks" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 40. Create who_logs table
+CREATE TABLE IF NOT EXISTS "who_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "category" VARCHAR(255) NOT NULL,
+    "location" VARCHAR(255) ,
+    "next_review_date" TIMESTAMP WITH TIME ZONE,
+    "comments" VARCHAR ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 41. Create enum_meeting_type type
+CREATE TYPE "enum_meeting_type" AS ENUM ('clientMeeting', 'staffMeeting','externalMeeting','adminMeeting');
+
+-- 42. Create meeting_logs table
+CREATE TABLE IF NOT EXISTS "meeting_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "meeting_type" enum_meeting_type NOT NULL,
+    "location" VARCHAR(255) NOT NULL,
+    "purpose" VARCHAR NOT NULL, 
+    "attendees" VARCHAR  NOT NULL,
+    "apologies" VARCHAR NOT NULL,
+    "agenda" VARCHAR NOT NULL,
+    "discussion" VARCHAR NOT NULL, 
+    "action" VARCHAR NOT NULL, 
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

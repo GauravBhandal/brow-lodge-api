@@ -1,3 +1,12 @@
+-- 42. DROP meeting_logs table
+DROP TABLE IF EXISTS "meeting_logs";
+
+-- 41. DROP enum_meeting_type type
+DROP TYPE "enum_meeting_type";
+
+-- 40. DROP who_logs table
+DROP TABLE IF EXISTS "who_logs";
+
 -- 39. DROP corporate_risks table
 DROP TABLE IF EXISTS "corporate_risks";
 
