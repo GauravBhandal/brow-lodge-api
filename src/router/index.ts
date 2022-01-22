@@ -30,6 +30,8 @@ import { conflictOfInterestRoutes } from "../api/conflictOfInterest";
 import { corporateRiskRoutes } from "../api/corporateRisk";
 import { whoLogRoutes } from "../api/whoLog";
 import { meetingLogRoutes } from "../api/meetingLog";
+import { clientRiskRoutes } from "../api/clientRisk";
+import { staffSleepDisturbanceRoutes } from "../api/staffSleepDisturbance";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -63,5 +65,7 @@ router.use("/conflict-of-interest", conflictOfInterestRoutes);
 router.use("/corporate-risk", corporateRiskRoutes);
 router.use("/who-log", whoLogRoutes);
 router.use("/meeting-log", meetingLogRoutes);
+router.use("/client-risk", clientRiskRoutes);
+router.use("/staff-sleep-disturbance", staffSleepDisturbanceRoutes);
 
 export default router;

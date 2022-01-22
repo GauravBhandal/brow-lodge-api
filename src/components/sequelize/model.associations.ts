@@ -27,6 +27,8 @@ import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
 import { CorporateRiskModel } from "../../api/corporateRisk";
 import { WhoLogModel } from "../../api/whoLog";
 import { MeetingLogModel } from "../../api/meetingLog";
+import { ClientRiskModel } from "../../api/clientRisk";
+import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 
 export default {
   initialize() {
@@ -59,6 +61,8 @@ export default {
     initializeCorporateRiskModelAssociations();
     initializewhoLogModelAssociations();
     initializeMeetingLogModelAssociations();
+    initializeClientRiskModelAssociations();
+    initializeStaffSleepDisturbanceModelAssociations();
   },
 };
 
@@ -409,6 +413,34 @@ function initializeMeetingLogModelAssociations() {
     as: "Staff",
   });
   MeetingLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeClientRiskModelAssociations() {
+  ClientRiskModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ClientRiskModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ClientRiskModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeStaffSleepDisturbanceModelAssociations() {
+  StaffSleepDisturbanceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  StaffSleepDisturbanceModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  StaffSleepDisturbanceModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });

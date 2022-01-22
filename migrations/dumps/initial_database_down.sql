@@ -1,3 +1,18 @@
+-- 47. DROP staff_sleep_disturbances table
+DROP TABLE IF EXISTS "staff_sleep_disturbances";
+
+-- 46. DROP client_risks table
+DROP TABLE IF EXISTS "client_risks";
+
+-- 45. DROP enum_client_risks_consequences type
+DROP TYPE "enum_client_risks_consequences";
+
+-- 44. DROP enum_client_risks_likelihood type
+DROP TYPE "enum_client_risks_likelihood";
+
+-- 43. DROP enum_client_risks_level_of_risk type
+DROP TYPE "enum_client_risks_level_of_risk";
+
 -- 42. DROP meeting_logs table
 DROP TABLE IF EXISTS "meeting_logs";
 
