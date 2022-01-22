@@ -1554,7 +1554,7 @@ module.exports = {
         {
           id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
           date: new Date(),
-          collection_type: JSON.stringify(collection_type),
+          collection_types: JSON.stringify({}),
           type: "link",
           title: "title 1",
           text: "text 1",
@@ -1567,7 +1567,7 @@ module.exports = {
         {
           id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
           date: new Date(),
-          collection_type: JSON.stringify(collection_type),
+          collection_types: JSON.stringify({}),
           type: "link",
           title: "title 2",
           text: "text 2",
