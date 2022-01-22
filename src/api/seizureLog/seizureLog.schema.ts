@@ -1,13 +1,17 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createSeizureLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    startTime: Joi.date().required(),
-    endTime: Joi.date().required(),
+    startTime: requiredTimeSchema(),
+    endTime: requiredTimeSchema(),
     seizure: Joi.string().required(),
     recovery: Joi.string().required(),
     comments: Joi.string().required().allow(""),
@@ -20,8 +24,8 @@ const editSeizureLogSchema = wrapSchema({
   params: Joi.object().keys({ seizureLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    startTime: Joi.date().required(),
-    endTime: Joi.date().required(),
+    startTime: requiredTimeSchema(),
+    endTime: requiredTimeSchema(),
     seizure: Joi.string().required(),
     recovery: Joi.string().required(),
     comments: Joi.string().required().allow(""),

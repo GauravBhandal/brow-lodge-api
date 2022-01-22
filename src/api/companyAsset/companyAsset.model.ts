@@ -19,8 +19,6 @@ class CompanyAssetModel<
   description: CompanyAsset["description"];
   staff!: CompanyAsset["staff"];
   Staff: CompanyAsset["Staff"];
-  client!: CompanyAsset["client"];
-  Client: CompanyAsset["Client"];
   company!: CompanyAsset["company"];
   Company: CompanyAsset["Company"];
 }

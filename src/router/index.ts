@@ -26,6 +26,13 @@ import { doctorVisitRoutes } from "../api/doctorVisit";
 import { clientAssetRoutes } from "../api/clientAsset";
 import { companyAssetRoutes } from "../api/companyAsset";
 import { repairRequestRoutes } from "../api/repairRequest";
+import { conflictOfInterestRoutes } from "../api/conflictOfInterest";
+import { corporateRiskRoutes } from "../api/corporateRisk";
+import { whoLogRoutes } from "../api/whoLog";
+import { meetingLogRoutes } from "../api/meetingLog";
+import { clientRiskRoutes } from "../api/clientRisk";
+import { staffSleepDisturbanceRoutes } from "../api/staffSleepDisturbance";
+import { resourceRoutes } from "../api/resource";
 import { documentLogRoutes } from "../api/documentLog";
 
 const router = express.Router();
@@ -56,6 +63,13 @@ router.use("/doctor-visit", doctorVisitRoutes);
 router.use("/client-asset", clientAssetRoutes);
 router.use("/company-asset", companyAssetRoutes);
 router.use("/repair-request", repairRequestRoutes);
+router.use("/conflict-of-interest", conflictOfInterestRoutes);
+router.use("/corporate-risk", corporateRiskRoutes);
+router.use("/who-log", whoLogRoutes);
+router.use("/meeting-log", meetingLogRoutes);
+router.use("/client-risk", clientRiskRoutes);
+router.use("/staff-sleep-disturbance", staffSleepDisturbanceRoutes);
+router.use("/resource", resourceRoutes);
 router.use("/document-log", documentLogRoutes);
 
 export default router;

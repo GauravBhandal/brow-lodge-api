@@ -40,11 +40,11 @@ modelManager.init(
       allowNull: false,
     },
     startTime: {
-      type: Sequelize.DATE,
+      type: Sequelize.TIME,
       allowNull: false,
     },
     endTime: {
-      type: Sequelize.DATE,
+      type: Sequelize.TIME,
       allowNull: false,
     },
     purposeOfTheJourney: {

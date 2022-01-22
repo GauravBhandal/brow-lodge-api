@@ -8,9 +8,8 @@ const createCompanyAssetSchema = wrapSchema({
     date: Joi.date().required(),
     assetName: Joi.string().required(),
     location: Joi.string().required(),
-    description: Joi.string().allow(""),
+    description: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
-    client: requiredUUIDSchema(),
   }),
 });
 
@@ -20,9 +19,8 @@ const editCompanyAssetSchema = wrapSchema({
     date: Joi.date().required(),
     assetName: Joi.string().required(),
     location: Joi.string().required(),
-    description: Joi.string().allow(""),
+    description: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
-    client: requiredUUIDSchema(),
   }),
 });
 

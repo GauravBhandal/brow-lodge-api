@@ -14,7 +14,6 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
-import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
 
 class CompanyAssetService {
@@ -81,10 +80,6 @@ class CompanyAssetService {
           model: StaffProfileModel,
           as: "Staff",
         },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
       ],
     });
 
@@ -104,12 +99,23 @@ class CompanyAssetService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+    ];
+
     // Count total companyAssets in the given company
     const count = await CompanyAssetModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all companyAssets for matching props and company
@@ -119,21 +125,9 @@ class CompanyAssetService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function

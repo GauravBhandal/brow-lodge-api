@@ -17,6 +17,7 @@ const sanitizeError = (error: any) => {
   if (error.name === "UnauthorizedError") {
     statusCode = 401;
   } else if (error.name === "SequelizeDatabaseError") {
+    // TODO: There are different types of sequelize errors
     statusCode = 400;
     message = "DATABASE_VALIDATION_ERROR";
   } else if (error.name === "SequelizeDatabaseError") {
