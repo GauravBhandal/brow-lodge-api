@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS "client_profiles" (
 CREATE TABLE IF NOT EXISTS "progress_notes" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "shift_start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "shift_end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "shift_start_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "shift_end_time" TIME WITHOUT TIME ZONE NOT NULL,
     "notes" VARCHAR NOT NULL,
     "diet_and_fluids" VARCHAR NOT NULL,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS "users_roles" (
 -- 9. Create blood_glucose_logs table
 CREATE TABLE IF NOT EXISTS "blood_glucose_logs" (
     "id" UUID NOT NULL,
-    "date" DATE NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
     "time" TIME WITHOUT TIME ZONE NOT NULL,
     "reading" DOUBLE PRECISION NOT NULL,
     "comments" VARCHAR,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS "blood_glucose_logs" (
 CREATE TABLE IF NOT EXISTS "bowel_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "status" VARCHAR(255) NOT NULL,
     "type" VARCHAR(255),
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS "bowel_logs" (
 CREATE TABLE IF NOT EXISTS "blood_pressure_logs"(
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "upper" INTEGER NOT NULL,
     "lower" INTEGER NOT NULL,
     "pulse" INTEGER NOT NULL,
@@ -157,7 +157,7 @@ CREATE TYPE "enum_sleep_activity" AS ENUM ('sleep', 'awake');
 CREATE TABLE IF NOT EXISTS "sleep_logs"(
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "activity" enum_sleep_activity NOT NULL,
     "comments" VARCHAR,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS "sleep_logs"(
 CREATE TABLE IF NOT EXISTS "temperature_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "reading" DOUBLE PRECISION NOT NULL,
     "comments" VARCHAR,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS "temperature_logs" (
 CREATE TABLE IF NOT EXISTS "weight_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "reading" DOUBLE PRECISION NOT NULL,
     "comments" VARCHAR,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS "weight_logs" (
 CREATE TABLE IF NOT EXISTS "oxygen_saturation_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "reading" DOUBLE PRECISION NOT NULL,
     "probe_placement" VARCHAR(255) NOT NULL,
     "suctioning_required" BOOLEAN NOT NULL,
@@ -226,8 +226,8 @@ CREATE TABLE IF NOT EXISTS "oxygen_saturation_logs" (
 CREATE TABLE IF NOT EXISTS "seizure_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "end_time" TIME WITHOUT TIME ZONE NOT NULL,
     "seizure" VARCHAR NOT NULL,
     "recovery" VARCHAR NOT NULL,
     "comments" VARCHAR,
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS "seizure_logs" (
 CREATE TABLE IF NOT EXISTS "prn_admin_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "medication" VARCHAR(255) NOT NULL,
     "dosage" VARCHAR(255) NOT NULL,
     "reason" VARCHAR(255) NOT NULL,
@@ -262,7 +262,7 @@ CREATE TABLE IF NOT EXISTS "prn_admin_logs" (
 CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "balance" DOUBLE PRECISION NOT NULL,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -278,8 +278,8 @@ CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
 CREATE TABLE IF NOT EXISTS "client_behaviours" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "end_time"  TIME WITHOUT TIME ZONE NOT NULL,
     "what_happened_before" VARCHAR NOT NULL,
     "explain_behaviour" VARCHAR NOT NULL,
     "actions_taken" VARCHAR NOT NULL,
@@ -297,8 +297,8 @@ CREATE TABLE IF NOT EXISTS "client_behaviours" (
 CREATE TABLE IF NOT EXISTS "transport_behaviours" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "end_time" TIME WITHOUT TIME ZONE NOT NULL,
     "purpose_of_the_journey" VARCHAR NOT NULL,
     "explain_behaviour" VARCHAR NOT NULL,
     "actions_taken" VARCHAR NOT NULL,
@@ -320,8 +320,8 @@ CREATE TYPE "enum_vehicle" AS ENUM ('private', 'company','other');
 CREATE TABLE IF NOT EXISTS "vehicle_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "end_time" TIME WITHOUT TIME ZONE NOT NULL,
     "odometer_reading_start" BIGINT NOT NULL,
     "odometer_reading_end" BIGINT NOT NULL,
     "purpose_of_the_journey" VARCHAR(255) NOT NULL,
@@ -340,7 +340,7 @@ CREATE TABLE IF NOT EXISTS "vehicle_logs" (
 CREATE TABLE IF NOT EXISTS "injury_reports" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "description" VARCHAR(255) NOT NULL,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -380,7 +380,7 @@ CREATE TYPE "enum_appointment_type" AS ENUM ('inPerson', 'online','overThePhone'
 CREATE TABLE IF NOT EXISTS "doctor_visits" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
     "doctor_name" VARCHAR(255) NOT NULL,
     "health_practitioner" enum_health_practitioner NOT NULL,
     "reason_for_visit" VARCHAR(255) NOT NULL ,

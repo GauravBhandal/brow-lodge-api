@@ -1,13 +1,17 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createClientBehaviourSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    startTime: Joi.date().required(),
-    endTime: Joi.date().required(),
+    startTime: requiredTimeSchema(),
+    endTime: requiredTimeSchema(),
     whatHappenedBefore: Joi.string().required(),
     explainBehaviour: Joi.string().required(),
     actionsTaken: Joi.string().required(),
@@ -21,8 +25,8 @@ const editClientBehaviourSchema = wrapSchema({
   params: Joi.object().keys({ clientBehaviourId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    startTime: Joi.date().required(),
-    endTime: Joi.date().required(),
+    startTime: requiredTimeSchema(),
+    endTime: requiredTimeSchema(),
     whatHappenedBefore: Joi.string().required(),
     explainBehaviour: Joi.string().required(),
     actionsTaken: Joi.string().required(),

@@ -1,12 +1,16 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createPrnBalanceLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     name: Joi.string().required(),
     balance: Joi.number().required(),
     staff: requiredUUIDSchema(),
@@ -18,7 +22,7 @@ const editPrnBalanceLogSchema = wrapSchema({
   params: Joi.object().keys({ prnBalanceLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     name: Joi.string().required(),
     balance: Joi.number().required(),
     staff: requiredUUIDSchema(),

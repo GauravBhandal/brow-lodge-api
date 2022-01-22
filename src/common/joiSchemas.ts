@@ -6,5 +6,10 @@ export const MAX_CHARACTERS = 255;
 export const requiredUUIDSchema = () =>
   Joi.string().uuid({ version: "uuidv4" }).required();
 
+export const requiredTimeSchema = () =>
+  Joi.string()
+    .regex(/^([0-9]{2})\:([0-9]{2})$/)
+    .required();
+
 export const wrapSchema = (schema: SchemaMap<any>): Schema =>
   Joi.object().keys(schema).unknown();
