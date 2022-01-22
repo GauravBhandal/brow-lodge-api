@@ -3,6 +3,7 @@ import { Company } from "../company";
 
 export interface DocumentLog extends DefaultSchemaConfig {
   name: string;
+  meme: string;
   url: string;
   company: Company["id"];
   Company?: Company;

@@ -14,6 +14,7 @@ class DocumentLogModel<
   implements DocumentLog
 {
   name!: DocumentLog["name"];
+  meme!: DocumentLog["meme"];
   url!: DocumentLog["url"];
   company!: DocumentLog["company"];
   Company: DocumentLog["Company"];
@@ -24,6 +25,10 @@ modelManager.init(
   DocumentLogModel,
   {
     name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    meme: {
       type: Sequelize.STRING,
       allowNull: false,
     },

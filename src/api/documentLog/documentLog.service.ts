@@ -27,6 +27,7 @@ class DocumentLogService {
     const createProps = {
       company,
       name: file.originalname,
+      meme: file.mimetype,
       url: uploadedFile.Key,
     };
     const documentLog = await DocumentLogModel.create(createProps);
