@@ -15,11 +15,11 @@ const s3 = new S3({
 });
 
 // uploads a file to s3
-function uploadFile(file: any) {
+function uploadFile(file: Express.Multer.File, company: string) {
   const fileStream = fs.createReadStream(file.path);
 
   const uploadParams = {
-    Bucket: bucketName,
+    Bucket: bucketName + "/" + company,
     Body: fileStream,
     Key: file.filename,
   };

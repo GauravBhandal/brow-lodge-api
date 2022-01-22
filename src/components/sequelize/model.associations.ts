@@ -23,6 +23,7 @@ import { DoctorVisitModel } from "../../api/doctorVisit";
 import { ClientAssetModel } from "../../api/clientAsset";
 import { CompanyAssetModel } from "../../api/companyAsset";
 import { RepairRequestModel } from "../../api/repairRequest";
+import { DocumentLogModel } from "../../api/documentLog";
 
 export default {
   initialize() {
@@ -51,6 +52,7 @@ export default {
     initializeClientAssetModelAssociations();
     initializeCompanyAssetModelAssociations();
     initializeRepairRequestModelAssociations();
+    initializeDocumentLogModelAssociations();
   },
 };
 
@@ -363,5 +365,11 @@ function initializeRepairRequestModelAssociations() {
   RepairRequestModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
+  });
+}
+
+function initializeDocumentLogModelAssociations() {
+  DocumentLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }

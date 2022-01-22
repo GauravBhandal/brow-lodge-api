@@ -19,6 +19,12 @@ const sanitizeError = (error: any) => {
   } else if (error.name === "SequelizeDatabaseError") {
     statusCode = 400;
     message = "DATABASE_VALIDATION_ERROR";
+  } else if (error.name === "SequelizeDatabaseError") {
+    statusCode = 400;
+    message = "DATABASE_VALIDATION_ERROR";
+  } else if (error.code === "LIMIT_FILE_SIZE") {
+    statusCode = 400;
+    message = "DOCUMENT_SIZE_IS_TOO_BIG";
   }
 
   if (!statusCode) {

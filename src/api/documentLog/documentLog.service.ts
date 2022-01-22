@@ -13,21 +13,28 @@ import { removeFileFromLocal } from "../../components/upload";
 
 class DocumentLogService {
   async createDocumentLog(props: CreateDocumentLogProps) {
-    const { file } = props;
+    const { file, company } = props;
 
-    // if documentLog has been deleted, throw an error
+    // multer failed to upload file to server
     if (!file) {
       throw new CustomError(500, "FAILED_TO_UPLOAD");
     }
 
-    // upload file to S3
-    const uploadedFile = await uploadFile(file);
+    // Upload file to S3
+    const uploadedFile = await uploadFile(file, company);
 
-    // delete file frim local server
+    // Create a new document in database
+    const createProps = {
+      company,
+      name: file.originalname,
+      url: uploadedFile.Key,
+    };
+    const documentLog = await DocumentLogModel.create(createProps);
+
+    // Delete file from local server
     await removeFileFromLocal(file.path);
 
-    // const documentLog = await DocumentLogModel.create(props);
-    return { ok: true };
+    return documentLog;
   }
 
   async deleteDocumentLog(props: DeleteDocumentLogProps) {
