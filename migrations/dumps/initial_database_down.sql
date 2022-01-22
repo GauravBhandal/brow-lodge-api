@@ -1,3 +1,12 @@
+-- 50. DROP document_logs table
+DROP TABLE IF EXISTS "document_logs";
+
+-- 49. DROP resources table
+DROP TABLE IF EXISTS "resources";
+
+-- 48. DROP enum_resources_type type
+DROP TYPE "enum_resources_type";
+
 -- 47. DROP staff_sleep_disturbances table
 DROP TABLE IF EXISTS "staff_sleep_disturbances";
 

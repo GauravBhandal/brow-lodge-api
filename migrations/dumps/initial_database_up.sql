@@ -579,3 +579,36 @@ CREATE TABLE IF NOT EXISTS "staff_sleep_disturbances" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 48. Create enum_resources_type type
+CREATE TYPE "enum_resources_type" AS ENUM ('text', 'link','attachment');
+
+-- 49. Create resources table
+CREATE TABLE IF NOT EXISTS "resources" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "collection_types" JSONB ,
+    "type" enum_resources_type NOT NULL,
+    "title" VARCHAR(255) NOT NULL,
+    "text" VARCHAR ,
+    "link" VARCHAR(255) ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 50. Create document_logs table
+CREATE TABLE IF NOT EXISTS "document_logs" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "meme" VARCHAR(255) NOT NULL,
+    "url" VARCHAR(255) NOT NULL,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

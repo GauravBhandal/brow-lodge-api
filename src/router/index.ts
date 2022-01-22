@@ -32,6 +32,8 @@ import { whoLogRoutes } from "../api/whoLog";
 import { meetingLogRoutes } from "../api/meetingLog";
 import { clientRiskRoutes } from "../api/clientRisk";
 import { staffSleepDisturbanceRoutes } from "../api/staffSleepDisturbance";
+import { resourceRoutes } from "../api/resource";
+import { documentLogRoutes } from "../api/documentLog";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -67,5 +69,7 @@ router.use("/who-log", whoLogRoutes);
 router.use("/meeting-log", meetingLogRoutes);
 router.use("/client-risk", clientRiskRoutes);
 router.use("/staff-sleep-disturbance", staffSleepDisturbanceRoutes);
+router.use("/resource", resourceRoutes);
+router.use("/document-log", documentLogRoutes);
 
 export default router;
