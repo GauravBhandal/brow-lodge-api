@@ -1,3 +1,6 @@
+-- 44. DROP staff_sleep_disturbances table
+DROP TABLE IF EXISTS "staff_sleep_disturbances";
+
 -- 43. DROP client_risks table
 DROP TABLE IF EXISTS "client_risks";
 

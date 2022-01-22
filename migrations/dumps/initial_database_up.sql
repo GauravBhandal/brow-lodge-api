@@ -518,3 +518,21 @@ CREATE TABLE IF NOT EXISTS "client_risks" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 44. Create staff_sleep_disturbances table
+CREATE TABLE IF NOT EXISTS "staff_sleep_disturbances" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "end_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "total_hours" DOUBLE PRECISION NOT NULL,
+    "description" VARCHAR NOT NULL,
+    "actions" VARCHAR NOT NULL,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

@@ -26,6 +26,7 @@ import { RepairRequestModel } from "../../api/repairRequest";
 import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
 import { CorporateRiskModel } from "../../api/corporateRisk";
 import { ClientRiskModel } from "../../api/clientRisk";
+import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 
 export default {
   initialize() {
@@ -57,6 +58,7 @@ export default {
     initializeConflictOfInterestModelAssociations();
     initializeCorporateRiskModelAssociations();
     initializeClientRiskModelAssociations();
+    initializeStaffSleepDisturbanceModelAssociations();
   },
 };
 
@@ -400,4 +402,17 @@ function initializeClientRiskModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+
+  function initializeStaffSleepDisturbanceModelAssociations() {
+    StaffSleepDisturbanceModel.belongsTo(CompanyModel, {
+      foreignKey: { name: "company", allowNull: false },
+    });
+    StaffSleepDisturbanceModel.belongsTo(StaffProfileModel, {
+      foreignKey: { name: "staff", allowNull: false },
+      as: "Staff",
+    });
+    StaffSleepDisturbanceModel.belongsTo(ClientProfileModel, {
+      foreignKey: { name: "client", allowNull: false },
+      as: "Client",
+    });
 }
