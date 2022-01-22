@@ -108,12 +108,23 @@ class RepairRequestService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+    ];
+
     // Count total repairRequests in the given company
     const count = await RepairRequestModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all repairRequests for matching props and company
@@ -123,17 +134,9 @@ class RepairRequestService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function

@@ -1,12 +1,16 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createBloodGlucoseLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     reading: Joi.number().required(),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
@@ -18,7 +22,7 @@ const editBloodGlucoseLogSchema = wrapSchema({
   params: Joi.object().keys({ bloodGlucoseLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     reading: Joi.number().required(),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),

@@ -1,13 +1,17 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createProgressNoteSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    shiftStartTime: Joi.date().required(),
-    shiftEndTime: Joi.date().required(),
+    shiftStartTime: requiredTimeSchema(),
+    shiftEndTime: requiredTimeSchema(),
     notes: Joi.string().required(),
     dietAndFluids: Joi.string().required(),
     staff: requiredUUIDSchema(),
@@ -19,8 +23,8 @@ const editProgressNoteSchema = wrapSchema({
   params: Joi.object().keys({ progressNoteId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    shiftStartTime: Joi.date().required(),
-    shiftEndTime: Joi.date().required(),
+    shiftStartTime: requiredTimeSchema(),
+    shiftEndTime: requiredTimeSchema(),
     notes: Joi.string().required(),
     dietAndFluids: Joi.string().required(),
     staff: requiredUUIDSchema(),

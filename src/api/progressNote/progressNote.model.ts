@@ -35,11 +35,11 @@ modelManager.init(
       allowNull: false,
     },
     shiftStartTime: {
-      type: Sequelize.DATE,
+      type: Sequelize.TIME,
       allowNull: false,
     },
     shiftEndTime: {
-      type: Sequelize.DATE,
+      type: Sequelize.TIME,
       allowNull: false,
     },
     notes: {
