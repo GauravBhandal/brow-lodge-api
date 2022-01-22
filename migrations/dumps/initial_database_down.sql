@@ -1,3 +1,6 @@
+-- 50. DROP document_logs table
+DROP TABLE IF EXISTS "document_logs";
+
 -- 49. DROP resources table
 DROP TABLE IF EXISTS "resources";
 
