@@ -1,0 +1,58 @@
+import Sequelize from "sequelize";
+import { pick as _pick } from "lodash";
+
+import modelManager, {
+  CommonSequelizeModel,
+} from "../../components/sequelize/manager";
+import {  MaintenanceLog, Create MaintenanceLogProps } from "./ maintenanceLog.types";
+
+class  MaintenanceLogModel<
+    ModelAttributes =  MaintenanceLog,
+    ModelCreationAttributes = Create MaintenanceLogProps
+  >
+  extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
+  implements  MaintenanceLog
+{
+  date!:  MaintenanceLog["date"];
+  time!:  MaintenanceLog["time"];
+  subject!:  MaintenanceLog["subject"];
+  description!:  MaintenanceLog["description"];
+  location:  MaintenanceLog["location"];
+  staff!:  MaintenanceLog["staff"];
+  Staff:  MaintenanceLog["Staff"];
+  company!:  MaintenanceLog["company"];
+  Company:  MaintenanceLog["Company"];
+}
+
+modelManager.init(
+  " MaintenanceLog",
+   MaintenanceLogModel,
+  {
+    date: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    time: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    subject: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    location: {
+      type: Sequelize.STRING,
+    },
+  },
+  {
+    underscored: true,
+    paranoid: true,
+    tableName: " maintenanceLogs",
+  }
+);
+
+export default  MaintenanceLogModel;

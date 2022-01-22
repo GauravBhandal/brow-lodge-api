@@ -31,6 +31,7 @@ import { ClientRiskModel } from "../../api/clientRisk";
 import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 import { ResourceModel } from "../../api/resource";
 import { LeaseAndUtilityLogModel } from "../../api/leaseAndUtilityLog";
+import { MaintenanceLogModel } from "../../api/ maintenanceLog";
 
 export default {
   initialize() {
@@ -67,6 +68,7 @@ export default {
     initializeStaffSleepDisturbanceModelAssociations();
     initializeResourceModelAssociations();
     initializeLeaseAndUtilityLogModelAssociations();
+    initializeMaintenanceLogModelAssociations();
   },
 };
 
@@ -471,5 +473,15 @@ function initializeLeaseAndUtilityLogModelAssociations() {
   LeaseAndUtilityLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+}
+
+function initializeMaintenanceLogModelAssociations() {
+  MaintenanceLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  MaintenanceLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
   });
 }

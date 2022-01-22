@@ -613,3 +613,19 @@ CREATE TABLE IF NOT EXISTS "lease_and_utility_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 51. Create  maintenance_logs table
+CREATE TABLE IF NOT EXISTS "maintenance_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL, ,
+    "subject" VARCHAR(255) NOT NULL,
+    "description" VARCHAR NOT NULL,
+    "location" VARCHAR(255) ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
