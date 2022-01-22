@@ -111,12 +111,27 @@ class OxygenSaturationLogService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+      {
+        model: ClientProfileModel,
+        as: "Client",
+      },
+    ];
+
     // Count total oxygenSaturationLogs in the given company
     const count = await OxygenSaturationLogModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all oxygenSaturationLogs for matching props and company
@@ -126,7 +141,7 @@ class OxygenSaturationLogService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
       include: [
         {

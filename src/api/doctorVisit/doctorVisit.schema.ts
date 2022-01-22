@@ -1,12 +1,16 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createDoctorVisitSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     doctorName: Joi.string().required(),
     healthPractitioner: Joi.string().required(),
     reasonForVisit: Joi.string().required(),
@@ -23,7 +27,7 @@ const editDoctorVisitSchema = wrapSchema({
   params: Joi.object().keys({ doctorVisitId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     doctorName: Joi.string().required(),
     healthPractitioner: Joi.string().required(),
     reasonForVisit: Joi.string().required(),

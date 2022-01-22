@@ -106,12 +106,23 @@ class ExpenseReimbursementService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+    ];
+
     // Count total expenseReimbursements in the given company
     const count = await ExpenseReimbursementModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all expenseReimbursements for matching props and company
@@ -121,17 +132,9 @@ class ExpenseReimbursementService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function

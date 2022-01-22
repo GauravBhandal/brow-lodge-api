@@ -29,12 +29,12 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/express-jwt": "^6.0.4",
     "@types/bcryptjs": "^2.4.2",
     "@types/bunyan": "^1.8.8",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/express-jwt": "^6.0.4",
     "@types/jsonwebtoken": "^8.5.6",
     "@types/lodash": "^4.14.178",
     "@types/morgan": "^1.9.3",

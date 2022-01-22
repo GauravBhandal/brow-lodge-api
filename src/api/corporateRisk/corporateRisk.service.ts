@@ -109,12 +109,22 @@ class CorporateRiskService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+    ];
     // Count total corporateRisks in the given company
     const count = await CorporateRiskModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all corporateRisks for matching props and company
@@ -124,17 +134,9 @@ class CorporateRiskService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function

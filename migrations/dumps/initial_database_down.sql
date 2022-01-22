@@ -1,8 +1,8 @@
 -- 39. DROP corporate_risks table
 DROP TABLE IF EXISTS "corporate_risks";
 
--- 38. DROP enum_corporate_risks_consequences table
-DROP TABLE IF EXISTS "enum_corporate_risks_consequences";
+-- 38. DROP enum_corporate_risks_consequences type
+DROP TYPE "enum_corporate_risks_consequences";
 
 -- 37. DROP enum_corporate_risks_likelihood type
 DROP TYPE "enum_corporate_risks_likelihood";

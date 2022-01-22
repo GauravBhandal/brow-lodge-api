@@ -706,8 +706,8 @@ module.exports = {
       [
         {
           id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
-          date: new Date(),
-          time: new Date(),
+          date: "08-12-2021",
+          time: "15:20",
           reading: 9.1,
           comments: "Company 1 comments",
           staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
@@ -718,8 +718,8 @@ module.exports = {
         },
         {
           id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
-          date: new Date(),
-          time: new Date(),
+          date: "05-10-2022",
+          time: "17:36",
           reading: 12.45,
           comments: "Company 2 comments",
           staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
