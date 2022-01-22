@@ -508,7 +508,7 @@ CREATE TABLE IF NOT EXISTS "who_logs" (
 );
 
 -- 41. Create enum_meeting_type type
-CREATE TYPE "enum_meeting_type" AS ENUM ('client_meeting', 'staff_meeting','external_meeting','admin_meeting');
+CREATE TYPE "enum_meeting_type" AS ENUM ('clientMeeting', 'staffMeeting','externalMeeting','adminMeeting');
 
 -- 42. Create meeting_logs table
 CREATE TABLE IF NOT EXISTS "meeting_logs" (
@@ -525,7 +525,7 @@ CREATE TABLE IF NOT EXISTS "meeting_logs" (
     "discussion" VARCHAR NOT NULL, 
     "action" VARCHAR NOT NULL, 
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
