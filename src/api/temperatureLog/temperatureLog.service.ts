@@ -113,12 +113,27 @@ class TemperatureLogService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+      {
+        model: ClientProfileModel,
+        as: "Client",
+      },
+    ];
+
     // Count total temperatureLogs in the given company
     const count = await TemperatureLogModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all temperatureLogs for matching props and company
@@ -128,21 +143,9 @@ class TemperatureLogService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function
