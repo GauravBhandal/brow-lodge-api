@@ -29,6 +29,7 @@ import { WhoLogModel } from "../../api/whoLog";
 import { MeetingLogModel } from "../../api/meetingLog";
 import { ClientRiskModel } from "../../api/clientRisk";
 import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
+import { ResourceModel } from "../../api/resource";
 
 export default {
   initialize() {
@@ -63,6 +64,7 @@ export default {
     initializeMeetingLogModelAssociations();
     initializeClientRiskModelAssociations();
     initializeStaffSleepDisturbanceModelAssociations();
+    initializeResourceModelAssociations();
   },
 };
 
@@ -443,5 +445,15 @@ function initializeStaffSleepDisturbanceModelAssociations() {
   StaffSleepDisturbanceModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+}
+
+function initializeResourceModelAssociations() {
+  ResourceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ResourceModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
   });
 }

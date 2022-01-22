@@ -1547,9 +1547,43 @@ module.exports = {
       ],
       {}
     );
+
+    await queryInterface.bulkInsert(
+      "resources",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          collection_type: JSON.stringify(collection_type),
+          type: "link",
+          title: "title 1",
+          text: "text 1",
+          link: "link 1",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          collection_type: JSON.stringify(collection_type),
+          type: "link",
+          title: "title 2",
+          text: "text 2",
+          link: "link 2",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface) => {
+    await queryInterface.bulkDelete("resources", null, {});
     await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
     await queryInterface.bulkDelete("client_risks", null, {});
     await queryInterface.bulkDelete("meeting_logs", null, {});
