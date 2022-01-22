@@ -491,16 +491,58 @@ CREATE TABLE IF NOT EXISTS "corporate_risks" (
     PRIMARY KEY ("id")
 );
 
--- 40. Create enum_client_risks_level_of_risk type
+-- 40. Create who_logs table
+CREATE TABLE IF NOT EXISTS "who_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "category" VARCHAR(255) NOT NULL,
+    "location" VARCHAR(255) ,
+    "next_review_date" TIMESTAMP WITH TIME ZONE,
+    "comments" VARCHAR ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 41. Create enum_meeting_type type
+CREATE TYPE "enum_meeting_type" AS ENUM ('clientMeeting', 'staffMeeting','externalMeeting','adminMeeting');
+
+-- 42. Create meeting_logs table
+CREATE TABLE IF NOT EXISTS "meeting_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "meeting_type" enum_meeting_type NOT NULL,
+    "location" VARCHAR(255) NOT NULL,
+    "purpose" VARCHAR NOT NULL, 
+    "attendees" VARCHAR  NOT NULL,
+    "apologies" VARCHAR NOT NULL,
+    "agenda" VARCHAR NOT NULL,
+    "discussion" VARCHAR NOT NULL, 
+    "action" VARCHAR NOT NULL, 
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 43. Create enum_client_risks_level_of_risk type
 CREATE TYPE "enum_client_risks_level_of_risk" AS ENUM ('low', 'medium','high');
 
--- 41. Create enum_client_risks_likelihood type
+-- 44. Create enum_client_risks_likelihood type
 CREATE TYPE "enum_client_risks_likelihood" AS ENUM ('rare', 'unlikely','possible','likely','almostCertain');
 
--- 42. Create enum_client_risks_consequences type
+-- 45. Create enum_client_risks_consequences type
 CREATE TYPE "enum_client_risks_consequences" AS ENUM ('minimal', 'minor','moderate','significant','severe');
 
--- 43. Create client_risks table
+-- 46. Create client_risks table
 CREATE TABLE IF NOT EXISTS "client_risks" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -519,7 +561,7 @@ CREATE TABLE IF NOT EXISTS "client_risks" (
     PRIMARY KEY ("id")
 );
 
--- 44. Create staff_sleep_disturbances table
+-- 47. Create staff_sleep_disturbances table
 CREATE TABLE IF NOT EXISTS "staff_sleep_disturbances" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,

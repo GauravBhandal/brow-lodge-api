@@ -25,6 +25,8 @@ import { CompanyAssetModel } from "../../api/companyAsset";
 import { RepairRequestModel } from "../../api/repairRequest";
 import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
 import { CorporateRiskModel } from "../../api/corporateRisk";
+import { WhoLogModel } from "../../api/whoLog";
+import { MeetingLogModel } from "../../api/meetingLog";
 import { ClientRiskModel } from "../../api/clientRisk";
 import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 
@@ -57,6 +59,8 @@ export default {
     initializeRepairRequestModelAssociations();
     initializeConflictOfInterestModelAssociations();
     initializeCorporateRiskModelAssociations();
+    initializewhoLogModelAssociations();
+    initializeMeetingLogModelAssociations();
     initializeClientRiskModelAssociations();
     initializeStaffSleepDisturbanceModelAssociations();
   },
@@ -390,6 +394,30 @@ function initializeCorporateRiskModelAssociations() {
   });
 }
 
+function initializewhoLogModelAssociations() {
+  WhoLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  WhoLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+}
+
+function initializeMeetingLogModelAssociations() {
+  MeetingLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  MeetingLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  MeetingLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
 function initializeClientRiskModelAssociations() {
   ClientRiskModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -402,17 +430,18 @@ function initializeClientRiskModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+}
 
-  function initializeStaffSleepDisturbanceModelAssociations() {
-    StaffSleepDisturbanceModel.belongsTo(CompanyModel, {
-      foreignKey: { name: "company", allowNull: false },
-    });
-    StaffSleepDisturbanceModel.belongsTo(StaffProfileModel, {
-      foreignKey: { name: "staff", allowNull: false },
-      as: "Staff",
-    });
-    StaffSleepDisturbanceModel.belongsTo(ClientProfileModel, {
-      foreignKey: { name: "client", allowNull: false },
-      as: "Client",
-    });
+function initializeStaffSleepDisturbanceModelAssociations() {
+  StaffSleepDisturbanceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  StaffSleepDisturbanceModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  StaffSleepDisturbanceModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
 }
