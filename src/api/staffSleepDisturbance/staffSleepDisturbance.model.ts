@@ -47,7 +47,7 @@ modelManager.init(
       allowNull: false,
     },
     totalHours: {
-      type: Sequelize.STRING,
+      type: Sequelize.NUMBER,
       allowNull: false,
     },
     description: {
