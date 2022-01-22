@@ -35,10 +35,10 @@ class DocumentLogController {
       company: req.auth.companyId,
     };
 
-    const documentKey = await documentLogService.getDocumentLogById(props);
+    const documentLog = await documentLogService.getDocumentLogById(props);
 
     // TODO: Check if document key exists and also add error handling
-    const readStream = getFileStream(documentKey);
+    const readStream = getFileStream(documentLog.url);
     readStream.pipe(res);
   }
 }
