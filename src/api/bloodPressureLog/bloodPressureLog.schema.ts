@@ -1,16 +1,20 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createBloodPressureLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     upper: Joi.number().required(),
     lower: Joi.number().required(),
     pulse: Joi.number().required(),
-    comments: Joi.string().allow(""),
+    comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
   }),
@@ -20,11 +24,11 @@ const editBloodPressureLogSchema = wrapSchema({
   params: Joi.object().keys({ bloodPressureLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     upper: Joi.number().required(),
     lower: Joi.number().required(),
     pulse: Joi.number().required(),
-    comments: Joi.string().allow(""),
+    comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
   }),

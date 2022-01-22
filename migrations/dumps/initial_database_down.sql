@@ -1,3 +1,51 @@
+-- 47. DROP staff_sleep_disturbances table
+DROP TABLE IF EXISTS "staff_sleep_disturbances";
+
+-- 46. DROP client_risks table
+DROP TABLE IF EXISTS "client_risks";
+
+-- 45. DROP enum_client_risks_consequences type
+DROP TYPE "enum_client_risks_consequences";
+
+-- 44. DROP enum_client_risks_likelihood type
+DROP TYPE "enum_client_risks_likelihood";
+
+-- 43. DROP enum_client_risks_level_of_risk type
+DROP TYPE "enum_client_risks_level_of_risk";
+
+-- 42. DROP meeting_logs table
+DROP TABLE IF EXISTS "meeting_logs";
+
+-- 41. DROP enum_meeting_type type
+DROP TYPE "enum_meeting_type";
+
+-- 40. DROP who_logs table
+DROP TABLE IF EXISTS "who_logs";
+
+-- 39. DROP corporate_risks table
+DROP TABLE IF EXISTS "corporate_risks";
+
+-- 38. DROP enum_corporate_risks_consequences type
+DROP TYPE "enum_corporate_risks_consequences";
+
+-- 37. DROP enum_corporate_risks_likelihood type
+DROP TYPE "enum_corporate_risks_likelihood";
+
+-- 36. DROP enum_corporate_risks_level_of_risk type
+DROP TYPE "enum_corporate_risks_level_of_risk";
+
+-- 35. DROP conflict_of_interests table
+DROP TABLE IF EXISTS "conflict_of_interests";
+
+-- 34. DROP repair_requests table
+DROP TABLE IF EXISTS "repair_requests";
+
+-- 33. DROP enum_repair_requests_priority type
+DROP TYPE "enum_repair_requests_priority";
+
+-- 32. DROP enum_repair_requests_status type
+DROP TYPE "enum_repair_requests_status";
+
 -- 31. DROP company_assets table
 DROP TABLE IF EXISTS "company_assets";
 
@@ -16,8 +64,8 @@ DROP TYPE "enum_health_practitioner";
 -- 26. DROP expense_reimbursements table
 DROP TABLE IF EXISTS "expense_reimbursements";
 
--- 25. DROP enum_status type
-DROP TYPE "enum_status";
+-- 25. DROP enum_expense_reimbursement_status type
+DROP TYPE "enum_expense_reimbursement_status";
 
 -- 24. DROP injury_reports table
 DROP TABLE IF EXISTS "injury_reports";

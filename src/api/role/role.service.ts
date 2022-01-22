@@ -97,7 +97,7 @@ class RoleService {
     const count = await RoleModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
     });
 
@@ -108,7 +108,7 @@ class RoleService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
       include: [
         {

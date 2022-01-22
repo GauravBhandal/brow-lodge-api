@@ -23,8 +23,6 @@ class ExpenseReimbursementModel<
   status!: ExpenseReimbursement["status"];
   staff!: ExpenseReimbursement["staff"];
   Staff: ExpenseReimbursement["Staff"];
-  client!: ExpenseReimbursement["client"];
-  Client: ExpenseReimbursement["Client"];
   company!: ExpenseReimbursement["company"];
   Company: ExpenseReimbursement["Company"];
 }

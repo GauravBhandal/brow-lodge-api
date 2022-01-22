@@ -1,20 +1,24 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createOxygenSaturationLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     reading: Joi.number().required(),
     probePlacement: Joi.string().required(),
     suctioningRequired: Joi.boolean().required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
-    typeOfSuctioning: Joi.string().allow(""),
-    suctionAmount: Joi.string().allow(""),
-    secretionDescription: Joi.string().allow(""),
+    typeOfSuctioning: Joi.string().allow("", null),
+    suctionAmount: Joi.string().allow("", null),
+    secretionDescription: Joi.string().allow("", null),
     readingPostSuctioning: Joi.number(),
   }),
 });
@@ -23,15 +27,15 @@ const editOxygenSaturationLogSchema = wrapSchema({
   params: Joi.object().keys({ oxygenSaturationLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     reading: Joi.number().required(),
     probePlacement: Joi.string().required(),
     suctioningRequired: Joi.boolean().required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
-    typeOfSuctioning: Joi.string().allow(""),
-    suctionAmount: Joi.string().allow(""),
-    secretionDescription: Joi.string().allow(""),
+    typeOfSuctioning: Joi.string().allow("", null),
+    suctionAmount: Joi.string().allow("", null),
+    secretionDescription: Joi.string().allow("", null),
     readingPostSuctioning: Joi.number(),
   }),
 });

@@ -1,14 +1,18 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createBowelLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     status: Joi.string().required(),
-    type: Joi.string().allow(""),
+    type: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
   }),
@@ -18,9 +22,9 @@ const editBowelLogSchema = wrapSchema({
   params: Joi.object().keys({ bowelLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: Joi.date().required(),
+    time: requiredTimeSchema(),
     status: Joi.string().required(),
-    type: Joi.string().allow(""),
+    type: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
   }),

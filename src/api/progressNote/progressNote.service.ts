@@ -104,12 +104,27 @@ class ProgressNoteService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+      {
+        model: ClientProfileModel,
+        as: "Client",
+      },
+    ];
+
     // Count total progressNotes in the given company
     const count = await ProgressNoteModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all progressNotes for matching props and company
@@ -119,21 +134,9 @@ class ProgressNoteService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function

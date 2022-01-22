@@ -710,8 +710,8 @@ module.exports = {
       [
         {
           id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
-          date: new Date(),
-          time: new Date(),
+          date: "08-12-2021",
+          time: "15:20",
           reading: 9.1,
           comments: "Company 1 comments",
           staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
@@ -722,8 +722,8 @@ module.exports = {
         },
         {
           id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
-          date: new Date(),
-          time: new Date(),
+          date: "05-10-2022",
+          time: "17:36",
           reading: 12.45,
           comments: "Company 2 comments",
           staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
@@ -1190,7 +1190,6 @@ module.exports = {
           comments: "company 1",
           status: "pending",
           staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
-          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
           updated: new Date(),
@@ -1203,7 +1202,6 @@ module.exports = {
           comments: "company 1",
           status: "approved",
           staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
-          client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
           created: new Date(),
           updated: new Date(),
@@ -1294,7 +1292,6 @@ module.exports = {
           location: "Company 1 type",
           description: "Company 1 type",
           staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
-          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
           updated: new Date(),
@@ -1305,6 +1302,246 @@ module.exports = {
           asset_name: "Company 2 asset",
           location: "Company 2 type",
           description: "Company 2 type",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "repair_requests",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          problem: "company 1 problem",
+          risk: "company 1 risk",
+          location: "Seaton",
+          priority: "high",
+          status: "pending",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          problem: "company 2 problem",
+          risk: "company 2 risk",
+          location: "fulham",
+          priority: "low",
+          status: "completed",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "conflict_of_interests",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          conflict_description: "conflict description 1",
+          mitigation_strategy: "mitigation strategy",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          conflict_description: "conflict description 2",
+          mitigation_strategy: "mitigation strategy",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "corporate_risks",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          level_of_risk: "low",
+          likelihood: "rare",
+          consequences: "minimal",
+          risk_description: "conflict description 1",
+          mitigation_strategy: "mitigation strategy",
+          monitoring_strategy: "monitoring strategy",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          level_of_risk: "low",
+          likelihood: "rare",
+          consequences: "minimal",
+          risk_description: "conflict description 2",
+          mitigation_strategy: "mitigation strategy",
+          monitoring_strategy: "monitoring strategy",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "who_logs",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          category: "data safety sheet",
+          location: "company 1",
+          next_review_date: new Date(),
+          comments: "company 1",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          category: "data safety sheet",
+          location: "company 2",
+          next_review_date: new Date(),
+          comments: "company 2",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "meeting_logs",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          start_time: new Date(),
+          end_time: new Date(),
+          meeting_type: "adminMeeting",
+          location: "company 1",
+          purpose: "purpose 1",
+          attendees: "attendees 1",
+          apologies: "apologies 1",
+          agenda: "agenda 1",
+          discussion: "discussion 1",
+          action: "action 1",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          start_time: new Date(),
+          end_time: new Date(),
+          meeting_type: "adminMeeting",
+          location: "company 2",
+          purpose: "purpose 2",
+          attendees: "attendees 2",
+          apologies: "apologies 2",
+          agenda: "agenda 2",
+          discussion: "discussion 2",
+          action: "action 2",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "client_risks",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          level_of_risk: "low",
+          likelihood: "rare",
+          consequences: "minimal",
+          risk_description: "conflict description 1",
+          mitigation_strategy: "mitigation strategy",
+          monitoring_strategy: "monitoring strategy",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          level_of_risk: "low",
+          likelihood: "rare",
+          consequences: "minimal",
+          risk_description: "conflict description 2",
+          mitigation_strategy: "mitigation strategy",
+          monitoring_strategy: "monitoring strategy",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "staff_sleep_disturbances",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date: new Date(),
+          start_time: new Date(),
+          end_time: new Date(),
+          total_hours: 2.5,
+          description: "description 1",
+          actions: "actions 1",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date: new Date(),
+          start_time: new Date(),
+          end_time: new Date(),
+          total_hours: 3,
+          description: "description 2",
+          actions: "actions 1",
           staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
           client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
@@ -1317,6 +1554,13 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
+    await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
+    await queryInterface.bulkDelete("client_risks", null, {});
+    await queryInterface.bulkDelete("meeting_logs", null, {});
+    await queryInterface.bulkDelete("who_logs", null, {});
+    await queryInterface.bulkDelete("corporate_risks", null, {});
+    await queryInterface.bulkDelete("conflict_of_interests", null, {});
+    await queryInterface.bulkDelete("repair_requests", null, {});
     await queryInterface.bulkDelete("company_assets", null, {});
     await queryInterface.bulkDelete("client_assets", null, {});
     await queryInterface.bulkDelete("doctor_visits", null, {});

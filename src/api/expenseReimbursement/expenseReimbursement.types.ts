@@ -1,7 +1,6 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
-import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
 
 export interface ExpenseReimbursement extends DefaultSchemaConfig {
@@ -12,8 +11,6 @@ export interface ExpenseReimbursement extends DefaultSchemaConfig {
   status: "approved" | "pending" | "rejected";
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
-  client: ClientProfile["id"];
-  Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
 }
@@ -25,7 +22,6 @@ export interface CreateExpenseReimbursementProps {
   comments: ExpenseReimbursement["comments"];
   status: ExpenseReimbursement["status"];
   staff: ExpenseReimbursement["staff"];
-  client: ExpenseReimbursement["client"];
   company: ExpenseReimbursement["company"];
 }
 

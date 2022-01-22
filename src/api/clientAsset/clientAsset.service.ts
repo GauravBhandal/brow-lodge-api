@@ -104,12 +104,33 @@ class ClientAssetService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
+      },
+      {
+        model: ClientProfileModel,
+        as: "Client",
+        where: {
+          ...filters["Client"],
+        },
+      },
+    ];
+
     // Count total clientAssets in the given company
     const count = await ClientAssetModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all clientAssets for matching props and company
@@ -119,21 +140,9 @@ class ClientAssetService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function

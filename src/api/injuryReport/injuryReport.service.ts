@@ -104,12 +104,27 @@ class InjuryReportService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+      {
+        model: ClientProfileModel,
+        as: "Client",
+      },
+    ];
+
     // Count total injuryReports in the given company
     const count = await InjuryReportModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all injuryReports for matching props and company
@@ -119,21 +134,9 @@ class InjuryReportService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function
