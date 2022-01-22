@@ -47,7 +47,10 @@ export const getFilters = (whereProps: any = {}) => {
         filterOperations = getFilterOperations(subStrings[1], item);
         orFilterForSameKey = [...orFilterForSameKey, filterOperations];
       });
-      filters[outerFilterKey][innerFilterKey] = { [Op.or]: orFilterForSameKey };
+      filters[outerFilterKey][innerFilterKey] = {
+        ...filters[outerFilterKey][innerFilterKey],
+        [Op.or]: orFilterForSameKey,
+      };
     } else {
       //Other wise just apply the operations applied to where prop
       filterOperations = getFilterOperations(subStrings[1], whereProps[prop]);
