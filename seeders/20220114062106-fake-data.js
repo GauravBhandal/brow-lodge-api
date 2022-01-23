@@ -1640,9 +1640,55 @@ module.exports = {
       ],
       {}
     );
+
+    await queryInterface.bulkInsert(
+      "feedbacks",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          date_reported: new Date(),
+          name: "feedback 1",
+          email: "asc@gmail.com",
+          phone: "123445",
+          you_are_a: "family",
+          type_of_feedback: "compliment",
+          feedback: "compliment",
+          assesments: "compliment",
+          actions: "compliment",
+          notified_of_result: "compliment",
+          date_closed: new Date(),
+          status: "awaitingAcknowledgement",
+          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          date_reported: new Date(),
+          name: "feedback 2",
+          email: "asc@gmail.com",
+          phone: "123445",
+          youAreA: "family",
+          type_of_feedback: "complaint",
+          feedback: "complaint",
+          assesments: "complaint",
+          actions: "complaint",
+          notified_of_result: "complaint",
+          date_closed: new Date(),
+          status: "acknowledged",
+          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface) => {
+    await queryInterface.bulkDelete("feedbacks", null, {});
     await queryInterface.bulkDelete("maintenance_logs", null, {});
     await queryInterface.bulkDelete("lease_and_utility_logs", null, {});
     await queryInterface.bulkDelete("resources", null, {});

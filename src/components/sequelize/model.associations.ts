@@ -32,6 +32,7 @@ import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 import { ResourceModel } from "../../api/resource";
 import { LeaseAndUtilityLogModel } from "../../api/leaseAndUtilityLog";
 import { MaintenanceLogModel } from "../../api/ maintenanceLog";
+import { FeedbackModel } from "../../api/feedback";
 
 export default {
   initialize() {
@@ -69,6 +70,7 @@ export default {
     initializeResourceModelAssociations();
     initializeLeaseAndUtilityLogModelAssociations();
     initializeMaintenanceLogModelAssociations();
+    initializeFeedbackModelAssociations();
   },
 };
 
@@ -481,6 +483,16 @@ function initializeMaintenanceLogModelAssociations() {
     foreignKey: { name: "company", allowNull: false },
   });
   MaintenanceLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+}
+
+function initializeFeedbackModelAssociations() {
+  FeedbackModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  FeedbackModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });

@@ -629,3 +629,35 @@ CREATE TABLE IF NOT EXISTS "maintenance_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 52. Create enum_feedback_you_are_a type
+CREATE TYPE "enum_feedback_you_are_a" AS ENUM ('participant', 'family','staff','supportCoordinator','other');
+
+-- 53. Create enum_type_of_feedback type
+CREATE TYPE "enum_type_of_feedback" AS ENUM ('complaint', 'compliment','feedback');
+
+-- 54. Create enum_feedback_status type
+CREATE TYPE "enum_feedback_status" AS ENUM ('awaitingAcknowledgement', 'acknowledged','assessed','resolved');
+
+-- 55. Create  feedbacks table
+CREATE TABLE IF NOT EXISTS "feedbacks" (
+    "id" UUID NOT NULL,
+    "date_reported" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "name" VARCHAR(255),
+    "email" VARCHAR(255),
+    "phone" VARCHAR (255),
+    "you_are_a" enum_feedback_you_are_a NOT NULL,
+    "type_of_feedback" enum_type_of_feedback NOT NULL,
+    "feedback" VARCHAR NOT NULL,
+    "assesments" VARCHAR,
+    "actions" VARCHAR,
+    "notified_of_result" VARCHAR,
+    "date_closed" TIMESTAMP WITH TIME ZONE,
+    "status" enum_feedback_status ,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
