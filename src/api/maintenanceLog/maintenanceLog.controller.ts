@@ -1,21 +1,23 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 
-import maintenanceLogService from "./ maintenanceLog.service";
+import maintenanceLogService from "./maintenanceLog.service";
 
-class  MaintenanceLogController {
-  async create MaintenanceLog(req: Request, res: Response) {
+class MaintenanceLogController {
+  async createMaintenanceLog(req: Request, res: Response) {
     const props = {
       company: req.auth.companyId,
       ...req.body,
     };
 
-    const maintenanceLog = await maintenanceLogService.create MaintenanceLog(props);
+    const maintenanceLog = await maintenanceLogService.createMaintenanceLog(
+      props
+    );
 
     res.status(200).json(maintenanceLog);
   }
 
-  async update MaintenanceLog(req: Request, res: Response) {
+  async updateMaintenanceLog(req: Request, res: Response) {
     const { maintenanceLogId } = req.params;
     const props = {
       id: maintenanceLogId,
@@ -23,36 +25,40 @@ class  MaintenanceLogController {
       ...req.body,
     };
 
-    const maintenanceLog = await maintenanceLogService.update MaintenanceLog(props);
+    const maintenanceLog = await maintenanceLogService.updateMaintenanceLog(
+      props
+    );
 
     res.status(200).json(maintenanceLog);
   }
 
-  async delete MaintenanceLog(req: Request, res: Response) {
+  async deleteMaintenanceLog(req: Request, res: Response) {
     const { maintenanceLogId } = req.params;
     const props = {
       id: maintenanceLogId,
       company: req.auth.companyId,
     };
 
-    await maintenanceLogService.delete MaintenanceLog(props);
+    await maintenanceLogService.deleteMaintenanceLog(props);
 
     res.status(204).json();
   }
 
-  get maintenanceLogById(req: Request, res: Response) {
+  async getmaintenanceLogById(req: Request, res: Response) {
     const { maintenanceLogId } = req.params;
     const props = {
       id: maintenanceLogId,
       company: req.auth.companyId,
     };
 
-    const maintenanceLog = await maintenanceLogService.get MaintenanceLogById(props);
+    const maintenanceLog = await maintenanceLogService.getMaintenanceLogById(
+      props
+    );
 
     res.status(200).json(maintenanceLog);
   }
 
-  async get MaintenanceLogs(req: Request, res: Response) {
+  async getMaintenanceLogs(req: Request, res: Response) {
     const queryParams = _pick(req.query, [
       "page",
       "pageSize",
@@ -64,10 +70,12 @@ class  MaintenanceLogController {
       ...queryParams,
     };
 
-    const maintenanceLogs = await maintenanceLogService.get MaintenanceLogs(props);
+    const maintenanceLogs = await maintenanceLogService.getMaintenanceLogs(
+      props
+    );
 
     res.status(200).json(maintenanceLogs);
   }
 }
 
-export default new  MaintenanceLogController();
+export default new MaintenanceLogController();

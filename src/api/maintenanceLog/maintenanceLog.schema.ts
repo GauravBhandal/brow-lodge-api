@@ -1,9 +1,13 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema,requiredTimeSchema()} from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
-const create MaintenanceLogSchema = wrapSchema({
+const createMaintenanceLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
     time: requiredTimeSchema(),
@@ -14,11 +18,11 @@ const create MaintenanceLogSchema = wrapSchema({
   }),
 });
 
-const edit MaintenanceLogSchema = wrapSchema({
+const editMaintenanceLogSchema = wrapSchema({
   params: Joi.object().keys({ maintenanceLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    time: requiredTimeSchema().required(),
+    time: requiredTimeSchema(),
     subject: Joi.string().required(),
     description: Joi.string().required(),
     location: Joi.string().allow("", null),
@@ -26,19 +30,19 @@ const edit MaintenanceLogSchema = wrapSchema({
   }),
 });
 
-const delete MaintenanceLogSchema = wrapSchema({
+const deleteMaintenanceLogSchema = wrapSchema({
   params: Joi.object().keys({
     maintenanceLogId: requiredUUIDSchema(),
   }),
 });
 
-const get MaintenanceLogByIdSchema = wrapSchema({
+const getMaintenanceLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     maintenanceLogId: requiredUUIDSchema(),
   }),
 });
 
-const get MaintenanceLogSchema = wrapSchema({
+const getMaintenanceLogSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
@@ -48,9 +52,9 @@ const get MaintenanceLogSchema = wrapSchema({
 });
 
 export default {
-  create MaintenanceLog: joiMiddleware(create MaintenanceLogSchema),
-  edit MaintenanceLog: joiMiddleware(edit MaintenanceLogSchema),
-  delete MaintenanceLog: joiMiddleware(delete MaintenanceLogSchema),
-  get MaintenanceLogById: joiMiddleware(get MaintenanceLogByIdSchema),
-  get MaintenanceLogs: joiMiddleware(get MaintenanceLogSchema),
+  createMaintenanceLog: joiMiddleware(createMaintenanceLogSchema),
+  editMaintenanceLog: joiMiddleware(editMaintenanceLogSchema),
+  deleteMaintenanceLog: joiMiddleware(deleteMaintenanceLogSchema),
+  getMaintenanceLogById: joiMiddleware(getMaintenanceLogByIdSchema),
+  getMaintenanceLogs: joiMiddleware(getMaintenanceLogSchema),
 };
