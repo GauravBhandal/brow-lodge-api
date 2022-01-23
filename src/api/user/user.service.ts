@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { omit as _omit } from "lodash";
 
@@ -7,6 +8,8 @@ import {
   MeProps,
   LoginUserProps,
   RegisterUserProps,
+  ForgotPasswordProps,
+  ResetPasswordProps,
   CreateUserProps,
   UpdateUserProps,
   DeleteUserProps,
@@ -22,6 +25,7 @@ import { RoleModel, roleService } from "../role";
 import { companyService } from "../company";
 import { userRoleService } from "./userRole";
 import { getFilters } from "../../components/filters";
+import sendEmail from "../../components/email";
 
 class UserService {
   async me(props: MeProps) {
@@ -129,6 +133,92 @@ class UserService {
     return user;
   }
 
+  async forgotPassword(props: ForgotPasswordProps) {
+    // Check if user exist
+    const existingUser = await UserModel.findOne({
+      where: { email: props.email },
+    });
+
+    // if user not found, throw an error
+    if (!existingUser) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    // Create new password reset token
+    const resetPasswordToken = crypto.randomBytes(32).toString("hex");
+    const resetPasswordTokenHash = await bcrypt.hash(resetPasswordToken, 10);
+
+    // Update the user and assign the new password reset token
+    const [, [updatedUser]] = await UserModel.update(
+      {
+        resetPasswordToken: resetPasswordTokenHash,
+      },
+      {
+        where: { id: existingUser.id },
+        returning: true,
+      }
+    );
+
+    // Send password reset email to the user. TODO: Use templated and fix the url
+    const passwordResetUrl = `${config.BASE_URL}${config.URL_PREFIX}/reset-password?token=${resetPasswordToken}&id=${updatedUser.id}`;
+    const emailBody = `
+    Hi ${updatedUser.firstName}!
+    <br>  
+    <br>  
+    We are sending you this email because you requested a password reset. Click on the following link to create a new password.
+    <br>
+    <br>  
+    ${passwordResetUrl}
+    <br>
+    <br>    
+    If you didn't request a password reset, you can ignore this email. Your password will not be changed.  
+    <br>  
+    <br>  
+    Best Regards,
+    <br>
+    Team Care Diary
+      `;
+    await sendEmail(updatedUser.email, emailBody);
+
+    return { Status: "ok" };
+  }
+
+  async resetPassword(props: ResetPasswordProps) {
+    const { id, password, resetPasswordToken } = props;
+
+    // Check if user exist
+    const user = await UserModel.findOne({
+      where: { id },
+    });
+
+    // If no user has been found, then throw an error
+    if (!user) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    const isValid = await bcrypt.compare(
+      resetPasswordToken,
+      user.resetPasswordToken
+    );
+
+    if (!isValid) {
+      throw new CustomError(401, UserErrorCode.INVALID_PASSWORD_RESET_TOKEN);
+    }
+
+    // Encrypt user password
+    const encryptedPassword = await bcrypt.hash(password, 10);
+
+    const [, [updatedUser]] = await UserModel.update(
+      { password: encryptedPassword },
+      {
+        where: { id },
+        returning: true,
+      }
+    );
+
+    return updatedUser;
+  }
+
   async createUser(props: CreateUserProps) {
     // Check if user already exist
     const existingUser = await UserModel.findOne({
@@ -144,8 +234,11 @@ class UserService {
     const encryptedPassword = await bcrypt.hash(props.password, 10);
     props.password = encryptedPassword;
 
+    // Create new password reset token
+    const resetPasswordToken = crypto.randomBytes(32).toString("hex");
+
     // Create User
-    const user = await UserModel.create(props);
+    const user = await UserModel.create({ ...props, resetPasswordToken });
 
     // Assing roles to the new user
     if (props.roles && props.roles.length) {

@@ -37,6 +37,26 @@ class UserController {
     res.status(200).json(user);
   }
 
+  async forgotPassword(req: Request, res: Response) {
+    const props = {
+      email: req.body.email,
+    };
+
+    const user = await userService.forgotPassword(props);
+
+    res.status(200).json(user);
+  }
+
+  async resetPassword(req: Request, res: Response) {
+    const props = {
+      ...req.body,
+    };
+
+    const user = await userService.resetPassword(props);
+
+    res.status(200).json(user);
+  }
+
   async createUser(req: Request, res: Response) {
     const props = {
       company: req.auth.companyId,

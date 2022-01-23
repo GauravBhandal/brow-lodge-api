@@ -569,6 +569,8 @@ module.exports = {
           email: "yasmine@carediary.com.au",
           password:
             "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
+          reset_password_token:
+            "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
           blocked: false,
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
@@ -580,6 +582,8 @@ module.exports = {
           last_name: "Sidhu",
           email: "pavi@carediary.com.au",
           password:
+            "$2a$10$okPk0rYX36SPHFdzsfMJHOVP47ND9tPIHMMAX63Fx4sBwYLME9Vem",
+          reset_password_token:
             "$2a$10$okPk0rYX36SPHFdzsfMJHOVP47ND9tPIHMMAX63Fx4sBwYLME9Vem",
           blocked: false,
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
