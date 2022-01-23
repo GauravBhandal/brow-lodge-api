@@ -12,6 +12,7 @@ import router from "../router";
 import { handleErrorMiddleware, shouldReportError } from "../components/errors";
 import modelsAssociations from "../components/sequelize/model.associations";
 import joiErrorMiddleware from "../components/joi/middleware";
+import rateLimitMiddleware from "../components/rateLimiter";
 
 export default function (app: Express) {
   // TODO: Currently, allowing all CROS requests
@@ -34,6 +35,7 @@ export default function (app: Express) {
   // TracingHandler creates a trace for every incoming request
   app.use(Sentry.Handlers.tracingHandler());
 
+  app.use(rateLimitMiddleware);
   app.use(helmet());
   app.use(morgan(morganConfig));
   app.use(compressionMiddleware());
