@@ -31,6 +31,9 @@ import { ClientRiskModel } from "../../api/clientRisk";
 import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 import { ResourceModel } from "../../api/resource";
 import { DocumentLogModel } from "../../api/documentLog";
+import { LeaseAndUtilityLogModel } from "../../api/leaseAndUtilityLog";
+import { MaintenanceLogModel } from "../../api/ maintenanceLog";
+import { FeedbackModel } from "../../api/feedback";
 
 export default {
   initialize() {
@@ -67,6 +70,9 @@ export default {
     initializeStaffSleepDisturbanceModelAssociations();
     initializeResourceModelAssociations();
     initializeDocumentLogModelAssociations();
+    initializeLeaseAndUtilityLogModelAssociations();
+    initializeMaintenanceLogModelAssociations();
+    initializeFeedbackModelAssociations();
   },
 };
 
@@ -463,5 +469,39 @@ function initializeResourceModelAssociations() {
 function initializeDocumentLogModelAssociations() {
   DocumentLogModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeLeaseAndUtilityLogModelAssociations() {
+  LeaseAndUtilityLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  LeaseAndUtilityLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  LeaseAndUtilityLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeMaintenanceLogModelAssociations() {
+  MaintenanceLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  MaintenanceLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+}
+
+function initializeFeedbackModelAssociations() {
+  FeedbackModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  FeedbackModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
   });
 }

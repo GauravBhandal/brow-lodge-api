@@ -24,8 +24,6 @@ class ClientProfileService {
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
-    console.log("updateProps", updateProps);
-
     // Find clientProfile by id and company
     const clientProfile = await ClientProfileModel.findOne({
       where: { id, company },

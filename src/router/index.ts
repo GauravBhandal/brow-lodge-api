@@ -34,6 +34,9 @@ import { clientRiskRoutes } from "../api/clientRisk";
 import { staffSleepDisturbanceRoutes } from "../api/staffSleepDisturbance";
 import { resourceRoutes } from "../api/resource";
 import { documentLogRoutes } from "../api/documentLog";
+import { leaseAndUtilityLogRoutes } from "../api/leaseAndUtilityLog";
+import { maintenanceLogRoutes } from "../api/maintenanceLog";
+import { feedbackRoutes } from "../api/feedback";
 
 const router = express.Router();
 router.use(authMiddleware);
@@ -71,5 +74,8 @@ router.use("/client-risk", clientRiskRoutes);
 router.use("/staff-sleep-disturbance", staffSleepDisturbanceRoutes);
 router.use("/resource", resourceRoutes);
 router.use("/document-log", documentLogRoutes);
+router.use("/leaseAndUtilityLog", leaseAndUtilityLogRoutes);
+router.use("/maintenanceLog", maintenanceLogRoutes);
+router.use("/feedback", feedbackRoutes);
 
 export default router;

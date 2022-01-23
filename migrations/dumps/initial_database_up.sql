@@ -612,3 +612,66 @@ CREATE TABLE IF NOT EXISTS "document_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 51. Create lease_and_utility_logs table
+CREATE TABLE IF NOT EXISTS "lease_and_utility_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "document_name" VARCHAR(255) NOT NULL,
+    "comments" VARCHAR,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 52. Create  maintenance_logs table
+CREATE TABLE IF NOT EXISTS "maintenance_logs" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
+    "subject" VARCHAR(255) NOT NULL,
+    "description" VARCHAR NOT NULL,
+    "location" VARCHAR(255),
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 53. Create enum_feedback_you_are_a type
+CREATE TYPE "enum_feedback_you_are_a" AS ENUM ('participant', 'family','staff','supportCoordinator','other');
+
+-- 54. Create enum_type_of_feedback type
+CREATE TYPE "enum_type_of_feedback" AS ENUM ('complaint', 'compliment','feedback');
+
+-- 55. Create enum_feedback_status type
+CREATE TYPE "enum_feedback_status" AS ENUM ('awaitingAcknowledgement', 'acknowledged','assessed','resolved');
+
+-- 56. Create  feedbacks table
+CREATE TABLE IF NOT EXISTS "feedbacks" (
+    "id" UUID NOT NULL,
+    "date_reported" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "name" VARCHAR(255),
+    "email" VARCHAR(255),
+    "phone" VARCHAR (255),
+    "you_are_a" enum_feedback_you_are_a NOT NULL,
+    "type_of_feedback" enum_type_of_feedback NOT NULL,
+    "feedback" VARCHAR NOT NULL,
+    "assesments" VARCHAR,
+    "actions" VARCHAR,
+    "notified_of_result" VARCHAR,
+    "date_closed" TIMESTAMP WITH TIME ZONE,
+    "status" enum_feedback_status,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

@@ -1,15 +1,15 @@
 import { omit as _omit } from "lodash";
 
-import ResourceModel from "./resource.model";
+import FeedbackModel from "./feedback.model";
 import {
-  CreateResourceProps,
-  UpdateResourceProps,
-  DeleteResourceProps,
-  GetResourceByIdProps,
-  GetResourcesProps,
-} from "./resource.types";
+  CreateFeedbackProps,
+  UpdateFeedbackProps,
+  DeleteFeedbackProps,
+  GetFeedbackByIdProps,
+  GetFeedbacksProps,
+} from "./feedback.types";
 import { CustomError } from "../../components/errors";
-import ResourceErrorCode from "./resource.error";
+import FeedbackErrorCode from "./feedback.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
@@ -17,58 +17,58 @@ import { StaffProfileModel } from "../staffProfile";
 
 import { getFilters } from "../../components/filters";
 
-class ResourceService {
-  async createResource(props: CreateResourceProps) {
-    const resource = await ResourceModel.create(props);
-    return resource;
+class FeedbackService {
+  async createFeedback(props: CreateFeedbackProps) {
+    const feedback = await FeedbackModel.create(props);
+    return feedback;
   }
 
-  async updateResource(props: UpdateResourceProps) {
+  async updateFeedback(props: UpdateFeedbackProps) {
     // Props
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
-    // Find resource by id and company
-    const resource = await ResourceModel.findOne({
+    // Find feedback by id and company
+    const feedback = await FeedbackModel.findOne({
       where: { id, company },
     });
 
-    // if resource not found, throw an error
-    if (!resource) {
-      throw new CustomError(404, ResourceErrorCode.RESOURCE_NOT_FOUND);
+    // if feedback not found, throw an error
+    if (!feedback) {
+      throw new CustomError(404, FeedbackErrorCode.FEEDBACK_NOT_FOUND);
     }
 
-    // Finally, update the resource
-    const [, [updatedResource]] = await ResourceModel.update(updateProps, {
+    // Finally, update the feedback
+    const [, [updatedFeedback]] = await FeedbackModel.update(updateProps, {
       where: { id, company },
       returning: true,
     });
-    return updatedResource;
+    return updatedFeedback;
   }
 
-  async deleteResource(props: DeleteResourceProps) {
+  async deleteFeedback(props: DeleteFeedbackProps) {
     // Props
     const { id, company } = props;
 
-    // Find and delete the resource by id and company
-    const resource = await ResourceModel.destroy({
+    // Find and delete the feedback by id and company
+    const feedback = await FeedbackModel.destroy({
       where: { id, company },
     });
 
-    // if resource has been deleted, throw an error
-    if (!resource) {
-      throw new CustomError(404, ResourceErrorCode.RESOURCE_NOT_FOUND);
+    // if feedback has been deleted, throw an error
+    if (!feedback) {
+      throw new CustomError(404, FeedbackErrorCode.FEEDBACK_NOT_FOUND);
     }
 
-    return resource;
+    return feedback;
   }
 
-  async getResourceById(props: GetResourceByIdProps) {
+  async getFeedbackById(props: GetFeedbackByIdProps) {
     // Props
     const { id, company } = props;
 
-    // Find  the resource by id and company
-    const resource = await ResourceModel.findOne({
+    // Find  the feedback by id and company
+    const feedback = await FeedbackModel.findOne({
       where: { id, company },
       include: [
         {
@@ -81,15 +81,15 @@ class ResourceService {
       ],
     });
 
-    // If no resource has been found, then throw an error
-    if (!resource) {
-      throw new CustomError(404, ResourceErrorCode.RESOURCE_NOT_FOUND);
+    // If no feedback has been found, then throw an error
+    if (!feedback) {
+      throw new CustomError(404, FeedbackErrorCode.FEEDBACK_NOT_FOUND);
     }
 
-    return resource;
+    return feedback;
   }
 
-  async getResources(props: GetResourcesProps) {
+  async getFeedbacks(props: GetFeedbacksProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
@@ -109,8 +109,8 @@ class ResourceService {
       },
     ];
 
-    // Count total resources in the given company
-    const count = await ResourceModel.count({
+    // Count total feedbacks in the given company
+    const count = await FeedbackModel.count({
       where: {
         company,
         ...filters["primaryFilters"],
@@ -118,8 +118,8 @@ class ResourceService {
       include,
     });
 
-    // Find all resources for matching props and company
-    const data = await ResourceModel.findAll({
+    // Find all feedbacks for matching props and company
+    const data = await FeedbackModel.findAll({
       offset,
       limit,
       order,
@@ -137,4 +137,4 @@ class ResourceService {
   }
 }
 
-export default new ResourceService();
+export default new FeedbackService();

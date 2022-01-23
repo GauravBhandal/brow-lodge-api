@@ -1,15 +1,15 @@
 import { omit as _omit } from "lodash";
 
-import PrnBalanceLogModel from "./prnBalanceLog.model";
+import MaintenanceLogModel from "./maintenanceLog.model";
 import {
-  CreatePrnBalanceLogProps,
-  UpdatePrnBalanceLogProps,
-  DeletePrnBalanceLogProps,
-  GetPrnBalanceLogByIdProps,
-  GetPrnBalanceLogsProps,
-} from "./prnBalanceLog.types";
+  CreateMaintenanceLogProps,
+  UpdateMaintenanceLogProps,
+  DeleteMaintenanceLogProps,
+  GetMaintenanceLogByIdProps,
+  GetMaintenanceLogsProps,
+} from "./maintenanceLog.types";
 import { CustomError } from "../../components/errors";
-import PrnBalanceLogErrorCode from "./prnBalanceLog.error";
+import MaintenanceLogErrorCode from "./maintenanceLog.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
@@ -17,67 +17,67 @@ import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
 
-class PrnBalanceLogService {
-  async createPrnBalanceLog(props: CreatePrnBalanceLogProps) {
-    const prnBalanceLog = await PrnBalanceLogModel.create(props);
-    return prnBalanceLog;
+class MaintenanceLogService {
+  async createMaintenanceLog(props: CreateMaintenanceLogProps) {
+    const maintenanceLog = await MaintenanceLogModel.create(props);
+    return maintenanceLog;
   }
 
-  async updatePrnBalanceLog(props: UpdatePrnBalanceLogProps) {
+  async updateMaintenanceLog(props: UpdateMaintenanceLogProps) {
     // Props
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
-    // Find prnBalanceLog by id and company
-    const prnBalanceLog = await PrnBalanceLogModel.findOne({
+    // Find maintenanceLog by id and company
+    const maintenanceLog = await MaintenanceLogModel.findOne({
       where: { id, company },
     });
 
-    // if prnBalanceLog not found, throw an error
-    if (!prnBalanceLog) {
+    // if maintenanceLog not found, throw an error
+    if (!maintenanceLog) {
       throw new CustomError(
         404,
-        PrnBalanceLogErrorCode.PRN_BALANCE_LOG_NOT_FOUND
+        MaintenanceLogErrorCode.MAINTENANCE_LOG_NOT_FOUND
       );
     }
 
-    // Finally, update the prnBalanceLog
-    const [, [updatedPrnBalanceLog]] = await PrnBalanceLogModel.update(
+    // Finally, update the maintenanceLog
+    const [, [updatedMaintenanceLog]] = await MaintenanceLogModel.update(
       updateProps,
       {
         where: { id, company },
         returning: true,
       }
     );
-    return updatedPrnBalanceLog;
+    return updatedMaintenanceLog;
   }
 
-  async deletePrnBalanceLog(props: DeletePrnBalanceLogProps) {
+  async deleteMaintenanceLog(props: DeleteMaintenanceLogProps) {
     // Props
     const { id, company } = props;
 
-    // Find and delete the prnBalanceLog by id and company
-    const prnBalanceLog = await PrnBalanceLogModel.destroy({
+    // Find and delete the maintenanceLog by id and company
+    const maintenanceLog = await MaintenanceLogModel.destroy({
       where: { id, company },
     });
 
-    // if prnBalanceLog has been deleted, throw an error
-    if (!prnBalanceLog) {
+    // if maintenanceLog has been deleted, throw an error
+    if (!maintenanceLog) {
       throw new CustomError(
         404,
-        PrnBalanceLogErrorCode.PRN_BALANCE_LOG_NOT_FOUND
+        MaintenanceLogErrorCode.MAINTENANCE_LOG_NOT_FOUND
       );
     }
 
-    return prnBalanceLog;
+    return maintenanceLog;
   }
 
-  async getPrnBalanceLogById(props: GetPrnBalanceLogByIdProps) {
+  async getMaintenanceLogById(props: GetMaintenanceLogByIdProps) {
     // Props
     const { id, company } = props;
 
-    // Find  the prnBalanceLog by id and company
-    const prnBalanceLog = await PrnBalanceLogModel.findOne({
+    // Find  the maintenanceLog by id and company
+    const maintenanceLog = await MaintenanceLogModel.findOne({
       where: { id, company },
       include: [
         {
@@ -94,25 +94,24 @@ class PrnBalanceLogService {
       ],
     });
 
-    // If no prnBalanceLog has been found, then throw an error
-    if (!prnBalanceLog) {
+    // If no maintenanceLog has been found, then throw an error
+    if (!maintenanceLog) {
       throw new CustomError(
         404,
-        PrnBalanceLogErrorCode.PRN_BALANCE_LOG_NOT_FOUND
+        MaintenanceLogErrorCode.MAINTENANCE_LOG_NOT_FOUND
       );
     }
 
-    return prnBalanceLog;
+    return maintenanceLog;
   }
 
-  async getPrnBalanceLogs(props: GetPrnBalanceLogsProps) {
+  async getMaintenanceLogs(props: GetMaintenanceLogsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
-
     const include = [
       {
         model: CompanyModel,
@@ -133,8 +132,8 @@ class PrnBalanceLogService {
       },
     ];
 
-    // Count total prnBalanceLogs in the given company
-    const count = await PrnBalanceLogModel.count({
+    // Count total maintenanceLogs in the given company
+    const count = await MaintenanceLogModel.count({
       where: {
         company,
         ...filters["primaryFilters"],
@@ -142,8 +141,8 @@ class PrnBalanceLogService {
       include,
     });
 
-    // Find all prnBalanceLogs for matching props and company
-    const data = await PrnBalanceLogModel.findAll({
+    // Find all maintenanceLogs for matching props and company
+    const data = await MaintenanceLogModel.findAll({
       offset,
       limit,
       order,
@@ -161,4 +160,4 @@ class PrnBalanceLogService {
   }
 }
 
-export default new PrnBalanceLogService();
+export default new MaintenanceLogService();

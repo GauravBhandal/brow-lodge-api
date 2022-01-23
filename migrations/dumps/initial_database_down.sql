@@ -1,3 +1,21 @@
+-- 56. DROP feedbacks table
+DROP TABLE IF EXISTS "feedbacks";
+
+-- 55. DROP enum_feedback_status type
+DROP TYPE "enum_feedback_status";
+
+-- 54. DROP enum_type_of_feedback type
+DROP TYPE "enum_type_of_feedback";
+
+-- 53. DROP enum_feedback_you_are_a type
+DROP TYPE "enum_feedback_you_are_a";
+
+-- 52. DROP maintenance_logs table
+DROP TABLE IF EXISTS "maintenance_logs";
+
+-- 51. DROP lease_and_utility_logs table
+DROP TABLE IF EXISTS "lease_and_utility_logs";
+
 -- 50. DROP document_logs table
 DROP TABLE IF EXISTS "document_logs";
 
