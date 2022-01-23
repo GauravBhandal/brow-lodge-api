@@ -118,10 +118,16 @@ class OxygenSaturationLogService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
     ];
 
@@ -143,19 +149,7 @@ class OxygenSaturationLogService {
         company,
         ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function
