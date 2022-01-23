@@ -113,6 +113,9 @@ class ConflictOfInterestService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
     ];
     // Count total conflictOfInterests in the given company

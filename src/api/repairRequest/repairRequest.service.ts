@@ -115,6 +115,9 @@ class RepairRequestService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
     ];
 

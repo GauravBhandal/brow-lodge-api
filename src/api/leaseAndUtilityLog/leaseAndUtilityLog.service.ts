@@ -119,10 +119,16 @@ class LeaseAndUtilityLogService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
     ];
     // Count total leaseAndUtilityLogs in the given company

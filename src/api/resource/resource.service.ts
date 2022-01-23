@@ -103,6 +103,9 @@ class ResourceService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
     ];
 

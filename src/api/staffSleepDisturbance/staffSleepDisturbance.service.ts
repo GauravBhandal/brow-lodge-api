@@ -121,10 +121,16 @@ class StaffSleepDisturbanceService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
     ];
     // Count total staffSleepDisturbances in the given company

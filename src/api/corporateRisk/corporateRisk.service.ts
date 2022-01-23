@@ -116,6 +116,9 @@ class CorporateRiskService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
     ];
     // Count total corporateRisks in the given company

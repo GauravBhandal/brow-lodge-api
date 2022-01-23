@@ -106,6 +106,9 @@ class CompanyAssetService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
     ];
 
