@@ -2,10 +2,10 @@
 DROP TABLE IF EXISTS "feedbacks";
 
 -- 55. DROP enum_feedback_status type
-DROP TABLE IF EXISTS "enum_feedback_status";
+DROP TYPE "enum_feedback_status";
 
 -- 54. DROP enum_type_of_feedback type
-DROP TABLE IF EXISTS "enum_type_of_feedback";
+DROP TYPE "enum_type_of_feedback";
 
 -- 53. DROP enum_feedback_you_are_a type
 DROP TYPE "enum_feedback_you_are_a";
