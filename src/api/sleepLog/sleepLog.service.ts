@@ -108,10 +108,16 @@ class SleepLogService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
     ];
 
@@ -121,6 +127,7 @@ class SleepLogService {
         company,
         ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all sleepLogs for matching props and company
