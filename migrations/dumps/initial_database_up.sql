@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS "users" (
     "last_name" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL UNIQUE,
     "password" VARCHAR(255) NOT NULL,
+    "reset_password_token" VARCHAR(255),
     "blocked" BOOLEAN NOT NULL DEFAULT FALSE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -599,7 +600,20 @@ CREATE TABLE IF NOT EXISTS "resources" (
     PRIMARY KEY ("id")
 );
 
--- 50. Create lease_and_utility_logs table
+-- 50. Create document_logs table
+CREATE TABLE IF NOT EXISTS "document_logs" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "meme" VARCHAR(255) NOT NULL,
+    "url" VARCHAR(255) NOT NULL,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 51. Create lease_and_utility_logs table
 CREATE TABLE IF NOT EXISTS "lease_and_utility_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -614,7 +628,7 @@ CREATE TABLE IF NOT EXISTS "lease_and_utility_logs" (
     PRIMARY KEY ("id")
 );
 
--- 51. Create  maintenance_logs table
+-- 52. Create  maintenance_logs table
 CREATE TABLE IF NOT EXISTS "maintenance_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -630,16 +644,16 @@ CREATE TABLE IF NOT EXISTS "maintenance_logs" (
     PRIMARY KEY ("id")
 );
 
--- 52. Create enum_feedback_you_are_a type
+-- 53. Create enum_feedback_you_are_a type
 CREATE TYPE "enum_feedback_you_are_a" AS ENUM ('participant', 'family','staff','supportCoordinator','other');
 
--- 53. Create enum_type_of_feedback type
+-- 54. Create enum_type_of_feedback type
 CREATE TYPE "enum_type_of_feedback" AS ENUM ('complaint', 'compliment','feedback');
 
--- 54. Create enum_feedback_status type
+-- 55. Create enum_feedback_status type
 CREATE TYPE "enum_feedback_status" AS ENUM ('awaitingAcknowledgement', 'acknowledged','assessed','resolved');
 
--- 55. Create  feedbacks table
+-- 56. Create  feedbacks table
 CREATE TABLE IF NOT EXISTS "feedbacks" (
     "id" UUID NOT NULL,
     "date_reported" TIMESTAMP WITH TIME ZONE NOT NULL,

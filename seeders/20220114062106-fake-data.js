@@ -569,6 +569,8 @@ module.exports = {
           email: "yasmine@carediary.com.au",
           password:
             "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
+          reset_password_token:
+            "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
           blocked: false,
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
@@ -580,6 +582,8 @@ module.exports = {
           last_name: "Sidhu",
           email: "pavi@carediary.com.au",
           password:
+            "$2a$10$okPk0rYX36SPHFdzsfMJHOVP47ND9tPIHMMAX63Fx4sBwYLME9Vem",
+          reset_password_token:
             "$2a$10$okPk0rYX36SPHFdzsfMJHOVP47ND9tPIHMMAX63Fx4sBwYLME9Vem",
           blocked: false,
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
@@ -1554,7 +1558,7 @@ module.exports = {
         {
           id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
           date: new Date(),
-          collection_type: JSON.stringify(collection_type),
+          collection_types: JSON.stringify({}),
           type: "link",
           title: "title 1",
           text: "text 1",
@@ -1567,12 +1571,37 @@ module.exports = {
         {
           id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
           date: new Date(),
-          collection_type: JSON.stringify(collection_type),
+          collection_types: JSON.stringify({}),
           type: "link",
           title: "title 2",
           text: "text 2",
           link: "link 2",
           staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "document_logs",
+      [
+        {
+          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+          name: "sample.pdf",
+          meme: "application/pdf",
+          url: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd/1642817572356-676448347-sample.pdf",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+          name: "sample.pdf",
+          meme: "application/pdf",
+          url: "d587b3ba-69a6-4d46-a42a-113eed378310/1642817572356-676448347-sample.pdf",
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
           created: new Date(),
           updated: new Date(),
@@ -1691,6 +1720,7 @@ module.exports = {
     await queryInterface.bulkDelete("feedbacks", null, {});
     await queryInterface.bulkDelete("maintenance_logs", null, {});
     await queryInterface.bulkDelete("lease_and_utility_logs", null, {});
+    await queryInterface.bulkDelete("document_logs", null, {});
     await queryInterface.bulkDelete("resources", null, {});
     await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
     await queryInterface.bulkDelete("client_risks", null, {});

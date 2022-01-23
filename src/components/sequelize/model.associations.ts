@@ -30,6 +30,7 @@ import { MeetingLogModel } from "../../api/meetingLog";
 import { ClientRiskModel } from "../../api/clientRisk";
 import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 import { ResourceModel } from "../../api/resource";
+import { DocumentLogModel } from "../../api/documentLog";
 import { LeaseAndUtilityLogModel } from "../../api/leaseAndUtilityLog";
 import { MaintenanceLogModel } from "../../api/ maintenanceLog";
 import { FeedbackModel } from "../../api/feedback";
@@ -68,6 +69,7 @@ export default {
     initializeClientRiskModelAssociations();
     initializeStaffSleepDisturbanceModelAssociations();
     initializeResourceModelAssociations();
+    initializeDocumentLogModelAssociations();
     initializeLeaseAndUtilityLogModelAssociations();
     initializeMaintenanceLogModelAssociations();
     initializeFeedbackModelAssociations();
@@ -461,6 +463,12 @@ function initializeResourceModelAssociations() {
   ResourceModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
+  });
+}
+
+function initializeDocumentLogModelAssociations() {
+  DocumentLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }
 

@@ -107,10 +107,16 @@ class BowelLogService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
     ];
 

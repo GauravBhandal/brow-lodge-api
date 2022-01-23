@@ -20,6 +20,12 @@ const sanitizeError = (error: any) => {
     // TODO: There are different types of sequelize errors
     statusCode = 400;
     message = "DATABASE_VALIDATION_ERROR";
+  } else if (error.name === "SequelizeDatabaseError") {
+    statusCode = 400;
+    message = "DATABASE_VALIDATION_ERROR";
+  } else if (error.code === "LIMIT_FILE_SIZE") {
+    statusCode = 400;
+    message = "DOCUMENT_SIZE_IS_TOO_BIG";
   }
 
   if (!statusCode) {
@@ -37,7 +43,7 @@ const handleErrorMiddleware = (
   next: NextFunction
 ) => {
   const customErr = sanitizeError(err);
-  console.log("TODO: add error logger and sentry", err);
+  console.log(err);
   const { statusCode, message } = customErr;
   res.status(statusCode).json({
     statusCode,
@@ -49,4 +55,12 @@ const catchWrap =
   (fn: any) => (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
-export { CustomError, handleErrorMiddleware, catchWrap };
+const shouldReportError = (error: any) => {
+  if (error.status >= 400 || error.statusCode >= 400) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export { CustomError, handleErrorMiddleware, catchWrap, shouldReportError };
