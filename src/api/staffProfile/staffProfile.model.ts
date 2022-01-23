@@ -5,7 +5,6 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
 import { StaffProfile, CreateStaffProfileProps } from "./staffProfile.types";
-import { Company } from "../company";
 
 class StaffProfileModel<
     ModelAttributes = StaffProfile,
@@ -17,8 +16,10 @@ class StaffProfileModel<
   firstName!: StaffProfile["firstName"];
   lastName!: StaffProfile["lastName"];
   preferredName!: StaffProfile["preferredName"];
-  company!: Company["id"];
-  Company?: Company;
+  user: StaffProfile["user"];
+  User: StaffProfile["User"];
+  company!: StaffProfile["company"];
+  Company: StaffProfile["Company"];
 }
 
 modelManager.init(

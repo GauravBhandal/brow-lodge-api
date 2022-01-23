@@ -96,6 +96,9 @@ function initializeStaffProfileModelAssociations() {
   StaffProfileModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
+  StaffProfileModel.belongsTo(UserModel, {
+    foreignKey: { name: "user", allowNull: true },
+  });
 }
 
 function initializeUserModelAssociations() {
@@ -105,6 +108,12 @@ function initializeUserModelAssociations() {
   UserModel.belongsToMany(RoleModel, {
     through: "users_roles",
     foreignKey: "user",
+  });
+  UserModel.hasOne(StaffProfileModel, {
+    foreignKey: {
+      name: "user",
+    },
+    as: "Staff",
   });
 }
 

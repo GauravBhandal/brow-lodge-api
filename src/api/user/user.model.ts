@@ -20,6 +20,7 @@ class UserModel<
   password!: User["password"];
   resetPasswordToken!: User["resetPasswordToken"];
   blocked!: boolean;
+  Staff: User["Staff"];
   company!: User["company"];
   Company: User["Company"];
   Roles?: Role[];

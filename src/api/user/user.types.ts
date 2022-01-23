@@ -1,5 +1,6 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
+import { StaffProfile } from "../staffProfile";
 import { Role } from "../role";
 import { QueryParams } from "../../common/types";
 
@@ -10,6 +11,7 @@ export interface User extends DefaultSchemaConfig {
   password: string;
   resetPasswordToken: string;
   blocked: boolean;
+  Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
   Roles?: Role[];

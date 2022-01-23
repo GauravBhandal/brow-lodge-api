@@ -26,6 +26,8 @@ import { companyService } from "../company";
 import { userRoleService } from "./userRole";
 import { getFilters } from "../../components/filters";
 import sendEmail from "../../components/email";
+import { StaffProfileModel } from "../staffProfile";
+import { CompanyModel } from "../company";
 
 class UserService {
   async me(props: MeProps) {
@@ -309,7 +311,7 @@ class UserService {
     // Props
     const { id, company } = props;
 
-    // Find  the user by id and company
+    // Find the user by id and company
     const user = await UserModel.findOne({
       where: { id, company },
       include: [
@@ -318,6 +320,13 @@ class UserService {
           through: {
             attributes: [],
           },
+        },
+        {
+          model: CompanyModel,
+        },
+        {
+          model: StaffProfileModel,
+          as: "Staff",
         },
       ],
     });
@@ -339,12 +348,32 @@ class UserService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const include = [
+      {
+        model: RoleModel,
+        through: {
+          attributes: [],
+        },
+      },
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
+      },
+    ];
+
     // Count total users in the given company
     const count = await UserModel.count({
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
+      include,
     });
 
     // Find all users for matching props and company
@@ -354,16 +383,9 @@ class UserService {
       order,
       where: {
         company,
-        ...filters,
+        ...filters["primaryFilters"],
       },
-      include: [
-        {
-          model: RoleModel,
-          through: {
-            attributes: [],
-          },
-        },
-      ],
+      include,
     });
 
     // TODO: Clean up getPagingData function
