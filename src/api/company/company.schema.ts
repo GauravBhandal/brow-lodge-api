@@ -1,24 +1,14 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import { wrapSchema } from "../../common/joiSchemas";
 
-const editCompanySchema = wrapSchema({
-  params: Joi.object().keys({
-    companyId: requiredUUIDSchema(),
-  }),
+const editMyCompanySchema = wrapSchema({
   body: Joi.object().keys({
     name: Joi.string().required(),
   }),
 });
 
-const getCompanyByIdSchema = wrapSchema({
-  params: Joi.object().keys({
-    companyId: requiredUUIDSchema(),
-  }),
-});
-
 export default {
-  editCompany: joiMiddleware(editCompanySchema),
-  getCompanyById: joiMiddleware(getCompanyByIdSchema),
+  editMyCompany: joiMiddleware(editMyCompanySchema),
 };

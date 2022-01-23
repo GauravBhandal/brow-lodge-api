@@ -7,15 +7,11 @@ import { catchWrap } from "../../components/errors";
 const router = express.Router();
 
 router.put(
-  "/:companyId",
-  companySchems.editCompany,
-  catchWrap(controller.updateCompany)
+  "/",
+  companySchems.editMyCompany,
+  catchWrap(controller.updateMyCompany)
 );
 
-router.get(
-  "/:companyId",
-  companySchems.getCompanyById,
-  catchWrap(controller.getcompanyById)
-);
+router.get("/", catchWrap(controller.getMyCompany));
 
 export default router;

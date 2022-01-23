@@ -1,8 +1,8 @@
 import CompanyModel from "./company.model";
 import {
   CreateCompanyProps,
-  GetCompanyByIdProps,
-  UpdateCompanyProps,
+  UpdateMyCompanyProps,
+  GetMyCompanyProps,
 } from "./company.types";
 import { CustomError } from "../../components/errors";
 import CompanyErrorCode from "./company.error";
@@ -14,18 +14,13 @@ class CompanyService {
     return company;
   }
 
-  async updateCompany(props: UpdateCompanyProps) {
+  async updateCompany(props: UpdateMyCompanyProps) {
     // Props
-    const { company, id, name } = props;
-
-    // If the user tries to update someone else's company
-    if (company !== id) {
-      throw new CustomError(404, CompanyErrorCode.COMPANY_NOT_FOUND);
-    }
+    const { company, name } = props;
 
     // Check if company exists
     const exsitingCompany = await CompanyModel.findOne({
-      where: { id },
+      where: { id: company },
     });
 
     // If not, then throw an error
@@ -37,7 +32,7 @@ class CompanyService {
     const [, [updatedCompany]] = await CompanyModel.update(
       { name },
       {
-        where: { id },
+        where: { id: company },
         returning: true,
       }
     );
@@ -45,16 +40,16 @@ class CompanyService {
     return updatedCompany;
   }
 
-  async getCompanyById(props: GetCompanyByIdProps) {
-    // If the user tries to get someone else's comapny
-    if (props.company !== props.id) {
-      throw new CustomError(404, CompanyErrorCode.COMPANY_NOT_FOUND);
-    }
-
+  async getCompanyById(props: GetMyCompanyProps) {
     // Find company by id
     const company = await CompanyModel.findOne({
-      where: { id: props.id },
+      where: { id: props.company },
     });
+
+    // If no company has been found, then throw an error
+    if (!company) {
+      throw new CustomError(404, CompanyErrorCode.COMPANY_NOT_FOUND);
+    }
 
     return company;
   }

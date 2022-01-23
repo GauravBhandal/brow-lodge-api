@@ -4,23 +4,18 @@ import { pick as _pick } from "lodash";
 import companyService from "./company.service";
 
 class CompanyController {
-  async updateCompany(req: Request, res: Response) {
-    const { companyId } = req.params;
-    const bodyParams = _pick(req.body, ["name"]);
+  async updateMyCompany(req: Request, res: Response) {
     const props = {
-      id: companyId,
       company: req.auth.companyId,
-      ...bodyParams,
+      ...req.body,
     };
 
     const company = await companyService.updateCompany(props);
     res.status(200).json(company);
   }
 
-  async getcompanyById(req: Request, res: Response) {
-    const { companyId } = req.params;
+  async getMyCompany(req: Request, res: Response) {
     const props = {
-      id: companyId,
       company: req.auth.companyId,
     };
 

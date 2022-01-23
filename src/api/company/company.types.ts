@@ -8,12 +8,10 @@ export interface CreateCompanyProps {
   name: Company["name"];
 }
 
-export interface UpdateCompanyProps extends CreateCompanyProps {
-  id: Company["id"];
+export interface UpdateMyCompanyProps extends CreateCompanyProps {
   company: Company["id"];
 }
 
-export interface GetCompanyByIdProps {
-  id: Company["id"];
+export interface GetMyCompanyProps {
   company: Company["id"];
 }
