@@ -32,7 +32,7 @@ import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 import { ResourceModel } from "../../api/resource";
 import { DocumentLogModel } from "../../api/documentLog";
 import { LeaseAndUtilityLogModel } from "../../api/leaseAndUtilityLog";
-import { MaintenanceLogModel } from "../../api/ maintenanceLog";
+import { MaintenanceLogModel } from "../../api/maintenanceLog";
 import { FeedbackModel } from "../../api/feedback";
 
 export default {
