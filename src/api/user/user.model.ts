@@ -18,7 +18,7 @@ class UserModel<
   lastName!: User["lastName"];
   email!: User["email"];
   password!: User["password"];
-  resetPasswordToken?: User["resetPasswordToken"];
+  resetPasswordToken!: User["resetPasswordToken"];
   blocked!: boolean;
   company!: User["company"];
   Company: User["Company"];

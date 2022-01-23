@@ -4,7 +4,7 @@ import S3 from "aws-sdk/clients/s3";
 import config from "../../config/environment";
 
 const bucketName = config.AWS_S3_BUCKET_NAME;
-const region = config.AWS_S3_BUCKET_REGION;
+const region = config.AWS_REGION;
 const accessKeyId = config.AWS_ACCESS_KEY;
 const secretAccessKey = config.AWS_SECRET_KEY;
 

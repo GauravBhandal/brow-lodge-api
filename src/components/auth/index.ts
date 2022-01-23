@@ -10,5 +10,6 @@ export default jwtMiddleware({
     `${config.URL_PREFIX}/user/login`,
     `${config.URL_PREFIX}/user/register`,
     `${config.URL_PREFIX}/user/forgot-password`,
+    `${config.URL_PREFIX}/user/reset-password`,
   ],
 });

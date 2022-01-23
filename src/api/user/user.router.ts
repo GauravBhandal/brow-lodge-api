@@ -15,6 +15,12 @@ router.post(
 );
 
 router.post(
+  "/reset-password",
+  userSchems.resetPassword,
+  catchWrap(controller.resetPassword)
+);
+
+router.post(
   "/register",
   userSchems.registerUser,
   catchWrap(controller.registerUser)

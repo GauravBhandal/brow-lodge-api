@@ -8,7 +8,7 @@ export interface User extends DefaultSchemaConfig {
   lastName: string;
   email: string;
   password: string;
-  resetPasswordToken?: string;
+  resetPasswordToken: string;
   blocked: boolean;
   company: Company["id"];
   Company?: Company;
@@ -30,6 +30,12 @@ export interface MeProps {
 
 export interface ForgotPasswordProps {
   email: User["email"];
+}
+
+export interface ResetPasswordProps {
+  id: User["id"];
+  password: User["password"];
+  resetPasswordToken: User["resetPasswordToken"];
 }
 
 export interface LoginUserProps {

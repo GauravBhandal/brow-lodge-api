@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 const environmentSchema = Joi.object().keys({
+  BASE_URL: Joi.string().required(),
   PORT: Joi.number().required(),
   URL_PREFIX: Joi.string().allow("", null).default(""),
 
@@ -15,7 +16,7 @@ const environmentSchema = Joi.object().keys({
   TOKEN_EXPIRY: Joi.string().required(),
 
   AWS_S3_BUCKET_NAME: Joi.string().required(),
-  AWS_S3_BUCKET_REGION: Joi.string().required(),
+  AWS_REGION: Joi.string().required(),
   AWS_ACCESS_KEY: Joi.string().required(),
   AWS_SECRET_KEY: Joi.string().required(),
 });
