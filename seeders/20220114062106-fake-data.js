@@ -1698,7 +1698,7 @@ module.exports = {
           name: "feedback 2",
           email: "asc@gmail.com",
           phone: "123445",
-          youAreA: "family",
+          you_are_a: "family",
           type_of_feedback: "complaint",
           feedback: "complaint",
           assesments: "complaint",
