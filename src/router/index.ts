@@ -35,7 +35,7 @@ import { staffSleepDisturbanceRoutes } from "../api/staffSleepDisturbance";
 import { resourceRoutes } from "../api/resource";
 import { documentLogRoutes } from "../api/documentLog";
 import { leaseAndUtilityLogRoutes } from "../api/leaseAndUtilityLog";
-import { maintenanceLogRoutes } from "../api/ maintenanceLog";
+import { maintenanceLogRoutes } from "../api/maintenanceLog";
 import { feedbackRoutes } from "../api/feedback";
 
 const router = express.Router();
