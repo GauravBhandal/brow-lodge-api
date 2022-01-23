@@ -43,7 +43,7 @@ const handleErrorMiddleware = (
   next: NextFunction
 ) => {
   const customErr = sanitizeError(err);
-  console.log("TODO: add error logger and sentry", err);
+  console.log(err);
   const { statusCode, message } = customErr;
   res.status(statusCode).json({
     statusCode,
@@ -55,4 +55,12 @@ const catchWrap =
   (fn: any) => (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
-export { CustomError, handleErrorMiddleware, catchWrap };
+const shouldReportError = (error: any) => {
+  if (error.status >= 400 || error.statusCode >= 400) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export { CustomError, handleErrorMiddleware, catchWrap, shouldReportError };

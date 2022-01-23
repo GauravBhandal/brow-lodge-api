@@ -19,6 +19,8 @@ const environmentSchema = Joi.object().keys({
   AWS_REGION: Joi.string().required(),
   AWS_ACCESS_KEY: Joi.string().required(),
   AWS_SECRET_KEY: Joi.string().required(),
+
+  SENTRY_DNS: Joi.string().required(),
 });
 
 export default environmentSchema;
