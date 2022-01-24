@@ -37,9 +37,11 @@ import { attachmentRoutes } from "../api/attachment";
 import { leaseAndUtilityLogRoutes } from "../api/leaseAndUtilityLog";
 import { maintenanceLogRoutes } from "../api/maintenanceLog";
 import { feedbackRoutes } from "../api/feedback";
+import { provideAbility } from "../components/ability";
 
 const router = express.Router();
-router.use(authMiddleware);
+router.use(authMiddleware); // TODO: may be we can move this to express config file
+router.use(provideAbility);
 
 router.use("/user", userRoutes);
 router.use("/role", roleRoutes);

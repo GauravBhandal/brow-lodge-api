@@ -9,6 +9,7 @@
     "start": "nodemon ./src/app.ts"
   },
   "dependencies": {
+    "@casl/ability": "^5.4.3",
     "@sentry/node": "^6.16.1",
     "@sentry/tracing": "^6.16.1",
     "aws-sdk": "^2.1060.0",

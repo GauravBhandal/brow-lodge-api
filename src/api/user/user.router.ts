@@ -3,6 +3,7 @@ import express from "express";
 import controller from "./user.controller";
 import userSchems from "./user.schema";
 import { catchWrap } from "../../components/errors";
+import { canDo } from "../../components/ability";
 
 const router = express.Router();
 
@@ -28,22 +29,39 @@ router.post(
 
 router.post("/login", userSchems.loginUser, catchWrap(controller.loginUser));
 
-router.post("/", userSchems.createUser, catchWrap(controller.createUser));
+router.post(
+  "/",
+  canDo("create", "user"),
+  userSchems.createUser,
+  catchWrap(controller.createUser)
+);
 
-router.put("/:userId", userSchems.editUser, catchWrap(controller.updateUser));
+router.put(
+  "/:userId",
+  canDo("update", "user"),
+  userSchems.editUser,
+  catchWrap(controller.updateUser)
+);
 
 router.delete(
   "/:userId",
+  canDo("delete", "user"),
   userSchems.deleteUser,
   catchWrap(controller.deleteUser)
 );
 
 router.get(
   "/:userId",
+  canDo("read", "user"),
   userSchems.getUserById,
   catchWrap(controller.getuserById)
 );
 
-router.get("/", userSchems.getUsers, catchWrap(controller.getUsers));
+router.get(
+  "/",
+  canDo("read", "user"),
+  userSchems.getUsers,
+  catchWrap(controller.getUsers)
+);
 
 export default router;

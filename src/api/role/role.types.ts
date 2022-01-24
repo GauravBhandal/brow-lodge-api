@@ -5,7 +5,7 @@ import { QueryParams } from "../../common/types";
 export interface Role extends DefaultSchemaConfig {
   name: string;
   description?: string;
-  permissions?: Record<string, object>;
+  permissions?: Record<string, any>; // TODO: Remove this any
   company: Company["id"];
   Company?: Company;
 }

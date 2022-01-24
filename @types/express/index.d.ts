@@ -7,6 +7,7 @@ declare global {
         userId: string;
         companyId: string;
       };
+      ability: any; // TODO: Remove this any
     }
   }
 }

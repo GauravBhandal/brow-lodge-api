@@ -16,6 +16,8 @@ const sanitizeError = (error: any) => {
 
   if (error.name === "UnauthorizedError") {
     statusCode = 401;
+  } else if (error.name === "ForbiddenError") {
+    statusCode = 403;
   } else if (error.name === "SequelizeDatabaseError") {
     // TODO: There are different types of sequelize errors
     statusCode = 400;
@@ -43,7 +45,7 @@ const handleErrorMiddleware = (
   next: NextFunction
 ) => {
   const customErr = sanitizeError(err);
-  console.log(err);
+  console.log("handleErrorMiddleware", err);
   const { statusCode, message } = customErr;
   res.status(statusCode).json({
     statusCode,
