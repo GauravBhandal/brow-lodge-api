@@ -1,3 +1,6 @@
+-- 57. DROP attachment from companies table
+ALTER TABLE "companies" DROP CONSTRAINT "fk_companies_attachments";
+
 -- 56. DROP feedbacks table
 DROP TABLE IF EXISTS "feedbacks";
 

@@ -14,6 +14,9 @@ class CompanyModel<
   implements Company
 {
   name!: Company["name"];
+  phone: Company["phone"];
+  address: Company["address"];
+  atttachment: Company["attachment"];
 }
 
 modelManager.init(
@@ -23,6 +26,12 @@ modelManager.init(
     name: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    phone: {
+      type: Sequelize.STRING,
+    },
+    address: {
+      type: Sequelize.STRING,
     },
   },
   {

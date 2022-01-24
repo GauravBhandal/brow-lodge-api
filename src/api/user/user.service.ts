@@ -84,7 +84,7 @@ class UserService {
         { userId: user.id, companyId: user.company },
         config.TOKEN_KEY,
         {
-          expiresIn: "5h",
+          expiresIn: config.TOKEN_EXPIRY,
         }
       );
 

@@ -1,3 +1,5 @@
+import { omit as _omit } from "lodash";
+
 import CompanyModel from "./company.model";
 import {
   CreateCompanyProps,
@@ -16,7 +18,8 @@ class CompanyService {
 
   async updateCompany(props: UpdateMyCompanyProps) {
     // Props
-    const { company, name } = props;
+    const { company } = props;
+    const updateProps = _omit(props, ["company"]);
 
     // Check if company exists
     const exsitingCompany = await CompanyModel.findOne({
@@ -29,13 +32,10 @@ class CompanyService {
     }
 
     // Update company by passing given props
-    const [, [updatedCompany]] = await CompanyModel.update(
-      { name },
-      {
-        where: { id: company },
-        returning: true,
-      }
-    );
+    const [, [updatedCompany]] = await CompanyModel.update(updateProps, {
+      where: { id: company },
+      returning: true,
+    });
 
     return updatedCompany;
   }

@@ -2,6 +2,9 @@
 CREATE TABLE IF NOT EXISTS "companies" (
     "id" UUID NOT NULL,
     "name" VARCHAR(255) NOT NULL,
+    "phone" VARCHAR(255),
+    "address" VARCHAR(255),
+    "attachment" UUID,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
     "deleted" TIMESTAMP WITH TIME ZONE,
@@ -676,3 +679,7 @@ CREATE TABLE IF NOT EXISTS "feedbacks" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 57. Add attachment to companies table
+ALTER TABLE "companies" ADD CONSTRAINT "fk_companies_attachments" 
+FOREIGN KEY ("attachment") REFERENCES "attachments"("id") ON DELETE SET NULL ON UPDATE CASCADE;

@@ -123,6 +123,10 @@ function initializeCompanyModelAssociations() {
     foreignKey: "company",
     sourceKey: "id",
   });
+
+  CompanyModel.belongsTo(AttachmentModel, {
+    foreignKey: "attachment",
+  });
 }
 
 function initializeProgressNoteModelAssociations() {
