@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface InjuryReport extends DefaultSchemaConfig {
   date: Date;
@@ -14,6 +15,7 @@ export interface InjuryReport extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateInjuryReportProps {
@@ -23,6 +25,7 @@ export interface CreateInjuryReportProps {
   staff: InjuryReport["staff"];
   client: InjuryReport["client"];
   company: InjuryReport["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateInjuryReportProps extends CreateInjuryReportProps {

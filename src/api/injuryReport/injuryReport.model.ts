@@ -22,6 +22,7 @@ class InjuryReportModel<
   Client: InjuryReport["Client"];
   company!: InjuryReport["company"];
   Company: InjuryReport["Company"];
+  Attachments: InjuryReport["Attachments"];
 }
 
 modelManager.init(

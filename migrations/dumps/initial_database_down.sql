@@ -1,3 +1,6 @@
+-- 58. DROP injury_reports_attachments table
+DROP TABLE IF EXISTS "injury_reports_attachments";
+
 -- 57. DROP attachment from companies table
 ALTER TABLE "companies" DROP CONSTRAINT "fk_companies_attachments";
 
