@@ -510,7 +510,7 @@ function initializeFeedbackModelAssociations() {
     foreignKey: { name: "company", allowNull: false },
   });
   FeedbackModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
+    foreignKey: { name: "staff", allowNull: true },
     as: "Staff",
   });
 }

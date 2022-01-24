@@ -25,7 +25,7 @@ class FeedbackModel<
   notifiedOfResult: Feedback["notifiedOfResult"];
   dateClosed: Feedback["dateClosed"];
   status: Feedback["status"];
-  staff!: Feedback["staff"];
+  staff: Feedback["staff"];
   Staff: Feedback["Staff"];
   company!: Feedback["company"];
   Company: Feedback["Company"];

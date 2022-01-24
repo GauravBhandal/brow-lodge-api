@@ -669,7 +669,7 @@ CREATE TABLE IF NOT EXISTS "feedbacks" (
     "notified_of_result" VARCHAR,
     "date_closed" TIMESTAMP WITH TIME ZONE,
     "status" enum_feedback_status,
-    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "staff" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,

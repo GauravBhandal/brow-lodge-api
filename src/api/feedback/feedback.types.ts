@@ -16,7 +16,7 @@ export interface Feedback extends DefaultSchemaConfig {
   notifiedOfResult?: String;
   dateClosed?: Date;
   status?: String;
-  staff: StaffProfile["id"];
+  staff?: StaffProfile["id"];
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
