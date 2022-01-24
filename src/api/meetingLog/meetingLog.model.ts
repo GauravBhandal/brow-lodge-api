@@ -84,7 +84,7 @@ modelManager.init(
   {
     underscored: true,
     paranoid: true,
-    tableName: "meeting_Logs",
+    tableName: "meeting_logs",
   }
 );
 
