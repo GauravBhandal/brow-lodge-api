@@ -337,6 +337,11 @@ function initializeInjuryReportModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  InjuryReportModel.belongsToMany(AttachmentModel, {
+    through: "injury_reports_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeExpenseReimbursementModelAssociations() {

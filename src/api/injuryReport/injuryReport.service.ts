@@ -16,10 +16,20 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
+import { injuryReportAttachmentService } from "./injuryReportAttachment";
+import { AttachmentModel } from "../attachment";
 
 class InjuryReportService {
   async createInjuryReport(props: CreateInjuryReportProps) {
     const injuryReport = await InjuryReportModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await injuryReportAttachmentService.createBulkInjuryReportAttachment({
+        relation: injuryReport.id,
+        attachments: props.attachments,
+      });
+    }
     return injuryReport;
   }
 
@@ -46,6 +56,15 @@ class InjuryReportService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments && props.attachments.length) {
+      await injuryReportAttachmentService.updateBulkInjuryReportAttachment({
+        relation: injuryReport.id,
+        attachments: props.attachments,
+      });
+    }
+
     return updatedInjuryReport;
   }
 
@@ -74,6 +93,12 @@ class InjuryReportService {
     const injuryReport = await InjuryReportModel.findOne({
       where: { id, company },
       include: [
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
         {
           model: CompanyModel,
         },
@@ -105,6 +130,12 @@ class InjuryReportService {
     const filters = getFilters(where);
 
     const include = [
+      {
+        model: AttachmentModel,
+        through: {
+          attributes: [],
+        },
+      },
       {
         model: CompanyModel,
       },

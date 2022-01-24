@@ -14,6 +14,7 @@ const createInjuryReportSchema = wrapSchema({
     description: Joi.string().required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
@@ -25,6 +26,7 @@ const editInjuryReportSchema = wrapSchema({
     description: Joi.string().required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
