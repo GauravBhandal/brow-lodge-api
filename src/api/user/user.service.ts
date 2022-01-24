@@ -110,7 +110,7 @@ class UserService {
       throw new CustomError(409, UserErrorCode.USER_ALREADY_EXISTS);
     }
 
-    // Create company
+    // Create company TODO: Check the company name and make sure it is unique
     const company = await companyService.createCompany({
       name: props.companyName,
     });

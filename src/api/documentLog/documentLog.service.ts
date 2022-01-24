@@ -30,9 +30,10 @@ class DocumentLogService {
       meme: file.mimetype,
       url: uploadedFile.Key,
     };
+
     const documentLog = await DocumentLogModel.create(createProps);
 
-    // Delete file from local server
+    // Delete file from local server TODO: Delete this if upload to S3 failed
     await removeFileFromLocal(file.path);
 
     return documentLog;
