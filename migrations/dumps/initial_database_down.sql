@@ -16,8 +16,8 @@ DROP TABLE IF EXISTS "maintenance_logs";
 -- 51. DROP lease_and_utility_logs table
 DROP TABLE IF EXISTS "lease_and_utility_logs";
 
--- 50. DROP document_logs table
-DROP TABLE IF EXISTS "document_logs";
+-- 50. DROP attachments table
+DROP TABLE IF EXISTS "attachments";
 
 -- 49. DROP resources table
 DROP TABLE IF EXISTS "resources";

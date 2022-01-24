@@ -30,7 +30,7 @@ import { MeetingLogModel } from "../../api/meetingLog";
 import { ClientRiskModel } from "../../api/clientRisk";
 import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
 import { ResourceModel } from "../../api/resource";
-import { DocumentLogModel } from "../../api/documentLog";
+import { AttachmentModel } from "../../api/attachment";
 import { LeaseAndUtilityLogModel } from "../../api/leaseAndUtilityLog";
 import { MaintenanceLogModel } from "../../api/maintenanceLog";
 import { FeedbackModel } from "../../api/feedback";
@@ -69,7 +69,7 @@ export default {
     initializeClientRiskModelAssociations();
     initializeStaffSleepDisturbanceModelAssociations();
     initializeResourceModelAssociations();
-    initializeDocumentLogModelAssociations();
+    initializeAttachmentModelAssociations();
     initializeLeaseAndUtilityLogModelAssociations();
     initializeMaintenanceLogModelAssociations();
     initializeFeedbackModelAssociations();
@@ -475,8 +475,8 @@ function initializeResourceModelAssociations() {
   });
 }
 
-function initializeDocumentLogModelAssociations() {
-  DocumentLogModel.belongsTo(CompanyModel, {
+function initializeAttachmentModelAssociations() {
+  AttachmentModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
 }

@@ -601,8 +601,8 @@ CREATE TABLE IF NOT EXISTS "resources" (
     PRIMARY KEY ("id")
 );
 
--- 50. Create document_logs table
-CREATE TABLE IF NOT EXISTS "document_logs" (
+-- 50. Create attachments table
+CREATE TABLE IF NOT EXISTS "attachments" (
     "id" UUID NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "meme" VARCHAR(255) NOT NULL,

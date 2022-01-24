@@ -4,25 +4,25 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { DocumentLog, CreateDocumentLogProps } from "./documentLog.types";
+import { Attachment, CreateAttachmentProps } from "./attachment.types";
 
-class DocumentLogModel<
-    ModelAttributes = DocumentLog,
-    ModelCreationAttributes = CreateDocumentLogProps
+class AttachmentModel<
+    ModelAttributes = Attachment,
+    ModelCreationAttributes = CreateAttachmentProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements DocumentLog
+  implements Attachment
 {
-  name!: DocumentLog["name"];
-  meme!: DocumentLog["meme"];
-  url!: DocumentLog["url"];
-  company!: DocumentLog["company"];
-  Company: DocumentLog["Company"];
+  name!: Attachment["name"];
+  meme!: Attachment["meme"];
+  url!: Attachment["url"];
+  company!: Attachment["company"];
+  Company: Attachment["Company"];
 }
 
 modelManager.init(
-  "DocumentLog",
-  DocumentLogModel,
+  "Attachment",
+  AttachmentModel,
   {
     name: {
       type: Sequelize.STRING,
@@ -40,8 +40,8 @@ modelManager.init(
   {
     underscored: true,
     paranoid: true,
-    tableName: "document_logs",
+    tableName: "attachments",
   }
 );
 
-export default DocumentLogModel;
+export default AttachmentModel;

@@ -10,7 +10,7 @@ const MAX_DOCUMENT_SIZE = 6000001; // 6 Mb
 
 // Configure multer by setting file name and location
 const storage = multer.diskStorage({
-  destination: "uploads",
+  destination: "temp/uploads",
   filename: (req: Request, file: Express.Multer.File, callback) => {
     const { originalname } = file;
     const uniquePrefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -57,7 +57,7 @@ const uploadMiddleware = multer({
   },
 });
 
-export default uploadMiddleware.single("attachment");
+export default uploadMiddleware.single("file");
 
 // Util to remove a file from local server
 export const removeFileFromLocal = util.promisify(fs.unlink);
