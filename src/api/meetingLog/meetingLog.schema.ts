@@ -1,13 +1,17 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  wrapSchema,
+  requiredTimeSchema,
+} from "../../common/joiSchemas";
 
 const createMeetingLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    startTime: Joi.date().required(),
-    endTime: Joi.date().required(),
+    startTime: requiredTimeSchema(),
+    endTime: requiredTimeSchema(),
     meetingType: Joi.string().required(), // TODO: Add one off
     location: Joi.string().required(),
     purpose: Joi.string().required(),
@@ -25,8 +29,8 @@ const editMeetingLogSchema = wrapSchema({
   params: Joi.object().keys({ meetingLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    startTime: Joi.date().required(),
-    endTime: Joi.date().required(),
+    startTime: requiredTimeSchema(),
+    endTime: requiredTimeSchema(),
     meetingType: Joi.string().required(), // TODO: Add one off
     location: Joi.string().required(),
     purpose: Joi.string().required(),

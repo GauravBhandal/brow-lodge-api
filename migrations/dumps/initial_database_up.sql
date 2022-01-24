@@ -516,8 +516,8 @@ CREATE TYPE "enum_meeting_type" AS ENUM ('clientMeeting', 'staffMeeting','extern
 CREATE TABLE IF NOT EXISTS "meeting_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "end_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+    "end_time"  TIME WITHOUT TIME ZONE NOT NULL,
     "meeting_type" enum_meeting_type NOT NULL,
     "location" VARCHAR(255) NOT NULL,
     "purpose" VARCHAR NOT NULL, 
