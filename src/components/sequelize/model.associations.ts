@@ -97,7 +97,7 @@ function initializeStaffProfileModelAssociations() {
     foreignKey: { name: "company", allowNull: false },
   });
   StaffProfileModel.belongsTo(UserModel, {
-    foreignKey: { name: "user", allowNull: true },
+    foreignKey: { name: "user" },
   });
 }
 
@@ -519,7 +519,7 @@ function initializeFeedbackModelAssociations() {
     foreignKey: { name: "company", allowNull: false },
   });
   FeedbackModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: true },
+    foreignKey: { name: "staff" },
     as: "Staff",
   });
 }

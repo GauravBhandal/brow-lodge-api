@@ -77,6 +77,7 @@ class FeedbackService {
         {
           model: StaffProfileModel,
           as: "Staff",
+          required: false,
         },
       ],
     });
@@ -106,6 +107,7 @@ class FeedbackService {
         where: {
           ...filters["Staff"],
         },
+        required: false,
       },
     ];
 
