@@ -11,7 +11,7 @@ export interface Feedback extends DefaultSchemaConfig {
   youAreA: String;
   typeOfFeedback: String;
   feedback: String;
-  assesments?: String;
+  assessments?: String;
   actions?: String;
   notifiedOfResult?: String;
   dateClosed?: Date;
@@ -30,7 +30,7 @@ export interface CreateFeedbackProps {
   youAreA: Feedback["youAreA"];
   typeOfFeedback: Feedback["typeOfFeedback"];
   feedback: Feedback["feedback"];
-  assesments?: Feedback["assesments"];
+  assessments?: Feedback["assessments"];
   actions?: Feedback["actions"];
   notifiedOfResult?: Feedback["notifiedOfResult"];
   dateClosed?: Feedback["dateClosed"];

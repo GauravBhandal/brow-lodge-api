@@ -667,7 +667,7 @@ CREATE TABLE IF NOT EXISTS "feedbacks" (
     "you_are_a" enum_feedback_you_are_a NOT NULL,
     "type_of_feedback" enum_type_of_feedback NOT NULL,
     "feedback" VARCHAR NOT NULL,
-    "assesments" VARCHAR,
+    "assessments" VARCHAR,
     "actions" VARCHAR,
     "notified_of_result" VARCHAR,
     "date_closed" TIMESTAMP WITH TIME ZONE,

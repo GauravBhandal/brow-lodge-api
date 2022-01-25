@@ -20,7 +20,7 @@ class FeedbackModel<
   youAreA!: Feedback["youAreA"];
   typeOfFeedback!: Feedback["typeOfFeedback"];
   feedback!: Feedback["feedback"];
-  assesments: Feedback["assesments"];
+  assessments: Feedback["assessments"];
   actions: Feedback["actions"];
   notifiedOfResult: Feedback["notifiedOfResult"];
   dateClosed: Feedback["dateClosed"];
@@ -60,7 +60,7 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    assesments: {
+    assessments: {
       type: Sequelize.STRING,
     },
     actions: {
