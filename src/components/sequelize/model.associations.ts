@@ -441,7 +441,7 @@ function initializeMeetingLogModelAssociations() {
     as: "Staff",
   });
   MeetingLogModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
+    foreignKey: { name: "client", allowNull: true },
     as: "Client",
   });
 }
