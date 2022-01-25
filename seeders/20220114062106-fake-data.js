@@ -550,7 +550,7 @@ module.exports = {
         {
           id: "88316c9b-e3ca-4e83-a6cd-3df7b95837b3",
           name: "Role 2",
-          permissions: JSON.stringify({ permissions }),
+          permissions: JSON.stringify(permissions),
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
           created: new Date(),
           updated: new Date(),
