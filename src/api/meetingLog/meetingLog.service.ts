@@ -81,6 +81,7 @@ class MeetingLogService {
         {
           model: ClientProfileModel,
           as: "Client",
+          required: false,
         },
       ],
     });
@@ -117,6 +118,7 @@ class MeetingLogService {
         where: {
           ...filters["Client"],
         },
+        required: false,
       },
     ];
 
