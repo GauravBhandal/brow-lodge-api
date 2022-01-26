@@ -4,7 +4,7 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { DoctorVisit, CreateDoctorVisitProps } from "./seizureLog.types";
+import { DoctorVisit, CreateDoctorVisitProps } from "./doctorVisit.types";
 
 class DoctorVisitModel<
     ModelAttributes = DoctorVisit,

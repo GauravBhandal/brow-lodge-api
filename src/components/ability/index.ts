@@ -33,7 +33,43 @@ const defineAbilityFor = async (userObject: User) => {
 };
 
 type Action = "read" | "create" | "update" | "delete";
-type Subject = "user";
+type Subject =
+  | "user"
+  | "role"
+  | "company"
+  | "clientProfile"
+  | "staffProfile"
+  | "progressNote"
+  | "bloodGlucoseLog"
+  | "bloodPressureLog"
+  | "bowelLog"
+  | "weightLog"
+  | "sleepLog"
+  | "temperatureLog"
+  | "prnAdminLog"
+  | "prnBalanceLog"
+  | "oxygenSaturationLog"
+  | "seizureLog"
+  | "clientBehaviour"
+  | "transportBehaviour"
+  | "vehicleLog"
+  | "injuryReport"
+  | "expenseReimbursement"
+  | "doctorVisit"
+  | "clientAsset"
+  | "companyAsset"
+  | "repairRequest"
+  | "conflictOfInterest"
+  | "corporateRisk"
+  | "whoLog"
+  | "meetingLog"
+  | "clientRisk"
+  | "staffSleepDisturbance"
+  | "resource"
+  | "attachment"
+  | "leaseAndUtilityLog"
+  | "maintenanceLog"
+  | "feedback";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {

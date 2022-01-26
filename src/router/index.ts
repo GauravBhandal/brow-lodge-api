@@ -76,8 +76,8 @@ router.use("/client-risk", clientRiskRoutes);
 router.use("/staff-sleep-disturbance", staffSleepDisturbanceRoutes);
 router.use("/resource", resourceRoutes);
 router.use("/attachment", attachmentRoutes);
-router.use("/leaseAndUtilityLog", leaseAndUtilityLogRoutes);
-router.use("/maintenanceLog", maintenanceLogRoutes);
+router.use("/lease-and-utility-log", leaseAndUtilityLogRoutes);
+router.use("/maintenance-log", maintenanceLogRoutes);
 router.use("/feedback", feedbackRoutes);
 
 export default router;
