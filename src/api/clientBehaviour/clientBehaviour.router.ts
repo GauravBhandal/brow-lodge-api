@@ -37,7 +37,7 @@ router.get(
 
 router.get(
   "/",
-  canDo("read", "sleepLog"),
+  canDo("read", "clientBehaviour"),
   clientBehaviourSchems.getClientBehaviours,
   catchWrap(controller.getClientBehaviours)
 );

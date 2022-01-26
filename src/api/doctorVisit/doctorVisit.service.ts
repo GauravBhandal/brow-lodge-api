@@ -7,7 +7,7 @@ import {
   DeleteDoctorVisitProps,
   GetDoctorVisitByIdProps,
   GetDoctorVisitsProps,
-} from "./seizureLog.types";
+} from "./doctorVisit.types";
 import { CustomError } from "../../components/errors";
 import DoctorVisitErrorCode from "./doctorVisit.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
