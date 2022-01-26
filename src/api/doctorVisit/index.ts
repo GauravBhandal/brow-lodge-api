@@ -1,7 +1,7 @@
 import doctorVisitRoutes from "./doctorVisit.router";
 import DoctorVisitErrorCode from "./doctorVisit.error";
 import DoctorVisitModel from "./doctorVisit.model";
-import { DoctorVisit } from "./seizureLog.types";
+import { DoctorVisit } from "./doctorVisit.types";
 import doctorVisitService from "./doctorVisit.service";
 
 export {

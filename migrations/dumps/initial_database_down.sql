@@ -1,3 +1,6 @@
+-- 59. DROP client_document_categories table
+DROP TABLE IF EXISTS "client_document_categories";
+
 -- 58. DROP injury_reports_attachments table
 DROP TABLE IF EXISTS "injury_reports_attachments";
 
