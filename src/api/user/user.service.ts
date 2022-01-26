@@ -42,6 +42,7 @@ class UserService {
             attributes: [],
           },
         },
+        { model: StaffProfileModel, as: "Staff" },
       ],
     });
 
