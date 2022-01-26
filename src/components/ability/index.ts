@@ -1,8 +1,7 @@
-import { AbilityBuilder, Ability, ForbiddenError } from "@casl/ability";
+import { AbilityBuilder, Ability } from "@casl/ability";
 import { Response, Request, NextFunction } from "express";
 
 import { userService, User } from "../../api/user";
-import { CustomError } from "../errors";
 
 const ACTIONS = ["read", "create", "update", "delete"];
 
@@ -30,57 +29,6 @@ const defineRulesFor = async (userObject: User) => {
 const defineAbilityFor = async (userObject: User) => {
   const rules = await defineRulesFor(userObject);
   return new Ability(rules);
-};
-
-type Action = "read" | "create" | "update" | "delete";
-type Subject =
-  | "user"
-  | "role"
-  | "company"
-  | "clientProfile"
-  | "staffProfile"
-  | "progressNote"
-  | "bloodGlucoseLog"
-  | "bloodPressureLog"
-  | "bowelLog"
-  | "weightLog"
-  | "sleepLog"
-  | "temperatureLog"
-  | "prnAdminLog"
-  | "prnBalanceLog"
-  | "oxygenSaturationLog"
-  | "seizureLog"
-  | "clientBehaviour"
-  | "transportBehaviour"
-  | "vehicleLog"
-  | "injuryReport"
-  | "expenseReimbursement"
-  | "doctorVisit"
-  | "clientAsset"
-  | "companyAsset"
-  | "repairRequest"
-  | "conflictOfInterest"
-  | "corporateRisk"
-  | "whoLog"
-  | "meetingLog"
-  | "clientRisk"
-  | "staffSleepDisturbance"
-  | "resource"
-  | "attachment"
-  | "leaseAndUtilityLog"
-  | "maintenanceLog"
-  | "feedback"
-  | "clientDocumentCategory";
-
-export const canDo = (action: Action, subject: Subject) => {
-  return function (req: Request, res: Response, next: NextFunction) {
-    if (req.ability) {
-      ForbiddenError.from(req.ability).throwUnlessCan(action, subject);
-    } else {
-      throw new CustomError(401, "INVALID_AUTH_TOKEN");
-    }
-    next();
-  };
 };
 
 export const provideAbility = async (

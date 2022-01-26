@@ -3,7 +3,7 @@ import express from "express";
 import controller from "./bloodPressureLog.controller";
 import bloodPressureLogSchems from "./bloodPressureLog.schema";
 import { catchWrap } from "../../components/errors";
-import { canDo } from "../../components/ability";
+import { canDo } from "../../components/ability/canDo";
 
 const router = express.Router();
 

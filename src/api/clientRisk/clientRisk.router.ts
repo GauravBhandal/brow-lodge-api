@@ -3,7 +3,7 @@ import express from "express";
 import controller from "./clientRisk.controller";
 import clientRiskSchems from "./clientRisk.schema";
 import { catchWrap } from "../../components/errors";
-import { canDo } from "../../components/ability";
+import { canDo } from "../../components/ability/canDo";
 
 const router = express.Router();
 

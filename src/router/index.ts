@@ -42,7 +42,7 @@ import { clientDocumentCategoryRoutes } from "../api/clientDocumentCategory";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
-// router.use(provideAbility);
+router.use(provideAbility);
 
 router.use("/user", userRoutes);
 router.use("/role", roleRoutes);

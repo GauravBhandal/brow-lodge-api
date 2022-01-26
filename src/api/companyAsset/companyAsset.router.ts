@@ -3,7 +3,7 @@ import express from "express";
 import controller from "./companyAsset.controller";
 import companyAssetSchems from "./companyAsset.schema";
 import { catchWrap } from "../../components/errors";
-import { canDo } from "../../components/ability";
+import { canDo } from "../../components/ability/canDo";
 
 const router = express.Router();
 

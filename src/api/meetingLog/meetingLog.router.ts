@@ -3,7 +3,7 @@ import express from "express";
 import controller from "./meetingLog.controller";
 import meetingLogSchems from "./meetingLog.schema";
 import { catchWrap } from "../../components/errors";
-import { canDo } from "../../components/ability";
+import { canDo } from "../../components/ability/canDo";
 
 const router = express.Router();
 
