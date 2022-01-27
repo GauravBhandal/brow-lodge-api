@@ -16,10 +16,22 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
+import { maintenanceLogAttachmentService } from "./maintenanceLogAttachment";
+import { AttachmentModel } from "../attachment";
 
 class MaintenanceLogService {
   async createMaintenanceLog(props: CreateMaintenanceLogProps) {
     const maintenanceLog = await MaintenanceLogModel.create(props);
+
+    // Create attachments
+
+    if (props.attachments && props.attachments.length) {
+      await maintenanceLogAttachmentService.createBulkMaintenanceLogAttachment({
+        relation: maintenanceLog.id,
+
+        attachments: props.attachments,
+      });
+    }
     return maintenanceLog;
   }
 
@@ -49,6 +61,16 @@ class MaintenanceLogService {
         returning: true,
       }
     );
+
+    // Update attachments
+
+    if (props.attachments && props.attachments.length) {
+      await maintenanceLogAttachmentService.updateBulkMaintenanceLogAttachment({
+        relation: maintenanceLog.id,
+
+        attachments: props.attachments,
+      });
+    }
     return updatedMaintenanceLog;
   }
 
@@ -80,6 +102,12 @@ class MaintenanceLogService {
     const maintenanceLog = await MaintenanceLogModel.findOne({
       where: { id, company },
       include: [
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
         {
           model: CompanyModel,
         },
@@ -113,6 +141,12 @@ class MaintenanceLogService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
     const include = [
+      {
+        model: AttachmentModel,
+        through: {
+          attributes: [],
+        },
+      },
       {
         model: CompanyModel,
       },

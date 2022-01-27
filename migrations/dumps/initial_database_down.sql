@@ -1,3 +1,6 @@
+-- 60. DROP maintenance_logs_attachments table
+DROP TABLE IF EXISTS "maintenance_logs_attachments";
+
 -- 59. DROP client_document_categories table
 DROP TABLE IF EXISTS "client_document_categories";
 
