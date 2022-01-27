@@ -779,3 +779,53 @@ CREATE TABLE IF NOT EXISTS "client_documents_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 66. Create staff_document_categories table
+CREATE TABLE IF NOT EXISTS "staff_document_categories" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 67. Create staff_document_types table
+CREATE TABLE IF NOT EXISTS "staff_document_types" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "category" UUID NOT NULL REFERENCES "staff_document_categories" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 68. Create staff_documents table
+CREATE TABLE IF NOT EXISTS "staff_documents" (
+    "id" UUID NOT NULL,
+    "comments" VARCHAR(255),
+    "has_expiry" BOOLEAN NOT NULL DEFAULT FALSE,
+    "expiry_date" TIMESTAMP WITH TIME ZONE,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "category" UUID NOT NULL REFERENCES "staff_document_categories" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "type" UUID NOT NULL REFERENCES "staff_document_types" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 69. Create staff_documents_attachments table
+CREATE TABLE IF NOT EXISTS "staff_documents_attachments" (
+    "id" UUID NOT NULL,
+    "relation" UUID NOT NULL REFERENCES "staff_documents" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

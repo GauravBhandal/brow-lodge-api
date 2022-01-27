@@ -1,3 +1,15 @@
+-- 69. DROP staff_documents_attachments table
+DROP TABLE IF EXISTS "staff_documents_attachments";
+
+-- 68. DROP staff_documents table
+DROP TABLE IF EXISTS "staff_documents";
+
+-- 67. DROP staff_document_types table
+DROP TABLE IF EXISTS "staff_document_types";
+
+-- 66. DROP staff_document_categories table
+DROP TABLE IF EXISTS "staff_document_categories";
+
 -- 65. DROP client_documents_attachments table
 DROP TABLE IF EXISTS "client_documents_attachments";
 

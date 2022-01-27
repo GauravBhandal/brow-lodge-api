@@ -41,6 +41,9 @@ import { feedbackRoutes } from "../api/feedback";
 import { clientDocumentCategoryRoutes } from "../api/clientDocumentCategory";
 import { clientDocumentTypeRoutes } from "../api/clientDocumentType";
 import { clientDocumentRoutes } from "../api/clientDocument";
+import { staffDocumentCategoryRoutes } from "../api/staffDocumentCategory";
+import { staffDocumentTypeRoutes } from "../api/staffDocumentType";
+import { staffDocumentRoutes } from "../api/staffDocument";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -85,5 +88,8 @@ router.use("/feedback", feedbackRoutes);
 router.use("/client-document-category", clientDocumentCategoryRoutes);
 router.use("/client-document-type", clientDocumentTypeRoutes);
 router.use("/client-document", clientDocumentRoutes);
+router.use("/staff-document-category", staffDocumentCategoryRoutes);
+router.use("/staff-document-type", staffDocumentTypeRoutes);
+router.use("/staff-document", staffDocumentRoutes);
 
 export default router;

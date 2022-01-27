@@ -43,7 +43,10 @@ type Subject =
   | "feedback"
   | "clientDocumentCategory"
   | "clientDocumentType"
-  | "clientDocument";
+  | "clientDocument"
+  | "staffDocumentCategory"
+  | "staffDocumentType"
+  | "staffDocument";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {

@@ -37,6 +37,9 @@ import { FeedbackModel } from "../../api/feedback";
 import { ClientDocumentCategoryModel } from "../../api/clientDocumentCategory";
 import { ClientDocumentTypeModel } from "../../api/clientDocumentType";
 import { ClientDocumentModel } from "../../api/clientDocument";
+import { StaffDocumentCategoryModel } from "../../api/staffDocumentCategory";
+import { StaffDocumentTypeModel } from "../../api/staffDocumentType";
+import { StaffDocumentModel } from "../../api/staffDocument";
 
 export default {
   initialize() {
@@ -79,6 +82,9 @@ export default {
     initializeClientDocumentCategoryModelAssociations();
     initializeClientDocumentTypeModelAssociations();
     initializeClientDocumentModelAssociations();
+    initializeStaffDocumentCategoryModelAssociations();
+    initializeStaffDocumentTypeModelAssociations();
+    initializeStaffDocumentModelAssociations();
   },
 };
 
@@ -582,6 +588,45 @@ function initializeClientDocumentModelAssociations() {
   });
   ClientDocumentModel.belongsToMany(AttachmentModel, {
     through: "client_documents_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeStaffDocumentCategoryModelAssociations() {
+  StaffDocumentCategoryModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeStaffDocumentTypeModelAssociations() {
+  StaffDocumentTypeModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  StaffDocumentTypeModel.belongsTo(StaffDocumentCategoryModel, {
+    foreignKey: { name: "category" },
+    as: "Category",
+  });
+}
+
+function initializeStaffDocumentModelAssociations() {
+  StaffDocumentModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  StaffDocumentModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff" },
+    as: "Staff",
+  });
+  StaffDocumentModel.belongsTo(StaffDocumentCategoryModel, {
+    foreignKey: { name: "category" },
+    as: "Category",
+  });
+  StaffDocumentModel.belongsTo(StaffDocumentTypeModel, {
+    foreignKey: { name: "type" },
+    as: "Type",
+  });
+  StaffDocumentModel.belongsToMany(AttachmentModel, {
+    through: "staff_documents_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
