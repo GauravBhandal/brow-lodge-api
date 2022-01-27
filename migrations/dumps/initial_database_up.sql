@@ -696,18 +696,7 @@ CREATE TABLE IF NOT EXISTS "injury_reports_attachments" (
     PRIMARY KEY ("id")
 );
 
--- 59. Create client_document_categories table
-CREATE TABLE IF NOT EXISTS "client_document_categories" (
-    "id" UUID NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "deleted" TIMESTAMP WITH TIME ZONE,
-    PRIMARY KEY ("id")
-);
-
--- 60. Create maintenance_logs_attachments table
+-- 59. Create maintenance_logs_attachments table
 CREATE TABLE IF NOT EXISTS "maintenance_logs_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "maintenance_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -718,7 +707,7 @@ CREATE TABLE IF NOT EXISTS "maintenance_logs_attachments" (
     PRIMARY KEY ("id")
 );
 
--- 61. Create lease_and_utility_logs_attachments table
+-- 60. Create lease_and_utility_logs_attachments table
 CREATE TABLE IF NOT EXISTS "lease_and_utility_logs_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "lease_and_utility_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -730,11 +719,22 @@ CREATE TABLE IF NOT EXISTS "lease_and_utility_logs_attachments" (
 );
 
 
--- 62. Create repair_requests_attachments table
+-- 61. Create repair_requests_attachments table
 CREATE TABLE IF NOT EXISTS "repair_requests_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "repair_requests" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 62. Create client_document_categories table
+CREATE TABLE IF NOT EXISTS "client_document_categories" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
     "deleted" TIMESTAMP WITH TIME ZONE,
@@ -763,6 +763,17 @@ CREATE TABLE IF NOT EXISTS "client_documents" (
     "category" UUID NOT NULL REFERENCES "client_document_categories" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "type" UUID NOT NULL REFERENCES "client_document_types" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 65. Create client_documents_attachments table
+CREATE TABLE IF NOT EXISTS "client_documents_attachments" (
+    "id" UUID NOT NULL,
+    "relation" UUID NOT NULL REFERENCES "client_documents" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
     "deleted" TIMESTAMP WITH TIME ZONE,

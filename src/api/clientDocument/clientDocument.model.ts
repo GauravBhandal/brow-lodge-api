@@ -27,6 +27,7 @@ class ClientDocumentModel<
   Type: ClientDocument["Type"];
   company!: ClientDocument["company"];
   Company: ClientDocument["Company"];
+  Attachments: ClientDocument["Attachments"];
 }
 
 modelManager.init(

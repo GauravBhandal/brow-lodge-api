@@ -1,20 +1,23 @@
+-- 65. DROP client_documents_attachments table
+DROP TABLE IF EXISTS "client_documents_attachments";
+
 -- 64. DROP client_documents table
 DROP TABLE IF EXISTS "client_documents";
 
 -- 63. DROP client_document_types table
 DROP TABLE IF EXISTS "client_document_types";
 
--- 62. DROP repair_requests_attachments table
+-- 62. DROP client_document_categories table
+DROP TABLE IF EXISTS "client_document_categories";
+
+-- 61. DROP repair_requests_attachments table
 DROP TABLE IF EXISTS "repair_requests_attachments";
 
--- 61. DROP lease_and_utility_logs_attachments table
+-- 60. DROP lease_and_utility_logs_attachments table
 DROP TABLE IF EXISTS "lease_and_utility_logs_attachments";
 
--- 60. DROP maintenance_logs_attachments table
+-- 59. DROP maintenance_logs_attachments table
 DROP TABLE IF EXISTS "maintenance_logs_attachments";
-
--- 59. DROP client_document_categories table
-DROP TABLE IF EXISTS "client_document_categories";
 
 -- 58. DROP injury_reports_attachments table
 DROP TABLE IF EXISTS "injury_reports_attachments";

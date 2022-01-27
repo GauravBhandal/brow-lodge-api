@@ -13,6 +13,7 @@ import ClientDocumentTypeErrorCode from "./clientDocumentType.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
+import { ClientDocumentCategoryModel } from "../clientDocumentCategory";
 import { getFilters } from "../../components/filters";
 
 class ClientDocumentTypeService {
@@ -79,6 +80,10 @@ class ClientDocumentTypeService {
         {
           model: CompanyModel,
         },
+        {
+          model: ClientDocumentCategoryModel,
+          as: "Category",
+        },
       ],
     });
 
@@ -104,6 +109,10 @@ class ClientDocumentTypeService {
     const include = [
       {
         model: CompanyModel,
+      },
+      {
+        model: ClientDocumentCategoryModel,
+        as: "Category",
       },
     ];
 

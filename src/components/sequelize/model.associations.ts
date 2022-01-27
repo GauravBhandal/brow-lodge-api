@@ -558,6 +558,10 @@ function initializeClientDocumentTypeModelAssociations() {
   ClientDocumentTypeModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
+  ClientDocumentTypeModel.belongsTo(ClientDocumentCategoryModel, {
+    foreignKey: { name: "category" },
+    as: "Category",
+  });
 }
 
 function initializeClientDocumentModelAssociations() {
@@ -575,5 +579,10 @@ function initializeClientDocumentModelAssociations() {
   ClientDocumentModel.belongsTo(ClientDocumentTypeModel, {
     foreignKey: { name: "type" },
     as: "Type",
+  });
+  ClientDocumentModel.belongsToMany(AttachmentModel, {
+    through: "client_documents_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }

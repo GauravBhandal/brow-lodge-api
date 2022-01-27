@@ -4,6 +4,7 @@ import { QueryParams } from "../../common/types";
 import { ClientDocumentCategory } from "../clientDocumentCategory";
 import { ClientDocumentType } from "../clientDocumentType";
 import { ClientProfile } from "../clientProfile";
+import { Attachment } from "../attachment";
 
 export interface ClientDocument extends DefaultSchemaConfig {
   comments?: string;
@@ -17,6 +18,7 @@ export interface ClientDocument extends DefaultSchemaConfig {
   Type?: ClientDocumentType;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateClientDocumentProps {
@@ -27,6 +29,7 @@ export interface CreateClientDocumentProps {
   category: ClientDocument["category"];
   type: ClientDocument["type"];
   company: ClientDocument["company"];
+  attachments: Attachment["id"][];
 }
 
 export interface UpdateClientDocumentProps extends CreateClientDocumentProps {

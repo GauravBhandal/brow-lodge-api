@@ -19,6 +19,8 @@ class ClientDocumentTypeModel<
   name!: ClientDocumentType["name"];
   company!: ClientDocumentType["company"];
   Company: ClientDocumentType["Company"];
+  category!: ClientDocumentType["category"];
+  Category: ClientDocumentType["Category"];
 }
 
 modelManager.init(

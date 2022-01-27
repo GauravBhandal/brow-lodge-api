@@ -14,10 +14,22 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
-
+import { clientDocumentAttachmentService } from "./clientDocumentAttachment";
+import { AttachmentModel } from "../attachment";
+import { ClientDocumentTypeModel } from "../clientDocumentType";
+import { ClientDocumentCategoryModel } from "../clientDocumentCategory";
 class ClientDocumentService {
   async createClientDocument(props: CreateClientDocumentProps) {
     const clientDocument = await ClientDocumentModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await clientDocumentAttachmentService.createBulkClientDocumentAttachment({
+        relation: clientDocument.id,
+        attachments: props.attachments,
+      });
+    }
+
     return clientDocument;
   }
 
@@ -47,6 +59,14 @@ class ClientDocumentService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments && props.attachments.length) {
+      await clientDocumentAttachmentService.updateBulkClientDocumentAttachment({
+        relation: clientDocument.id,
+        attachments: props.attachments,
+      });
+    }
     return updatedClientDocument;
   }
 
@@ -81,6 +101,18 @@ class ClientDocumentService {
         {
           model: CompanyModel,
         },
+        {
+          model: ClientDocumentTypeModel,
+        },
+        {
+          model: ClientDocumentCategoryModel,
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
       ],
     });
 
@@ -106,6 +138,20 @@ class ClientDocumentService {
     const include = [
       {
         model: CompanyModel,
+      },
+      {
+        model: ClientDocumentTypeModel,
+        as: "Type",
+      },
+      {
+        model: ClientDocumentCategoryModel,
+        as: "Category",
+      },
+      {
+        model: AttachmentModel,
+        through: {
+          attributes: [],
+        },
       },
     ];
 

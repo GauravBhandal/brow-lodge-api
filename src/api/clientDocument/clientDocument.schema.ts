@@ -11,6 +11,9 @@ const createClientDocumentSchema = wrapSchema({
     client: requiredUUIDSchema(),
     category: requiredUUIDSchema(),
     type: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .required(),
   }),
 });
 
@@ -23,6 +26,9 @@ const editClientDocumentSchema = wrapSchema({
     client: requiredUUIDSchema(),
     category: requiredUUIDSchema(),
     type: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .required(),
   }),
 });
 
