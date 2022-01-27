@@ -35,6 +35,7 @@ import { LeaseAndUtilityLogModel } from "../../api/leaseAndUtilityLog";
 import { MaintenanceLogModel } from "../../api/maintenanceLog";
 import { FeedbackModel } from "../../api/feedback";
 import { ClientDocumentCategoryModel } from "../../api/clientDocumentCategory";
+import { ClientDocumentTypeModel } from "../../api/clientDocumentType";
 
 export default {
   initialize() {
@@ -75,6 +76,7 @@ export default {
     initializeMaintenanceLogModelAssociations();
     initializeFeedbackModelAssociations();
     initializeClientDocumentCategoryModelAssociations();
+    initializeClientDocumentTypeModelAssociations();
   },
 };
 
@@ -546,6 +548,12 @@ function initializeFeedbackModelAssociations() {
 
 function initializeClientDocumentCategoryModelAssociations() {
   ClientDocumentCategoryModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeClientDocumentTypeModelAssociations() {
+  ClientDocumentTypeModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
 }

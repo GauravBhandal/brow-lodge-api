@@ -39,6 +39,7 @@ import { leaseAndUtilityLogRoutes } from "../api/leaseAndUtilityLog";
 import { maintenanceLogRoutes } from "../api/maintenanceLog";
 import { feedbackRoutes } from "../api/feedback";
 import { clientDocumentCategoryRoutes } from "../api/clientDocumentCategory";
+import { clientDocumentTypeRoutes } from "../api/clientDocumentType";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -81,5 +82,6 @@ router.use("/lease-and-utility-log", leaseAndUtilityLogRoutes);
 router.use("/maintenance-log", maintenanceLogRoutes);
 router.use("/feedback", feedbackRoutes);
 router.use("/client-document-category", clientDocumentCategoryRoutes);
+router.use("/client-document-type", clientDocumentTypeRoutes);
 
 export default router;

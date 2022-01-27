@@ -740,3 +740,15 @@ CREATE TABLE IF NOT EXISTS "repair_requests_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 63. Create client_document_types table
+CREATE TABLE IF NOT EXISTS "client_document_types" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "category" UUID NOT NULL REFERENCES "client_document_categories" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

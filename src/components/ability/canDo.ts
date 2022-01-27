@@ -41,7 +41,8 @@ type Subject =
   | "leaseAndUtilityLog"
   | "maintenanceLog"
   | "feedback"
-  | "clientDocumentCategory";
+  | "clientDocumentCategory"
+  | "clientDocumentType";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {

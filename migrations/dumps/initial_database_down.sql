@@ -1,3 +1,6 @@
+-- 63. DROP client_document_types table
+DROP TABLE IF EXISTS "client_document_types";
+
 -- 62. DROP repair_requests_attachments table
 DROP TABLE IF EXISTS "repair_requests_attachments";
 
