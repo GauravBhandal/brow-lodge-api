@@ -402,6 +402,11 @@ function initializeRepairRequestModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
+  RepairRequestModel.belongsToMany(AttachmentModel, {
+    through: "repair_requests_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeConflictOfInterestModelAssociations() {

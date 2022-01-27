@@ -13,6 +13,9 @@ const createRepairRequestSchema = wrapSchema({
       .valid("completed", "pending", "rejected", "scheduled")
       .required(),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -27,6 +30,9 @@ const editRepairRequestSchema = wrapSchema({
       .valid("completed", "pending", "rejected", "scheduled")
       .required(),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

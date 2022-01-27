@@ -728,3 +728,15 @@ CREATE TABLE IF NOT EXISTS "lease_and_utility_logs_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+
+-- 62. Create repair_requests_attachments table
+CREATE TABLE IF NOT EXISTS "repair_requests_attachments" (
+    "id" UUID NOT NULL,
+    "relation" UUID NOT NULL REFERENCES "repair_requests" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

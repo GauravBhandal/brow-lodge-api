@@ -2,6 +2,7 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface RepairRequest extends DefaultSchemaConfig {
   problem: string;
@@ -13,6 +14,7 @@ export interface RepairRequest extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateRepairRequestProps {
@@ -23,6 +25,7 @@ export interface CreateRepairRequestProps {
   status: RepairRequest["status"];
   staff: RepairRequest["staff"];
   company: RepairRequest["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateRepairRequestProps extends CreateRepairRequestProps {

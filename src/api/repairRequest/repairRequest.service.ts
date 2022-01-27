@@ -15,10 +15,21 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
+import { repairRequestAttachmentService } from "./repairRequestAttachment";
+import { AttachmentModel } from "../attachment";
 
 class RepairRequestService {
   async createRepairRequest(props: CreateRepairRequestProps) {
     const repairRequest = await RepairRequestModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await repairRequestAttachmentService.createBulkRepairRequestAttachment({
+        relation: repairRequest.id,
+        attachments: props.attachments,
+      });
+    }
+
     return repairRequest;
   }
 
@@ -48,6 +59,15 @@ class RepairRequestService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments && props.attachments.length) {
+      await repairRequestAttachmentService.updateBulkRepairRequestAttachment({
+        relation: repairRequest.id,
+        attachments: props.attachments,
+      });
+    }
+
     return updatedRepairRequest;
   }
 
@@ -86,6 +106,12 @@ class RepairRequestService {
           model: StaffProfileModel,
           as: "Staff",
         },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
       ],
     });
 
@@ -117,6 +143,12 @@ class RepairRequestService {
         as: "Staff",
         where: {
           ...filters["Staff"],
+        },
+      },
+      {
+        model: AttachmentModel,
+        through: {
+          attributes: [],
         },
       },
     ];

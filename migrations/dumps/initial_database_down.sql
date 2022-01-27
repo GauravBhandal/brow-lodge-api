@@ -1,3 +1,6 @@
+-- 62. DROP repair_requests_attachments table
+DROP TABLE IF EXISTS "repair_requests_attachments";
+
 -- 61. DROP lease_and_utility_logs_attachments table
 DROP TABLE IF EXISTS "lease_and_utility_logs_attachments";
 

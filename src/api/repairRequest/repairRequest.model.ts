@@ -22,6 +22,7 @@ class RepairRequestModel<
   Staff: RepairRequest["Staff"];
   company!: RepairRequest["company"];
   Company: RepairRequest["Company"];
+  Attachments: RepairRequest["Attachments"];
 }
 
 modelManager.init(
