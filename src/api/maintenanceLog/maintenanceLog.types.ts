@@ -1,8 +1,8 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
-import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface MaintenanceLog extends DefaultSchemaConfig {
   date: Date;
@@ -14,6 +14,7 @@ export interface MaintenanceLog extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateMaintenanceLogProps {
@@ -24,6 +25,7 @@ export interface CreateMaintenanceLogProps {
   location?: MaintenanceLog["location"];
   staff: MaintenanceLog["staff"];
   company: MaintenanceLog["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateMaintenanceLogProps extends CreateMaintenanceLogProps {

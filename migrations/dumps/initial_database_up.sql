@@ -706,3 +706,14 @@ CREATE TABLE IF NOT EXISTS "client_document_categories" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 60. Create maintenance_logs_attachments table
+CREATE TABLE IF NOT EXISTS "maintenance_logs_attachments" (
+    "id" UUID NOT NULL,
+    "relation" UUID NOT NULL REFERENCES "maintenance_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

@@ -25,6 +25,7 @@ class MaintenanceLogModel<
   Staff: MaintenanceLog["Staff"];
   company!: MaintenanceLog["company"];
   Company: MaintenanceLog["Company"];
+  Attachments: MaintenanceLog["Attachments"];
 }
 
 modelManager.init(

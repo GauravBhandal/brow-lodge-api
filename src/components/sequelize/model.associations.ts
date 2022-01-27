@@ -517,6 +517,11 @@ function initializeMaintenanceLogModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
+  MaintenanceLogModel.belongsToMany(AttachmentModel, {
+    through: "maintenance_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeFeedbackModelAssociations() {

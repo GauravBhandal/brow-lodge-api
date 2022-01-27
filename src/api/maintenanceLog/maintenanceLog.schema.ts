@@ -15,6 +15,7 @@ const createMaintenanceLogSchema = wrapSchema({
     description: Joi.string().required(),
     location: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
@@ -27,6 +28,7 @@ const editMaintenanceLogSchema = wrapSchema({
     description: Joi.string().required(),
     location: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
