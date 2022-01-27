@@ -457,7 +457,7 @@ const permissions = {
       update: true,
     },
   },
-  roles: {
+  role: {
     actions: {
       read: true,
       create: true,
