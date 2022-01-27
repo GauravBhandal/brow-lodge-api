@@ -11,6 +11,7 @@ const createResourceSchema = wrapSchema({
     title: Joi.string().required(),
     text: Joi.string().allow("", null),
     link: Joi.string().allow("", null),
+    attachment: Joi.string().uuid({ version: "uuidv4" }),
     staff: requiredUUIDSchema(),
   }),
 });
@@ -24,6 +25,7 @@ const editResourceSchema = wrapSchema({
     title: Joi.string().required(),
     text: Joi.string().allow("", null),
     link: Joi.string().allow("", null),
+    attachment: Joi.string().uuid({ version: "uuidv4" }),
     staff: requiredUUIDSchema(),
   }),
 });

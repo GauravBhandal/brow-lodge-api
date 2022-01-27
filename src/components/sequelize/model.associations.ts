@@ -484,6 +484,9 @@ function initializeResourceModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
+  ResourceModel.belongsTo(AttachmentModel, {
+    foreignKey: "attachment",
+  });
 }
 
 function initializeAttachmentModelAssociations() {

@@ -33,11 +33,11 @@ const permissions = {
       update: true,
     },
   },
-  companySettings: {
+  company: {
     actions: {
       read: true,
-      create: true,
-      delete: true,
+      create: false,
+      delete: false,
       update: true,
     },
   },
@@ -457,7 +457,7 @@ const permissions = {
       update: true,
     },
   },
-  role: {
+  roles: {
     actions: {
       read: true,
       create: true,

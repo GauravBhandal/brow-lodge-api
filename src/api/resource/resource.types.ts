@@ -2,6 +2,7 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface Resource extends DefaultSchemaConfig {
   date: Date;
@@ -10,6 +11,7 @@ export interface Resource extends DefaultSchemaConfig {
   title: string;
   text?: string;
   link?: string;
+  attachment?: Attachment["id"];
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
   company: Company["id"];
@@ -23,6 +25,7 @@ export interface CreateResourceProps {
   title: Resource["title"];
   text?: Resource["text"];
   link?: Resource["link"];
+  attachment?: Attachment["id"];
   staff: Resource["staff"];
   company: Resource["company"];
 }

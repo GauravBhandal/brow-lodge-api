@@ -19,6 +19,7 @@ class ResourceModel<
   title!: Resource["title"];
   text: Resource["text"];
   link: Resource["link"];
+  atttachment: Resource["attachment"];
   staff!: Resource["staff"];
   Staff: Resource["Staff"];
   company!: Resource["company"];

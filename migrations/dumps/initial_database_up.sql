@@ -596,6 +596,7 @@ CREATE TABLE IF NOT EXISTS "resources" (
     "title" VARCHAR(255) NOT NULL,
     "text" VARCHAR ,
     "link" VARCHAR(255) ,
+    "attachment" UUID,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
