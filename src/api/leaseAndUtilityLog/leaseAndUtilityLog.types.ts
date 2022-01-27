@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface LeaseAndUtilityLog extends DefaultSchemaConfig {
   date: Date;
@@ -14,6 +15,7 @@ export interface LeaseAndUtilityLog extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateLeaseAndUtilityLogProps {
@@ -23,6 +25,7 @@ export interface CreateLeaseAndUtilityLogProps {
   staff: LeaseAndUtilityLog["staff"];
   client: LeaseAndUtilityLog["client"];
   company: LeaseAndUtilityLog["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateLeaseAndUtilityLogProps

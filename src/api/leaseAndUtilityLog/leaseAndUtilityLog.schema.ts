@@ -1,11 +1,7 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import {
-  requiredUUIDSchema,
-  wrapSchema,
-  requiredTimeSchema,
-} from "../../common/joiSchemas";
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createLeaseAndUtilityLogSchema = wrapSchema({
   body: Joi.object().keys({
@@ -14,6 +10,9 @@ const createLeaseAndUtilityLogSchema = wrapSchema({
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -25,6 +24,9 @@ const editLeaseAndUtilityLogSchema = wrapSchema({
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

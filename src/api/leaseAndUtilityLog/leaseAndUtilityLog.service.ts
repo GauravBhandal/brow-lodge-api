@@ -15,12 +15,24 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { ClientProfileModel } from "../clientProfile";
 import { StaffProfileModel } from "../staffProfile";
-
 import { getFilters } from "../../components/filters";
+import { leaseAndUtilityLogAttachmentService } from "./leaseAndUtilityLogAttachment";
+import { AttachmentModel } from "../attachment";
 
 class LeaseAndUtilityLogService {
   async createLeaseAndUtilityLog(props: CreateLeaseAndUtilityLogProps) {
     const leaseAndUtilityLog = await LeaseAndUtilityLogModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await leaseAndUtilityLogAttachmentService.createBulkLeaseAndUtilityLogAttachment(
+        {
+          relation: leaseAndUtilityLog.id,
+          attachments: props.attachments,
+        }
+      );
+    }
+
     return leaseAndUtilityLog;
   }
 
@@ -48,6 +60,16 @@ class LeaseAndUtilityLogService {
         where: { id, company },
         returning: true,
       });
+
+    // Update attachments
+    if (props.attachments && props.attachments.length) {
+      await leaseAndUtilityLogAttachmentService.updateBulkLeaseAndUtilityLogAttachment(
+        {
+          relation: leaseAndUtilityLog.id,
+          attachments: props.attachments,
+        }
+      );
+    }
     return updatedLeaseAndUtilityLog;
   }
 
@@ -90,6 +112,12 @@ class LeaseAndUtilityLogService {
           model: ClientProfileModel,
           as: "Client",
         },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
       ],
     });
 
@@ -128,6 +156,12 @@ class LeaseAndUtilityLogService {
         as: "Client",
         where: {
           ...filters["Client"],
+        },
+      },
+      {
+        model: AttachmentModel,
+        through: {
+          attributes: [],
         },
       },
     ];

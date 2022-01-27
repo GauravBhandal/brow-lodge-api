@@ -25,6 +25,7 @@ class LeaseAndUtilityLogModel<
   Client: LeaseAndUtilityLog["Client"];
   company!: LeaseAndUtilityLog["company"];
   Company: LeaseAndUtilityLog["Company"];
+  Attachments: LeaseAndUtilityLog["Attachments"];
 }
 
 modelManager.init(

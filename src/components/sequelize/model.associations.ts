@@ -507,6 +507,11 @@ function initializeLeaseAndUtilityLogModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  LeaseAndUtilityLogModel.belongsToMany(AttachmentModel, {
+    through: "lease_and_utility_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeMaintenanceLogModelAssociations() {
