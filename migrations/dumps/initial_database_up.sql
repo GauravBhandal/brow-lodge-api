@@ -694,3 +694,14 @@ CREATE TABLE IF NOT EXISTS "injury_reports_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 59. Create client_document_categories table
+CREATE TABLE IF NOT EXISTS "client_document_categories" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);

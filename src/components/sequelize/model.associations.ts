@@ -34,6 +34,7 @@ import { AttachmentModel } from "../../api/attachment";
 import { LeaseAndUtilityLogModel } from "../../api/leaseAndUtilityLog";
 import { MaintenanceLogModel } from "../../api/maintenanceLog";
 import { FeedbackModel } from "../../api/feedback";
+import { ClientDocumentCategoryModel } from "../../api/clientDocumentCategory";
 
 export default {
   initialize() {
@@ -73,6 +74,7 @@ export default {
     initializeLeaseAndUtilityLogModelAssociations();
     initializeMaintenanceLogModelAssociations();
     initializeFeedbackModelAssociations();
+    initializeClientDocumentCategoryModelAssociations();
   },
 };
 
@@ -521,5 +523,11 @@ function initializeFeedbackModelAssociations() {
   FeedbackModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff" },
     as: "Staff",
+  });
+}
+
+function initializeClientDocumentCategoryModelAssociations() {
+  ClientDocumentCategoryModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }

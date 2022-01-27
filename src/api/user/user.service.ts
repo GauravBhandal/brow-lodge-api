@@ -42,10 +42,7 @@ class UserService {
             attributes: [],
           },
         },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
+        { model: StaffProfileModel, as: "Staff" },
       ],
     });
 

@@ -1,6 +1,7 @@
 import express from "express";
 
 import authMiddleware from "../components/auth";
+import { provideAbility } from "../components/ability";
 import { userRoutes } from "../api/user";
 import { roleRoutes } from "../api/role";
 import { companyRoutes } from "../api/company";
@@ -37,7 +38,7 @@ import { attachmentRoutes } from "../api/attachment";
 import { leaseAndUtilityLogRoutes } from "../api/leaseAndUtilityLog";
 import { maintenanceLogRoutes } from "../api/maintenanceLog";
 import { feedbackRoutes } from "../api/feedback";
-import { provideAbility } from "../components/ability";
+import { clientDocumentCategoryRoutes } from "../api/clientDocumentCategory";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -76,8 +77,9 @@ router.use("/client-risk", clientRiskRoutes);
 router.use("/staff-sleep-disturbance", staffSleepDisturbanceRoutes);
 router.use("/resource", resourceRoutes);
 router.use("/attachment", attachmentRoutes);
-router.use("/leaseAndUtilityLog", leaseAndUtilityLogRoutes);
-router.use("/maintenanceLog", maintenanceLogRoutes);
+router.use("/lease-and-utility-log", leaseAndUtilityLogRoutes);
+router.use("/maintenance-log", maintenanceLogRoutes);
 router.use("/feedback", feedbackRoutes);
+router.use("/client-document-category", clientDocumentCategoryRoutes);
 
 export default router;
