@@ -36,6 +36,7 @@ import { MaintenanceLogModel } from "../../api/maintenanceLog";
 import { FeedbackModel } from "../../api/feedback";
 import { ClientDocumentCategoryModel } from "../../api/clientDocumentCategory";
 import { ClientDocumentTypeModel } from "../../api/clientDocumentType";
+import { ClientDocumentModel } from "../../api/clientDocument";
 
 export default {
   initialize() {
@@ -77,6 +78,7 @@ export default {
     initializeFeedbackModelAssociations();
     initializeClientDocumentCategoryModelAssociations();
     initializeClientDocumentTypeModelAssociations();
+    initializeClientDocumentModelAssociations();
   },
 };
 
@@ -555,5 +557,23 @@ function initializeClientDocumentCategoryModelAssociations() {
 function initializeClientDocumentTypeModelAssociations() {
   ClientDocumentTypeModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeClientDocumentModelAssociations() {
+  ClientDocumentModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ClientDocumentModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client" },
+    as: "Client",
+  });
+  ClientDocumentModel.belongsTo(ClientDocumentCategoryModel, {
+    foreignKey: { name: "category" },
+    as: "Category",
+  });
+  ClientDocumentModel.belongsTo(ClientDocumentTypeModel, {
+    foreignKey: { name: "type" },
+    as: "Type",
   });
 }

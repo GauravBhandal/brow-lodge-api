@@ -1,3 +1,6 @@
+-- 64. DROP client_documents table
+DROP TABLE IF EXISTS "client_documents";
+
 -- 63. DROP client_document_types table
 DROP TABLE IF EXISTS "client_document_types";
 

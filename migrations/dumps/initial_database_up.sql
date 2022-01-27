@@ -752,3 +752,19 @@ CREATE TABLE IF NOT EXISTS "client_document_types" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 64. Create client_documents table
+CREATE TABLE IF NOT EXISTS "client_documents" (
+    "id" UUID NOT NULL,
+    "comments" VARCHAR(255),
+    "has_expiry" BOOLEAN NOT NULL DEFAULT FALSE,
+    "expiry_date" TIMESTAMP WITH TIME ZONE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "category" UUID NOT NULL REFERENCES "client_document_categories" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "type" UUID NOT NULL REFERENCES "client_document_types" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
