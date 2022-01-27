@@ -16,6 +16,7 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 
 import { getFilters } from "../../components/filters";
+import { AttachmentModel } from "../attachment";
 
 class ResourceService {
   async createResource(props: CreateResourceProps) {
@@ -78,6 +79,10 @@ class ResourceService {
           model: StaffProfileModel,
           as: "Staff",
         },
+        {
+          model: AttachmentModel,
+          as: "Attachment",
+        },
       ],
     });
 
@@ -106,6 +111,10 @@ class ResourceService {
         where: {
           ...filters["Staff"],
         },
+      },
+      {
+        model: AttachmentModel,
+        as: "Attachment",
       },
     ];
 

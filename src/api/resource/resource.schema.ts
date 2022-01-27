@@ -6,12 +6,12 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createResourceSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    collectionTypes: Joi.object(),
+    collectionTypes: Joi.array(),
     type: Joi.string().required(),
     title: Joi.string().required(),
     text: Joi.string().allow("", null),
     link: Joi.string().allow("", null),
-    attachment: Joi.string().uuid({ version: "uuidv4" }),
+    attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     staff: requiredUUIDSchema(),
   }),
 });
@@ -20,12 +20,12 @@ const editResourceSchema = wrapSchema({
   params: Joi.object().keys({ resourceId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    collectionTypes: Joi.object(),
+    collectionTypes: Joi.array(),
     type: Joi.string().required(),
     title: Joi.string().required(),
     text: Joi.string().allow("", null),
     link: Joi.string().allow("", null),
-    attachment: Joi.string().uuid({ version: "uuidv4" }),
+    attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     staff: requiredUUIDSchema(),
   }),
 });
