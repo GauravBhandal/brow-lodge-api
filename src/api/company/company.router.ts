@@ -14,6 +14,10 @@ router.put(
   catchWrap(controller.updateMyCompany)
 );
 
-router.get("/", canDo("read", "company"), catchWrap(controller.getMyCompany));
+router.get(
+  "/",
+  // canDo("read", "company"), TODO: Every user need to make a GET request
+  catchWrap(controller.getMyCompany)
+);
 
 export default router;

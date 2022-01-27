@@ -36,7 +36,7 @@ router.get(
 
 router.get(
   "/",
-  canDo("read", "resource"),
+  // canDo("read", "resource"), TODO: Every user need to make a GET request
   resourceSchems.getResources,
   catchWrap(controller.getResources)
 );

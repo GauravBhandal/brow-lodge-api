@@ -37,7 +37,7 @@ router.get(
 
 router.get(
   "/",
-  canDo("read", "staffProfile"),
+  // canDo("read", "staffProfile"), TODO: Every user need to make a GET request
   staffProfileSchems.getStaffProfiles,
   catchWrap(controller.getStaffProfiles)
 );
