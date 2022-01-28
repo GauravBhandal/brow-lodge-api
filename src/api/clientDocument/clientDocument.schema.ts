@@ -7,7 +7,7 @@ const createClientDocumentSchema = wrapSchema({
   body: Joi.object().keys({
     comments: Joi.string().allow("", null),
     hasExpiry: Joi.boolean().required(),
-    expiryDate: Joi.date().required(),
+    expiryDate: Joi.date(),
     client: requiredUUIDSchema(),
     category: requiredUUIDSchema(),
     type: requiredUUIDSchema(),
@@ -22,7 +22,7 @@ const editClientDocumentSchema = wrapSchema({
   body: Joi.object().keys({
     comments: Joi.string().allow("", null),
     hasExpiry: Joi.boolean().required(),
-    expiryDate: Joi.date().required(),
+    expiryDate: Joi.date(),
     client: requiredUUIDSchema(),
     category: requiredUUIDSchema(),
     type: requiredUUIDSchema(),
