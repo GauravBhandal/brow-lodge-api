@@ -1716,31 +1716,9 @@ module.exports = {
       ],
       {}
     );
-
-    await queryInterface.bulkInsert(
-      "client_document_categories",
-      [
-        {
-          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
-          name: "Client Document Category Company 1",
-          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
-          created: new Date(),
-          updated: new Date(),
-        },
-        {
-          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
-          name: "Client Document Category Company 2",
-          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
-          created: new Date(),
-          updated: new Date(),
-        },
-      ],
-      {}
-    );
   },
 
   down: async (queryInterface) => {
-    await queryInterface.bulkDelete("client_document_categories", null, {});
     await queryInterface.bulkDelete("feedbacks", null, {});
     await queryInterface.bulkDelete("maintenance_logs", null, {});
     await queryInterface.bulkDelete("lease_and_utility_logs", null, {});

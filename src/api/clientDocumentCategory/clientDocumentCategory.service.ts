@@ -14,7 +14,10 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
-import { clientDocumentTypeService } from "../clientDocumentType";
+import {
+  clientDocumentTypeService,
+  ClientDocumentTypeModel,
+} from "../clientDocumentType";
 
 class ClientDocumentCategoryService {
   async createClientDocumentCategory(props: CreateClientDocumentCategoryProps) {
@@ -96,6 +99,9 @@ class ClientDocumentCategoryService {
         {
           model: CompanyModel,
         },
+        {
+          model: ClientDocumentTypeModel,
+        },
       ],
     });
 
@@ -121,6 +127,9 @@ class ClientDocumentCategoryService {
     const include = [
       {
         model: CompanyModel,
+      },
+      {
+        model: ClientDocumentTypeModel,
       },
     ];
 
