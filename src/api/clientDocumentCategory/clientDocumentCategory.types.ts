@@ -1,5 +1,6 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
+import { ClientDocumentType } from "../clientDocumentType";
 import { QueryParams } from "../../common/types";
 
 export interface ClientDocumentCategory extends DefaultSchemaConfig {
@@ -10,6 +11,7 @@ export interface ClientDocumentCategory extends DefaultSchemaConfig {
 
 export interface CreateClientDocumentCategoryProps {
   name: ClientDocumentCategory["name"];
+  types: ClientDocumentType["name"][];
   company: ClientDocumentCategory["company"];
 }
 

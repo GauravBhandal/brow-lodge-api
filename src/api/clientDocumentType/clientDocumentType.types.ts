@@ -11,6 +11,12 @@ export interface ClientDocumentType extends DefaultSchemaConfig {
   Category?: ClientDocumentCategory;
 }
 
+export interface CreateBulkClientDocumentTypeProps {
+  types: ClientDocumentType["name"][];
+  company: ClientDocumentType["company"];
+  category: ClientDocumentType["category"];
+}
+
 export interface CreateClientDocumentTypeProps {
   name: ClientDocumentType["name"];
   company: ClientDocumentType["company"];

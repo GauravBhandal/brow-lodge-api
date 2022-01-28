@@ -2,6 +2,7 @@ import { omit as _omit } from "lodash";
 
 import ClientDocumentTypeModel from "./clientDocumentType.model";
 import {
+  CreateBulkClientDocumentTypeProps,
   CreateClientDocumentTypeProps,
   UpdateClientDocumentTypeProps,
   DeleteClientDocumentTypeProps,
@@ -17,6 +18,21 @@ import { ClientDocumentCategoryModel } from "../clientDocumentCategory";
 import { getFilters } from "../../components/filters";
 
 class ClientDocumentTypeService {
+  async createBulkClientDocumentType(props: CreateBulkClientDocumentTypeProps) {
+    const { company, category, types } = props;
+    const createProps = types.map((type) => ({
+      name: type,
+      company,
+      category,
+    }));
+
+    const clientDocumentTypes = await ClientDocumentTypeModel.bulkCreate(
+      createProps
+    );
+
+    return clientDocumentTypes;
+  }
+
   async createClientDocumentType(props: CreateClientDocumentTypeProps) {
     const clientDocumentType = await ClientDocumentTypeModel.create(props);
     return clientDocumentType;

@@ -14,12 +14,25 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
+import { clientDocumentTypeService } from "../clientDocumentType";
 
 class ClientDocumentCategoryService {
   async createClientDocumentCategory(props: CreateClientDocumentCategoryProps) {
+    const { types, company } = props;
+    const createProps = _omit(props, ["types"]);
     const clientDocumentCategory = await ClientDocumentCategoryModel.create(
-      props
+      createProps
     );
+
+    if (clientDocumentCategory) {
+      // Create clientDocumentType in bulk
+      clientDocumentTypeService.createBulkClientDocumentType({
+        types,
+        category: clientDocumentCategory.id,
+        company,
+      });
+    }
+
     return clientDocumentCategory;
   }
 

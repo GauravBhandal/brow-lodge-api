@@ -6,6 +6,9 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createClientDocumentCategorySchema = wrapSchema({
   body: Joi.object().keys({
     name: Joi.string().required(),
+    types: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .required(),
   }),
 });
 
