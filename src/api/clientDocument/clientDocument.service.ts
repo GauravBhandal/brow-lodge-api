@@ -18,6 +18,7 @@ import { clientDocumentAttachmentService } from "./clientDocumentAttachment";
 import { AttachmentModel } from "../attachment";
 import { ClientDocumentTypeModel } from "../clientDocumentType";
 import { ClientDocumentCategoryModel } from "../clientDocumentCategory";
+import { ClientProfileModel } from "../clientProfile";
 class ClientDocumentService {
   async createClientDocument(props: CreateClientDocumentProps) {
     const clientDocument = await ClientDocumentModel.create(props);
@@ -102,10 +103,16 @@ class ClientDocumentService {
           model: CompanyModel,
         },
         {
+          model: ClientProfileModel,
+          as: "Client",
+        },
+        {
           model: ClientDocumentTypeModel,
+          as: "Type",
         },
         {
           model: ClientDocumentCategoryModel,
+          as: "Category",
         },
         {
           model: AttachmentModel,
@@ -138,6 +145,10 @@ class ClientDocumentService {
     const include = [
       {
         model: CompanyModel,
+      },
+      {
+        model: ClientProfileModel,
+        as: "Client",
       },
       {
         model: ClientDocumentTypeModel,
