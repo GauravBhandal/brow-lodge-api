@@ -2,6 +2,7 @@ import { omit as _omit } from "lodash";
 
 import StaffDocumentTypeModel from "./staffDocumentType.model";
 import {
+  CreateBulkStaffDocumentTypeProps,
   CreateStaffDocumentTypeProps,
   UpdateStaffDocumentTypeProps,
   DeleteStaffDocumentTypeProps,
@@ -17,6 +18,21 @@ import { StaffDocumentCategoryModel } from "../staffDocumentCategory";
 import { getFilters } from "../../components/filters";
 
 class StaffDocumentTypeService {
+  async createBulkStaffDocumentType(props: CreateBulkStaffDocumentTypeProps) {
+    const { company, category, types } = props;
+    const createProps = types.map((type) => ({
+      name: type,
+      company,
+      category,
+    }));
+
+    const staffDocumentTypes = await StaffDocumentTypeModel.bulkCreate(
+      createProps
+    );
+
+    return staffDocumentTypes;
+  }
+
   async createStaffDocumentType(props: CreateStaffDocumentTypeProps) {
     const staffDocumentType = await StaffDocumentTypeModel.create(props);
     return staffDocumentType;

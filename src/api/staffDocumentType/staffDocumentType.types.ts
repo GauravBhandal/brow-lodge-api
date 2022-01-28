@@ -11,6 +11,12 @@ export interface StaffDocumentType extends DefaultSchemaConfig {
   Category?: StaffDocumentCategory;
 }
 
+export interface CreateBulkStaffDocumentTypeProps {
+  types: StaffDocumentType["name"][];
+  company: StaffDocumentType["company"];
+  category: StaffDocumentType["category"];
+}
+
 export interface CreateStaffDocumentTypeProps {
   name: StaffDocumentType["name"];
   company: StaffDocumentType["company"];

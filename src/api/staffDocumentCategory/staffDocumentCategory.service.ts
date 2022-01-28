@@ -14,12 +14,28 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
-
+import {
+  staffDocumentTypeService,
+  StaffDocumentTypeModel,
+} from "../staffDocumentType";
 class StaffDocumentCategoryService {
   async createStaffDocumentCategory(props: CreateStaffDocumentCategoryProps) {
+    const { types, company } = props;
+    const createProps = _omit(props, ["types"]);
+
     const staffDocumentCategory = await StaffDocumentCategoryModel.create(
-      props
+      createProps
     );
+
+    if (staffDocumentCategory) {
+      // Create clientDocumentType in bulk
+      staffDocumentTypeService.createBulkStaffDocumentType({
+        types,
+        category: staffDocumentCategory.id,
+        company,
+      });
+    }
+
     return staffDocumentCategory;
   }
 
@@ -81,6 +97,9 @@ class StaffDocumentCategoryService {
         {
           model: CompanyModel,
         },
+        {
+          model: StaffDocumentTypeModel,
+        },
       ],
     });
 
@@ -106,6 +125,9 @@ class StaffDocumentCategoryService {
     const include = [
       {
         model: CompanyModel,
+      },
+      {
+        model: StaffDocumentTypeModel,
       },
     ];
 

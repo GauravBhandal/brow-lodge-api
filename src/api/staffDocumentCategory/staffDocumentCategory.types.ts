@@ -1,5 +1,6 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
+import { StaffDocumentType } from "../staffDocumentType";
 import { QueryParams } from "../../common/types";
 
 export interface StaffDocumentCategory extends DefaultSchemaConfig {
@@ -10,6 +11,7 @@ export interface StaffDocumentCategory extends DefaultSchemaConfig {
 
 export interface CreateStaffDocumentCategoryProps {
   name: StaffDocumentCategory["name"];
+  types: StaffDocumentType["name"][];
   company: StaffDocumentCategory["company"];
 }
 
