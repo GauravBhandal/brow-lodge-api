@@ -18,6 +18,7 @@ import { staffDocumentAttachmentService } from "./staffDocumentAttachment";
 import { AttachmentModel } from "../attachment";
 import { StaffDocumentTypeModel } from "../staffDocumentType";
 import { StaffDocumentCategoryModel } from "../staffDocumentCategory";
+import { StaffProfileModel } from "../staffProfile";
 class StaffDocumentService {
   async createStaffDocument(props: CreateStaffDocumentProps) {
     const staffDocument = await StaffDocumentModel.create(props);
@@ -102,10 +103,16 @@ class StaffDocumentService {
           model: CompanyModel,
         },
         {
+          model: StaffProfileModel,
+          as: "Staff",
+        },
+        {
           model: StaffDocumentTypeModel,
+          as: "Type",
         },
         {
           model: StaffDocumentCategoryModel,
+          as: "Category",
         },
         {
           model: AttachmentModel,
@@ -138,6 +145,10 @@ class StaffDocumentService {
     const include = [
       {
         model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
       },
       {
         model: StaffDocumentTypeModel,

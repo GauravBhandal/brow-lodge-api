@@ -7,7 +7,7 @@ const createStaffDocumentSchema = wrapSchema({
   body: Joi.object().keys({
     comments: Joi.string().allow("", null),
     hasExpiry: Joi.boolean().required(),
-    expiryDate: Joi.date().required(),
+    expiryDate: Joi.date(),
     staff: requiredUUIDSchema(),
     category: requiredUUIDSchema(),
     type: requiredUUIDSchema(),
@@ -22,7 +22,7 @@ const editStaffDocumentSchema = wrapSchema({
   body: Joi.object().keys({
     comments: Joi.string().allow("", null),
     hasExpiry: Joi.boolean().required(),
-    expiryDate: Joi.date().required(),
+    expiryDate: Joi.date(),
     staff: requiredUUIDSchema(),
     category: requiredUUIDSchema(),
     type: requiredUUIDSchema(),
