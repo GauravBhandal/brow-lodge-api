@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "job_title" VARCHAR(255),
     "employment_start_date" TIMESTAMP WITH TIME ZONE,
     "employment_end_date" TIMESTAMP WITH TIME ZONE,
-    "employement_type" VARCHAR(255),
+    "employment_type" VARCHAR(255),
     "primary_manager" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "user" UUID REFERENCES "users" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
