@@ -21,6 +21,21 @@ import { StaffDocumentCategoryModel } from "../staffDocumentCategory";
 import { StaffProfileModel } from "../staffProfile";
 class StaffDocumentService {
   async createStaffDocument(props: CreateStaffDocumentProps) {
+    const { category, type, staff, company } = props;
+
+    // Check if document already exists
+    const existingDocument = await StaffDocumentModel.findOne({
+      where: { category, type, staff, company },
+    });
+
+    // If already exists, throw an error
+    if (existingDocument) {
+      throw new CustomError(
+        409,
+        StaffDocumentErrorCode.STAFF_DOCUMENT_ALREADY_EXISTS
+      );
+    }
+
     const staffDocument = await StaffDocumentModel.create(props);
 
     // Create attachments
@@ -36,7 +51,7 @@ class StaffDocumentService {
 
   async updateStaffDocument(props: UpdateStaffDocumentProps) {
     // Props
-    const { id, company } = props;
+    const { category, type, staff, company, id } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find staffDocument by id and company
@@ -50,6 +65,26 @@ class StaffDocumentService {
         404,
         StaffDocumentErrorCode.STAFF_DOCUMENT_NOT_FOUND
       );
+    }
+
+    if (
+      staffDocument.category != category ||
+      staffDocument.type != type ||
+      staffDocument.staff != staff ||
+      staffDocument.company != company
+    ) {
+      // Check if document already exists
+      const existingDocument = await StaffDocumentModel.findOne({
+        where: { category, type, staff, company },
+      });
+
+      // If already exists, throw an error
+      if (existingDocument) {
+        throw new CustomError(
+          409,
+          StaffDocumentErrorCode.STAFF_DOCUMENT_ALREADY_EXISTS
+        );
+      }
     }
 
     // Finally, update the staffDocument

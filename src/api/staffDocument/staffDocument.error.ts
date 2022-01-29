@@ -1,5 +1,6 @@
 enum StaffDocumentErrorCode {
   STAFF_DOCUMENT_NOT_FOUND = "STAFF_DOCUMENT_NOT_FOUND",
+  STAFF_DOCUMENT_ALREADY_EXISTS = "STAFF_DOCUMENT_ALREADY_EXISTS",
 }
 
 export default StaffDocumentErrorCode;
