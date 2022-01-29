@@ -117,6 +117,11 @@ function initializeStaffProfileModelAssociations() {
   StaffProfileModel.belongsTo(AttachmentModel, {
     foreignKey: "profile_picture",
   });
+  StaffProfileModel.belongsTo(StaffProfileModel, {
+    foreignKey: {
+      name: "primary_manager",
+    },
+  });
 }
 
 function initializeUserModelAssociations() {

@@ -17,6 +17,18 @@ class StaffProfileModel<
   lastName!: StaffProfile["lastName"];
   preferredName!: StaffProfile["preferredName"];
   email!: StaffProfile["email"];
+  dateOfBirth: StaffProfile["dateOfBirth"];
+  personalContactNumber: StaffProfile["personalContactNumber"];
+  workContactNumber: StaffProfile["workContactNumber"];
+  address: StaffProfile["address"];
+  emergencyContactName: StaffProfile["emergencyContactName"];
+  emergencyContactPhone: StaffProfile["emergencyContactPhone"];
+  emergencyContactRelation: StaffProfile["emergencyContactRelation"];
+  jobTitle: StaffProfile["jobTitle"];
+  employmentStartDate: StaffProfile["employmentStartDate"];
+  employmentEndDate: StaffProfile["employmentEndDate"];
+  employmentType: StaffProfile["employmentType"];
+  primaryManager: StaffProfile["primaryManager"];
   user: StaffProfile["user"];
   User: StaffProfile["User"];
   company!: StaffProfile["company"];
@@ -43,6 +55,39 @@ modelManager.init(
     email: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    dateOfBirth: {
+      type: Sequelize.DATE,
+    },
+    personalContactNumber: {
+      type: Sequelize.STRING,
+    },
+    workContactNumber: {
+      type: Sequelize.STRING,
+    },
+    address: {
+      type: Sequelize.STRING,
+    },
+    emergencyContactName: {
+      type: Sequelize.STRING,
+    },
+    emergencyContactPhone: {
+      type: Sequelize.STRING,
+    },
+    emergencyContactRelation: {
+      type: Sequelize.STRING,
+    },
+    jobTitle: {
+      type: Sequelize.STRING,
+    },
+    employmentStartDate: {
+      type: Sequelize.DATE,
+    },
+    employmentEndDate: {
+      type: Sequelize.DATE,
+    },
+    employmentType: {
+      type: Sequelize.STRING,
     },
   },
   {
