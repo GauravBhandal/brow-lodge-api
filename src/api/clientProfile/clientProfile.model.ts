@@ -25,6 +25,7 @@ class ClientProfileModel<
   height: ClientProfile["height"];
   company!: ClientProfile["company"];
   Company: ClientProfile["Company"];
+  profilePicture: ClientProfile["profilePicture"];
 }
 
 modelManager.init(

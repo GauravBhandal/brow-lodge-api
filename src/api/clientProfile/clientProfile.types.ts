@@ -1,6 +1,7 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface ClientProfile extends DefaultSchemaConfig {
   firstName: string;
@@ -15,6 +16,7 @@ export interface ClientProfile extends DefaultSchemaConfig {
   height?: number;
   company: Company["id"];
   Company?: Company;
+  profilePicture?: Attachment["id"];
 }
 
 export interface CreateClientProfileProps {
@@ -29,6 +31,7 @@ export interface CreateClientProfileProps {
   emergencyContactRelation: ClientProfile["emergencyContactRelation"];
   height: ClientProfile["height"];
   company: ClientProfile["company"];
+  profilePicture: ClientProfile["profilePicture"];
 }
 
 export interface UpdateClientProfileProps extends CreateClientProfileProps {

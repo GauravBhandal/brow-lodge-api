@@ -92,6 +92,9 @@ function initializeClientProfileModelAssociations() {
   ClientProfileModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
+  ClientProfileModel.belongsTo(AttachmentModel, {
+    foreignKey: "profile_picture",
+  });
 }
 
 function initializeRoleModelAssociations() {
@@ -110,6 +113,9 @@ function initializeStaffProfileModelAssociations() {
   });
   StaffProfileModel.belongsTo(UserModel, {
     foreignKey: { name: "user" },
+  });
+  StaffProfileModel.belongsTo(AttachmentModel, {
+    foreignKey: "profile_picture",
   });
 }
 

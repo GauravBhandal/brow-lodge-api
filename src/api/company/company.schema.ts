@@ -8,7 +8,7 @@ const editMyCompanySchema = wrapSchema({
     name: Joi.string().required(),
     phone: Joi.string().allow("", null),
     address: Joi.string().allow("", null),
-    attachment: Joi.string().uuid({ version: "uuidv4" }),
+    attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 

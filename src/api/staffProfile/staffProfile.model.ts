@@ -20,6 +20,7 @@ class StaffProfileModel<
   User: StaffProfile["User"];
   company!: StaffProfile["company"];
   Company: StaffProfile["Company"];
+  profilePicture: StaffProfile["profilePicture"];
 }
 
 modelManager.init(

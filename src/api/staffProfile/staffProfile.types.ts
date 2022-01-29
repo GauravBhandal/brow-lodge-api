@@ -2,7 +2,7 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { User } from "../user";
 import { QueryParams } from "../../common/types";
-
+import { Attachment } from "../attachment";
 export interface StaffProfile extends DefaultSchemaConfig {
   firstName: string;
   lastName: string;
@@ -11,6 +11,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   User?: User;
   company: Company["id"];
   Company?: Company;
+  profilePicture?: Attachment["id"];
 }
 
 export interface CreateStaffProfileProps {
@@ -19,6 +20,7 @@ export interface CreateStaffProfileProps {
   preferredName: StaffProfile["preferredName"];
   user: StaffProfile["user"];
   company: StaffProfile["company"];
+  profilePicture: StaffProfile["profilePicture"];
 }
 
 export interface UpdateStaffProfileProps extends CreateStaffProfileProps {
