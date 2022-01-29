@@ -561,6 +561,7 @@ function initializeClientDocumentCategoryModelAssociations() {
   ClientDocumentCategoryModel.hasMany(ClientDocumentTypeModel, {
     foreignKey: "category",
     sourceKey: "id",
+    as: "Types",
   });
 }
 
@@ -604,6 +605,7 @@ function initializeStaffDocumentCategoryModelAssociations() {
   StaffDocumentCategoryModel.hasMany(StaffDocumentTypeModel, {
     foreignKey: "category",
     sourceKey: "id",
+    as: "Types",
   });
 }
 

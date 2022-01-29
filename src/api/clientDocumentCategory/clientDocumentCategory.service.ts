@@ -101,6 +101,7 @@ class ClientDocumentCategoryService {
         },
         {
           model: ClientDocumentTypeModel,
+          as: "Types",
         },
       ],
     });
@@ -130,6 +131,7 @@ class ClientDocumentCategoryService {
       },
       {
         model: ClientDocumentTypeModel,
+        as: "Types",
       },
     ];
 
