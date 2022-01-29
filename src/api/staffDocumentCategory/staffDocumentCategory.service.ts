@@ -99,6 +99,7 @@ class StaffDocumentCategoryService {
         },
         {
           model: StaffDocumentTypeModel,
+          as: "Types",
         },
       ],
     });
@@ -128,6 +129,7 @@ class StaffDocumentCategoryService {
       },
       {
         model: StaffDocumentTypeModel,
+        as: "Types",
       },
     ];
 
