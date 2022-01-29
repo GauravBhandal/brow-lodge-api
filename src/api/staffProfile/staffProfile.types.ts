@@ -7,6 +7,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   firstName: string;
   lastName: string;
   preferredName: string;
+  email: string;
   user?: User["id"];
   User?: User;
   company: Company["id"];
@@ -17,6 +18,7 @@ export interface CreateStaffProfileProps {
   firstName: StaffProfile["firstName"];
   lastName: StaffProfile["lastName"];
   preferredName: StaffProfile["preferredName"];
+  email: StaffProfile["email"];
   user: StaffProfile["user"];
   company: StaffProfile["company"];
 }
