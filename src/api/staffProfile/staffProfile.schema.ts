@@ -8,6 +8,7 @@ const createStaffProfileSchema = wrapSchema({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
     preferredName: Joi.string().required(),
+    email: Joi.string().required(),
     user: requiredUUIDSchema(),
   }),
 });
@@ -20,6 +21,7 @@ const editStaffProfileSchema = wrapSchema({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
     preferredName: Joi.string().required(),
+    email: Joi.string().required(),
     user: requiredUUIDSchema(),
   }),
 });
