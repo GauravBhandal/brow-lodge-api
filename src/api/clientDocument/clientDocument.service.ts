@@ -21,6 +21,21 @@ import { ClientDocumentCategoryModel } from "../clientDocumentCategory";
 import { ClientProfileModel } from "../clientProfile";
 class ClientDocumentService {
   async createClientDocument(props: CreateClientDocumentProps) {
+    const { category, type, client, company } = props;
+
+    // Check if document already exists
+    const existingDocument = await ClientDocumentModel.findOne({
+      where: { category, type, client, company },
+    });
+
+    // If already exists, throw an error
+    if (existingDocument) {
+      throw new CustomError(
+        409,
+        ClientDocumentErrorCode.CLIENT_DOCUMENT_ALREADY_EXISTS
+      );
+    }
+
     const clientDocument = await ClientDocumentModel.create(props);
 
     // Create attachments
@@ -36,7 +51,7 @@ class ClientDocumentService {
 
   async updateClientDocument(props: UpdateClientDocumentProps) {
     // Props
-    const { id, company } = props;
+    const { category, type, client, company, id } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find clientDocument by id and company
@@ -50,6 +65,26 @@ class ClientDocumentService {
         404,
         ClientDocumentErrorCode.CLIENT_DOCUMENT_NOT_FOUND
       );
+    }
+
+    if (
+      clientDocument.category != category ||
+      clientDocument.type != type ||
+      clientDocument.client != client ||
+      clientDocument.company != company
+    ) {
+      // Check if document already exists
+      const existingDocument = await ClientDocumentModel.findOne({
+        where: { category, type, client, company },
+      });
+
+      // If already exists, throw an error
+      if (existingDocument) {
+        throw new CustomError(
+          409,
+          ClientDocumentErrorCode.CLIENT_DOCUMENT_ALREADY_EXISTS
+        );
+      }
     }
 
     // Finally, update the clientDocument

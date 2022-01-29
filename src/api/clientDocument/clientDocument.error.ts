@@ -1,5 +1,6 @@
 enum ClientDocumentErrorCode {
   CLIENT_DOCUMENT_NOT_FOUND = "CLIENT_DOCUMENT_NOT_FOUND",
+  CLIENT_DOCUMENT_ALREADY_EXISTS = "CLIENT_DOCUMENT_ALREADY_EXISTS",
 }
 
 export default ClientDocumentErrorCode;
