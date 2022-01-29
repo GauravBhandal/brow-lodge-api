@@ -62,7 +62,7 @@ class StaffDocumentService {
     );
 
     // Update attachments
-    if (props.attachments && props.attachments.length) {
+    if (props.attachments) {
       await staffDocumentAttachmentService.updateBulkStaffDocumentAttachment({
         relation: staffDocument.id,
         attachments: props.attachments,
@@ -149,14 +149,23 @@ class StaffDocumentService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
       {
         model: StaffDocumentTypeModel,
         as: "Type",
+        where: {
+          ...filters["Type"],
+        },
       },
       {
         model: StaffDocumentCategoryModel,
         as: "Category",
+        where: {
+          ...filters["Category"],
+        },
       },
       {
         model: AttachmentModel,

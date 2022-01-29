@@ -62,7 +62,7 @@ class ClientDocumentService {
     );
 
     // Update attachments
-    if (props.attachments && props.attachments.length) {
+    if (props.attachments) {
       await clientDocumentAttachmentService.updateBulkClientDocumentAttachment({
         relation: clientDocument.id,
         attachments: props.attachments,
@@ -149,14 +149,23 @@ class ClientDocumentService {
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
       {
         model: ClientDocumentTypeModel,
         as: "Type",
+        where: {
+          ...filters["Type"],
+        },
       },
       {
         model: ClientDocumentCategoryModel,
         as: "Category",
+        where: {
+          ...filters["Category"],
+        },
       },
       {
         model: AttachmentModel,

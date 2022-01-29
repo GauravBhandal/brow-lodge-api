@@ -328,6 +328,7 @@ class UserService {
         {
           model: StaffProfileModel,
           as: "Staff",
+          required: false,
         },
       ],
     });
@@ -365,6 +366,7 @@ class UserService {
         where: {
           ...filters["Staff"],
         },
+        required: false,
       },
     ];
 
