@@ -190,11 +190,11 @@ DROP TABLE IF EXISTS "progress_notes";
 -- 6. Drop client_profiles table
 DROP TABLE IF EXISTS "client_profiles";
 
--- 5. DROP enum_gender type
-DROP TYPE "enum_gender";
-
--- 4. Drop staff_profiles table
+-- 5. Drop staff_profiles table
 DROP TABLE IF EXISTS "staff_profiles";
+
+-- 4. DROP enum_gender type
+DROP TYPE "enum_gender";
 
 -- 3. Drop users table
 DROP TABLE IF EXISTS "users";

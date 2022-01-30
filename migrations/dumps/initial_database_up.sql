@@ -40,7 +40,10 @@ CREATE TABLE IF NOT EXISTS "users" (
     PRIMARY KEY ("id")
 );
 
--- 4. Create staff_profiles table
+-- 4. Create enum_gender type
+CREATE TYPE "enum_gender" AS ENUM ('male', 'female', 'other');
+
+-- 5. Create staff_profiles table
 CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "id" UUID NOT NULL,
     "first_name" VARCHAR(255) NOT NULL,
@@ -48,6 +51,7 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "preferred_name" VARCHAR(255) NOT NULL,
     "attachment" UUID,
     "email" VARCHAR(255) NOT NULL,
+    "gender" enum_gender,
     "date_of_birth" TIMESTAMP WITH TIME ZONE,
     "personal_contact_number" VARCHAR(255),
     "work_contact_number" VARCHAR(255),
@@ -67,9 +71,6 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
-
--- 5. Create enum_gender type
-CREATE TYPE "enum_gender" AS ENUM ('male', 'female', 'other');
 
 -- 6. Create client_profiles table
 CREATE TABLE IF NOT EXISTS "client_profiles" (

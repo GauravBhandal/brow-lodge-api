@@ -18,6 +18,7 @@ class StaffProfileModel<
   preferredName!: StaffProfile["preferredName"];
   email!: StaffProfile["email"];
   dateOfBirth: StaffProfile["dateOfBirth"];
+  gender: StaffProfile["gender"];
   personalContactNumber: StaffProfile["personalContactNumber"];
   workContactNumber: StaffProfile["workContactNumber"];
   address: StaffProfile["address"];
@@ -58,6 +59,9 @@ modelManager.init(
     },
     dateOfBirth: {
       type: Sequelize.DATE,
+    },
+    gender: {
+      type: Sequelize.STRING,
     },
     personalContactNumber: {
       type: Sequelize.STRING,
