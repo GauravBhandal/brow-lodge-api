@@ -16,7 +16,7 @@ const createClientProfileSchema = wrapSchema({
     emergencyContactPhone: Joi.string().allow("", null),
     emergencyContactRelation: Joi.string().allow("", null),
     height: Joi.number().min(1).allow(null),
-    profilePicture: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 
@@ -36,7 +36,7 @@ const editClientProfileSchema = wrapSchema({
     emergencyContactPhone: Joi.string().allow("", null),
     emergencyContactRelation: Joi.string().allow("", null),
     height: Joi.number().min(1).allow(null),
-    profilePicture: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 

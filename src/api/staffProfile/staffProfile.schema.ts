@@ -20,9 +20,9 @@ const createStaffProfileSchema = wrapSchema({
     employmentStartDate: Joi.date(),
     employmentEndDate: Joi.date(),
     employmentType: Joi.string().allow("", null),
-    primaryManager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    manager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     user: requiredUUIDSchema(),
-    profilePicture: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 
@@ -46,9 +46,9 @@ const editStaffProfileSchema = wrapSchema({
     employmentStartDate: Joi.date(),
     employmentEndDate: Joi.date(),
     employmentType: Joi.string().allow("", null),
-    primaryManager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    manager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     user: requiredUUIDSchema(),
-    profilePicture: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 

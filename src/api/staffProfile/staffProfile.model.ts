@@ -28,12 +28,12 @@ class StaffProfileModel<
   employmentStartDate: StaffProfile["employmentStartDate"];
   employmentEndDate: StaffProfile["employmentEndDate"];
   employmentType: StaffProfile["employmentType"];
-  primaryManager: StaffProfile["primaryManager"];
+  manager: StaffProfile["manager"];
   user: StaffProfile["user"];
   User: StaffProfile["User"];
   company!: StaffProfile["company"];
   Company: StaffProfile["Company"];
-  profilePicture: StaffProfile["profilePicture"];
+  attachment: StaffProfile["attachment"];
 }
 
 modelManager.init(

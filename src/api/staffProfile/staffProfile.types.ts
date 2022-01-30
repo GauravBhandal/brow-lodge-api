@@ -20,12 +20,12 @@ export interface StaffProfile extends DefaultSchemaConfig {
   employmentStartDate?: Date;
   employmentEndDate?: Date;
   employmentType?: string;
-  primaryManager?: StaffProfile["id"];
+  manager?: StaffProfile["id"];
   user?: User["id"];
   User?: User;
   company: Company["id"];
   Company?: Company;
-  profilePicture?: Attachment["id"];
+  attachment?: Attachment["id"];
 }
 
 export interface CreateStaffProfileProps {
@@ -44,10 +44,10 @@ export interface CreateStaffProfileProps {
   employmentStartDate: StaffProfile["employmentStartDate"];
   employmentEndDate: StaffProfile["employmentEndDate"];
   employmentType: StaffProfile["employmentType"];
-  primaryManager: StaffProfile["primaryManager"];
+  manager: StaffProfile["manager"];
   user: StaffProfile["user"];
   company: StaffProfile["company"];
-  profilePicture: StaffProfile["profilePicture"];
+  attachment: StaffProfile["attachment"];
 }
 
 export interface UpdateStaffProfileProps extends CreateStaffProfileProps {

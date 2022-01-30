@@ -17,7 +17,7 @@ export interface ClientProfile extends DefaultSchemaConfig {
   height?: number;
   company: Company["id"];
   Company?: Company;
-  profilePicture?: Attachment["id"];
+  attachment?: Attachment["id"];
 }
 
 export interface CreateClientProfileProps {
@@ -33,7 +33,7 @@ export interface CreateClientProfileProps {
   emergencyContactRelation: ClientProfile["emergencyContactRelation"];
   height: ClientProfile["height"];
   company: ClientProfile["company"];
-  profilePicture: ClientProfile["profilePicture"];
+  attachment: ClientProfile["attachment"];
 }
 
 export interface UpdateClientProfileProps extends CreateClientProfileProps {
