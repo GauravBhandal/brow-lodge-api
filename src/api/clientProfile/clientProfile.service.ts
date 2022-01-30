@@ -12,6 +12,7 @@ import { CustomError } from "../../components/errors";
 import ClientProfileErrorCode from "./clientProfile.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
+import { getFilters } from "../../components/filters";
 
 class ClientProfileService {
   async createClientProfile(props: CreateClientProfileProps) {
@@ -91,15 +92,17 @@ class ClientProfileService {
 
   async getClientProfiles(props: GetClientProfilesProps) {
     // Props
-    const { page, pageSize, sort, company } = props;
+    const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
+    const filters = getFilters(where);
 
     // Count total clientProfiles in the given company
     const count = await ClientProfileModel.count({
       where: {
         company,
+        ...filters["primaryFilters"],
       },
     });
 
@@ -110,6 +113,7 @@ class ClientProfileService {
       order,
       where: {
         company,
+        ...filters["primaryFilters"],
       },
     });
 

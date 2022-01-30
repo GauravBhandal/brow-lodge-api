@@ -55,7 +55,12 @@ class ClientProfileController {
   }
 
   async getClientProfiles(req: Request, res: Response) {
-    const queryParams = _pick(req.query, ["page", "pageSize", "sort"]) as any;
+    const queryParams = _pick(req.query, [
+      "page",
+      "pageSize",
+      "sort",
+      "where",
+    ]) as any;
     const props = {
       company: req.auth.companyId,
       ...queryParams,
