@@ -21,7 +21,7 @@ class LeaseAndUtilityLogModel<
   comments: LeaseAndUtilityLog["comments"];
   staff!: LeaseAndUtilityLog["staff"];
   Staff: LeaseAndUtilityLog["Staff"];
-  client!: LeaseAndUtilityLog["client"];
+  client: LeaseAndUtilityLog["client"];
   Client: LeaseAndUtilityLog["Client"];
   company!: LeaseAndUtilityLog["company"];
   Company: LeaseAndUtilityLog["Company"];

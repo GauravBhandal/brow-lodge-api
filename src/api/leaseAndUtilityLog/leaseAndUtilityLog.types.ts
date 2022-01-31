@@ -11,7 +11,7 @@ export interface LeaseAndUtilityLog extends DefaultSchemaConfig {
   comments?: string;
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
-  client: ClientProfile["id"];
+  client?: ClientProfile["id"];
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;

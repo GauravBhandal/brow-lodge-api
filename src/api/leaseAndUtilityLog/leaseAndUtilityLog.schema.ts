@@ -9,7 +9,7 @@ const createLeaseAndUtilityLogSchema = wrapSchema({
     documentName: Joi.string().required(),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
-    client: requiredUUIDSchema(),
+    client: Joi.string().uuid({ version: "uuidv4" }).allow(null),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
@@ -23,7 +23,7 @@ const editLeaseAndUtilityLogSchema = wrapSchema({
     documentName: Joi.string().required(),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
-    client: requiredUUIDSchema(),
+    client: Joi.string().uuid({ version: "uuidv4" }).allow(null),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),

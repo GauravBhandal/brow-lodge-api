@@ -111,6 +111,7 @@ class LeaseAndUtilityLogService {
         {
           model: ClientProfileModel,
           as: "Client",
+          required: false,
         },
         {
           model: AttachmentModel,
@@ -154,9 +155,7 @@ class LeaseAndUtilityLogService {
       {
         model: ClientProfileModel,
         as: "Client",
-        where: {
-          ...filters["Client"],
-        },
+        required: false,
       },
       {
         model: AttachmentModel,

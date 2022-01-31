@@ -14,7 +14,6 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
-import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
 import { maintenanceLogAttachmentService } from "./maintenanceLogAttachment";
 import { AttachmentModel } from "../attachment";
@@ -115,10 +114,6 @@ class MaintenanceLogService {
           model: StaffProfileModel,
           as: "Staff",
         },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
       ],
     });
 
@@ -155,13 +150,6 @@ class MaintenanceLogService {
         as: "Staff",
         where: {
           ...filters["Staff"],
-        },
-      },
-      {
-        model: ClientProfileModel,
-        as: "Client",
-        where: {
-          ...filters["Client"],
         },
       },
     ];
