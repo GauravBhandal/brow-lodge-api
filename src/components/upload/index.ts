@@ -30,8 +30,21 @@ const isValidFileFormat = (mimetype: string, fileExtension: string) => {
     "image/jpeg",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/vnd.ms-excel",
+    "application/msword",
+    "text/csv",
   ];
-  const validFileExtensions = [".pdf", ".png", ".jpeg", ".docx", ".xlsx"];
+  const validFileExtensions = [
+    ".pdf",
+    ".png",
+    ".jpeg",
+    ".jpg",
+    ".docx",
+    ".xlsx",
+    ".xls",
+    ".csv",
+    ".doc",
+  ];
   const isValid =
     validMimetypes.includes(mimetype) &&
     validFileExtensions.includes(fileExtension);
