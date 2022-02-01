@@ -139,6 +139,7 @@ class ClientBehaviourService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

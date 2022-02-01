@@ -117,6 +117,7 @@ class FeedbackService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

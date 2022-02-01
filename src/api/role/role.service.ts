@@ -99,6 +99,7 @@ class RoleService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
     });
 
     // Find all roles for matching props and company

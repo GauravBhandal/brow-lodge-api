@@ -125,6 +125,7 @@ class ExpenseReimbursementService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

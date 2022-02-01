@@ -112,6 +112,7 @@ class WhoLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

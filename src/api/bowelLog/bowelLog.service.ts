@@ -126,6 +126,7 @@ class BowelLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

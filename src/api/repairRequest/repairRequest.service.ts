@@ -159,6 +159,7 @@ class RepairRequestService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

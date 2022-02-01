@@ -130,6 +130,7 @@ class PrnAdminLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

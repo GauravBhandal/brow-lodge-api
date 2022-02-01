@@ -104,6 +104,7 @@ class ClientProfileService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
     });
 
     // Find all clientProfiles for matching props and company

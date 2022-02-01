@@ -376,6 +376,7 @@ class UserService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

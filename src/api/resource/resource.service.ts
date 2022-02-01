@@ -124,6 +124,7 @@ class ResourceService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

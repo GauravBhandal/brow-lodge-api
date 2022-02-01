@@ -139,6 +139,7 @@ class PrnBalanceLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

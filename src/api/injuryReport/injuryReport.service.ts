@@ -161,6 +161,7 @@ class InjuryReportService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

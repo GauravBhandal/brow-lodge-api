@@ -130,6 +130,7 @@ class ProgressNoteService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

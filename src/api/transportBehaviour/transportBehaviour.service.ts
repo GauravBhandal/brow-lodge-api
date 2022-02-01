@@ -137,6 +137,7 @@ class TransportBehaviourService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

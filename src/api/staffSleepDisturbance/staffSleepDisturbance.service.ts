@@ -139,6 +139,7 @@ class StaffSleepDisturbanceService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

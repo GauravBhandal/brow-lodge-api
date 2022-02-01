@@ -137,6 +137,7 @@ class OxygenSaturationLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

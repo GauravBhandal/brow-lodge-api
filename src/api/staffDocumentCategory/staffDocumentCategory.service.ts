@@ -139,6 +139,7 @@ class StaffDocumentCategoryService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

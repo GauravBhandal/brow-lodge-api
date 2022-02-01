@@ -160,6 +160,7 @@ class MaintenanceLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

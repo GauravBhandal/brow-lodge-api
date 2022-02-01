@@ -139,6 +139,7 @@ class BloodPressureLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

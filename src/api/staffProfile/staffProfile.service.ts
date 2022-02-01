@@ -119,6 +119,7 @@ class StaffProfileService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

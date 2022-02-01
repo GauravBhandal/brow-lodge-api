@@ -216,6 +216,7 @@ class ClientDocumentService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

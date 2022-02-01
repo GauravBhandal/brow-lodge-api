@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   {
     host: config.DATABASE_HOST,
     dialect: "postgres",
-    logging: false, // TODO: We need to show better logging instead of no logging
+    // logging: false, // TODO: We need to show better logging instead of no logging
   }
 );
 
