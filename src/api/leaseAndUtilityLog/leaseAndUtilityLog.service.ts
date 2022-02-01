@@ -170,6 +170,7 @@ class LeaseAndUtilityLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

@@ -139,6 +139,7 @@ class TemperatureLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

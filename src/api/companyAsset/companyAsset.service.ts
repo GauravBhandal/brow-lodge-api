@@ -118,6 +118,7 @@ class CompanyAssetService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

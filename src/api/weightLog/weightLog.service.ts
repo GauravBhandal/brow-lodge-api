@@ -126,6 +126,7 @@ class WeightLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

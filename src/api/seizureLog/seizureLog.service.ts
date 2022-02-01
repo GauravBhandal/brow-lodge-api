@@ -127,6 +127,7 @@ class SeizureLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

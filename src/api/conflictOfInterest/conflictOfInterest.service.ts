@@ -124,6 +124,7 @@ class ConflictOfInterestService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

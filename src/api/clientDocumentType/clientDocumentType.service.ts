@@ -138,6 +138,7 @@ class ClientDocumentTypeService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

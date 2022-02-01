@@ -128,6 +128,7 @@ class MeetingLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

@@ -127,6 +127,7 @@ class SleepLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

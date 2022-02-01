@@ -125,6 +125,7 @@ class VehicleLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

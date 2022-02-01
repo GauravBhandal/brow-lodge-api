@@ -140,6 +140,7 @@ class StaffDocumentTypeService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

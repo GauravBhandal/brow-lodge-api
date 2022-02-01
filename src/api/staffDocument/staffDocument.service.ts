@@ -216,6 +216,7 @@ class StaffDocumentService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

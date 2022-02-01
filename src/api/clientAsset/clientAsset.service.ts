@@ -130,6 +130,7 @@ class ClientAssetService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

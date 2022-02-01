@@ -127,6 +127,7 @@ class CorporateRiskService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

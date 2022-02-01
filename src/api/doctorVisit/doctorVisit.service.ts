@@ -130,6 +130,7 @@ class DoctorVisitService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

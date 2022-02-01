@@ -141,6 +141,7 @@ class ClientDocumentCategoryService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 

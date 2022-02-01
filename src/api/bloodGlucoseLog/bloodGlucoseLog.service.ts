@@ -139,6 +139,7 @@ class BloodGlucoseLogService {
         company,
         ...filters["primaryFilters"],
       },
+      distinct: true,
       include,
     });
 
