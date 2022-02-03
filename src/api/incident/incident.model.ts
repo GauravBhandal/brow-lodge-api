@@ -21,6 +21,12 @@ class IncidentModel<
   actionsTakenByStaff!: Incident["actionsTakenByStaff"];
   actionsTakenByOthers!: Incident["actionsTakenByOthers"];
   anyOtherWitness!: Incident["anyOtherWitness"];
+  incidentReportedTo: Incident["incidentReportedTo"];
+  assessmentAndDebriefing: Incident["assessmentAndDebriefing"];
+  findingsAndActionsTaken: Incident["findingsAndActionsTaken"];
+  status: Incident["status"];
+  closureDate: Incident["closureDate"];
+  manager: Incident["manager"];
   client!: Incident["client"];
   Client: Incident["Client"];
   company!: Incident["company"];
@@ -63,6 +69,21 @@ modelManager.init(
     anyOtherWitness: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    incidentReportedTo: {
+      type: Sequelize.STRING,
+    },
+    assessmentAndDebriefing: {
+      type: Sequelize.STRING,
+    },
+    findingsAndActionsTaken: {
+      type: Sequelize.STRING,
+    },
+    status: {
+      type: Sequelize.STRING,
+    },
+    closureDate: {
+      type: Sequelize.DATE,
     },
   },
   {
