@@ -74,9 +74,11 @@ class UserService {
   }
 
   async loginUser(props: LoginUserProps) {
+    const email = props.email.toLowerCase();
+
     // Check if user exist with the given email
     const user = await UserModel.findOne({
-      where: { email: props.email },
+      where: { email },
       include: [
         {
           model: RoleModel,
@@ -92,7 +94,7 @@ class UserService {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
 
-    const secretUserInfo = await this._getUserPassword(user.email);
+    const secretUserInfo = await this._getUserPassword(email);
 
     // Check if password matches with one store in database
     const isPasswordCorrect = await bcrypt.compare(
@@ -158,9 +160,11 @@ class UserService {
   }
 
   async forgotPassword(props: ForgotPasswordProps) {
+    const email = props.email.toLowerCase();
+
     // Check if user exist
     const existingUser = await UserModel.findOne({
-      where: { email: props.email },
+      where: { email },
     });
 
     // if user not found, throw an error
@@ -246,9 +250,11 @@ class UserService {
   }
 
   async createUser(props: CreateUserProps) {
+    const lowerCaseEmail = props.email.toLowerCase();
+
     // Check if user already exist
     const existingUser = await UserModel.findOne({
-      where: { email: props.email },
+      where: { email: lowerCaseEmail },
     });
 
     // if the user exists, throw an error
@@ -262,6 +268,8 @@ class UserService {
 
     // Create new password reset token
     const resetPasswordToken = crypto.randomBytes(32).toString("hex");
+
+    props.email = lowerCaseEmail;
 
     // Create User
     const user = await UserModel.create({ ...props, resetPasswordToken });
@@ -284,8 +292,9 @@ class UserService {
 
   async updateUser(props: UpdateUserProps) {
     // Props
-    const { id, company, password } = props;
+    const { id, company, password, email } = props;
     const updateProps = _omit(props, ["id", "company"]);
+    updateProps.email = email.toLowerCase();
 
     // Find user by id and company
     const user = await UserModel.findOne({
