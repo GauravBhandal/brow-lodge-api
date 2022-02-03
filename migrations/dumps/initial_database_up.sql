@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS "users" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "users" ENABLE ROW LEVEL SECURITY;
 
 -- 4. Create enum_gender type
 CREATE TYPE "enum_gender" AS ENUM ('male', 'female', 'other');
@@ -73,6 +74,7 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "staff_profiles" ENABLE ROW LEVEL SECURITY;
 
 -- 6. Create client_profiles table
 CREATE TABLE IF NOT EXISTS "client_profiles" (
@@ -95,6 +97,7 @@ CREATE TABLE IF NOT EXISTS "client_profiles" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "client_profiles" ENABLE ROW LEVEL SECURITY;
 
 -- 7. Create progress_notes table
 CREATE TABLE IF NOT EXISTS "progress_notes" (
@@ -112,6 +115,7 @@ CREATE TABLE IF NOT EXISTS "progress_notes" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "progress_notes" ENABLE ROW LEVEL SECURITY;
 
 -- 8. Create users_roles table
 CREATE TABLE IF NOT EXISTS "users_roles" (
@@ -123,6 +127,7 @@ CREATE TABLE IF NOT EXISTS "users_roles" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "users_roles" ENABLE ROW LEVEL SECURITY;
 
 -- 9. Create blood_glucose_logs table
 CREATE TABLE IF NOT EXISTS "blood_glucose_logs" (
@@ -139,6 +144,7 @@ CREATE TABLE IF NOT EXISTS "blood_glucose_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "blood_glucose_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 10. Create bowel_logs table
 CREATE TABLE IF NOT EXISTS "bowel_logs" (
@@ -155,6 +161,7 @@ CREATE TABLE IF NOT EXISTS "bowel_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "bowel_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 11. Create blood_pressure_logs table
 CREATE TABLE IF NOT EXISTS "blood_pressure_logs"(
@@ -173,6 +180,8 @@ CREATE TABLE IF NOT EXISTS "blood_pressure_logs"(
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "blood_pressure_logs" ENABLE ROW LEVEL SECURITY;
+
 
 -- 12. Create enum_sleep_activity type
 CREATE TYPE "enum_sleep_activity" AS ENUM ('sleep', 'awake');
@@ -192,6 +201,7 @@ CREATE TABLE IF NOT EXISTS "sleep_logs"(
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "sleep_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 14. Create temperature_logs table
 CREATE TABLE IF NOT EXISTS "temperature_logs" (
@@ -208,6 +218,7 @@ CREATE TABLE IF NOT EXISTS "temperature_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "temperature_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 15. Create weight_logs table
 CREATE TABLE IF NOT EXISTS "weight_logs" (
@@ -224,6 +235,7 @@ CREATE TABLE IF NOT EXISTS "weight_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "weight_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 16. Create oxygen_saturation_logs table
 CREATE TABLE IF NOT EXISTS "oxygen_saturation_logs" (
@@ -245,6 +257,7 @@ CREATE TABLE IF NOT EXISTS "oxygen_saturation_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "oxygen_saturation_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 17. Create seizure_logs table
 CREATE TABLE IF NOT EXISTS "seizure_logs" (
@@ -263,6 +276,7 @@ CREATE TABLE IF NOT EXISTS "seizure_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "seizure_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 18. Create prn_admin_logs table
 CREATE TABLE IF NOT EXISTS "prn_admin_logs" (
@@ -281,6 +295,7 @@ CREATE TABLE IF NOT EXISTS "prn_admin_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "prn_admin_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 19. Create prn_balance_logs table
 CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
@@ -297,6 +312,7 @@ CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "prn_balance_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 20. Create client_behaviours table
 CREATE TABLE IF NOT EXISTS "client_behaviours" (
@@ -316,6 +332,7 @@ CREATE TABLE IF NOT EXISTS "client_behaviours" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "client_behaviours" ENABLE ROW LEVEL SECURITY;
 
 -- 21. Create transport_behaviours table
 CREATE TABLE IF NOT EXISTS "transport_behaviours" (
@@ -335,6 +352,8 @@ CREATE TABLE IF NOT EXISTS "transport_behaviours" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "transport_behaviours" ENABLE ROW LEVEL SECURITY;
+
 
 -- 22. Create enum_vehicle type
 CREATE TYPE "enum_vehicle" AS ENUM ('private', 'company','other');
@@ -359,6 +378,7 @@ CREATE TABLE IF NOT EXISTS "vehicle_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "vehicle_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 24. Create injury_reports table
 CREATE TABLE IF NOT EXISTS "injury_reports" (
@@ -374,6 +394,7 @@ CREATE TABLE IF NOT EXISTS "injury_reports" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "injury_reports" ENABLE ROW LEVEL SECURITY;
 
 -- 25. Create enum_expense_reimbursement_status type
 CREATE TYPE "enum_expense_reimbursement_status" AS ENUM ('approved', 'pending','rejected');
@@ -393,6 +414,7 @@ CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "expense_reimbursements" ENABLE ROW LEVEL SECURITY;
 
 -- 27. Create enum_health_practitioner type
 CREATE TYPE "enum_health_practitioner" AS ENUM ('behaviourTherapist', 'continence','dentist', 'dietician','doctor','nurse','occupationalTherapist','physiotherapist','podiatrist','psychologist','speechPathologist','other');
@@ -420,6 +442,7 @@ CREATE TABLE IF NOT EXISTS "doctor_visits" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "doctor_visits" ENABLE ROW LEVEL SECURITY;
 
 -- 30. Create client_assets table
 CREATE TABLE IF NOT EXISTS "client_assets" (
@@ -436,6 +459,7 @@ CREATE TABLE IF NOT EXISTS "client_assets" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "client_assets" ENABLE ROW LEVEL SECURITY;
 
 -- 31. Create company_assets table
 CREATE TABLE IF NOT EXISTS "company_assets" (
@@ -451,6 +475,7 @@ CREATE TABLE IF NOT EXISTS "company_assets" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "company_assets" ENABLE ROW LEVEL SECURITY;
 
 -- 32. Create enum_repair_requests_priority type
 CREATE TYPE "enum_repair_requests_priority" AS ENUM ('low', 'medium','high');
@@ -473,6 +498,7 @@ CREATE TABLE IF NOT EXISTS "repair_requests" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "repair_requests" ENABLE ROW LEVEL SECURITY;
 
 -- 35. Create conflict_of_interests table
 CREATE TABLE IF NOT EXISTS "conflict_of_interests" (
@@ -487,6 +513,7 @@ CREATE TABLE IF NOT EXISTS "conflict_of_interests" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "conflict_of_interests" ENABLE ROW LEVEL SECURITY;
 
 -- 36. Create enum_corporate_risks_level_of_risk type
 CREATE TYPE "enum_corporate_risks_level_of_risk" AS ENUM ('low', 'medium','high');
@@ -514,6 +541,7 @@ CREATE TABLE IF NOT EXISTS "corporate_risks" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "corporate_risks" ENABLE ROW LEVEL SECURITY;
 
 -- 40. Create whs_logs table
 CREATE TABLE IF NOT EXISTS "whs_logs" (
@@ -530,6 +558,7 @@ CREATE TABLE IF NOT EXISTS "whs_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "whs_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 41. Create enum_meeting_type type
 CREATE TYPE "enum_meeting_type" AS ENUM ('clientMeeting', 'staffMeeting','externalMeeting','adminMeeting');
@@ -556,6 +585,7 @@ CREATE TABLE IF NOT EXISTS "meeting_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "meeting_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 43. Create enum_client_risks_level_of_risk type
 CREATE TYPE "enum_client_risks_level_of_risk" AS ENUM ('low', 'medium','high');
@@ -584,6 +614,7 @@ CREATE TABLE IF NOT EXISTS "client_risks" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "client_risks" ENABLE ROW LEVEL SECURITY;
 
 -- 47. Create staff_sleep_disturbances table
 CREATE TABLE IF NOT EXISTS "staff_sleep_disturbances" (
@@ -602,6 +633,7 @@ CREATE TABLE IF NOT EXISTS "staff_sleep_disturbances" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "staff_sleep_disturbances" ENABLE ROW LEVEL SECURITY;
 
 -- 48. Create enum_resources_type type
 CREATE TYPE "enum_resources_type" AS ENUM ('text', 'link','attachment');
@@ -623,6 +655,7 @@ CREATE TABLE IF NOT EXISTS "resources" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "resources" ENABLE ROW LEVEL SECURITY;
 
 -- 50. Create attachments table
 CREATE TABLE IF NOT EXISTS "attachments" (
@@ -636,6 +669,7 @@ CREATE TABLE IF NOT EXISTS "attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "attachments" ENABLE ROW LEVEL SECURITY;
 
 -- 51. Create lease_and_utility_logs table
 CREATE TABLE IF NOT EXISTS "lease_and_utility_logs" (
@@ -651,6 +685,7 @@ CREATE TABLE IF NOT EXISTS "lease_and_utility_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "lease_and_utility_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 52. Create  maintenance_logs table
 CREATE TABLE IF NOT EXISTS "maintenance_logs" (
@@ -667,6 +702,7 @@ CREATE TABLE IF NOT EXISTS "maintenance_logs" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "maintenance_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 53. Create enum_feedback_you_are_a type
 CREATE TYPE "enum_feedback_you_are_a" AS ENUM ('participant', 'family','staff','supportCoordinator','other');
@@ -699,6 +735,7 @@ CREATE TABLE IF NOT EXISTS "feedbacks" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "feedbacks" ENABLE ROW LEVEL SECURITY;
 
 -- 57. Add attachment to companies table
 ALTER TABLE "companies" ADD CONSTRAINT "fk_companies_attachments" 
@@ -714,6 +751,7 @@ CREATE TABLE IF NOT EXISTS "injury_reports_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "injury_reports_attachments" ENABLE ROW LEVEL SECURITY;
 
 -- 59. Create maintenance_logs_attachments table
 CREATE TABLE IF NOT EXISTS "maintenance_logs_attachments" (
@@ -725,6 +763,7 @@ CREATE TABLE IF NOT EXISTS "maintenance_logs_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "maintenance_logs_attachments" ENABLE ROW LEVEL SECURITY;
 
 -- 60. Create lease_and_utility_logs_attachments table
 CREATE TABLE IF NOT EXISTS "lease_and_utility_logs_attachments" (
@@ -736,7 +775,7 @@ CREATE TABLE IF NOT EXISTS "lease_and_utility_logs_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
-
+ALTER TABLE "lease_and_utility_logs_attachments" ENABLE ROW LEVEL SECURITY;
 
 -- 61. Create repair_requests_attachments table
 CREATE TABLE IF NOT EXISTS "repair_requests_attachments" (
@@ -748,6 +787,7 @@ CREATE TABLE IF NOT EXISTS "repair_requests_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "repair_requests_attachments" ENABLE ROW LEVEL SECURITY;
 
 -- 62. Create client_document_categories table
 CREATE TABLE IF NOT EXISTS "client_document_categories" (
@@ -759,6 +799,7 @@ CREATE TABLE IF NOT EXISTS "client_document_categories" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "client_document_categories" ENABLE ROW LEVEL SECURITY;
 
 -- 63. Create client_document_types table
 CREATE TABLE IF NOT EXISTS "client_document_types" (
@@ -771,6 +812,7 @@ CREATE TABLE IF NOT EXISTS "client_document_types" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "client_document_types" ENABLE ROW LEVEL SECURITY;
 
 -- 64. Create client_documents table
 CREATE TABLE IF NOT EXISTS "client_documents" (
@@ -787,6 +829,7 @@ CREATE TABLE IF NOT EXISTS "client_documents" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "client_documents" ENABLE ROW LEVEL SECURITY;
 
 -- 65. Create client_documents_attachments table
 CREATE TABLE IF NOT EXISTS "client_documents_attachments" (
@@ -798,6 +841,7 @@ CREATE TABLE IF NOT EXISTS "client_documents_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "client_documents_attachments" ENABLE ROW LEVEL SECURITY;
 
 -- 66. Create staff_document_categories table
 CREATE TABLE IF NOT EXISTS "staff_document_categories" (
@@ -809,6 +853,7 @@ CREATE TABLE IF NOT EXISTS "staff_document_categories" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "staff_document_categories" ENABLE ROW LEVEL SECURITY;
 
 -- 67. Create staff_document_types table
 CREATE TABLE IF NOT EXISTS "staff_document_types" (
@@ -821,6 +866,7 @@ CREATE TABLE IF NOT EXISTS "staff_document_types" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "staff_document_types" ENABLE ROW LEVEL SECURITY;
 
 -- 68. Create staff_documents table
 CREATE TABLE IF NOT EXISTS "staff_documents" (
@@ -837,6 +883,7 @@ CREATE TABLE IF NOT EXISTS "staff_documents" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "staff_documents" ENABLE ROW LEVEL SECURITY;
 
 -- 69. Create staff_documents_attachments table
 CREATE TABLE IF NOT EXISTS "staff_documents_attachments" (
@@ -848,6 +895,7 @@ CREATE TABLE IF NOT EXISTS "staff_documents_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "staff_documents_attachments" ENABLE ROW LEVEL SECURITY;
 
 -- 70. Create incidents table
 CREATE TABLE IF NOT EXISTS "incidents" (
@@ -873,6 +921,7 @@ CREATE TABLE IF NOT EXISTS "incidents" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "incidents" ENABLE ROW LEVEL SECURITY;
 
 -- 71. Create incidents_attachments table
 CREATE TABLE IF NOT EXISTS "incidents_attachments" (
@@ -884,6 +933,7 @@ CREATE TABLE IF NOT EXISTS "incidents_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "incidents_attachments" ENABLE ROW LEVEL SECURITY;
 
 -- 72. Create whs_logs_attachments table
 CREATE TABLE IF NOT EXISTS "whs_logs_attachments" (
@@ -895,4 +945,5 @@ CREATE TABLE IF NOT EXISTS "whs_logs_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "whs_logs_attachments" ENABLE ROW LEVEL SECURITY;
 
