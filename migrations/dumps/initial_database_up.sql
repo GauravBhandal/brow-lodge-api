@@ -513,8 +513,8 @@ CREATE TABLE IF NOT EXISTS "corporate_risks" (
     PRIMARY KEY ("id")
 );
 
--- 40. Create who_logs table
-CREATE TABLE IF NOT EXISTS "who_logs" (
+-- 40. Create whs_logs table
+CREATE TABLE IF NOT EXISTS "whs_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
     "category" VARCHAR NOT NULL,
@@ -870,6 +870,17 @@ CREATE TABLE IF NOT EXISTS "incidents" (
 CREATE TABLE IF NOT EXISTS "incidents_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "injury_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 72. Create whs_logs_attachments table
+CREATE TABLE IF NOT EXISTS "whs_logs_attachments" (
+    "id" UUID NOT NULL,
+    "relation" UUID NOT NULL REFERENCES "staff_documents" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,

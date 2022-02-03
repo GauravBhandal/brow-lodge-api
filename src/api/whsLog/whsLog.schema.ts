@@ -3,7 +3,7 @@ import Joi from "joi";
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
-const createWhoLogSchema = wrapSchema({
+const createWhsLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
     category: Joi.string().required(),
@@ -11,11 +11,12 @@ const createWhoLogSchema = wrapSchema({
     nextReviewDate: Joi.date().allow("", null),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
-const editWhoLogSchema = wrapSchema({
-  params: Joi.object().keys({ whoLogId: requiredUUIDSchema() }),
+const editWhsLogSchema = wrapSchema({
+  params: Joi.object().keys({ whsLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
     category: Joi.string().required(),
@@ -23,22 +24,23 @@ const editWhoLogSchema = wrapSchema({
     nextReviewDate: Joi.date().allow("", null),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
-const deleteWhoLogSchema = wrapSchema({
+const deleteWhsLogSchema = wrapSchema({
   params: Joi.object().keys({
-    whoLogId: requiredUUIDSchema(),
+    whsLogId: requiredUUIDSchema(),
   }),
 });
 
-const getWhoLogByIdSchema = wrapSchema({
+const getWhsLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
-    whoLogId: requiredUUIDSchema(),
+    whsLogId: requiredUUIDSchema(),
   }),
 });
 
-const getWhoLogSchema = wrapSchema({
+const getWhsLogSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
@@ -48,9 +50,9 @@ const getWhoLogSchema = wrapSchema({
 });
 
 export default {
-  createWhoLog: joiMiddleware(createWhoLogSchema),
-  editWhoLog: joiMiddleware(editWhoLogSchema),
-  deleteWhoLog: joiMiddleware(deleteWhoLogSchema),
-  getWhoLogById: joiMiddleware(getWhoLogByIdSchema),
-  getWhoLogs: joiMiddleware(getWhoLogSchema),
+  createWhsLog: joiMiddleware(createWhsLogSchema),
+  editWhsLog: joiMiddleware(editWhsLogSchema),
+  deleteWhsLog: joiMiddleware(deleteWhsLogSchema),
+  getWhsLogById: joiMiddleware(getWhsLogByIdSchema),
+  getWhsLogs: joiMiddleware(getWhsLogSchema),
 };

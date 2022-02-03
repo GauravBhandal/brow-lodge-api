@@ -716,13 +716,6 @@ module.exports = {
           updated: new Date(),
         },
         {
-          id: "bceb5877-6d34-4d54-a09a-e93481f4542b",
-          user: "fba6e9df-750f-4023-8dc0-d931e444f9e6",
-          role: "88316c9b-e3ca-4e83-a6cd-3df7b95837b3",
-          created: new Date(),
-          updated: new Date(),
-        },
-        {
           id: "541ca221-7ca8-4679-8fcd-344cb4af9678",
           user: "54a46a5f-cd9d-435e-816c-c4c0702946aa",
           role: "88316c9b-e3ca-4e83-a6cd-3df7b95837b3",
@@ -1433,7 +1426,7 @@ module.exports = {
     );
 
     await queryInterface.bulkInsert(
-      "who_logs",
+      "whs_logs",
       [
         {
           id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
@@ -1753,7 +1746,7 @@ module.exports = {
     await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
     await queryInterface.bulkDelete("client_risks", null, {});
     await queryInterface.bulkDelete("meeting_logs", null, {});
-    await queryInterface.bulkDelete("who_logs", null, {});
+    await queryInterface.bulkDelete("whs_logs", null, {});
     await queryInterface.bulkDelete("corporate_risks", null, {});
     await queryInterface.bulkDelete("conflict_of_interests", null, {});
     await queryInterface.bulkDelete("repair_requests", null, {});
