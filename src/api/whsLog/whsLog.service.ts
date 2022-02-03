@@ -54,7 +54,7 @@ class WhsLogService {
     });
 
     // Update attachments
-    if (props.attachments && props.attachments.length) {
+    if (props.attachments) {
       await whsLogAttachmentService.updateBulkWhsLogAttachment({
         relation: whsLog.id,
         attachments: props.attachments,

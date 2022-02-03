@@ -55,7 +55,7 @@ class IncidentService {
     });
 
     // Update attachments
-    if (props.attachments && props.attachments.length) {
+    if (props.attachments) {
       await incidentAttachmentService.updateBulkIncidentAttachment({
         relation: incident.id,
         attachments: props.attachments,

@@ -61,7 +61,7 @@ class RepairRequestService {
     );
 
     // Update attachments
-    if (props.attachments && props.attachments.length) {
+    if (props.attachments) {
       await repairRequestAttachmentService.updateBulkRepairRequestAttachment({
         relation: repairRequest.id,
         attachments: props.attachments,
