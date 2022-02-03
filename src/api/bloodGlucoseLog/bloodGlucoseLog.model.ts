@@ -49,6 +49,11 @@ modelManager.init(
     },
   },
   {
+    defaultScope: {
+      attributes: {
+        exclude: ["deleted"],
+      },
+    },
     underscored: true,
     paranoid: true,
     tableName: "blood_glucose_logs",

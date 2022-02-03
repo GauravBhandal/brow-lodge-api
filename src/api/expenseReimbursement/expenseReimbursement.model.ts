@@ -52,6 +52,11 @@ modelManager.init(
     },
   },
   {
+    defaultScope: {
+      attributes: {
+        exclude: ["deleted"],
+      },
+    },
     underscored: true,
     paranoid: true,
     tableName: "expense_reimbursements",

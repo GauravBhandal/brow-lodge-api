@@ -5,6 +5,7 @@ import { omit as _omit } from "lodash";
 
 import UserModel from "./user.model";
 import {
+  User,
   MeProps,
   LoginUserProps,
   RegisterUserProps,
@@ -30,6 +31,24 @@ import { StaffProfileModel } from "../staffProfile";
 import { CompanyModel } from "../company";
 
 class UserService {
+  // Private fn. don't call this outside of this file
+  async _getUserPassword(email: User["email"]) {
+    // Check if user exist with the given email
+    const user = await UserModel.findOne({
+      where: { email },
+      attributes: {
+        include: ["password", "resetPasswordToken"],
+      },
+    });
+
+    // if user don't exists, throw an error
+    if (!user) {
+      throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    return user;
+  }
+
   async me(props: MeProps) {
     const { id, company } = props;
 
@@ -73,10 +92,12 @@ class UserService {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
 
+    const secretUserInfo = await this._getUserPassword(user.email);
+
     // Check if password matches with one store in database
     const isPasswordCorrect = await bcrypt.compare(
       props.password,
-      user.password
+      secretUserInfo.password
     );
 
     if (isPasswordCorrect) {
@@ -199,9 +220,11 @@ class UserService {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
 
+    const secretUserInfo = await this._getUserPassword(user.email);
+
     const isValid = await bcrypt.compare(
       resetPasswordToken,
-      user.resetPasswordToken
+      secretUserInfo.resetPasswordToken
     );
 
     if (!isValid) {
@@ -251,7 +274,12 @@ class UserService {
       });
     }
 
-    return user;
+    const userWithoutSecrets = _omit(user.toJSON(), [
+      "password",
+      "resetPasswordToken",
+    ]);
+
+    return userWithoutSecrets;
   }
 
   async updateUser(props: UpdateUserProps) {
@@ -288,7 +316,12 @@ class UserService {
       });
     }
 
-    return updatedUser;
+    const updatedUserWithoutSecrets = _omit(updatedUser.toJSON(), [
+      "password",
+      "resetPasswordToken",
+    ]);
+
+    return updatedUserWithoutSecrets;
   }
 
   async deleteUser(props: DeleteUserProps) {
