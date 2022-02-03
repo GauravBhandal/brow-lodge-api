@@ -37,7 +37,7 @@ router.get(
 
 router.get(
   "/",
-  canDo("read", "staffDocumentCategory"),
+  // canDo("read", "staffDocumentCategory"), TODO: Need to allow user to create document
   staffDocumentCategorySchems.getStaffDocumentCategorys,
   catchWrap(controller.getStaffDocumentCategorys)
 );
