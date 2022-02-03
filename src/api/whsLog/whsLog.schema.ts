@@ -3,7 +3,7 @@ import Joi from "joi";
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
-const createWhoLogSchema = wrapSchema({
+const createWhsLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
     category: Joi.string().required(),
@@ -14,8 +14,8 @@ const createWhoLogSchema = wrapSchema({
   }),
 });
 
-const editWhoLogSchema = wrapSchema({
-  params: Joi.object().keys({ whoLogId: requiredUUIDSchema() }),
+const editWhsLogSchema = wrapSchema({
+  params: Joi.object().keys({ whsLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
     category: Joi.string().required(),
@@ -26,19 +26,19 @@ const editWhoLogSchema = wrapSchema({
   }),
 });
 
-const deleteWhoLogSchema = wrapSchema({
+const deleteWhsLogSchema = wrapSchema({
   params: Joi.object().keys({
-    whoLogId: requiredUUIDSchema(),
+    whsLogId: requiredUUIDSchema(),
   }),
 });
 
-const getWhoLogByIdSchema = wrapSchema({
+const getWhsLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
-    whoLogId: requiredUUIDSchema(),
+    whsLogId: requiredUUIDSchema(),
   }),
 });
 
-const getWhoLogSchema = wrapSchema({
+const getWhsLogSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
@@ -48,9 +48,9 @@ const getWhoLogSchema = wrapSchema({
 });
 
 export default {
-  createWhoLog: joiMiddleware(createWhoLogSchema),
-  editWhoLog: joiMiddleware(editWhoLogSchema),
-  deleteWhoLog: joiMiddleware(deleteWhoLogSchema),
-  getWhoLogById: joiMiddleware(getWhoLogByIdSchema),
-  getWhoLogs: joiMiddleware(getWhoLogSchema),
+  createWhsLog: joiMiddleware(createWhsLogSchema),
+  editWhsLog: joiMiddleware(editWhsLogSchema),
+  deleteWhsLog: joiMiddleware(deleteWhsLogSchema),
+  getWhsLogById: joiMiddleware(getWhsLogByIdSchema),
+  getWhsLogs: joiMiddleware(getWhsLogSchema),
 };

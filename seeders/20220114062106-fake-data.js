@@ -1426,7 +1426,7 @@ module.exports = {
     );
 
     await queryInterface.bulkInsert(
-      "who_logs",
+      "whs_logs",
       [
         {
           id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
@@ -1746,7 +1746,7 @@ module.exports = {
     await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
     await queryInterface.bulkDelete("client_risks", null, {});
     await queryInterface.bulkDelete("meeting_logs", null, {});
-    await queryInterface.bulkDelete("who_logs", null, {});
+    await queryInterface.bulkDelete("whs_logs", null, {});
     await queryInterface.bulkDelete("corporate_risks", null, {});
     await queryInterface.bulkDelete("conflict_of_interests", null, {});
     await queryInterface.bulkDelete("repair_requests", null, {});

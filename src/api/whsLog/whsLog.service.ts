@@ -1,15 +1,15 @@
 import { omit as _omit } from "lodash";
 
-import WhoLogModel from "./whoLog.model";
+import WhsLogModel from "./whsLog.model";
 import {
-  CreateWhoLogProps,
-  UpdateWhoLogProps,
-  DeleteWhoLogProps,
-  GetWhoLogByIdProps,
-  GetWhoLogsProps,
-} from "./whoLog.types";
+  CreateWhsLogProps,
+  UpdateWhsLogProps,
+  DeleteWhsLogProps,
+  GetWhsLogByIdProps,
+  GetWhsLogsProps,
+} from "./whsLog.types";
 import { CustomError } from "../../components/errors";
-import WhoLogErrorCode from "./whoLog.error";
+import WhsLogErrorCode from "./whsLog.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
@@ -17,58 +17,58 @@ import { StaffProfileModel } from "../staffProfile";
 
 import { getFilters } from "../../components/filters";
 
-class WhoLogService {
-  async createWhoLog(props: CreateWhoLogProps) {
-    const whoLog = await WhoLogModel.create(props);
-    return whoLog;
+class WhsLogService {
+  async createWhsLog(props: CreateWhsLogProps) {
+    const whsLog = await WhsLogModel.create(props);
+    return whsLog;
   }
 
-  async updateWhoLog(props: UpdateWhoLogProps) {
+  async updateWhsLog(props: UpdateWhsLogProps) {
     // Props
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
-    // Find whoLog by id and company
-    const whoLog = await WhoLogModel.findOne({
+    // Find whsLog by id and company
+    const whsLog = await WhsLogModel.findOne({
       where: { id, company },
     });
 
-    // if whoLog not found, throw an error
-    if (!whoLog) {
-      throw new CustomError(404, WhoLogErrorCode.WHO_LOG_NOT_FOUND);
+    // if whsLog not found, throw an error
+    if (!whsLog) {
+      throw new CustomError(404, WhsLogErrorCode.WHS_LOG_NOT_FOUND);
     }
 
-    // Finally, update the whoLog
-    const [, [updatedWhoLog]] = await WhoLogModel.update(updateProps, {
+    // Finally, update the whsLog
+    const [, [updatedWhsLog]] = await WhsLogModel.update(updateProps, {
       where: { id, company },
       returning: true,
     });
-    return updatedWhoLog;
+    return updatedWhsLog;
   }
 
-  async deleteWhoLog(props: DeleteWhoLogProps) {
+  async deleteWhsLog(props: DeleteWhsLogProps) {
     // Props
     const { id, company } = props;
 
-    // Find and delete the whoLog by id and company
-    const whoLog = await WhoLogModel.destroy({
+    // Find and delete the whsLog by id and company
+    const whsLog = await WhsLogModel.destroy({
       where: { id, company },
     });
 
-    // if whoLog has been deleted, throw an error
-    if (!whoLog) {
-      throw new CustomError(404, WhoLogErrorCode.WHO_LOG_NOT_FOUND);
+    // if whsLog has been deleted, throw an error
+    if (!whsLog) {
+      throw new CustomError(404, WhsLogErrorCode.WHS_LOG_NOT_FOUND);
     }
 
-    return whoLog;
+    return whsLog;
   }
 
-  async getWhoLogById(props: GetWhoLogByIdProps) {
+  async getWhsLogById(props: GetWhsLogByIdProps) {
     // Props
     const { id, company } = props;
 
-    // Find  the whoLog by id and company
-    const whoLog = await WhoLogModel.findOne({
+    // Find  the whsLog by id and company
+    const whsLog = await WhsLogModel.findOne({
       where: { id, company },
       include: [
         {
@@ -81,15 +81,15 @@ class WhoLogService {
       ],
     });
 
-    // If no whoLog has been found, then throw an error
-    if (!whoLog) {
-      throw new CustomError(404, WhoLogErrorCode.WHO_LOG_NOT_FOUND);
+    // If no whsLog has been found, then throw an error
+    if (!whsLog) {
+      throw new CustomError(404, WhsLogErrorCode.WHS_LOG_NOT_FOUND);
     }
 
-    return whoLog;
+    return whsLog;
   }
 
-  async getWhoLogs(props: GetWhoLogsProps) {
+  async getWhsLogs(props: GetWhsLogsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
@@ -106,8 +106,8 @@ class WhoLogService {
       },
     ];
 
-    // Count total whoLogs in the given company
-    const count = await WhoLogModel.count({
+    // Count total whsLogs in the given company
+    const count = await WhsLogModel.count({
       where: {
         company,
         ...filters["primaryFilters"],
@@ -116,8 +116,8 @@ class WhoLogService {
       include,
     });
 
-    // Find all whoLogs for matching props and company
-    const data = await WhoLogModel.findAll({
+    // Find all whsLogs for matching props and company
+    const data = await WhsLogModel.findAll({
       offset,
       limit,
       order,
@@ -135,4 +135,4 @@ class WhoLogService {
   }
 }
 
-export default new WhoLogService();
+export default new WhsLogService();

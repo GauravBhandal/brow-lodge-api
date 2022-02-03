@@ -4,29 +4,29 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { WhoLog, CreateWhoLogProps } from "./whoLog.types";
+import { WhsLog, CreateWhsLogProps } from "./whsLog.types";
 
-class WhoLogModel<
-    ModelAttributes = WhoLog,
-    ModelCreationAttributes = CreateWhoLogProps
+class WhsLogModel<
+    ModelAttributes = WhsLog,
+    ModelCreationAttributes = CreateWhsLogProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements WhoLog
+  implements WhsLog
 {
-  date!: WhoLog["date"];
-  category!: WhoLog["category"];
-  location: WhoLog["location"];
-  nextReviewDate: WhoLog["nextReviewDate"];
-  comments: WhoLog["comments"];
-  staff!: WhoLog["staff"];
-  Staff: WhoLog["Staff"];
-  company!: WhoLog["company"];
-  Company: WhoLog["Company"];
+  date!: WhsLog["date"];
+  category!: WhsLog["category"];
+  location: WhsLog["location"];
+  nextReviewDate: WhsLog["nextReviewDate"];
+  comments: WhsLog["comments"];
+  staff!: WhsLog["staff"];
+  Staff: WhsLog["Staff"];
+  company!: WhsLog["company"];
+  Company: WhsLog["Company"];
 }
 
 modelManager.init(
-  "WhoLog",
-  WhoLogModel,
+  "WhsLog",
+  WhsLogModel,
   {
     date: {
       type: Sequelize.DATE,
@@ -49,8 +49,8 @@ modelManager.init(
   {
     underscored: true,
     paranoid: true,
-    tableName: "who_logs",
+    tableName: "whs_logs",
   }
 );
 
-export default WhoLogModel;
+export default WhsLogModel;

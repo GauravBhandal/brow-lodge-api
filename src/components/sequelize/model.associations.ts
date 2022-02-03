@@ -25,7 +25,7 @@ import { CompanyAssetModel } from "../../api/companyAsset";
 import { RepairRequestModel } from "../../api/repairRequest";
 import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
 import { CorporateRiskModel } from "../../api/corporateRisk";
-import { WhoLogModel } from "../../api/whoLog";
+import { WhsLogModel } from "../../api/whsLog";
 import { MeetingLogModel } from "../../api/meetingLog";
 import { ClientRiskModel } from "../../api/clientRisk";
 import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
@@ -70,7 +70,7 @@ export default {
     initializeRepairRequestModelAssociations();
     initializeConflictOfInterestModelAssociations();
     initializeCorporateRiskModelAssociations();
-    initializewhoLogModelAssociations();
+    initializeWhsLogModelAssociations();
     initializeMeetingLogModelAssociations();
     initializeClientRiskModelAssociations();
     initializeStaffSleepDisturbanceModelAssociations();
@@ -450,11 +450,11 @@ function initializeCorporateRiskModelAssociations() {
   });
 }
 
-function initializewhoLogModelAssociations() {
-  WhoLogModel.belongsTo(CompanyModel, {
+function initializeWhsLogModelAssociations() {
+  WhsLogModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
-  WhoLogModel.belongsTo(StaffProfileModel, {
+  WhsLogModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });

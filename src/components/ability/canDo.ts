@@ -32,7 +32,7 @@ type Subject =
   | "repairRequest"
   | "conflictOfInterest"
   | "corporateRisk"
-  | "whoLog"
+  | "whsLog"
   | "meetingLog"
   | "clientRisk"
   | "staffSleepDisturbance"
