@@ -11,6 +11,7 @@ const createWhsLogSchema = wrapSchema({
     nextReviewDate: Joi.date().allow("", null),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
@@ -23,6 +24,7 @@ const editWhsLogSchema = wrapSchema({
     nextReviewDate: Joi.date().allow("", null),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 

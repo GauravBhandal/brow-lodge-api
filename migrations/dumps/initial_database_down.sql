@@ -1,3 +1,6 @@
+-- 70. DROP whs_logs_attachments table
+DROP TABLE IF EXISTS "whs_logs_attachments";
+
 -- 69. DROP staff_documents_attachments table
 DROP TABLE IF EXISTS "staff_documents_attachments";
 

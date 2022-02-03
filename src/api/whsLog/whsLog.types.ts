@@ -2,6 +2,7 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface WhsLog extends DefaultSchemaConfig {
   date: Date;
@@ -13,6 +14,7 @@ export interface WhsLog extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateWhsLogProps {
@@ -23,6 +25,7 @@ export interface CreateWhsLogProps {
   comments: WhsLog["comments"];
   staff: WhsLog["staff"];
   company: WhsLog["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateWhsLogProps extends CreateWhsLogProps {
