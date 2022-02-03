@@ -62,7 +62,7 @@ class LeaseAndUtilityLogService {
       });
 
     // Update attachments
-    if (props.attachments && props.attachments.length) {
+    if (props.attachments) {
       await leaseAndUtilityLogAttachmentService.updateBulkLeaseAndUtilityLogAttachment(
         {
           relation: leaseAndUtilityLog.id,

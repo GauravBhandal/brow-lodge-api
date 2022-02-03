@@ -63,7 +63,7 @@ class MaintenanceLogService {
 
     // Update attachments
 
-    if (props.attachments && props.attachments.length) {
+    if (props.attachments) {
       await maintenanceLogAttachmentService.updateBulkMaintenanceLogAttachment({
         relation: maintenanceLog.id,
 
