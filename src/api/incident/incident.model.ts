@@ -40,6 +40,10 @@ modelManager.init(
       type: Sequelize.TIME,
       allowNull: false,
     },
+    location: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     incidentDescription: {
       type: Sequelize.STRING,
       allowNull: false,

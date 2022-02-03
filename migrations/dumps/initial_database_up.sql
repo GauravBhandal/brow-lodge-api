@@ -866,7 +866,7 @@ CREATE TABLE IF NOT EXISTS "incidents" (
     PRIMARY KEY ("id")
 );
 
--- 58. Create incidents_attachments table
+-- 71. Create incidents_attachments table
 CREATE TABLE IF NOT EXISTS "incidents_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "injury_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
