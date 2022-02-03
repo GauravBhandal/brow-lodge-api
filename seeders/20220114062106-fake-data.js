@@ -1,7 +1,7 @@
 "use strict";
 
 const permissions = {
-  bowelLog: {
+  role: {
     actions: {
       read: true,
       create: true,
@@ -9,23 +9,7 @@ const permissions = {
       update: true,
     },
   },
-  regulatoryCompliance: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  companyAsset: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  conflictOfInterest: {
+  user: {
     actions: {
       read: true,
       create: true,
@@ -36,12 +20,10 @@ const permissions = {
   company: {
     actions: {
       read: true,
-      create: false,
-      delete: false,
       update: true,
     },
   },
-  clientBehaviour: {
+  bowelLog: {
     actions: {
       read: true,
       create: true,
@@ -49,47 +31,7 @@ const permissions = {
       update: true,
     },
   },
-  oxygenSaturationLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientDocumentCategory: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  maintenanceLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  bloodGlucoseLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  temperatureLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  prnBalance: {
+  feedback: {
     actions: {
       read: true,
       create: true,
@@ -121,7 +63,7 @@ const permissions = {
       update: true,
     },
   },
-  doctorVisit: {
+  clientRisk: {
     actions: {
       read: true,
       create: true,
@@ -129,175 +71,7 @@ const permissions = {
       update: true,
     },
   },
-  clientCommunication: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  user: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  injuryReport: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  policyReview: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  prnAdministration: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  staffProfile: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  onCallLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  qualityControlLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientDocument: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  bloodPressureLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  feedback: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientAsset: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  policy: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  participantRisk: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  whsLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  caseNote: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  repairRequest: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  progressReport: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  timeTrackingLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  expenseReimbursement: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientDocumentType: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  conflictOfInterest: {
+  meetingLog: {
     actions: {
       read: true,
       create: true,
@@ -313,126 +87,6 @@ const permissions = {
       update: true,
     },
   },
-  clientReport: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientProfiles: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  internalAudit: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientGoal: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  externalContract: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  staffDocumentCategory: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  alert: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  keyDecision: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  meeting: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  companyExpense: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  staffDocument: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  keyDecisionAndCostLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientRisk: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientMedication: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  prnAdministrationLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
   vehicleLog: {
     actions: {
       read: true,
@@ -441,7 +95,7 @@ const permissions = {
       update: true,
     },
   },
-  staffSleepDisturbance: {
+  clientAsset: {
     actions: {
       read: true,
       create: true,
@@ -449,7 +103,7 @@ const permissions = {
       update: true,
     },
   },
-  staffCommunication: {
+  doctorVisit: {
     actions: {
       read: true,
       create: true,
@@ -457,7 +111,7 @@ const permissions = {
       update: true,
     },
   },
-  role: {
+  prnAdminLog: {
     actions: {
       read: true,
       create: true,
@@ -465,7 +119,7 @@ const permissions = {
       update: true,
     },
   },
-  visitorLog: {
+  companyAsset: {
     actions: {
       read: true,
       create: true,
@@ -473,7 +127,7 @@ const permissions = {
       update: true,
     },
   },
-  staffDocumentType: {
+  injuryReport: {
     actions: {
       read: true,
       create: true,
@@ -481,7 +135,7 @@ const permissions = {
       update: true,
     },
   },
-  leaseAndUtilityLogs: {
+  progressNote: {
     actions: {
       read: true,
       create: true,
@@ -489,7 +143,15 @@ const permissions = {
       update: true,
     },
   },
-  prnBalanceLog: {
+  staffProfile: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  clientProfile: {
     actions: {
       read: true,
       create: true,
@@ -505,6 +167,94 @@ const permissions = {
       update: true,
     },
   },
+  prnBalanceLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  repairRequest: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  staffDocument: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  clientDocument: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  maintenanceLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  temperatureLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  bloodGlucoseLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  clientBehaviour: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  bloodPressureLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  conflictOfInterest: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  leaseAndUtilityLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   transportBehaviour: {
     actions: {
       read: true,
@@ -513,8 +263,47 @@ const permissions = {
       update: true,
     },
   },
+  oxygenSaturationLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  expenseReimbursement: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  staffDocumentCategory: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  staffSleepDisturbance: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  clientDocumentCategory: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
 };
-
 module.exports = {
   up: async (queryInterface) => {
     await queryInterface.bulkInsert(
