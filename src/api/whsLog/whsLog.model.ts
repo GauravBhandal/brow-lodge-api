@@ -48,6 +48,11 @@ modelManager.init(
     },
   },
   {
+    defaultScope: {
+      attributes: {
+        exclude: ["deleted"],
+      },
+    },
     underscored: true,
     paranoid: true,
     tableName: "whs_logs",

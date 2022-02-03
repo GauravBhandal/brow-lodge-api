@@ -77,6 +77,11 @@ modelManager.init(
     },
   },
   {
+    defaultScope: {
+      attributes: {
+        exclude: ["deleted"],
+      },
+    },
     underscored: true,
     paranoid: true,
     tableName: "feedbacks",

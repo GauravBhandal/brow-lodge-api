@@ -53,6 +53,11 @@ modelManager.init(
     },
   },
   {
+    defaultScope: {
+      attributes: {
+        exclude: ["deleted"],
+      },
+    },
     underscored: true,
     paranoid: true,
     tableName: "maintenance_logs",

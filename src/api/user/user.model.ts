@@ -55,6 +55,11 @@ modelManager.init(
     },
   },
   {
+    defaultScope: {
+      attributes: {
+        exclude: ["password", "resetPasswordToken", "deleted"],
+      },
+    },
     underscored: true,
     paranoid: false, // false -> otherwise it prevents deleting and recreating a user with same email
     tableName: "users",

@@ -34,6 +34,11 @@ modelManager.init(
     },
   },
   {
+    defaultScope: {
+      attributes: {
+        exclude: ["deleted"],
+      },
+    },
     underscored: true,
     paranoid: false, // <-- We are setting to false because of the update functionality of this Model
     tableName: "lease_and_utility_logs_attachments",
