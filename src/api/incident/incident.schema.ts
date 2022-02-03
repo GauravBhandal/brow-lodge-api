@@ -17,7 +17,13 @@ const createIncidentSchema = wrapSchema({
     actionsTakenByStaff: Joi.string().required(),
     actionsTakenByOthers: Joi.string().required(),
     anyOtherWitness: Joi.string().required(),
+    incidentReportedTo: Joi.string().allow("", null),
+    assessmentAndDebriefing: Joi.string().allow("", null),
+    findingsAndActionsTaken: Joi.string().allow("", null),
+    status: Joi.string().allow("", null),
+    closureDate: Joi.date(),
     client: requiredUUIDSchema(),
+    manager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
@@ -35,7 +41,13 @@ const editIncidentSchema = wrapSchema({
     actionsTakenByStaff: Joi.string().required(),
     actionsTakenByOthers: Joi.string().required(),
     anyOtherWitness: Joi.string().required(),
+    incidentReportedTo: Joi.string().allow("", null),
+    assessmentAndDebriefing: Joi.string().allow("", null),
+    findingsAndActionsTaken: Joi.string().allow("", null),
+    status: Joi.string().allow("", null),
+    closureDate: Joi.date(),
     client: requiredUUIDSchema(),
+    manager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),

@@ -14,6 +14,12 @@ export interface Incident extends DefaultSchemaConfig {
   actionsTakenByStaff: string;
   actionsTakenByOthers: string;
   anyOtherWitness: string;
+  incidentReportedTo?: string;
+  assessmentAndDebriefing?: string;
+  findingsAndActionsTaken?: string;
+  status?: string;
+  closureDate?: Date;
+  manager?: string;
   client: ClientProfile["id"];
   Client?: ClientProfile;
   company: Company["id"];
@@ -28,7 +34,14 @@ export interface CreateIncidentProps {
   incidentDescription: Incident["incidentDescription"];
   eventsPriorToIncident: Incident["eventsPriorToIncident"];
   actionsTakenByStaff: Incident["actionsTakenByStaff"];
+  actionsTakenByOthers: Incident["actionsTakenByOthers"];
   anyOtherWitness: Incident["anyOtherWitness"];
+  incidentReportedTo: Incident["incidentReportedTo"];
+  assessmentAndDebriefing: Incident["assessmentAndDebriefing"];
+  findingsAndActionsTaken: Incident["findingsAndActionsTaken"];
+  status: Incident["status"];
+  closureDate: Incident["closureDate"];
+  manager: Incident["manager"];
   client: Incident["client"];
   company: Incident["company"];
   attachments?: Attachment["id"][];
