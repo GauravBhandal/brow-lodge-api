@@ -18,11 +18,11 @@ const ses = new SES(SESConfig);
 
 export default function sendEmail(toemail: string, emailBody: string) {
   const params = {
-    Source: "pavi@carediary.com.au", // TODO: Update the source email
+    Source: "support@carediary.com.au",
     Destination: {
       ToAddresses: [toemail],
     },
-    ReplyToAddresses: ["pavi@carediary.com.au"],
+    ReplyToAddresses: ["support@carediary.com.au"],
     Message: {
       Body: {
         Html: {

@@ -183,8 +183,8 @@ class UserService {
       }
     );
 
-    // Send password reset email to the user. TODO: Use templated and fix the url
-    const passwordResetUrl = `${config.BASE_URL}${config.URL_PREFIX}/reset-password?token=${resetPasswordToken}&id=${updatedUser.id}`;
+    // Send password reset email to the user. TODO: Use templated email
+    const passwordResetUrl = `${config.BASE_URL}/reset-password?token=${resetPasswordToken}&id=${updatedUser.id}`;
     const emailBody = `
     Hi ${updatedUser.firstName}!
     <br>  
