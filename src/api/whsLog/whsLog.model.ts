@@ -22,6 +22,7 @@ class WhsLogModel<
   Staff: WhsLog["Staff"];
   company!: WhsLog["company"];
   Company: WhsLog["Company"];
+  Attachments: WhsLog["Attachments"];
 }
 
 modelManager.init(

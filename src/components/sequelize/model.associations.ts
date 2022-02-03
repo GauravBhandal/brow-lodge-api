@@ -458,6 +458,11 @@ function initializeWhsLogModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
+  WhsLogModel.belongsToMany(AttachmentModel, {
+    through: "staff_documents_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeMeetingLogModelAssociations() {

@@ -14,12 +14,21 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
-
 import { getFilters } from "../../components/filters";
+import { whsLogAttachmentService } from "./whsLogAttachment";
+import { AttachmentModel } from "../attachment";
 
 class WhsLogService {
   async createWhsLog(props: CreateWhsLogProps) {
     const whsLog = await WhsLogModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await whsLogAttachmentService.createBulkWhsLogAttachment({
+        relation: whsLog.id,
+        attachments: props.attachments,
+      });
+    }
     return whsLog;
   }
 
@@ -43,6 +52,15 @@ class WhsLogService {
       where: { id, company },
       returning: true,
     });
+
+    // Update attachments
+    if (props.attachments && props.attachments.length) {
+      await whsLogAttachmentService.updateBulkWhsLogAttachment({
+        relation: whsLog.id,
+        attachments: props.attachments,
+      });
+    }
+
     return updatedWhsLog;
   }
 
@@ -72,6 +90,12 @@ class WhsLogService {
       where: { id, company },
       include: [
         {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
+        {
           model: CompanyModel,
         },
         {
@@ -97,6 +121,12 @@ class WhsLogService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
     const include = [
+      {
+        model: AttachmentModel,
+        through: {
+          attributes: [],
+        },
+      },
       {
         model: CompanyModel,
       },
