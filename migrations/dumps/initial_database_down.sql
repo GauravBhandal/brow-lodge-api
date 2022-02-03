@@ -1,3 +1,9 @@
+-- 71. DROP incidents_attachments table
+DROP TABLE IF EXISTS "incidents_attachments";
+
+-- 70. DROP incidents table
+DROP TABLE IF EXISTS "incidents";
+
 -- 69. DROP staff_documents_attachments table
 DROP TABLE IF EXISTS "staff_documents_attachments";
 

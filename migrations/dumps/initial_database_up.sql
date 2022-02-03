@@ -846,3 +846,34 @@ CREATE TABLE IF NOT EXISTS "staff_documents_attachments" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+
+-- 70. Create incidents table
+CREATE TABLE IF NOT EXISTS "incidents" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
+    "location" VARCHAR NOT NULL,
+    "incident_description" VARCHAR NOT NULL,
+    "events_prior_to_incident" VARCHAR NOT NULL,
+    "actions_taken_by_staff" VARCHAR NOT NULL,
+    "actions_taken_by_others" VARCHAR NOT NULL,
+    "any_other_witness" VARCHAR NOT NULL,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
+-- 58. Create incidents_attachments table
+CREATE TABLE IF NOT EXISTS "incidents_attachments" (
+    "id" UUID NOT NULL,
+    "relation" UUID NOT NULL REFERENCES "injury_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+
