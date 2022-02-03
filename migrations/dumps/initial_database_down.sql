@@ -209,7 +209,9 @@ DROP TYPE "enum_gender";
 DROP TABLE IF EXISTS "users";
 
 -- 2. Drop roles table
+ALTER TABLE "roles" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "roles";
 
 -- 1. Drop companies table
+ALTER TABLE "companies" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "companies";

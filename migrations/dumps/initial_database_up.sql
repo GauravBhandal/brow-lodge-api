@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS "companies" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "companies" ENABLE ROW LEVEL SECURITY;
 
 -- 2. Create roles table
 CREATE TABLE IF NOT EXISTS "roles" (
@@ -23,6 +24,7 @@ CREATE TABLE IF NOT EXISTS "roles" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
+ALTER TABLE "roles" ENABLE ROW LEVEL SECURITY;
 
 -- 3. Create users table
 CREATE TABLE IF NOT EXISTS "users" (
@@ -863,7 +865,7 @@ CREATE TABLE IF NOT EXISTS "incidents" (
     "findings_and_actions_taken" VARCHAR,
     "status" VARCHAR,
     "closure_date" TIMESTAMP WITH TIME ZONE NOT NULL,
-   "manager" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    "manager" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
