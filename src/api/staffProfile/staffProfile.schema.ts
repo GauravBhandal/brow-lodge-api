@@ -49,6 +49,7 @@ const editStaffProfileSchema = wrapSchema({
     employmentEndDate: Joi.date().allow(null),
     employmentType: Joi.string().allow("", null),
     manager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    archived: Joi.boolean(),
     user: requiredUUIDSchema(),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),

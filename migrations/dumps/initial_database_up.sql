@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "employment_start_date" TIMESTAMP WITH TIME ZONE,
     "employment_end_date" TIMESTAMP WITH TIME ZONE,
     "employment_type" VARCHAR,
+    "archived" BOOLEAN NOT NULL DEFAULT FALSE,
     "manager" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "user" UUID REFERENCES "users" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
