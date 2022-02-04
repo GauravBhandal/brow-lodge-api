@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "employment_start_date" TIMESTAMP WITH TIME ZONE,
     "employment_end_date" TIMESTAMP WITH TIME ZONE,
     "employment_type" VARCHAR,
+    "archived" BOOLEAN NOT NULL DEFAULT FALSE,
     "manager" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "user" UUID REFERENCES "users" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -76,7 +77,8 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
 );
 ALTER TABLE "staff_profiles" ENABLE ROW LEVEL SECURITY;
 
--- 6. Create client_profiles table
+-- 6. Create client_profiles table & enum_funding_type type
+CREATE TYPE "enum_funding_type" AS ENUM ('ndisManaged', ' planManaged','selfManaged');
 CREATE TABLE IF NOT EXISTS "client_profiles" (
     "id" UUID NOT NULL,
     "first_name" VARCHAR NOT NULL,
@@ -91,6 +93,14 @@ CREATE TABLE IF NOT EXISTS "client_profiles" (
     "emergency_contact_phone" VARCHAR,
     "emergency_contact_relation" VARCHAR,
     "height" INTEGER,
+    "funding_type" enum_funding_type,
+    "ndis_number" VARCHAR,
+    "medicare_number" VARCHAR,
+    "private_healthcare_number" VARCHAR,
+    "ambulance_number" VARCHAR,
+    "service_start_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "service_end_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "archived" BOOLEAN NOT NULL DEFAULT FALSE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -946,4 +956,6 @@ CREATE TABLE IF NOT EXISTS "whs_logs_attachments" (
     PRIMARY KEY ("id")
 );
 ALTER TABLE "whs_logs_attachments" ENABLE ROW LEVEL SECURITY;
+
+
 
