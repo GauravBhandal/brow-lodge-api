@@ -41,7 +41,7 @@ modelManager.init(
       type: Sequelize.STRING,
     },
     nextReviewDate: {
-      type: Sequelize.STRING,
+      type: Sequelize.DATE,
     },
     comments: {
       type: Sequelize.STRING,

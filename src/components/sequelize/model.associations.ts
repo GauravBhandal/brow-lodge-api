@@ -461,7 +461,7 @@ function initializeWhsLogModelAssociations() {
     as: "Staff",
   });
   WhsLogModel.belongsToMany(AttachmentModel, {
-    through: "staff_documents_attachments",
+    through: "whs_logs_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
