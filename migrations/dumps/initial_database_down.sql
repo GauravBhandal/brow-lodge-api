@@ -1,6 +1,3 @@
--- 73. DROP enum_funding_type type
-DROP TYPE "enum_funding_type";
-
 -- 72. DROP whs_logs_attachments table
 ALTER TABLE "whs_logs_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "whs_logs_attachments";
@@ -249,6 +246,7 @@ DROP TABLE IF EXISTS "progress_notes";
 -- 6. Drop client_profiles table
 ALTER TABLE "client_profiles" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "client_profiles";
+DROP TYPE "enum_funding_type";
 
 -- 5. Drop staff_profiles table
 ALTER TABLE "staff_profiles" DISABLE ROW LEVEL SECURITY;
