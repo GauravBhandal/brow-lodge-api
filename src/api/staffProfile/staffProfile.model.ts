@@ -30,6 +30,7 @@ class StaffProfileModel<
   employmentEndDate: StaffProfile["employmentEndDate"];
   employmentType: StaffProfile["employmentType"];
   manager: StaffProfile["manager"];
+  archived: StaffProfile["archived"];
   user: StaffProfile["user"];
   User: StaffProfile["User"];
   company!: StaffProfile["company"];
@@ -92,6 +93,9 @@ modelManager.init(
     },
     employmentType: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

@@ -22,6 +22,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   employmentEndDate?: Date;
   employmentType?: string;
   manager?: StaffProfile["id"];
+  archived?: boolean;
   user?: User["id"];
   User?: User;
   company: Company["id"];
