@@ -81,6 +81,7 @@ class StaffProfileService {
           model: UserModel,
           as: "User",
         },
+        { model: StaffProfileModel, as: "Manager" },
       ],
     });
 
@@ -111,6 +112,7 @@ class StaffProfileService {
           ...filters["User"],
         },
       },
+      { model: StaffProfileModel, as: "Manager" },
     ];
 
     // Count total staffProfiles in the given company
