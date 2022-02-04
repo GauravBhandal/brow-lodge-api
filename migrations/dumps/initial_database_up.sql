@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS "client_profiles" (
     "ambulance_number" VARCHAR,
     "service_start_date" TIMESTAMP WITH TIME ZONE NOT NULL,
     "service_end_date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "status" enum_client_profile_status,
+    "archived" BOOLEAN NOT NULL DEFAULT FALSE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -958,5 +958,5 @@ ALTER TABLE "whs_logs_attachments" ENABLE ROW LEVEL SECURITY;
 -- 73. Create enum_funding_type type
 CREATE TYPE "enum_funding_type" AS ENUM ('ndisManaged', ' planManaged','selfManaged');
 
--- 74. Create enum_client_profile_status type
-CREATE TYPE "enum_client_profile_status" AS ENUM ('active', 'inActive');
+
+

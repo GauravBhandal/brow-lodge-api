@@ -31,7 +31,7 @@ class ClientProfileModel<
   ambulanceNumber: ClientProfile["ambulanceNumber"];
   serviceStartDate: ClientProfile["serviceStartDate"];
   serviceEndDate: ClientProfile["serviceEndDate"];
-  status: ClientProfile["status"];
+  archived: ClientProfile["archived"];
   company!: ClientProfile["company"];
   Company: ClientProfile["Company"];
   attachment: ClientProfile["attachment"];
@@ -98,8 +98,8 @@ modelManager.init(
     serviceEndDate: {
       type: Sequelize.DATE,
     },
-    status: {
-      type: Sequelize.STRING,
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

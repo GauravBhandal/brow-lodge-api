@@ -1,6 +1,3 @@
--- 74. DROP enum_client_profile_status type
-DROP TYPE "enum_client_profile_status";
-
 -- 73. DROP enum_funding_type type
 DROP TYPE "enum_funding_type";
 

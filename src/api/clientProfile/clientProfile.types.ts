@@ -22,7 +22,7 @@ export interface ClientProfile extends DefaultSchemaConfig {
   ambulanceNumber?: string;
   serviceStartDate?: Date;
   serviceEndDate?: Date;
-  status?: "active" | "inActive";
+  archived?: boolean;
   company: Company["id"];
   Company?: Company;
   attachment?: Attachment["id"];
@@ -47,7 +47,6 @@ export interface CreateClientProfileProps {
   ambulanceNumber: ClientProfile["ambulanceNumber"];
   serviceStartDate: ClientProfile["serviceStartDate"];
   serviceEndDate: ClientProfile["serviceEndDate"];
-  status: ClientProfile["status"];
   company: ClientProfile["company"];
   attachment: ClientProfile["attachment"];
 }

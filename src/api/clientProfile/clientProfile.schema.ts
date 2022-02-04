@@ -25,7 +25,6 @@ const createClientProfileSchema = wrapSchema({
     ambulanceNumber: Joi.string().allow("", null),
     serviceStartDate: Joi.date(),
     serviceEndDate: Joi.date(),
-    status: Joi.string().valid("active", "inActive").allow(null),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
@@ -55,7 +54,7 @@ const editClientProfileSchema = wrapSchema({
     ambulanceNumber: Joi.string().allow("", null),
     serviceStartDate: Joi.date(),
     serviceEndDate: Joi.date(),
-    status: Joi.string().valid("active", "inActive").allow(null),
+    archived: Joi.boolean(),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
