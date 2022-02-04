@@ -16,6 +16,16 @@ const createClientProfileSchema = wrapSchema({
     emergencyContactPhone: Joi.string().allow("", null),
     emergencyContactRelation: Joi.string().allow("", null),
     height: Joi.number().min(1).allow(null),
+    fundingType: Joi.string()
+      .valid("ndisManaged", "planManaged", "selfManaged")
+      .allow(null),
+    ndisNumber: Joi.string().allow("", null),
+    medicareNumber: Joi.string().allow("", null),
+    privateHealthcareNumber: Joi.string().allow("", null),
+    ambulanceNumber: Joi.string().allow("", null),
+    serviceStartDate: Joi.date(),
+    serviceEndDate: Joi.date(),
+    status: Joi.string().valid("active", "inActive").allow(null),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
@@ -36,6 +46,16 @@ const editClientProfileSchema = wrapSchema({
     emergencyContactPhone: Joi.string().allow("", null),
     emergencyContactRelation: Joi.string().allow("", null),
     height: Joi.number().min(1).allow(null),
+    fundingType: Joi.string()
+      .valid("ndisManaged", "planManaged", "selfManaged")
+      .allow(null),
+    ndisNumber: Joi.string().allow("", null),
+    medicareNumber: Joi.string().allow("", null),
+    privateHealthcareNumber: Joi.string().allow("", null),
+    ambulanceNumber: Joi.string().allow("", null),
+    serviceStartDate: Joi.date(),
+    serviceEndDate: Joi.date(),
+    status: Joi.string().valid("active", "inActive").allow(null),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });

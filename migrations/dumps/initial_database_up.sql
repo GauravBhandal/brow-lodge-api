@@ -91,6 +91,14 @@ CREATE TABLE IF NOT EXISTS "client_profiles" (
     "emergency_contact_phone" VARCHAR,
     "emergency_contact_relation" VARCHAR,
     "height" INTEGER,
+    "funding_type" enum_funding_type,
+    "ndis_number" VARCHAR,
+    "medicare_number" VARCHAR,
+    "private_healthcare_number" VARCHAR,
+    "ambulance_number" VARCHAR,
+    "service_start_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "service_end_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "status" enum_client_profile_status,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -947,3 +955,8 @@ CREATE TABLE IF NOT EXISTS "whs_logs_attachments" (
 );
 ALTER TABLE "whs_logs_attachments" ENABLE ROW LEVEL SECURITY;
 
+-- 73. Create enum_funding_type type
+CREATE TYPE "enum_funding_type" AS ENUM ('ndisManaged', ' planManaged','selfManaged');
+
+-- 74. Create enum_client_profile_status type
+CREATE TYPE "enum_client_profile_status" AS ENUM ('active', 'inActive');

@@ -15,6 +15,14 @@ export interface ClientProfile extends DefaultSchemaConfig {
   emergencyContactPhone?: string;
   emergencyContactRelation?: string;
   height?: number;
+  fundingType?: "ndisManaged" | "planManaged" | "selfManaged";
+  ndisNumber?: string;
+  medicareNumber?: string;
+  privateHealthcareNumber?: string;
+  ambulanceNumber?: string;
+  serviceStartDate?: Date;
+  serviceEndDate?: Date;
+  status?: "active" | "inActive";
   company: Company["id"];
   Company?: Company;
   attachment?: Attachment["id"];
@@ -32,6 +40,14 @@ export interface CreateClientProfileProps {
   emergencyContactPhone: ClientProfile["emergencyContactPhone"];
   emergencyContactRelation: ClientProfile["emergencyContactRelation"];
   height: ClientProfile["height"];
+  fundingType: ClientProfile["fundingType"];
+  ndisNumber: ClientProfile["ndisNumber"];
+  medicareNumber: ClientProfile["medicareNumber"];
+  privateHealthcareNumber: ClientProfile["privateHealthcareNumber"];
+  ambulanceNumber: ClientProfile["ambulanceNumber"];
+  serviceStartDate: ClientProfile["serviceStartDate"];
+  serviceEndDate: ClientProfile["serviceEndDate"];
+  status: ClientProfile["status"];
   company: ClientProfile["company"];
   attachment: ClientProfile["attachment"];
 }

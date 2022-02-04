@@ -24,6 +24,14 @@ class ClientProfileModel<
   emergencyContactPhone: ClientProfile["emergencyContactPhone"];
   emergencyContactRelation: ClientProfile["emergencyContactRelation"];
   height: ClientProfile["height"];
+  fundingType: ClientProfile["fundingType"];
+  ndisNumber: ClientProfile["ndisNumber"];
+  medicareNumber: ClientProfile["medicareNumber"];
+  privateHealthcareNumber: ClientProfile["privateHealthcareNumber"];
+  ambulanceNumber: ClientProfile["ambulanceNumber"];
+  serviceStartDate: ClientProfile["serviceStartDate"];
+  serviceEndDate: ClientProfile["serviceEndDate"];
+  status: ClientProfile["status"];
   company!: ClientProfile["company"];
   Company: ClientProfile["Company"];
   attachment: ClientProfile["attachment"];
@@ -68,6 +76,30 @@ modelManager.init(
     },
     height: {
       type: Sequelize.NUMBER,
+    },
+    fundingType: {
+      type: Sequelize.STRING,
+    },
+    ndisNumber: {
+      type: Sequelize.STRING,
+    },
+    medicareNumber: {
+      type: Sequelize.STRING,
+    },
+    privateHealthcareNumber: {
+      type: Sequelize.STRING,
+    },
+    ambulanceNumber: {
+      type: Sequelize.STRING,
+    },
+    serviceStartDate: {
+      type: Sequelize.DATE,
+    },
+    serviceEndDate: {
+      type: Sequelize.DATE,
+    },
+    status: {
+      type: Sequelize.STRING,
     },
   },
   {
