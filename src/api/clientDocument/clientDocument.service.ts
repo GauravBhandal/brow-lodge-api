@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import ClientDocumentModel from "./clientDocument.model";
 import {
@@ -175,7 +176,22 @@ class ClientDocumentService {
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
-    const filters = getFilters(where);
+    let filters = getFilters(where);
+
+    // Only return archived results if filters contains archived
+    if (filters.Client && !filters.Client.archived) {
+      filters.Client.archived = {
+        [Op.eq]: "false",
+      };
+    } else if (!filters.Client) {
+      filters = {
+        Client: {
+          archived: {
+            [Op.eq]: "false",
+          },
+        },
+      };
+    }
 
     const include = [
       {

@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import ClientProfileModel from "./clientProfile.model";
 import {
@@ -96,7 +97,22 @@ class ClientProfileService {
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
-    const filters = getFilters(where);
+    let filters = getFilters(where);
+
+    // Only return archived results if filters contains archived
+    if (filters.primaryFilters && !filters.primaryFilters.archived) {
+      filters.primaryFilters.archived = {
+        [Op.eq]: "false",
+      };
+    } else if (!filters.primaryFilters) {
+      filters = {
+        primaryFilters: {
+          archived: {
+            [Op.eq]: "false",
+          },
+        },
+      };
+    }
 
     // Count total clientProfiles in the given company
     const count = await ClientProfileModel.count({
