@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import StaffDocumentModel from "./staffDocument.model";
 import {
@@ -175,7 +176,22 @@ class StaffDocumentService {
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
-    const filters = getFilters(where);
+    let filters = getFilters(where);
+
+    // Only return archived results if filters contains archived
+    if (filters.Staff && !filters.Staff.archived) {
+      filters.Staff.archived = {
+        [Op.eq]: "false",
+      };
+    } else if (!filters.Staff) {
+      filters = {
+        Staff: {
+          archived: {
+            [Op.eq]: "false",
+          },
+        },
+      };
+    }
 
     const include = [
       {
