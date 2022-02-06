@@ -128,12 +128,6 @@ class IncidentService {
 
     const include = [
       {
-        model: AttachmentModel,
-        through: {
-          attributes: [],
-        },
-      },
-      {
         model: CompanyModel,
       },
       {
@@ -171,7 +165,6 @@ class IncidentService {
         company,
         ...filters["primaryFilters"],
       },
-      subQuery: false, // TODO: I have no idea why we need this, but removing it will break sort by client
       include,
     });
 

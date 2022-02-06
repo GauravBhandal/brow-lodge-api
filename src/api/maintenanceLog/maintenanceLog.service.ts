@@ -137,12 +137,6 @@ class MaintenanceLogService {
     const filters = getFilters(where);
     const include = [
       {
-        model: AttachmentModel,
-        through: {
-          attributes: [],
-        },
-      },
-      {
         model: CompanyModel,
       },
       {
@@ -173,7 +167,6 @@ class MaintenanceLogService {
         company,
         ...filters["primaryFilters"],
       },
-      subQuery: false, // TODO: I have no idea why we need this, but removing it will break sort by staff
       include,
     });
 

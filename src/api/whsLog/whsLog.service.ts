@@ -122,12 +122,6 @@ class WhsLogService {
     const filters = getFilters(where);
     const include = [
       {
-        model: AttachmentModel,
-        through: {
-          attributes: [],
-        },
-      },
-      {
         model: CompanyModel,
       },
       {

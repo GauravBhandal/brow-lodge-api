@@ -157,12 +157,6 @@ class LeaseAndUtilityLogService {
         as: "Client",
         required: false,
       },
-      {
-        model: AttachmentModel,
-        through: {
-          attributes: [],
-        },
-      },
     ];
     // Count total leaseAndUtilityLogs in the given company
     const count = await LeaseAndUtilityLogModel.count({
@@ -183,7 +177,6 @@ class LeaseAndUtilityLogService {
         company,
         ...filters["primaryFilters"],
       },
-      subQuery: false, // TODO: I have no idea why we need this, but removing it will break sort by staff
       include,
     });
 
