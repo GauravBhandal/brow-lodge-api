@@ -183,8 +183,9 @@ class StaffDocumentService {
       filters.Staff.archived = {
         [Op.eq]: "false",
       };
-    } else if (!filters.Staff) {
+    } else {
       filters = {
+        ...filters,
         Staff: {
           archived: {
             [Op.eq]: "false",

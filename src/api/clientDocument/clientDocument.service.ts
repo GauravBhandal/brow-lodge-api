@@ -183,8 +183,9 @@ class ClientDocumentService {
       filters.Client.archived = {
         [Op.eq]: "false",
       };
-    } else if (!filters.Client) {
+    } else {
       filters = {
+        ...filters,
         Client: {
           archived: {
             [Op.eq]: "false",
