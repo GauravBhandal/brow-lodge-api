@@ -127,6 +127,9 @@ class WhsLogService {
       {
         model: StaffProfileModel,
         as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
     ];
 

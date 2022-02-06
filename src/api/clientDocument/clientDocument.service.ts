@@ -187,6 +187,7 @@ class ClientDocumentService {
       filters = {
         ...filters,
         Client: {
+          ...filters.Client,
           archived: {
             [Op.eq]: "false",
           },
