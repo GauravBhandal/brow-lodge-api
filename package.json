@@ -6,7 +6,9 @@
   "author": "Care Diary Pty Ltd",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "nodemon ./src/app.ts"
+    "start": "nodemon ./src/app.ts",
+    "compile": "tsc -p .",
+    "start:prod": "node dist/app.js"
   },
   "dependencies": {
     "@casl/ability": "^5.4.3",
