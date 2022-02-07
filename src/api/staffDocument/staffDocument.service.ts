@@ -179,15 +179,15 @@ class StaffDocumentService {
     let filters = getFilters(where);
 
     // Only return archived results if filters contains archived
-    if (filters.Staff && !filters.Staff.archived) {
-      filters.Staff.archived = {
-        [Op.eq]: "false",
-      };
+
+    if (filters.Staff) {
+      if (!filters.Staff.archived) {
+        filters.Staff.archived = { [Op.eq]: "false" };
+      }
     } else {
       filters = {
         ...filters,
         Staff: {
-          ...filters.Staff,
           archived: {
             [Op.eq]: "false",
           },

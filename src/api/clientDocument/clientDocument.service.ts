@@ -179,15 +179,14 @@ class ClientDocumentService {
     let filters = getFilters(where);
 
     // Only return archived results if filters contains archived
-    if (filters.Client && !filters.Client.archived) {
-      filters.Client.archived = {
-        [Op.eq]: "false",
-      };
+    if (filters.Client) {
+      if (!filters.Client.archived) {
+        filters.Client.archived = { [Op.eq]: "false" };
+      }
     } else {
       filters = {
         ...filters,
         Client: {
-          ...filters.Client,
           archived: {
             [Op.eq]: "false",
           },
