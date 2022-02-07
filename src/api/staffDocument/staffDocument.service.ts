@@ -187,13 +187,13 @@ class StaffDocumentService {
       filters = {
         ...filters,
         Staff: {
+          ...filters.Staff,
           archived: {
             [Op.eq]: "false",
           },
         },
       };
     }
-
     const include = [
       {
         model: CompanyModel,
