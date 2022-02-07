@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
 ALTER TABLE "staff_profiles" ENABLE ROW LEVEL SECURITY;
 
 -- 6. Create client_profiles table & enum_funding_type type
-CREATE TYPE "enum_funding_type" AS ENUM ('ndisManaged', ' planManaged','selfManaged');
+CREATE TYPE "enum_funding_type" AS ENUM ('ndisManaged', 'planManaged','selfManaged');
 CREATE TABLE IF NOT EXISTS "client_profiles" (
     "id" UUID NOT NULL,
     "first_name" VARCHAR NOT NULL,
