@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 ALTER TABLE "users" ENABLE ROW LEVEL SECURITY;
 
 -- 4. Create enum_gender type
-CREATE TYPE "enum_gender" AS ENUM ('male', 'female', 'other');
+CREATE TYPE "enum_gender" AS ENUM ('female', 'male', 'other');
 
 -- 5. Create staff_profiles table
 CREATE TABLE IF NOT EXISTS "staff_profiles" (
@@ -194,7 +194,7 @@ ALTER TABLE "blood_pressure_logs" ENABLE ROW LEVEL SECURITY;
 
 
 -- 12. Create enum_sleep_activity type
-CREATE TYPE "enum_sleep_activity" AS ENUM ('sleep', 'awake');
+CREATE TYPE "enum_sleep_activity" AS ENUM ('awake', 'sleep');
 
 -- 13. Create sleep_logs table
 CREATE TABLE IF NOT EXISTS "sleep_logs"(
@@ -366,8 +366,7 @@ ALTER TABLE "transport_behaviours" ENABLE ROW LEVEL SECURITY;
 
 
 -- 22. Create enum_vehicle type
-CREATE TYPE "enum_vehicle" AS ENUM ('private', 'company','other');
-
+CREATE TYPE "enum_vehicle" AS ENUM ('company', 'private', 'other');
 
 -- 23. Create vehicle_logs table
 CREATE TABLE IF NOT EXISTS "vehicle_logs" (
@@ -407,7 +406,7 @@ CREATE TABLE IF NOT EXISTS "injury_reports" (
 ALTER TABLE "injury_reports" ENABLE ROW LEVEL SECURITY;
 
 -- 25. Create enum_expense_reimbursement_status type
-CREATE TYPE "enum_expense_reimbursement_status" AS ENUM ('approved', 'pending','rejected');
+CREATE TYPE "enum_expense_reimbursement_status" AS ENUM ('approved', 'pending', 'rejected');
 
 -- 26. Create expense_reimbursements table
 CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
@@ -427,7 +426,7 @@ CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
 ALTER TABLE "expense_reimbursements" ENABLE ROW LEVEL SECURITY;
 
 -- 27. Create enum_health_practitioner type
-CREATE TYPE "enum_health_practitioner" AS ENUM ('behaviourTherapist', 'continence','dentist', 'dietician','doctor','nurse','occupationalTherapist','physiotherapist','podiatrist','psychologist','speechPathologist','other');
+CREATE TYPE "enum_health_practitioner" AS ENUM ('behaviourTherapist', 'continence', 'dentist', 'dietician', 'doctor', 'nurse', 'occupationalTherapist', 'other', 'physiotherapist', 'podiatrist', 'psychologist', 'speechPathologist');
 
 -- 28. Create enum_appointment_type type
 CREATE TYPE "enum_appointment_type" AS ENUM ('inPerson', 'online','overThePhone');
@@ -488,10 +487,10 @@ CREATE TABLE IF NOT EXISTS "company_assets" (
 ALTER TABLE "company_assets" ENABLE ROW LEVEL SECURITY;
 
 -- 32. Create enum_repair_requests_priority type
-CREATE TYPE "enum_repair_requests_priority" AS ENUM ('low', 'medium','high');
+CREATE TYPE "enum_repair_requests_priority" AS ENUM ('high', 'low', 'medium');
 
 -- 33. Create enum_repair_requests_status type
-CREATE TYPE "enum_repair_requests_status" AS ENUM ('completed', 'pending','rejected','scheduled');
+CREATE TYPE "enum_repair_requests_status" AS ENUM ('completed', 'pending', 'rejected', 'scheduled');
 
 -- 34. Create repair_requests table
 CREATE TABLE IF NOT EXISTS "repair_requests" (
@@ -526,13 +525,13 @@ CREATE TABLE IF NOT EXISTS "conflict_of_interests" (
 ALTER TABLE "conflict_of_interests" ENABLE ROW LEVEL SECURITY;
 
 -- 36. Create enum_corporate_risks_level_of_risk type
-CREATE TYPE "enum_corporate_risks_level_of_risk" AS ENUM ('low', 'medium','high');
+CREATE TYPE "enum_corporate_risks_level_of_risk" AS ENUM ('high', 'low', 'medium');
 
 -- 37. Create enum_corporate_risks_likelihood type
-CREATE TYPE "enum_corporate_risks_likelihood" AS ENUM ('rare', 'unlikely','possible','likely','almostCertain');
+CREATE TYPE "enum_corporate_risks_likelihood" AS ENUM ('almostCertain', 'likely', 'possible', 'rare', 'unlikely');
 
 -- 38. Create enum_corporate_risks_consequences type
-CREATE TYPE "enum_corporate_risks_consequences" AS ENUM ('minimal', 'minor','moderate','significant','severe');
+CREATE TYPE "enum_corporate_risks_consequences" AS ENUM ('minimal', 'minor', 'moderate', 'severe', 'significant');
 
 -- 39. Create corporate_risks table
 CREATE TABLE IF NOT EXISTS "corporate_risks" (
@@ -571,7 +570,7 @@ CREATE TABLE IF NOT EXISTS "whs_logs" (
 ALTER TABLE "whs_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 41. Create enum_meeting_type type
-CREATE TYPE "enum_meeting_type" AS ENUM ('clientMeeting', 'staffMeeting','externalMeeting','adminMeeting');
+CREATE TYPE "enum_meeting_type" AS ENUM ('adminMeeting', 'clientMeeting', 'externalMeeting', 'staffMeeting');
 
 -- 42. Create meeting_logs table
 CREATE TABLE IF NOT EXISTS "meeting_logs" (
@@ -598,13 +597,13 @@ CREATE TABLE IF NOT EXISTS "meeting_logs" (
 ALTER TABLE "meeting_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 43. Create enum_client_risks_level_of_risk type
-CREATE TYPE "enum_client_risks_level_of_risk" AS ENUM ('low', 'medium','high');
+CREATE TYPE "enum_client_risks_level_of_risk" AS ENUM ('high', 'low', 'medium');
 
 -- 44. Create enum_client_risks_likelihood type
-CREATE TYPE "enum_client_risks_likelihood" AS ENUM ('rare', 'unlikely','possible','likely','almostCertain');
+CREATE TYPE "enum_client_risks_likelihood" AS ENUM ('almostCertain', 'likely', 'possible', 'rare', 'unlikely');
 
 -- 45. Create enum_client_risks_consequences type
-CREATE TYPE "enum_client_risks_consequences" AS ENUM ('minimal', 'minor','moderate','significant','severe');
+CREATE TYPE "enum_client_risks_consequences" AS ENUM ('minimal', 'minor', 'moderate', 'severe', 'significant');
 
 -- 46. Create client_risks table
 CREATE TABLE IF NOT EXISTS "client_risks" (
@@ -646,7 +645,7 @@ CREATE TABLE IF NOT EXISTS "staff_sleep_disturbances" (
 ALTER TABLE "staff_sleep_disturbances" ENABLE ROW LEVEL SECURITY;
 
 -- 48. Create enum_resources_type type
-CREATE TYPE "enum_resources_type" AS ENUM ('text', 'link','attachment');
+CREATE TYPE "enum_resources_type" AS ENUM ('attachment', 'link', 'text');
 
 -- 49. Create resources table
 CREATE TABLE IF NOT EXISTS "resources" (
@@ -715,13 +714,13 @@ CREATE TABLE IF NOT EXISTS "maintenance_logs" (
 ALTER TABLE "maintenance_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 53. Create enum_feedback_you_are_a type
-CREATE TYPE "enum_feedback_you_are_a" AS ENUM ('participant', 'family','staff','supportCoordinator','other');
+CREATE TYPE "enum_feedback_you_are_a" AS ENUM ('family', 'other', 'participant', 'staff', 'supportCoordinator');
 
 -- 54. Create enum_type_of_feedback type
-CREATE TYPE "enum_type_of_feedback" AS ENUM ('complaint', 'compliment','feedback');
+CREATE TYPE "enum_type_of_feedback" AS ENUM ('complaint', 'compliment', 'feedback');
 
 -- 55. Create enum_feedback_status type
-CREATE TYPE "enum_feedback_status" AS ENUM ('awaitingAcknowledgement', 'acknowledged','assessed','resolved');
+CREATE TYPE "enum_feedback_status" AS ENUM ('acknowledged', 'assessed', 'awaitingAcknowledgement', 'resolved');
 
 -- 56. Create  feedbacks table
 CREATE TABLE IF NOT EXISTS "feedbacks" (
