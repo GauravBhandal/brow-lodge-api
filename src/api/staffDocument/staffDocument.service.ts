@@ -194,7 +194,6 @@ class StaffDocumentService {
         },
       };
     }
-    console.log("filters", filters);
     const include = [
       {
         model: CompanyModel,
