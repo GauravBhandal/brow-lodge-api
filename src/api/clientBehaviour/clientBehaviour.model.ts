@@ -19,10 +19,9 @@ class ClientBehaviourModel<
   date!: ClientBehaviour["date"];
   startTime!: ClientBehaviour["startTime"];
   endTime!: ClientBehaviour["endTime"];
-  whatHappenedBefore!: ClientBehaviour["whatHappenedBefore"];
-  explainBehaviour!: ClientBehaviour["explainBehaviour"];
-  actionsTaken!: ClientBehaviour["actionsTaken"];
-  responseToActions!: ClientBehaviour["responseToActions"];
+  antecedents!: ClientBehaviour["antecedents"];
+  behaviour!: ClientBehaviour["behaviour"];
+  consequences!: ClientBehaviour["consequences"];
   staff!: ClientBehaviour["staff"];
   Staff: ClientBehaviour["Staff"];
   client!: ClientBehaviour["client"];
@@ -47,19 +46,15 @@ modelManager.init(
       type: Sequelize.TIME,
       allowNull: false,
     },
-    whatHappenedBefore: {
+    antecedents: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    explainBehaviour: {
+    behaviour: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    actionsTaken: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    responseToActions: {
+    consequences: {
       type: Sequelize.STRING,
       allowNull: false,
     },

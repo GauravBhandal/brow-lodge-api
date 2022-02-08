@@ -8,14 +8,13 @@ import { BloodGlucoseLogModel } from "../../api/bloodGlucoseLog";
 import { BloodPressureLogModel } from "../../api/bloodPressureLog";
 import { BowelLogModel } from "../../api/bowelLog";
 import { WeightLogModel } from "../../api/weightLog";
-import { SleepLogModel } from "../../api/sleepLog";
+// import { SleepLogModel } from "../../api/sleepLog";
 import { TemperatureLogModel } from "../../api/temperatureLog";
 import { OxygenSaturationLogModel } from "../../api/oxygenSaturationLog";
 import { SeizureLogModel } from "../../api/seizureLog";
 import { PrnAdminLogModel } from "../../api/prnAdminLog";
 import { PrnBalanceLogModel } from "../../api/prnBalanceLog";
 import { ClientBehaviourModel } from "../../api/clientBehaviour";
-import { TransportBehaviourModel } from "../../api/transportBehaviour";
 import { VehicleLogModel } from "../../api/vehicleLog";
 import { InjuryReportModel } from "../../api/injuryReport";
 import { ExpenseReimbursementModel } from "../../api/expenseReimbursement";
@@ -54,14 +53,13 @@ export default {
     initializeBloodPressureLogModelAssociations();
     initializeBowelLogModelAssociations();
     initializeWeightLogModelAssociations();
-    initializeSleepLogModelAssociations();
+    // initializeSleepLogModelAssociations();
     initializeTemperatureLogModelAssociations();
     initializeOxygenSaturationLogModelAssociations();
     initializeSeizureLogModelAssociations();
     initializePrnAdminLogModelAssociations();
     initializePrnBalanceLogModelAssociations();
     initializeClientBehaviourModelAssociations();
-    initializeTransportBehaviourModelAssociations();
     initializeVehicleLogModelAssociations();
     initializeInjuryReportModelAssociations();
     initializeExpenseReimbursementModelAssociations();
@@ -211,19 +209,19 @@ function initializeBloodPressureLogModelAssociations() {
   });
 }
 
-function initializeSleepLogModelAssociations() {
-  SleepLogModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  SleepLogModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
-    as: "Staff",
-  });
-  SleepLogModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
-    as: "Client",
-  });
-}
+// function initializeSleepLogModelAssociations() {
+//   SleepLogModel.belongsTo(CompanyModel, {
+//     foreignKey: { name: "company", allowNull: false },
+//   });
+//   SleepLogModel.belongsTo(StaffProfileModel, {
+//     foreignKey: { name: "staff", allowNull: false },
+//     as: "Staff",
+//   });
+//   SleepLogModel.belongsTo(ClientProfileModel, {
+//     foreignKey: { name: "client", allowNull: false },
+//     as: "Client",
+//   });
+// }
 
 function initializeTemperatureLogModelAssociations() {
   TemperatureLogModel.belongsTo(CompanyModel, {
@@ -318,20 +316,6 @@ function initializeClientBehaviourModelAssociations() {
     as: "Staff",
   });
   ClientBehaviourModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
-    as: "Client",
-  });
-}
-
-function initializeTransportBehaviourModelAssociations() {
-  TransportBehaviourModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  TransportBehaviourModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
-    as: "Staff",
-  });
-  TransportBehaviourModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });

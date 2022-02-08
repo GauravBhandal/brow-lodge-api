@@ -9,7 +9,6 @@ export interface ProgressNote extends DefaultSchemaConfig {
   shiftStartTime: Date;
   shiftEndTime: Date;
   notes: string;
-  dietAndFluids: string;
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
   client: ClientProfile["id"];
@@ -23,7 +22,6 @@ export interface CreateProgressNoteProps {
   shiftStartTime: ProgressNote["shiftStartTime"];
   shiftEndTime: ProgressNote["shiftEndTime"];
   notes: ProgressNote["notes"];
-  dietAndFluids: ProgressNote["dietAndFluids"];
   staff: ProgressNote["staff"];
   client: ProgressNote["client"];
   company: ProgressNote["company"];
