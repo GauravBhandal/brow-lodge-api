@@ -2,13 +2,13 @@
 ALTER TABLE "whs_logs_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "whs_logs_attachments";
 
--- 71. DROP incidents_attachments table
-ALTER TABLE "incidents_attachments" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "incidents_attachments";
+-- -- 71. DROP incidents_attachments table
+-- ALTER TABLE "incidents_attachments" DISABLE ROW LEVEL SECURITY;
+-- DROP TABLE IF EXISTS "incidents_attachments";
 
--- 70. DROP incidents table
-ALTER TABLE "incidents" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "incidents";
+-- -- 70. DROP incidents table
+-- ALTER TABLE "incidents" DISABLE ROW LEVEL SECURITY;
+-- DROP TABLE IF EXISTS "incidents";
 
 -- 69. DROP staff_documents_attachments table
 ALTER TABLE "staff_documents_attachments" DISABLE ROW LEVEL SECURITY;

@@ -39,7 +39,7 @@ import { ClientDocumentModel } from "../../api/clientDocument";
 import { StaffDocumentCategoryModel } from "../../api/staffDocumentCategory";
 import { StaffDocumentTypeModel } from "../../api/staffDocumentType";
 import { StaffDocumentModel } from "../../api/staffDocument";
-import { IncidentModel } from "../../api/incident";
+// import { IncidentModel } from "../../api/incident";
 
 export default {
   initialize() {
@@ -84,7 +84,7 @@ export default {
     initializeStaffDocumentCategoryModelAssociations();
     initializeStaffDocumentTypeModelAssociations();
     initializeStaffDocumentModelAssociations();
-    initializeIncidentModelAssociations();
+    // initializeIncidentModelAssociations();
   },
 };
 
@@ -645,17 +645,17 @@ function initializeStaffDocumentModelAssociations() {
   });
 }
 
-function initializeIncidentModelAssociations() {
-  IncidentModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  IncidentModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
-    as: "Client",
-  });
-  IncidentModel.belongsToMany(AttachmentModel, {
-    through: "incident_attachments",
-    foreignKey: "relation",
-    otherKey: "attachment",
-  });
-}
+// function initializeIncidentModelAssociations() {
+//   IncidentModel.belongsTo(CompanyModel, {
+//     foreignKey: { name: "company", allowNull: false },
+//   });
+//   IncidentModel.belongsTo(ClientProfileModel, {
+//     foreignKey: { name: "client", allowNull: false },
+//     as: "Client",
+//   });
+//   IncidentModel.belongsToMany(AttachmentModel, {
+//     through: "incident_attachments",
+//     foreignKey: "relation",
+//     otherKey: "attachment",
+//   });
+// }
