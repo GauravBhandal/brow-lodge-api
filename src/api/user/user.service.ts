@@ -190,7 +190,7 @@ class UserService {
     );
 
     // Send password reset email to the user. TODO: Use templated email
-    const passwordResetUrl = `${config.BASE_URL}/reset-password?token=${resetPasswordToken}&id=${updatedUser.id}`;
+    const passwordResetUrl = `${config.BASE_URL}/auth/reset-password?token=${resetPasswordToken}&id=${updatedUser.id}`;
     const emailBody = `
     Hi ${updatedUser.firstName}!
     <br>  
