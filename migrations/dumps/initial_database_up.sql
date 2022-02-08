@@ -340,7 +340,7 @@ CREATE TABLE IF NOT EXISTS "client_behaviours" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
-ALTER TABLE "client_behaviours" ENABLE ROW LEVEL SECURITY
+ALTER TABLE "client_behaviours" ENABLE ROW LEVEL SECURITY;
 
 -- 21. Transport behaviour logs deleted
 
