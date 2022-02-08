@@ -29,6 +29,7 @@ import { getFilters } from "../../components/filters";
 import sendEmail from "../../components/email";
 import { StaffProfileModel } from "../staffProfile";
 import { CompanyModel } from "../company";
+import { permissions } from "./user.constants";
 
 class UserService {
   // Private fn. don't call this outside of this file
@@ -143,6 +144,7 @@ class UserService {
     const role = await roleService.createRole({
       name: "Super Admin",
       company: company.id,
+      permissions: permissions,
     });
 
     // Create user
