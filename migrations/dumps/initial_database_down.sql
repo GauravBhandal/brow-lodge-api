@@ -184,9 +184,7 @@ DROP TABLE IF EXISTS "vehicle_logs";
 -- 22. DROP enum_vehicle type
 DROP TYPE "enum_vehicle";
 
--- 21. DROP transport_behaviours table
-ALTER TABLE "transport_behaviours" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "transport_behaviours";
+-- 21.  transport_behaviours table deleted
 
 -- 20. DROP client_behaviours table
 ALTER TABLE "client_behaviours" DISABLE ROW LEVEL SECURITY;
@@ -217,11 +215,11 @@ ALTER TABLE "temperature_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "temperature_logs";
 
 -- 13. DROP sleep_logs table
-ALTER TABLE "sleep_logs" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "sleep_logs";
+-- ALTER TABLE "sleep_logs" DISABLE ROW LEVEL SECURITY;
+-- DROP TABLE IF EXISTS "sleep_logs";
 
 -- 12. DROP enum_sleep_activity type
-DROP TYPE "enum_sleep_activity";
+-- DROP TYPE "enum_sleep_activity";
 
 -- 11. Create blood_pressure_logs table
 ALTER TABLE "blood_pressure_logs" DISABLE ROW LEVEL SECURITY;

@@ -8,10 +8,9 @@ export interface ClientBehaviour extends DefaultSchemaConfig {
   date: Date;
   startTime: Date;
   endTime: Date;
-  whatHappenedBefore: string;
-  explainBehaviour: string;
-  actionsTaken: string;
-  responseToActions: string;
+  antecedents: string;
+  behaviour: string;
+  consequences: string;
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
   client: ClientProfile["id"];
@@ -24,10 +23,9 @@ export interface CreateClientBehaviourProps {
   date: ClientBehaviour["date"];
   startTime: ClientBehaviour["startTime"];
   endTime: ClientBehaviour["endTime"];
-  whatHappenedBefore: ClientBehaviour["whatHappenedBefore"];
-  explainBehaviour: ClientBehaviour["explainBehaviour"];
-  actionsTaken: ClientBehaviour["actionsTaken"];
-  responseToActions: ClientBehaviour["responseToActions"];
+  antecedents: ClientBehaviour["antecedents"];
+  behaviour: ClientBehaviour["behaviour"];
+  consequences: ClientBehaviour["consequences"];
   staff: ClientBehaviour["staff"];
   client: ClientBehaviour["client"];
   company: ClientBehaviour["company"];

@@ -116,7 +116,6 @@ CREATE TABLE IF NOT EXISTS "progress_notes" (
     "shift_start_time" TIME WITHOUT TIME ZONE NOT NULL,
     "shift_end_time" TIME WITHOUT TIME ZONE NOT NULL,
     "notes" VARCHAR NOT NULL,
-    "diet_and_fluids" VARCHAR NOT NULL,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -193,25 +192,25 @@ CREATE TABLE IF NOT EXISTS "blood_pressure_logs"(
 ALTER TABLE "blood_pressure_logs" ENABLE ROW LEVEL SECURITY;
 
 
--- 12. Create enum_sleep_activity type
-CREATE TYPE "enum_sleep_activity" AS ENUM ('awake', 'sleep');
+-- 12. Create enum_sleep_activity type 
+-- CREATE TYPE "enum_sleep_activity" AS ENUM ('awake', 'sleep');
 
--- 13. Create sleep_logs table
-CREATE TABLE IF NOT EXISTS "sleep_logs"(
-    "id" UUID NOT NULL,
-    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "time" TIME WITHOUT TIME ZONE NOT NULL,
-    "activity" enum_sleep_activity NOT NULL,
-    "comments" VARCHAR,
-    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "deleted" TIMESTAMP WITH TIME ZONE,
-    PRIMARY KEY ("id")
-);
-ALTER TABLE "sleep_logs" ENABLE ROW LEVEL SECURITY;
+ -- 13. Create sleep_logs table
+-- CREATE TABLE IF NOT EXISTS "sleep_logs"(
+--     "id" UUID NOT NULL,
+--     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+--     "time" TIME WITHOUT TIME ZONE NOT NULL,
+--     "activity" enum_sleep_activity NOT NULL,
+--     "comments" VARCHAR,
+--     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+--     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+--     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+--     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+--     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+--     "deleted" TIMESTAMP WITH TIME ZONE,
+--     PRIMARY KEY ("id")
+-- );
+-- ALTER TABLE "sleep_logs" ENABLE ROW LEVEL SECURITY;
 
 -- 14. Create temperature_logs table
 CREATE TABLE IF NOT EXISTS "temperature_logs" (
@@ -330,10 +329,9 @@ CREATE TABLE IF NOT EXISTS "client_behaviours" (
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
     "start_time" TIME WITHOUT TIME ZONE NOT NULL,
     "end_time"  TIME WITHOUT TIME ZONE NOT NULL,
-    "what_happened_before" VARCHAR NOT NULL,
-    "explain_behaviour" VARCHAR NOT NULL,
-    "actions_taken" VARCHAR NOT NULL,
-    "response_to_actions" VARCHAR NOT NULL,
+    "antecedents" VARCHAR NOT NULL,
+    "behaviour" VARCHAR NOT NULL,
+    "consequences" VARCHAR NOT NULL,
     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -342,28 +340,9 @@ CREATE TABLE IF NOT EXISTS "client_behaviours" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
-ALTER TABLE "client_behaviours" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "client_behaviours" ENABLE ROW LEVEL SECURITY
 
--- 21. Create transport_behaviours table
-CREATE TABLE IF NOT EXISTS "transport_behaviours" (
-    "id" UUID NOT NULL,
-    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "start_time" TIME WITHOUT TIME ZONE NOT NULL,
-    "end_time" TIME WITHOUT TIME ZONE NOT NULL,
-    "purpose_of_the_journey" VARCHAR NOT NULL,
-    "explain_behaviour" VARCHAR NOT NULL,
-    "actions_taken" VARCHAR NOT NULL,
-    "response_to_actions" VARCHAR NOT NULL,
-    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "deleted" TIMESTAMP WITH TIME ZONE,
-    PRIMARY KEY ("id")
-);
-ALTER TABLE "transport_behaviours" ENABLE ROW LEVEL SECURITY;
-
+-- 21. Transport behaviour logs deleted
 
 -- 22. Create enum_vehicle type
 CREATE TYPE "enum_vehicle" AS ENUM ('company', 'private', 'other');

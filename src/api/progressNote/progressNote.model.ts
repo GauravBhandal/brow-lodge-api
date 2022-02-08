@@ -17,7 +17,6 @@ class ProgressNoteModel<
   shiftStartTime!: ProgressNote["shiftStartTime"];
   shiftEndTime!: ProgressNote["shiftEndTime"];
   notes!: ProgressNote["notes"];
-  dietAndFluids!: ProgressNote["dietAndFluids"];
   staff!: ProgressNote["staff"];
   Staff: ProgressNote["Staff"];
   client!: ProgressNote["client"];
@@ -43,10 +42,6 @@ modelManager.init(
       allowNull: false,
     },
     notes: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    dietAndFluids: {
       type: Sequelize.STRING,
       allowNull: false,
     },
