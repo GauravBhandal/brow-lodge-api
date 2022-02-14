@@ -30,7 +30,7 @@ class TeamService {
       where: {
         company,
         name: {
-          [Op.iLike]: `%${name}%`,
+          [Op.iLike]: `${name}`,
         },
       },
     });
@@ -74,6 +74,23 @@ class TeamService {
     // if team not found, throw an error
     if (!team) {
       throw new CustomError(404, TeamErrorCode.TEAM_NOT_FOUND);
+    }
+
+    if (team.name.toLowerCase() !== props.name.toLowerCase()) {
+      // Check if team with same name already exists
+      const existingTeam = await TeamModel.findOne({
+        where: {
+          name: {
+            [Op.iLike]: `${props.name}`,
+          },
+          company,
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingTeam) {
+        throw new CustomError(409, TeamErrorCode.TEAM_ALREADY_EXISTS);
+      }
     }
 
     // Finally, update the team

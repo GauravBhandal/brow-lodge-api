@@ -9,7 +9,7 @@ import {
 
 const createTeamSchema = wrapSchema({
   body: Joi.object().keys({
-    name: Joi.string().required(),
+    name: Joi.string().required().trim(),
     staff: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
@@ -22,7 +22,7 @@ const createTeamSchema = wrapSchema({
 const editTeamSchema = wrapSchema({
   params: Joi.object().keys({ teamId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    name: Joi.string().required(),
+    name: Joi.string().required().trim(),
     staff: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
