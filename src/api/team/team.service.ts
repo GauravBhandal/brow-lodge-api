@@ -18,7 +18,6 @@ import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
 import { teamClientProfileService } from "./teamClientProfile";
 import { teamStaffProfileService } from "./teamStaffProfile";
-import { AttachmentModel } from "../attachment";
 
 class TeamService {
   async createTeam(props: CreateTeamProps) {
@@ -108,21 +107,21 @@ class TeamService {
       where: { id, company },
       include: [
         {
-          model: AttachmentModel,
+          model: StaffProfileModel,
           through: {
             attributes: [],
           },
-        },
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
           as: "Staff",
         },
         {
           model: ClientProfileModel,
+          through: {
+            attributes: [],
+          },
           as: "Client",
+        },
+        {
+          model: CompanyModel,
         },
       ],
     });
@@ -149,17 +148,17 @@ class TeamService {
       },
       {
         model: StaffProfileModel,
-        as: "Staff",
-        where: {
-          ...filters["Staff"],
+        through: {
+          attributes: [],
         },
+        as: "Staff",
       },
       {
         model: ClientProfileModel,
-        as: "Client",
-        where: {
-          ...filters["Client"],
+        through: {
+          attributes: [],
         },
+        as: "Client",
       },
     ];
 

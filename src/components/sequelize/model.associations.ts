@@ -40,6 +40,7 @@ import { StaffDocumentCategoryModel } from "../../api/staffDocumentCategory";
 import { StaffDocumentTypeModel } from "../../api/staffDocumentType";
 import { StaffDocumentModel } from "../../api/staffDocument";
 // import { IncidentModel } from "../../api/incident";
+import { TeamModel } from "../../api/team";
 
 export default {
   initialize() {
@@ -85,6 +86,7 @@ export default {
     initializeStaffDocumentTypeModelAssociations();
     initializeStaffDocumentModelAssociations();
     // initializeIncidentModelAssociations();
+    initializeTeamModelAssociations();
   },
 };
 
@@ -659,3 +661,17 @@ function initializeStaffDocumentModelAssociations() {
 //     otherKey: "attachment",
 //   });
 // }
+
+function initializeTeamModelAssociations() {
+  TeamModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TeamModel.belongsToMany(StaffProfileModel, {
+    through: "teams_staff_profiles",
+    foreignKey: "staff",
+  });
+  TeamModel.belongsToMany(StaffProfileModel, {
+    through: "teams_client_profiles",
+    foreignKey: "client",
+  });
+}
