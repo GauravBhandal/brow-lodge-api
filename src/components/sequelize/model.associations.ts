@@ -668,10 +668,14 @@ function initializeTeamModelAssociations() {
   });
   TeamModel.belongsToMany(StaffProfileModel, {
     through: "teams_staff_profiles",
-    foreignKey: "staff",
+    foreignKey: "team",
+    otherKey: "staff",
+    as: "Staff",
   });
-  TeamModel.belongsToMany(StaffProfileModel, {
+  TeamModel.belongsToMany(ClientProfileModel, {
     through: "teams_client_profiles",
-    foreignKey: "client",
+    foreignKey: "team",
+    otherKey: "client",
+    as: "Client",
   });
 }
