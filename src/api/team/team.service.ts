@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import TeamModel from "./team.model";
 import {
@@ -21,6 +22,25 @@ import { teamStaffProfileService } from "./teamStaffProfile";
 
 class TeamService {
   async createTeam(props: CreateTeamProps) {
+    // Props
+    const { company, name } = props;
+
+    // Check if team with same name already exists
+    const existingTeam = await TeamModel.findOne({
+      where: {
+        company,
+        name: {
+          [Op.iLike]: `%${name}%`,
+        },
+      },
+    });
+
+    // If exists, then throw an error
+    if (existingTeam) {
+      throw new CustomError(409, TeamErrorCode.TEAM_ALREADY_EXISTS);
+    }
+
+    // Otherwise, create a new team
     const team = await TeamModel.create(props);
 
     // Add StaffProfiles
