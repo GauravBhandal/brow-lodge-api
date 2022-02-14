@@ -5,24 +5,24 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const loginUserSchema = wrapSchema({
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().required().trim(),
     password: Joi.string().required(),
   }),
 });
 
 const registerUserSchema = wrapSchema({
   body: Joi.object().keys({
-    companyName: Joi.string().required(),
+    companyName: Joi.string().required().trim(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    email: Joi.string().required(),
+    email: Joi.string().required().trim(),
     password: Joi.string().required(),
   }),
 });
 
 const forgotPasswordSchema = wrapSchema({
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().required().trim(),
   }),
 });
 
@@ -38,7 +38,7 @@ const createUserSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    email: Joi.string().required(),
+    email: Joi.string().required().trim(),
     password: Joi.string().required(),
     blocked: Joi.boolean().required(),
     roles: Joi.array()
@@ -54,7 +54,7 @@ const editUserSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string(),
     lastName: Joi.string(),
-    email: Joi.string(),
+    email: Joi.string().trim(),
     password: Joi.string(),
     blocked: Joi.boolean(),
     roles: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
