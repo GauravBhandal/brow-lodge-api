@@ -41,6 +41,7 @@ import { StaffDocumentTypeModel } from "../../api/staffDocumentType";
 import { StaffDocumentModel } from "../../api/staffDocument";
 // import { IncidentModel } from "../../api/incident";
 import { TeamModel } from "../../api/team";
+import { ShiftTypeModel } from "../../api/shiftType";
 
 export default {
   initialize() {
@@ -87,6 +88,7 @@ export default {
     initializeStaffDocumentModelAssociations();
     // initializeIncidentModelAssociations();
     initializeTeamModelAssociations();
+    initializeShiftTypeModelAssociations();
   },
 };
 
@@ -677,5 +679,11 @@ function initializeTeamModelAssociations() {
     foreignKey: "team",
     otherKey: "client",
     as: "Client",
+  });
+}
+
+function initializeShiftTypeModelAssociations() {
+  ShiftTypeModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }
