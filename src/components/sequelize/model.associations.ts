@@ -702,4 +702,9 @@ function initializeShiftRecordModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  ShiftRecordModel.belongsToMany(ShiftTypeModel, {
+    through: "shift_records_shift_types",
+    foreignKey: "shift",
+    otherKey: "type",
+  });
 }

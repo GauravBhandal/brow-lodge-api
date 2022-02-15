@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { QueryParams } from "../../common/types";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
+import { ShiftType } from "../shiftType";
 
 export interface ShiftRecord extends DefaultSchemaConfig {
   startDateTime: Date;
@@ -11,6 +12,12 @@ export interface ShiftRecord extends DefaultSchemaConfig {
   client?: ClientProfile["id"];
   company: Company["id"];
   Company?: Company;
+  Types?: ShiftType[];
+}
+
+interface TypeProp {
+  type: ShiftType["id"];
+  startTime: Date;
 }
 
 export interface CreateShiftRecordProps {
@@ -19,6 +26,7 @@ export interface CreateShiftRecordProps {
   staff: ShiftRecord["staff"];
   client: ShiftRecord["client"];
   company: ShiftRecord["company"];
+  types: TypeProp[];
 }
 
 export interface UpdateShiftRecordProps extends CreateShiftRecordProps {

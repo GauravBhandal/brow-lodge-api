@@ -16,11 +16,20 @@ import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
+import { shiftRecordShiftTypeService } from "./shiftRecordShiftType";
 
 class ShiftRecordService {
   async createShiftRecord(props: CreateShiftRecordProps) {
     // Create a new shiftRecord
     const shiftRecord = await ShiftRecordModel.create(props);
+
+    // Create types
+    if (props.types && props.types.length) {
+      await shiftRecordShiftTypeService.createBulkShiftRecordShiftType({
+        shift: shiftRecord.id,
+        types: props.types,
+      });
+    }
 
     return shiftRecord;
   }
@@ -48,6 +57,14 @@ class ShiftRecordService {
         returning: true,
       }
     );
+
+    // Update types
+    if (props.types && props.types.length) {
+      await shiftRecordShiftTypeService.updateBulkShiftRecordShiftType({
+        shift: shiftRecord.id,
+        types: props.types,
+      });
+    }
 
     return updatedShiftRecord;
   }
