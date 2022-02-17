@@ -1,0 +1,49 @@
+import Sequelize from "sequelize";
+import { pick as _pick } from "lodash";
+
+import modelManager, {
+  CommonSequelizeModel,
+} from "../../components/sequelize/manager";
+import { ShiftRecord, CreateShiftRecordProps } from "./shiftRecord.types";
+
+class ShiftRecordModel<
+    ModelAttributes = ShiftRecord,
+    ModelCreationAttributes = CreateShiftRecordProps
+  >
+  extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
+  implements ShiftRecord
+{
+  startDateTime!: ShiftRecord["startDateTime"];
+  endDateTime!: ShiftRecord["endDateTime"];
+  staff: ShiftRecord["staff"];
+  client: ShiftRecord["client"];
+  company!: ShiftRecord["company"];
+  Company: ShiftRecord["Company"];
+}
+
+modelManager.init(
+  "ShiftRecord",
+  ShiftRecordModel,
+  {
+    startDateTime: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    endDateTime: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+  },
+  {
+    defaultScope: {
+      attributes: {
+        exclude: ["deleted"],
+      },
+    },
+    underscored: true,
+    paranoid: true,
+    tableName: "shift_records",
+  }
+);
+
+export default ShiftRecordModel;
