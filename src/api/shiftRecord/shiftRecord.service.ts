@@ -17,6 +17,7 @@ import { getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { shiftRecordShiftTypeService } from "./shiftRecordShiftType";
+import { ShiftTypeModel } from "../shiftType";
 
 class ShiftRecordService {
   async createShiftRecord(props: CreateShiftRecordProps) {
@@ -104,6 +105,12 @@ class ShiftRecordService {
         {
           model: ClientProfileModel,
           as: "Client",
+        },
+        {
+          model: ShiftTypeModel,
+          through: {
+            attributes: ["start_time"], //TODO: We need to do some cleanup here
+          },
         },
       ],
     });
