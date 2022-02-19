@@ -1,7 +1,16 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import {
+  requiredUUIDSchema,
+  requiredTimeSchema,
+  wrapSchema,
+} from "../../common/joiSchemas";
+
+const typeSchema = Joi.object().keys({
+  startTime: requiredTimeSchema(),
+  type: requiredUUIDSchema(),
+});
 
 const createShiftRecordSchema = wrapSchema({
   body: Joi.object().keys({
@@ -9,6 +18,7 @@ const createShiftRecordSchema = wrapSchema({
     endDateTime: Joi.date().required(),
     staff: Joi.string().uuid({ version: "uuidv4" }).allow(null),
     client: Joi.string().uuid({ version: "uuidv4" }).allow(null),
+    types: Joi.array().items(typeSchema).required(),
   }),
 });
 
@@ -19,6 +29,7 @@ const editShiftRecordSchema = wrapSchema({
     endDateTime: Joi.date().required(),
     staff: Joi.string().uuid({ version: "uuidv4" }).allow(null),
     client: Joi.string().uuid({ version: "uuidv4" }).allow(null),
+    types: Joi.array().items(typeSchema).required(),
   }),
 });
 
