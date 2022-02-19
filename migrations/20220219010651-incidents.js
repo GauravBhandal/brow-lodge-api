@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS "incident_reports" (
     "assessment_and_debriefing" VARCHAR,
     "findings_and_actions_taken" VARCHAR,
     "status" VARCHAR,
-    "closure_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "closure_date" TIMESTAMP WITH TIME ZONE,
     "manager" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,

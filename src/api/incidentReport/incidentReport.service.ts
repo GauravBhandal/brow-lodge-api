@@ -158,12 +158,14 @@ class IncidentReportService {
           through: {
             attributes: [],
           },
+          as: "Staff",
         },
         {
           model: IncidentTypeModel,
           through: {
             attributes: [],
           },
+          as: "Types",
         },
       ],
     });

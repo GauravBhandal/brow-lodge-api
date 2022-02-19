@@ -19,12 +19,12 @@ class IncidentReportModel<
   date!: IncidentReport["date"];
   time!: IncidentReport["time"];
   location!: IncidentReport["location"];
-  incidentReportDescription!: IncidentReport["incidentReportDescription"];
-  eventsPriorToIncidentReport!: IncidentReport["eventsPriorToIncidentReport"];
+  incidentDescription!: IncidentReport["incidentDescription"];
+  eventsPriorToIncident!: IncidentReport["eventsPriorToIncident"];
   actionsTakenByStaff!: IncidentReport["actionsTakenByStaff"];
   actionsTakenByOthers!: IncidentReport["actionsTakenByOthers"];
   anyOtherWitness!: IncidentReport["anyOtherWitness"];
-  incidentReportReportedTo: IncidentReport["incidentReportReportedTo"];
+  incidentReportedTo: IncidentReport["incidentReportedTo"];
   assessmentAndDebriefing: IncidentReport["assessmentAndDebriefing"];
   findingsAndActionsTaken: IncidentReport["findingsAndActionsTaken"];
   status: IncidentReport["status"];
@@ -53,11 +53,11 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    incidentReportDescription: {
+    incidentDescription: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    eventsPriorToIncidentReport: {
+    eventsPriorToIncident: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -73,7 +73,7 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    incidentReportReportedTo: {
+    incidentReportedTo: {
       type: Sequelize.STRING,
     },
     assessmentAndDebriefing: {

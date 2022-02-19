@@ -710,7 +710,7 @@ function initializeIncidentReportModelAssociations() {
     as: "Manager",
   });
   IncidentReportModel.belongsToMany(AttachmentModel, {
-    through: "incident_report_attachments",
+    through: "incident_reports_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
@@ -718,10 +718,12 @@ function initializeIncidentReportModelAssociations() {
     through: "incident_reports_staff_profiles",
     foreignKey: "incident",
     otherKey: "staff",
+    as: "Staff",
   });
   IncidentReportModel.belongsToMany(IncidentTypeModel, {
     through: "incident_reports_incident_types",
     foreignKey: "incident",
     otherKey: "type",
+    as: "Types",
   });
 }
