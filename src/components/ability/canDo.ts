@@ -47,10 +47,11 @@ type Subject =
   | "staffDocumentCategory"
   | "staffDocumentType"
   | "staffDocument"
-  | "incident"
+  | "incidentReport"
   | "team"
   | "shiftType"
-  | "shiftRecord";
+  | "shiftRecord"
+  | "incidentType";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {

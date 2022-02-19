@@ -5,24 +5,24 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../../components/sequelize/manager";
 import {
-  IncidentAttachment,
-  CreateBulkIncidentAttachmentProps,
-} from "./incidentAttachment.types";
+  IncidentReportAttachment,
+  CreateBulkIncidentReportAttachmentProps,
+} from "./incidentReportAttachment.types";
 
-class IncidentAttachmentModel<
-    ModelAttributes = IncidentAttachment,
-    ModelCreationAttributes = CreateBulkIncidentAttachmentProps
+class IncidentReportAttachmentModel<
+    ModelAttributes = IncidentReportAttachment,
+    ModelCreationAttributes = CreateBulkIncidentReportAttachmentProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements IncidentAttachment
+  implements IncidentReportAttachment
 {
-  relation!: IncidentAttachment["relation"];
-  attachment!: IncidentAttachment["attachment"];
+  relation!: IncidentReportAttachment["relation"];
+  attachment!: IncidentReportAttachment["attachment"];
 }
 
 modelManager.init(
-  "IncidentAttachment",
-  IncidentAttachmentModel,
+  "IncidentReportAttachment",
+  IncidentReportAttachmentModel,
   {
     relation: {
       type: Sequelize.UUIDV4,
@@ -41,8 +41,8 @@ modelManager.init(
     },
     underscored: true,
     paranoid: false, // <-- We are setting to false because of the update functionality of this Model
-    tableName: "incidents_attachments",
+    tableName: "incident_reports_attachments",
   }
 );
 
-export default IncidentAttachmentModel;
+export default IncidentReportAttachmentModel;

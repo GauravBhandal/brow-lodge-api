@@ -43,10 +43,10 @@ import { clientDocumentRoutes } from "../api/clientDocument";
 import { staffDocumentCategoryRoutes } from "../api/staffDocumentCategory";
 import { staffDocumentTypeRoutes } from "../api/staffDocumentType";
 import { staffDocumentRoutes } from "../api/staffDocument";
-// import { incidentRoutes } from "../api/incident";
 import { teamRoutes } from "../api/team";
 import { shiftTypeRoutes } from "../api/shiftType";
 import { shiftRecordRoutes } from "../api/shiftRecord";
+import { incidentReportRoutes } from "../api/incidentReport";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -93,9 +93,9 @@ router.use("/client-document", clientDocumentRoutes);
 router.use("/staff-document-category", staffDocumentCategoryRoutes);
 router.use("/staff-document-type", staffDocumentTypeRoutes);
 router.use("/staff-document", staffDocumentRoutes);
-// router.use("/incident", incidentRoutes);
 router.use("/team", teamRoutes);
 router.use("/shift-type", shiftTypeRoutes);
 router.use("/shift-record", shiftRecordRoutes);
+router.use("/incident-report", incidentReportRoutes);
 
 export default router;
