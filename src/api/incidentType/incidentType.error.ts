@@ -1,0 +1,6 @@
+enum IncidentTypeErrorCode {
+  INCIDENT_TYPE_NOT_FOUND = "INCIDENT_TYPE_NOT_FOUND",
+  INCIDENT_TYPE_ALREADY_EXISTS = "INCIDENT_TYPE_ALREADY_EXISTS",
+}
+
+export default IncidentTypeErrorCode;

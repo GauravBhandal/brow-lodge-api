@@ -39,10 +39,11 @@ import { ClientDocumentModel } from "../../api/clientDocument";
 import { StaffDocumentCategoryModel } from "../../api/staffDocumentCategory";
 import { StaffDocumentTypeModel } from "../../api/staffDocumentType";
 import { StaffDocumentModel } from "../../api/staffDocument";
-// import { IncidentModel } from "../../api/incident";
 import { TeamModel } from "../../api/team";
 import { ShiftTypeModel } from "../../api/shiftType";
 import { ShiftRecordModel } from "../../api/shiftRecord";
+import { IncidentReportModel } from "../../api/incidentReport";
+import { IncidentTypeModel } from "../../api/incidentType";
 
 export default {
   initialize() {
@@ -87,10 +88,10 @@ export default {
     initializeStaffDocumentCategoryModelAssociations();
     initializeStaffDocumentTypeModelAssociations();
     initializeStaffDocumentModelAssociations();
-    // initializeIncidentModelAssociations();
     initializeTeamModelAssociations();
     initializeShiftTypeModelAssociations();
     initializeShiftRecordModelAssociations();
+    initializeIncidentReportModelAssociations();
   },
 };
 
@@ -651,21 +652,6 @@ function initializeStaffDocumentModelAssociations() {
   });
 }
 
-// function initializeIncidentModelAssociations() {
-//   IncidentModel.belongsTo(CompanyModel, {
-//     foreignKey: { name: "company", allowNull: false },
-//   });
-//   IncidentModel.belongsTo(ClientProfileModel, {
-//     foreignKey: { name: "client", allowNull: false },
-//     as: "Client",
-//   });
-//   IncidentModel.belongsToMany(AttachmentModel, {
-//     through: "incident_attachments",
-//     foreignKey: "relation",
-//     otherKey: "attachment",
-//   });
-// }
-
 function initializeTeamModelAssociations() {
   TeamModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -706,5 +692,38 @@ function initializeShiftRecordModelAssociations() {
     through: "shift_records_shift_types",
     foreignKey: "shift",
     otherKey: "type",
+  });
+}
+
+function initializeIncidentReportModelAssociations() {
+  IncidentReportModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  IncidentReportModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  IncidentReportModel.belongsTo(StaffProfileModel, {
+    foreignKey: {
+      name: "manager",
+    },
+    as: "Manager",
+  });
+  IncidentReportModel.belongsToMany(AttachmentModel, {
+    through: "incident_reports_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+  IncidentReportModel.belongsToMany(StaffProfileModel, {
+    through: "incident_reports_staff_profiles",
+    foreignKey: "incident",
+    otherKey: "staff",
+    as: "Staff",
+  });
+  IncidentReportModel.belongsToMany(IncidentTypeModel, {
+    through: "incident_reports_incident_types",
+    foreignKey: "incident",
+    otherKey: "type",
+    as: "Types",
   });
 }

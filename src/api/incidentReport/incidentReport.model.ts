@@ -4,39 +4,42 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { Incident, CreateIncidentProps } from "./incident.types";
+import {
+  IncidentReport,
+  CreateIncidentReportProps,
+} from "./incidentReport.types";
 
-class IncidentModel<
-    ModelAttributes = Incident,
-    ModelCreationAttributes = CreateIncidentProps
+class IncidentReportModel<
+    ModelAttributes = IncidentReport,
+    ModelCreationAttributes = CreateIncidentReportProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements Incident
+  implements IncidentReport
 {
-  date!: Incident["date"];
-  time!: Incident["time"];
-  location!: Incident["location"];
-  incidentDescription!: Incident["incidentDescription"];
-  eventsPriorToIncident!: Incident["eventsPriorToIncident"];
-  actionsTakenByStaff!: Incident["actionsTakenByStaff"];
-  actionsTakenByOthers!: Incident["actionsTakenByOthers"];
-  anyOtherWitness!: Incident["anyOtherWitness"];
-  incidentReportedTo: Incident["incidentReportedTo"];
-  assessmentAndDebriefing: Incident["assessmentAndDebriefing"];
-  findingsAndActionsTaken: Incident["findingsAndActionsTaken"];
-  status: Incident["status"];
-  closureDate: Incident["closureDate"];
-  manager: Incident["manager"];
-  client!: Incident["client"];
-  Client: Incident["Client"];
-  company!: Incident["company"];
-  Company: Incident["Company"];
-  Attachments: Incident["Attachments"];
+  date!: IncidentReport["date"];
+  time!: IncidentReport["time"];
+  location!: IncidentReport["location"];
+  incidentDescription!: IncidentReport["incidentDescription"];
+  eventsPriorToIncident!: IncidentReport["eventsPriorToIncident"];
+  actionsTakenByStaff!: IncidentReport["actionsTakenByStaff"];
+  actionsTakenByOthers!: IncidentReport["actionsTakenByOthers"];
+  anyOtherWitness!: IncidentReport["anyOtherWitness"];
+  incidentReportedTo: IncidentReport["incidentReportedTo"];
+  assessmentAndDebriefing: IncidentReport["assessmentAndDebriefing"];
+  findingsAndActionsTaken: IncidentReport["findingsAndActionsTaken"];
+  status: IncidentReport["status"];
+  closureDate: IncidentReport["closureDate"];
+  manager: IncidentReport["manager"];
+  client!: IncidentReport["client"];
+  Client: IncidentReport["Client"];
+  company!: IncidentReport["company"];
+  Company: IncidentReport["Company"];
+  Attachments: IncidentReport["Attachments"];
 }
 
 modelManager.init(
-  "Incident",
-  IncidentModel,
+  "IncidentReport",
+  IncidentReportModel,
   {
     date: {
       type: Sequelize.DATE,
@@ -94,8 +97,8 @@ modelManager.init(
     },
     underscored: true,
     paranoid: true,
-    tableName: "incidents",
+    tableName: "incident_reports",
   }
 );
 
-export default IncidentModel;
+export default IncidentReportModel;
