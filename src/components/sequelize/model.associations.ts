@@ -44,6 +44,7 @@ import { ShiftTypeModel } from "../../api/shiftType";
 import { ShiftRecordModel } from "../../api/shiftRecord";
 import { IncidentReportModel } from "../../api/incidentReport";
 import { IncidentTypeModel } from "../../api/incidentType";
+import { KeyDecisionModel } from "../../api/keyDecision";
 
 export default {
   initialize() {
@@ -92,6 +93,7 @@ export default {
     initializeShiftTypeModelAssociations();
     initializeShiftRecordModelAssociations();
     initializeIncidentReportModelAssociations();
+    initializeKeyDecisionModelAssociations();
   },
 };
 
@@ -725,5 +727,15 @@ function initializeIncidentReportModelAssociations() {
     foreignKey: "incident",
     otherKey: "type",
     as: "Types",
+  });
+}
+
+function initializeKeyDecisionModelAssociations() {
+  KeyDecisionModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  KeyDecisionModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
   });
 }
