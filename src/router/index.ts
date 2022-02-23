@@ -48,6 +48,7 @@ import { shiftTypeRoutes } from "../api/shiftType";
 import { shiftRecordRoutes } from "../api/shiftRecord";
 import { incidentReportRoutes } from "../api/incidentReport";
 import { incidentTypeRoutes } from "../api/incidentType";
+import { keyDecisionRoutes } from "../api/keyDecision";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -99,5 +100,6 @@ router.use("/shift-type", shiftTypeRoutes);
 router.use("/shift-record", shiftRecordRoutes);
 router.use("/incident-report", incidentReportRoutes);
 router.use("/incident-type", incidentTypeRoutes);
+router.use("/key-decision", keyDecisionRoutes);
 
 export default router;
