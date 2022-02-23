@@ -13,7 +13,7 @@ const createRestrictivePracticeLogSchema = wrapSchema({
     type: Joi.string().required(),
     impactOnAnyPerson: Joi.string().required(),
     injuryToAnyPerson: Joi.string().required(),
-    wasReportableIncident: Joi.boolean().required(),
+    wasReportableIncident: Joi.string().required(),
     reasonBehindUse: Joi.string().required(),
     describeBehaviour: Joi.string().required(),
     startDate: Joi.date().required(),
@@ -26,7 +26,7 @@ const createRestrictivePracticeLogSchema = wrapSchema({
     actionTakenInResponse: Joi.string().required(),
     alternativesConsidered: Joi.string().required(),
     actionTakenLeadingUpTo: Joi.string().required(),
-    staff: requiredUUIDSchema(),
+    staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: requiredUUIDSchema(),
   }),
 });
@@ -51,7 +51,7 @@ const editRestrictivePracticeLogSchema = wrapSchema({
     actionTakenInResponse: Joi.string().required(),
     alternativesConsidered: Joi.string().required(),
     actionTakenLeadingUpTo: Joi.string().required(),
-    staff: requiredUUIDSchema(),
+    staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: requiredUUIDSchema(),
   }),
 });

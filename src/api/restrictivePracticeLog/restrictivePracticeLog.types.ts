@@ -9,7 +9,7 @@ export interface RestrictivePracticeLog extends DefaultSchemaConfig {
   type: string;
   impactOnAnyPerson: string;
   injuryToAnyPerson: string;
-  wasReportableIncident: Boolean;
+  wasReportableIncident: string;
   reasonBehindUse: string;
   describeBehaviour: string;
   startDate: Date;
@@ -22,8 +22,7 @@ export interface RestrictivePracticeLog extends DefaultSchemaConfig {
   actionTakenInResponse: string;
   alternativesConsidered: string;
   actionTakenLeadingUpTo: string;
-  staff: StaffProfile["id"];
-  Staff?: StaffProfile;
+  Staff?: StaffProfile[];
   client: ClientProfile["id"];
   Client?: ClientProfile;
   company: Company["id"];
@@ -48,7 +47,7 @@ export interface CreateRestrictivePracticeLogProps {
   actionTakenInResponse: RestrictivePracticeLog["actionTakenInResponse"];
   alternativesConsidered: RestrictivePracticeLog["alternativesConsidered"];
   actionTakenLeadingUpTo: RestrictivePracticeLog["actionTakenLeadingUpTo"];
-  staff: RestrictivePracticeLog["staff"];
+  staff: StaffProfile["id"][];
   client: RestrictivePracticeLog["client"];
   company: RestrictivePracticeLog["company"];
 }

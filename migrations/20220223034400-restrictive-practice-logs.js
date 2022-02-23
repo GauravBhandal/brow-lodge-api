@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "restrictive_practice_logs" (
   "type" VARCHAR (255) NOT NULL,
   "impact_on_any_person" VARCHAR NOT NULL,
   "injury_to_any_person" VARCHAR NOT NULL,
-  "was_reportable_incident" BOOLEAN NOT NULL,
+  "was_reportable_incident" VARCHAR NOT NULL,
   "reason_behind_use" VARCHAR NOT NULL,
   "describe_behaviour" VARCHAR NOT NULL,
   "start_date" TIMESTAMP WITH TIME ZONE NOT NULL,

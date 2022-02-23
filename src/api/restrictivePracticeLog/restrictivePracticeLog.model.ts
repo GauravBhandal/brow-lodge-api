@@ -33,8 +33,6 @@ class RestrictivePracticeLogModel<
   actionTakenInResponse!: RestrictivePracticeLog["actionTakenInResponse"];
   alternativesConsidered!: RestrictivePracticeLog["alternativesConsidered"];
   actionTakenLeadingUpTo!: RestrictivePracticeLog["actionTakenLeadingUpTo"];
-  staff!: RestrictivePracticeLog["staff"];
-  Staff: RestrictivePracticeLog["Staff"];
   client!: RestrictivePracticeLog["client"];
   Client: RestrictivePracticeLog["Client"];
   company!: RestrictivePracticeLog["company"];
@@ -62,7 +60,7 @@ modelManager.init(
       allowNull: false,
     },
     wasReportableIncident: {
-      type: Sequelize.BOOLEAN,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     reasonBehindUse: {
