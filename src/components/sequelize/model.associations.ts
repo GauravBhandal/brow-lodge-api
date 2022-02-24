@@ -45,6 +45,7 @@ import { ShiftRecordModel } from "../../api/shiftRecord";
 import { IncidentReportModel } from "../../api/incidentReport";
 import { IncidentTypeModel } from "../../api/incidentType";
 import { KeyDecisionModel } from "../../api/keyDecision";
+import { RestrictivePracticeLogModel } from "../../api/restrictivePracticeLog";
 
 export default {
   initialize() {
@@ -94,6 +95,7 @@ export default {
     initializeShiftRecordModelAssociations();
     initializeIncidentReportModelAssociations();
     initializeKeyDecisionModelAssociations();
+    initializeRestrictivePracticeLogModelAssociations();
   },
 };
 
@@ -737,5 +739,21 @@ function initializeKeyDecisionModelAssociations() {
   KeyDecisionModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
+  });
+}
+
+function initializeRestrictivePracticeLogModelAssociations() {
+  RestrictivePracticeLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  RestrictivePracticeLogModel.belongsToMany(StaffProfileModel, {
+    through: "restrictive_practice_logs_staff_profiles",
+    foreignKey: "relation",
+    otherKey: "staff",
+    as: "Staff",
+  });
+  RestrictivePracticeLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
   });
 }

@@ -52,7 +52,8 @@ type Subject =
   | "shiftType"
   | "shiftRecord"
   | "incidentType"
-  | "keyDecision";
+  | "keyDecision"
+  | "restrictivePracticeLog";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {
