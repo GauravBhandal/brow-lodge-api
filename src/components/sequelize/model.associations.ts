@@ -374,7 +374,7 @@ function initializeExpenseReimbursementModelAssociations() {
     as: "Staff",
   });
   ExpenseReimbursementModel.belongsToMany(AttachmentModel, {
-    through: "expense_attachments",
+    through: "expense_reimbursements_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
