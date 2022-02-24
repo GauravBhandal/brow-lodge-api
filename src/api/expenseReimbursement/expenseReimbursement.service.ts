@@ -15,10 +15,22 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
+import { expenseAttachmentService } from "./expenseAttachment";
+
+import { AttachmentModel } from "../attachment";
 
 class ExpenseReimbursementService {
   async createExpenseReimbursement(props: CreateExpenseReimbursementProps) {
     const expenseReimbursement = await ExpenseReimbursementModel.create(props);
+
+    // Create attachments
+
+    if (props.attachments && props.attachments.length) {
+      await expenseAttachmentService.createBulkExpenseAttachment({
+        relation: expenseReimbursement.id,
+        attachments: props.attachments,
+      });
+    }
     return expenseReimbursement;
   }
 
@@ -46,6 +58,15 @@ class ExpenseReimbursementService {
         where: { id, company },
         returning: true,
       });
+
+    // Update attachments
+
+    if (props.attachments && props.attachments.length) {
+      await expenseAttachmentService.updateBulkExpenseAttachment({
+        relation: expenseReimbursement.id,
+        attachments: props.attachments,
+      });
+    }
     return updatedExpenseReimbursement;
   }
 
@@ -78,6 +99,12 @@ class ExpenseReimbursementService {
       where: { id, company },
       include: [
         {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
+        {
           model: CompanyModel,
         },
         {
@@ -107,6 +134,12 @@ class ExpenseReimbursementService {
     const filters = getFilters(where);
 
     const include = [
+      {
+        model: AttachmentModel,
+        through: {
+          attributes: [],
+        },
+      },
       {
         model: CompanyModel,
       },
