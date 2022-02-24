@@ -16,12 +16,24 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
+import { restrictivePracticeLogStaffProfileService } from "./restrictivePracticeLogStaffProfile";
 
 class RestrictivePracticeLogService {
   async createRestrictivePracticeLog(props: CreateRestrictivePracticeLogProps) {
     const restrictivePracticeLog = await RestrictivePracticeLogModel.create(
       props
     );
+
+    // Assign staff profiles
+    if (props.staff && props.staff.length) {
+      await restrictivePracticeLogStaffProfileService.createBulkRestrictivePracticeLogStaffProfile(
+        {
+          relation: restrictivePracticeLog.id,
+          staff: props.staff,
+        }
+      );
+    }
+
     return restrictivePracticeLog;
   }
 
@@ -49,6 +61,17 @@ class RestrictivePracticeLogService {
         where: { id, company },
         returning: true,
       });
+
+    // Updaate staff profiles
+    if (props.staff && props.staff.length) {
+      await restrictivePracticeLogStaffProfileService.updateBulkRestrictivePracticeLogStaffProfile(
+        {
+          relation: restrictivePracticeLog.id,
+          staff: props.staff,
+        }
+      );
+    }
+
     return updatedRestrictivePracticeLog;
   }
 
@@ -87,6 +110,9 @@ class RestrictivePracticeLogService {
         },
         {
           model: StaffProfileModel,
+          through: {
+            attributes: [],
+          },
           as: "Staff",
         },
         {
@@ -121,10 +147,10 @@ class RestrictivePracticeLogService {
       },
       {
         model: StaffProfileModel,
-        as: "Staff",
-        where: {
-          ...filters["Staff"],
+        through: {
+          attributes: [],
         },
+        as: "Staff",
       },
       {
         model: ClientProfileModel,

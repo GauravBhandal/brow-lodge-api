@@ -751,8 +751,10 @@ function initializeRestrictivePracticeLogModelAssociations() {
   RestrictivePracticeLogModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
-  RestrictivePracticeLogModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
+  RestrictivePracticeLogModel.belongsToMany(StaffProfileModel, {
+    through: "restrictive_practice_logs_staff_profiles",
+    foreignKey: "relation",
+    otherKey: "staff",
     as: "Staff",
   });
   RestrictivePracticeLogModel.belongsTo(ClientProfileModel, {

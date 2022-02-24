@@ -33,8 +33,6 @@ class RestrictivePracticeLogModel<
   actionTakenInResponse!: RestrictivePracticeLog["actionTakenInResponse"];
   alternativesConsidered!: RestrictivePracticeLog["alternativesConsidered"];
   actionTakenLeadingUpTo!: RestrictivePracticeLog["actionTakenLeadingUpTo"];
-  staff!: RestrictivePracticeLog["staff"];
-  Staff: RestrictivePracticeLog["Staff"];
   client!: RestrictivePracticeLog["client"];
   Client: RestrictivePracticeLog["Client"];
   company!: RestrictivePracticeLog["company"];
@@ -46,7 +44,7 @@ modelManager.init(
   RestrictivePracticeLogModel,
   {
     isAuthorised: {
-      type: Sequelize.BOOLEAN,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     type: {
@@ -62,7 +60,7 @@ modelManager.init(
       allowNull: false,
     },
     wasReportableIncident: {
-      type: Sequelize.BOOLEAN,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     reasonBehindUse: {
@@ -81,7 +79,7 @@ modelManager.init(
       type: Sequelize.TIME,
       allowNull: false,
     },
-    startlocation: {
+    startLocation: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -93,7 +91,7 @@ modelManager.init(
       type: Sequelize.TIME,
       allowNull: false,
     },
-    endlocation: {
+    endLocation: {
       type: Sequelize.STRING,
       allowNull: false,
     },
