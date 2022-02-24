@@ -44,7 +44,7 @@ modelManager.init(
   RestrictivePracticeLogModel,
   {
     isAuthorised: {
-      type: Sequelize.BOOLEAN,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     type: {
@@ -79,7 +79,7 @@ modelManager.init(
       type: Sequelize.TIME,
       allowNull: false,
     },
-    startlocation: {
+    startLocation: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -91,7 +91,7 @@ modelManager.init(
       type: Sequelize.TIME,
       allowNull: false,
     },
-    endlocation: {
+    endLocation: {
       type: Sequelize.STRING,
       allowNull: false,
     },

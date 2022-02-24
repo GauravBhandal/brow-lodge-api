@@ -9,7 +9,7 @@ import {
 
 const createRestrictivePracticeLogSchema = wrapSchema({
   body: Joi.object().keys({
-    isAuthorised: Joi.boolean().required(),
+    isAuthorised: Joi.string().required(),
     type: Joi.string().required(),
     impactOnAnyPerson: Joi.string().required(),
     injuryToAnyPerson: Joi.string().required(),
@@ -34,11 +34,11 @@ const createRestrictivePracticeLogSchema = wrapSchema({
 const editRestrictivePracticeLogSchema = wrapSchema({
   params: Joi.object().keys({ restrictivePracticeLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    isAuthorised: Joi.boolean().required(),
+    isAuthorised: Joi.string().required(),
     type: Joi.string().required(),
     impactOnAnyPerson: Joi.string().required(),
     injuryToAnyPerson: Joi.string().required(),
-    wasReportableIncident: Joi.boolean().required(),
+    wasReportableIncident: Joi.string().required(),
     reasonBehindUse: Joi.string().required(),
     describeBehaviour: Joi.string().required(),
     startDate: Joi.date().required(),

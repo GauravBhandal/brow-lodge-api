@@ -5,7 +5,7 @@ import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
 
 export interface RestrictivePracticeLog extends DefaultSchemaConfig {
-  isAuthorised: Boolean;
+  isAuthorised: string;
   type: string;
   impactOnAnyPerson: string;
   injuryToAnyPerson: string;
