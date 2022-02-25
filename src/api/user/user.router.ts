@@ -31,28 +31,29 @@ router.post("/login", userSchems.loginUser, catchWrap(controller.loginUser));
 
 router.post(
   "/",
-  canDo("create", "user"),
+  canDo("create", "staffProfile"),
   userSchems.createUser,
   catchWrap(controller.createUser)
 );
 
 router.put(
   "/:userId",
-  canDo("update", "user"),
+  canDo("update", "staffProfile"),
   userSchems.editUser,
   catchWrap(controller.updateUser)
 );
 
-router.delete(
-  "/:userId",
-  canDo("delete", "user"),
-  userSchems.deleteUser,
-  catchWrap(controller.deleteUser)
-);
+// TODO: Currently we do not allow customers to delete a user, we might need this in future
+// router.delete(
+//   "/:userId",
+//   canDo("delete", "user"),
+//   userSchems.deleteUser,
+//   catchWrap(controller.deleteUser)
+// );
 
 router.get(
   "/:userId",
-  canDo("read", "user"),
+  canDo("read", "staffProfile"),
   userSchems.getUserById,
   catchWrap(controller.getuserById)
 );
