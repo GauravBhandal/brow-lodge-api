@@ -77,6 +77,28 @@ class ClientDocumentCategoryService {
       );
     }
 
+    if (
+      clientDocumentCategory.name.toLowerCase() !== props.name.toLowerCase()
+    ) {
+      // Check if Category with same name already exists
+      const existingCategory = await ClientDocumentCategoryModel.findOne({
+        where: {
+          name: {
+            [Op.iLike]: `${props.name}`,
+          },
+          company,
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingCategory) {
+        throw new CustomError(
+          409,
+          ClientDocumentCategoryErrorCode.CATEGORY_ALREADY_EXISTS
+        );
+      }
+    }
+
     // Finally, update the clientDocumentCategory
     const [, [updatedClientDocumentCategory]] =
       await ClientDocumentCategoryModel.update(updateProps, {
