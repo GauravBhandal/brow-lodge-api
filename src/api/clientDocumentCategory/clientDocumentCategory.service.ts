@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import ClientDocumentCategoryModel from "./clientDocumentCategory.model";
 import {
@@ -21,8 +22,27 @@ import {
 
 class ClientDocumentCategoryService {
   async createClientDocumentCategory(props: CreateClientDocumentCategoryProps) {
-    const { types, company } = props;
+    const { types, company, name } = props;
     const createProps = _omit(props, ["types"]);
+
+    // Check if category with same name already exists
+    const existingCategory = await ClientDocumentCategoryModel.findOne({
+      where: {
+        company,
+        name: {
+          [Op.iLike]: `${name}`,
+        },
+      },
+    });
+
+    // If exists, then throw an error
+    if (existingCategory) {
+      throw new CustomError(
+        409,
+        ClientDocumentCategoryErrorCode.CATEGORY_ALREADY_EXISTS
+      );
+    }
+
     const clientDocumentCategory = await ClientDocumentCategoryModel.create(
       createProps
     );
@@ -53,7 +73,7 @@ class ClientDocumentCategoryService {
     if (!clientDocumentCategory) {
       throw new CustomError(
         404,
-        ClientDocumentCategoryErrorCode.CLIENT_DOCUMENT_CATEGORY_NOT_FOUND
+        ClientDocumentCategoryErrorCode.CATEGORY_NOT_FOUND
       );
     }
 
@@ -79,7 +99,7 @@ class ClientDocumentCategoryService {
     if (!clientDocumentCategory) {
       throw new CustomError(
         404,
-        ClientDocumentCategoryErrorCode.CLIENT_DOCUMENT_CATEGORY_NOT_FOUND
+        ClientDocumentCategoryErrorCode.CATEGORY_NOT_FOUND
       );
     }
 
@@ -110,7 +130,7 @@ class ClientDocumentCategoryService {
     if (!clientDocumentCategory) {
       throw new CustomError(
         404,
-        ClientDocumentCategoryErrorCode.CLIENT_DOCUMENT_CATEGORY_NOT_FOUND
+        ClientDocumentCategoryErrorCode.CATEGORY_NOT_FOUND
       );
     }
 
