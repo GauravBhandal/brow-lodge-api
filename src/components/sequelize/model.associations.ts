@@ -373,6 +373,11 @@ function initializeExpenseReimbursementModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
+  ExpenseReimbursementModel.belongsToMany(AttachmentModel, {
+    through: "expense_reimbursements_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeDoctorVisitModelAssociations() {
