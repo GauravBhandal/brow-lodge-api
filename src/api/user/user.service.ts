@@ -131,6 +131,7 @@ class UserService {
 
   async registerUser(props: RegisterUserProps) {
     // Check if user already exist
+    // TODO: Don't allow duplicate email
     const existingUser = await UserModel.findOne({
       where: { email: props.email },
     });
