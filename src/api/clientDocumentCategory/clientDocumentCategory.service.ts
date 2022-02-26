@@ -44,7 +44,7 @@ class ClientDocumentCategoryService {
     }
     //Checking if type with same name including caseinsensitive exists
     const newTypes = types.reduce(
-      (unique: any, item: any) =>
+      (unique: string[], item: string) =>
         unique.includes(item.toLowerCase())
           ? unique
           : [...unique, item.toLowerCase()],
