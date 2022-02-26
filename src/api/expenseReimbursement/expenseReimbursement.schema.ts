@@ -11,6 +11,7 @@ const createExpenseReimbursementSchema = wrapSchema({
     comments: Joi.string().required().allow(""),
     status: Joi.string().valid("approved", "pending", "rejected").required(),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
@@ -23,6 +24,7 @@ const editExpenseReimbursementSchema = wrapSchema({
     comments: Joi.string().required().allow(""),
     status: Joi.string().valid("approved", "pending", "rejected").required(),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 

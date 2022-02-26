@@ -2,6 +2,7 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface ExpenseReimbursement extends DefaultSchemaConfig {
   date: Date;
@@ -13,6 +14,7 @@ export interface ExpenseReimbursement extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateExpenseReimbursementProps {
@@ -23,6 +25,7 @@ export interface CreateExpenseReimbursementProps {
   status: ExpenseReimbursement["status"];
   staff: ExpenseReimbursement["staff"];
   company: ExpenseReimbursement["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateExpenseReimbursementProps

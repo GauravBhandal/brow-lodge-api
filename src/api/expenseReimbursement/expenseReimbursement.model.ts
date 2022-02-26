@@ -25,6 +25,7 @@ class ExpenseReimbursementModel<
   Staff: ExpenseReimbursement["Staff"];
   company!: ExpenseReimbursement["company"];
   Company: ExpenseReimbursement["Company"];
+  Attachments: ExpenseReimbursement["Attachments"];
 }
 
 modelManager.init(
