@@ -1,5 +1,6 @@
 enum StaffDocumentTypeErrorCode {
   STAFF_DOCUMENT_TYPE_NOT_FOUND = "STAFF_DOCUMENT_TYPE_NOT_FOUND",
+  STAFF_DOCUMENT_TYPE_ALREADY_EXISTS = "DOCUMENT_TYPE_ALREADY_EXISTS",
 }
 
 export default StaffDocumentTypeErrorCode;

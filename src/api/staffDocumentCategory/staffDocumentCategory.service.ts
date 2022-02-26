@@ -42,8 +42,16 @@ class StaffDocumentCategoryService {
       );
     }
 
-    const check = Array.from(new Set(types.map((type) => type.toLowerCase())));
-    if (types.length !== check.length) {
+    //Checking if type with same name including case insensitive exists
+    const newTypes = types.reduce(
+      (unique: any, item: any) =>
+        unique.includes(item.toLowerCase())
+          ? unique
+          : [...unique, item.toLowerCase()],
+      []
+    );
+
+    if (newTypes.length !== types.length) {
       throw new CustomError(
         409,
         StaffDocumentCategoryErrorCode.CATEGORY_CONTAINS_DUPLICATE_TYPE

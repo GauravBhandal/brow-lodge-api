@@ -42,6 +42,21 @@ class ClientDocumentCategoryService {
         ClientDocumentCategoryErrorCode.CATEGORY_ALREADY_EXISTS
       );
     }
+    //Checking if type with same name including caseinsensitive exists
+    const newTypes = types.reduce(
+      (unique: any, item: any) =>
+        unique.includes(item.toLowerCase())
+          ? unique
+          : [...unique, item.toLowerCase()],
+      []
+    );
+
+    if (newTypes.length !== types.length) {
+      throw new CustomError(
+        409,
+        ClientDocumentCategoryErrorCode.CATEGORY_CONTAINS_DUPLICATE_TYPE
+      );
+    }
 
     const clientDocumentCategory = await ClientDocumentCategoryModel.create(
       createProps
