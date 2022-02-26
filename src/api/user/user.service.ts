@@ -23,6 +23,7 @@ import config from "../../config/environment";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { RoleModel, roleService } from "../role";
+import { staffProfileService } from "../staffProfile";
 import { companyService } from "../company";
 import { userRoleService } from "./userRole";
 import { getFilters } from "../../components/filters";
@@ -154,7 +155,7 @@ class UserService {
     });
 
     // Create user
-    const user = await this.createUser({
+    const user: any = await this.createUser({
       firstName: props.firstName,
       lastName: props.lastName,
       email: props.email,
@@ -162,6 +163,16 @@ class UserService {
       blocked: false,
       company: company.id,
       roles: [role.id],
+    });
+
+    // Create staff
+    await staffProfileService.createStaffProfile({
+      firstName: props.firstName,
+      lastName: props.lastName,
+      preferredName: props.firstName,
+      email: props.email,
+      user: user.id,
+      company: company.id,
     });
 
     return user;
