@@ -5,7 +5,7 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createStaffDocumentTypeSchema = wrapSchema({
   body: Joi.object().keys({
-    name: Joi.string().required(),
+    name: Joi.string().required().trim(),
     category: requiredUUIDSchema(),
   }),
 });
@@ -13,7 +13,7 @@ const createStaffDocumentTypeSchema = wrapSchema({
 const editStaffDocumentTypeSchema = wrapSchema({
   params: Joi.object().keys({ staffDocumentTypeId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    name: Joi.string().required(),
+    name: Joi.string().required().trim(),
     category: requiredUUIDSchema(),
   }),
 });
