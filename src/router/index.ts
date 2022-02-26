@@ -43,13 +43,13 @@ import { clientDocumentRoutes } from "../api/clientDocument";
 import { staffDocumentCategoryRoutes } from "../api/staffDocumentCategory";
 import { staffDocumentTypeRoutes } from "../api/staffDocumentType";
 import { staffDocumentRoutes } from "../api/staffDocument";
-import { teamRoutes } from "../api/team";
-import { shiftTypeRoutes } from "../api/shiftType";
-import { shiftRecordRoutes } from "../api/shiftRecord";
 import { incidentReportRoutes } from "../api/incidentReport";
 import { incidentTypeRoutes } from "../api/incidentType";
 import { keyDecisionRoutes } from "../api/keyDecision";
 import { restrictivePracticeLogRoutes } from "../api/restrictivePracticeLog";
+// import { teamRoutes } from "../api/team";
+// import { shiftTypeRoutes } from "../api/shiftType";
+// import { shiftRecordRoutes } from "../api/shiftRecord";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -96,12 +96,12 @@ router.use("/client-document", clientDocumentRoutes);
 router.use("/staff-document-category", staffDocumentCategoryRoutes);
 router.use("/staff-document-type", staffDocumentTypeRoutes);
 router.use("/staff-document", staffDocumentRoutes);
-router.use("/team", teamRoutes);
-router.use("/shift-type", shiftTypeRoutes);
-router.use("/shift-record", shiftRecordRoutes);
 router.use("/incident-report", incidentReportRoutes);
 router.use("/incident-type", incidentTypeRoutes);
 router.use("/key-decision", keyDecisionRoutes);
 router.use("/restrictive-practice-log", restrictivePracticeLogRoutes);
-
+// TODO: Following routes will be included in the roster release
+// router.use("/team", teamRoutes);
+// router.use("/shift-type", shiftTypeRoutes);
+// router.use("/shift-record", shiftRecordRoutes);
 export default router;
