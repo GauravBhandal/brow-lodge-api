@@ -1,14 +1,42 @@
--- 72. DROP whs_logs_attachments table
+-- 79. DROP expense_reimbursements_attachments table
+ALTER TABLE "expense_reimbursements_attachments" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "expense_reimbursements_attachments";
+
+-- 78. DROP restrictive_practice_logs_staff_profiles table
+ALTER TABLE "restrictive_practice_logs_staff_profiles" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "restrictive_practice_logs_staff_profiles";
+
+-- 77. DROP restrictive_practice_logs table
+ALTER TABLE "restrictive_practice_logs" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "restrictive_practice_logs";
+
+-- 76. DROP key_decisions table
+ALTER TABLE "key_decisions" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "key_decisions";
+
+-- 75. DROP incident_reports_attachments table
+ALTER TABLE "incident_reports_attachments" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "incident_reports_attachments";
+
+-- 74. DROP incident_reports_incident_types table
+ALTER TABLE "incident_reports_incident_types" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "incident_reports_incident_types";
+
+-- 73. DROP incident_reports_staff_profiles table
+ALTER TABLE "incident_reports_staff_profiles" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "incident_reports_staff_profiles";
+
+-- 72. DROP incident_reports table
+ALTER TABLE "incident_reports" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "incident_reports";
+
+-- 71. DROP incident_types table
+ALTER TABLE "incident_types" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "incident_types";
+
+-- 70. DROP whs_logs_attachments table
 ALTER TABLE "whs_logs_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "whs_logs_attachments";
-
--- -- 71. DROP incidents_attachments table
--- ALTER TABLE "incidents_attachments" DISABLE ROW LEVEL SECURITY;
--- DROP TABLE IF EXISTS "incidents_attachments";
-
--- -- 70. DROP incidents table
--- ALTER TABLE "incidents" DISABLE ROW LEVEL SECURITY;
--- DROP TABLE IF EXISTS "incidents";
 
 -- 69. DROP staff_documents_attachments table
 ALTER TABLE "staff_documents_attachments" DISABLE ROW LEVEL SECURITY;

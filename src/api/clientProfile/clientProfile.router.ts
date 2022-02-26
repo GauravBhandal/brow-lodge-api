@@ -21,12 +21,13 @@ router.put(
   catchWrap(controller.updateClientProfile)
 );
 
-router.delete(
-  "/:clientProfileId",
-  canDo("delete", "clientProfile"),
-  clientProfileSchems.deleteClientProfile,
-  catchWrap(controller.deleteClientProfile)
-);
+// TODO: Currently we do not allow customers to delete a client, we might need this in future
+// router.delete(
+//   "/:clientProfileId",
+//   canDo("delete", "clientProfile"),
+//   clientProfileSchems.deleteClientProfile,
+//   catchWrap(controller.deleteClientProfile)
+// );
 
 router.get(
   "/:clientProfileId",

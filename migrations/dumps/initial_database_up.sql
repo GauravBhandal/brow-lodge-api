@@ -885,45 +885,7 @@ CREATE TABLE IF NOT EXISTS "staff_documents_attachments" (
 );
 ALTER TABLE "staff_documents_attachments" ENABLE ROW LEVEL SECURITY;
 
--- -- 70. Create incidents table
--- CREATE TABLE IF NOT EXISTS "incidents" (
---     "id" UUID NOT NULL,
---     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "time" TIME WITHOUT TIME ZONE NOT NULL,
---     "location" VARCHAR NOT NULL,
---     "incident_description" VARCHAR NOT NULL,
---     "events_prior_to_incident" VARCHAR NOT NULL,
---     "actions_taken_by_staff" VARCHAR NOT NULL,
---     "actions_taken_by_others" VARCHAR NOT NULL,
---     "any_other_witness" VARCHAR NOT NULL,
---     "incident_reported_to" VARCHAR,
---     "assessment_and_debriefing" VARCHAR,
---     "findings_and_actions_taken" VARCHAR,
---     "status" VARCHAR,
---     "closure_date" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "manager" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
---     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
---     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
---     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "deleted" TIMESTAMP WITH TIME ZONE,
---     PRIMARY KEY ("id")
--- );
--- ALTER TABLE "incidents" ENABLE ROW LEVEL SECURITY;
-
--- -- 71. Create incidents_attachments table
--- CREATE TABLE IF NOT EXISTS "incidents_attachments" (
---     "id" UUID NOT NULL,
---     "relation" UUID NOT NULL REFERENCES "injury_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
---     "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
---     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "deleted" TIMESTAMP WITH TIME ZONE,
---     PRIMARY KEY ("id")
--- );
--- ALTER TABLE "incidents_attachments" ENABLE ROW LEVEL SECURITY;
-
--- 72. Create whs_logs_attachments table
+-- 70. Create whs_logs_attachments table
 CREATE TABLE IF NOT EXISTS "whs_logs_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "whs_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -935,5 +897,146 @@ CREATE TABLE IF NOT EXISTS "whs_logs_attachments" (
 );
 ALTER TABLE "whs_logs_attachments" ENABLE ROW LEVEL SECURITY;
 
+-- 71. Create incident_types table
+CREATE TABLE IF NOT EXISTS "incident_types" (
+  "id" UUID NOT NULL,
+  "type" VARCHAR NOT NULL,
+  "is_reportable" BOOLEAN NOT NULL DEFAULT FALSE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "incident_types" ENABLE ROW LEVEL SECURITY;
 
+-- 72. Create incident_reports table
+CREATE TABLE IF NOT EXISTS "incident_reports" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "time" TIME WITHOUT TIME ZONE NOT NULL,
+    "location" VARCHAR NOT NULL,
+    "incident_description" VARCHAR NOT NULL,
+    "events_prior_to_incident" VARCHAR NOT NULL,
+    "actions_taken_by_staff" VARCHAR NOT NULL,
+    "actions_taken_by_others" VARCHAR NOT NULL,
+    "any_other_witness" VARCHAR NOT NULL,
+    "incident_reported_to" VARCHAR,
+    "assessment_and_debriefing" VARCHAR,
+    "findings_and_actions_taken" VARCHAR,
+    "status" VARCHAR,
+    "closure_date" TIMESTAMP WITH TIME ZONE,
+    "manager" UUID REFERENCES "staff_profiles" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "incident_reports" ENABLE ROW LEVEL SECURITY;
 
+-- 73. Create incident_reports_staff_profiles table
+CREATE TABLE IF NOT EXISTS "incident_reports_staff_profiles" (
+  "id" UUID NOT NULL,
+  "incident" UUID NOT NULL REFERENCES "incident_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "incident_reports_staff_profiles" ENABLE ROW LEVEL SECURITY;
+
+-- 74. Create incident_reports_incident_types table
+CREATE TABLE IF NOT EXISTS "incident_reports_incident_types" (
+  "id" UUID NOT NULL,
+  "incident" UUID NOT NULL REFERENCES "incident_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "type" UUID NOT NULL REFERENCES "incident_types" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "incident_reports_incident_types" ENABLE ROW LEVEL SECURITY;
+
+-- 75. Create incident_reports_attachments table
+CREATE TABLE IF NOT EXISTS "incident_reports_attachments" (
+    "id" UUID NOT NULL,
+    "relation" UUID NOT NULL REFERENCES "incident_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "incident_reports_attachments" ENABLE ROW LEVEL SECURITY;
+
+-- 76. Create key_decisions table
+CREATE TABLE IF NOT EXISTS "key_decisions" (
+  "id" UUID NOT NULL,
+  "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "description" VARCHAR NOT NULL,
+  "decision_rationale" VARCHAR NOT NULL,
+  "alternatives_considered" VARCHAR,
+  "cost_implications" VARCHAR,
+  "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "key_decisions" ENABLE ROW LEVEL SECURITY;
+
+-- 77. Create restrictive_practice_logs table
+CREATE TABLE IF NOT EXISTS "restrictive_practice_logs" (
+  "id" UUID NOT NULL,
+  "is_authorised" VARCHAR NOT NULL,
+  "type" VARCHAR (255) NOT NULL,
+  "impact_on_any_person" VARCHAR NOT NULL,
+  "injury_to_any_person" VARCHAR NOT NULL,
+  "was_reportable_incident" VARCHAR NOT NULL,
+  "reason_behind_use" VARCHAR NOT NULL,
+  "describe_behaviour" VARCHAR NOT NULL,
+  "start_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+  "start_location" VARCHAR (255) NOT NULL,
+  "end_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "end_time" TIME WITHOUT TIME ZONE NOT NULL,
+  "end_location" VARCHAR (255) NOT NULL,
+  "any_witness" VARCHAR (255) NOT NULL,
+  "action_taken_in_response" VARCHAR NOT NULL,
+  "alternatives_considered" VARCHAR NOT NULL,
+  "action_taken_leading_up_to" VARCHAR NOT NULL,
+  "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "restrictive_practice_logs" ENABLE ROW LEVEL SECURITY;
+
+-- 78. Create restrictive_practice_logs_staff_profiles table
+CREATE TABLE IF NOT EXISTS "restrictive_practice_logs_staff_profiles" (
+  "id" UUID NOT NULL,
+  "relation" UUID NOT NULL REFERENCES "restrictive_practice_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "restrictive_practice_logs_staff_profiles" ENABLE ROW LEVEL SECURITY;
+
+-- 79. Create expense_reimbursements_attachments table
+CREATE TABLE IF NOT EXISTS "expense_reimbursements_attachments" (
+  "id" UUID NOT NULL,
+  "relation" UUID NOT NULL REFERENCES "expense_reimbursements" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "expense_reimbursements_attachments" ENABLE ROW LEVEL SECURITY;
