@@ -95,6 +95,11 @@ class UserService {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
 
+    // Check if the account is active or not
+    if (user.blocked) {
+      throw new CustomError(401, UserErrorCode.ACCOUNT_IS_INACTIVE);
+    }
+
     const secretUserInfo = await this._getUserPassword(email);
 
     // Check if password matches with one store in database
@@ -174,6 +179,11 @@ class UserService {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
 
+    // Check if the account is active or not
+    if (existingUser.blocked) {
+      throw new CustomError(401, UserErrorCode.ACCOUNT_IS_INACTIVE);
+    }
+
     // Create new password reset token
     const resetPasswordToken = crypto.randomBytes(32).toString("hex");
     const resetPasswordTokenHash = await bcrypt.hash(resetPasswordToken, 10);
@@ -224,6 +234,11 @@ class UserService {
     // If no user has been found, then throw an error
     if (!user) {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    // Check if the account is active or not
+    if (user.blocked) {
+      throw new CustomError(401, UserErrorCode.ACCOUNT_IS_INACTIVE);
     }
 
     const secretUserInfo = await this._getUserPassword(user.email);
