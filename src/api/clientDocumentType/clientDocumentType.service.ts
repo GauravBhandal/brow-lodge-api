@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import ClientDocumentTypeModel from "./clientDocumentType.model";
 import {
@@ -34,13 +35,34 @@ class ClientDocumentTypeService {
   }
 
   async createClientDocumentType(props: CreateClientDocumentTypeProps) {
+    const { category, name, company } = props;
+
+    // Check if type with same name already exists
+    const existingType = await ClientDocumentTypeModel.findOne({
+      where: {
+        company,
+        category,
+        name: {
+          [Op.iLike]: `${name}`,
+        },
+      },
+    });
+
+    // If exists, then throw an error
+    if (existingType) {
+      throw new CustomError(
+        409,
+        ClientDocumentTypeErrorCode.CLIENT_DOCUMENT_TYPE_ALREADY_EXISTS
+      );
+    }
+
     const clientDocumentType = await ClientDocumentTypeModel.create(props);
     return clientDocumentType;
   }
 
   async updateClientDocumentType(props: UpdateClientDocumentTypeProps) {
     // Props
-    const { id, company } = props;
+    const { id, company, category } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find clientDocumentType by id and company
@@ -54,6 +76,27 @@ class ClientDocumentTypeService {
         404,
         ClientDocumentTypeErrorCode.CLIENT_DOCUMENT_TYPE_NOT_FOUND
       );
+    }
+
+    if (clientDocumentType.name.toLowerCase() !== props.name.toLowerCase()) {
+      // Check if type with same name already exists
+      const existingType = await ClientDocumentTypeModel.findOne({
+        where: {
+          name: {
+            [Op.iLike]: `${props.name}`,
+          },
+          company,
+          category,
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingType) {
+        throw new CustomError(
+          409,
+          ClientDocumentTypeErrorCode.CLIENT_DOCUMENT_TYPE_ALREADY_EXISTS
+        );
+      }
     }
 
     // Finally, update the clientDocumentType

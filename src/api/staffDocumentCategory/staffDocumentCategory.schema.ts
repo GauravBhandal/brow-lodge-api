@@ -5,15 +5,15 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createStaffDocumentCategorySchema = wrapSchema({
   body: Joi.object().keys({
-    name: Joi.string().required(),
-    types: Joi.array().items(Joi.string()).required(),
+    name: Joi.string().required().trim(),
+    types: Joi.array().items(Joi.string().trim()).required(),
   }),
 });
 
 const editStaffDocumentCategorySchema = wrapSchema({
   params: Joi.object().keys({ staffDocumentCategoryId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    name: Joi.string().required(),
+    name: Joi.string().required().trim(),
   }),
 });
 
