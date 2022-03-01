@@ -43,9 +43,9 @@ import { IncidentReportModel } from "../../api/incidentReport";
 import { IncidentTypeModel } from "../../api/incidentType";
 import { KeyDecisionModel } from "../../api/keyDecision";
 import { RestrictivePracticeLogModel } from "../../api/restrictivePracticeLog";
-// import { TeamModel } from "../../api/team";
-// import { ShiftTypeModel } from "../../api/shiftType";
-// import { ShiftRecordModel } from "../../api/shiftRecord";
+import { TeamModel } from "../../api/team";
+import { ShiftTypeModel } from "../../api/shiftType";
+import { ShiftRecordModel } from "../../api/shiftRecord";
 
 export default {
   initialize() {
@@ -93,9 +93,9 @@ export default {
     initializeIncidentReportModelAssociations();
     initializeKeyDecisionModelAssociations();
     initializeRestrictivePracticeLogModelAssociations();
-    // initializeTeamModelAssociations();
-    // initializeShiftTypeModelAssociations();
-    // initializeShiftRecordModelAssociations();
+    initializeTeamModelAssociations();
+    initializeShiftTypeModelAssociations();
+    initializeShiftRecordModelAssociations();
   },
 };
 
@@ -720,45 +720,45 @@ function initializeRestrictivePracticeLogModelAssociations() {
   });
 }
 
-// function initializeTeamModelAssociations() {
-//   TeamModel.belongsTo(CompanyModel, {
-//     foreignKey: { name: "company", allowNull: false },
-//   });
-//   TeamModel.belongsToMany(StaffProfileModel, {
-//     through: "teams_staff_profiles",
-//     foreignKey: "team",
-//     otherKey: "staff",
-//     as: "Staff",
-//   });
-//   TeamModel.belongsToMany(ClientProfileModel, {
-//     through: "teams_client_profiles",
-//     foreignKey: "team",
-//     otherKey: "client",
-//     as: "Client",
-//   });
-// }
+function initializeTeamModelAssociations() {
+  TeamModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TeamModel.belongsToMany(StaffProfileModel, {
+    through: "teams_staff_profiles",
+    foreignKey: "team",
+    otherKey: "staff",
+    as: "Staff",
+  });
+  TeamModel.belongsToMany(ClientProfileModel, {
+    through: "teams_client_profiles",
+    foreignKey: "team",
+    otherKey: "client",
+    as: "Client",
+  });
+}
 
-// function initializeShiftTypeModelAssociations() {
-//   ShiftTypeModel.belongsTo(CompanyModel, {
-//     foreignKey: { name: "company", allowNull: false },
-//   });
-// }
+function initializeShiftTypeModelAssociations() {
+  ShiftTypeModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
 
-// function initializeShiftRecordModelAssociations() {
-//   ShiftRecordModel.belongsTo(CompanyModel, {
-//     foreignKey: { name: "company", allowNull: false },
-//   });
-//   ShiftRecordModel.belongsTo(StaffProfileModel, {
-//     foreignKey: { name: "staff", allowNull: false },
-//     as: "Staff",
-//   });
-//   ShiftRecordModel.belongsTo(ClientProfileModel, {
-//     foreignKey: { name: "client", allowNull: false },
-//     as: "Client",
-//   });
-//   ShiftRecordModel.belongsToMany(ShiftTypeModel, {
-//     through: "shift_records_shift_types",
-//     foreignKey: "shift",
-//     otherKey: "type",
-//   });
-// }
+function initializeShiftRecordModelAssociations() {
+  ShiftRecordModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ShiftRecordModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ShiftRecordModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  ShiftRecordModel.belongsToMany(ShiftTypeModel, {
+    through: "shift_records_shift_types",
+    foreignKey: "shift",
+    otherKey: "type",
+  });
+}
