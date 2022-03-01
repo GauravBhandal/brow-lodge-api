@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import StaffDocumentCategoryModel from "./staffDocumentCategory.model";
 import {
@@ -20,8 +21,42 @@ import {
 } from "../staffDocumentType";
 class StaffDocumentCategoryService {
   async createStaffDocumentCategory(props: CreateStaffDocumentCategoryProps) {
-    const { types, company } = props;
+    const { types, company, name } = props;
     const createProps = _omit(props, ["types"]);
+
+    // Check if category with same name already exists
+    const existingCategory = await StaffDocumentCategoryModel.findOne({
+      where: {
+        company,
+        name: {
+          [Op.iLike]: `${name}`,
+        },
+      },
+    });
+
+    // If exists, then throw an error
+    if (existingCategory) {
+      throw new CustomError(
+        409,
+        StaffDocumentCategoryErrorCode.CATEGORY_ALREADY_EXISTS
+      );
+    }
+
+    //Checking if type with same name including case insensitive exists
+    const newTypes = types.reduce(
+      (unique: string[], item: string) =>
+        unique.includes(item.toLowerCase())
+          ? unique
+          : [...unique, item.toLowerCase()],
+      []
+    );
+
+    if (newTypes.length !== types.length) {
+      throw new CustomError(
+        409,
+        StaffDocumentCategoryErrorCode.CATEGORY_CONTAINS_DUPLICATE_TYPE
+      );
+    }
 
     const staffDocumentCategory = await StaffDocumentCategoryModel.create(
       createProps
@@ -55,6 +90,26 @@ class StaffDocumentCategoryService {
         404,
         StaffDocumentCategoryErrorCode.STAFF_DOCUMENT_CATEGORY_NOT_FOUND
       );
+    }
+
+    if (staffDocumentCategory.name.toLowerCase() !== props.name.toLowerCase()) {
+      // Check if Category with same name already exists
+      const existingCategory = await StaffDocumentCategoryModel.findOne({
+        where: {
+          name: {
+            [Op.iLike]: `${props.name}`,
+          },
+          company,
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingCategory) {
+        throw new CustomError(
+          409,
+          StaffDocumentCategoryErrorCode.CATEGORY_ALREADY_EXISTS
+        );
+      }
     }
 
     // Finally, update the staffDocumentCategory

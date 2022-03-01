@@ -7,14 +7,6 @@ export const permissions = {
       update: true,
     },
   },
-  user: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
   whsLog: {
     actions: {
       read: true,
@@ -109,6 +101,14 @@ export const permissions = {
       update: true,
     },
   },
+  keyDecision: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   prnAdminLog: {
     actions: {
       read: true,
@@ -145,7 +145,6 @@ export const permissions = {
     actions: {
       read: true,
       create: true,
-      delete: true,
       update: true,
     },
   },
@@ -153,7 +152,6 @@ export const permissions = {
     actions: {
       read: true,
       create: true,
-      delete: true,
       update: true,
     },
   },
@@ -184,7 +182,6 @@ export const permissions = {
   staffArchived: {
     actions: {
       read: true,
-      delete: true,
       update: true,
     },
   },
@@ -199,11 +196,18 @@ export const permissions = {
   clientArchived: {
     actions: {
       read: true,
-      delete: true,
       update: true,
     },
   },
   clientDocument: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  incidentReport: {
     actions: {
       read: true,
       create: true,
@@ -316,6 +320,14 @@ export const permissions = {
     },
   },
   clientDocumentCategory: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  restrictivePracticeLog: {
     actions: {
       read: true,
       create: true,

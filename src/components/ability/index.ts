@@ -1,7 +1,8 @@
 import { AbilityBuilder, Ability } from "@casl/ability";
 import { Response, Request, NextFunction } from "express";
 
-import { userService, User } from "../../api/user";
+import { userService, User, UserErrorCode } from "../../api/user";
+import { CustomError } from "../errors";
 
 const ACTIONS = ["read", "create", "update", "delete"];
 
@@ -45,12 +46,20 @@ export const provideAbility = async (
       company: companyId,
     };
 
-    // Get user by id and company
-    const user = await userService.getUserById(props);
-    const userObject = user.toJSON() as User;
+    try {
+      // Get user by id and company
+      const user = await userService.getUserById(props);
 
-    // Create ability for this user and add it to request
-    req.ability = await defineAbilityFor(userObject);
+      if (user.blocked) {
+        throw new CustomError(401, UserErrorCode.ACCOUNT_IS_INACTIVE);
+      }
+      const userObject = user.toJSON() as User;
+
+      // Create ability for this user and add it to request
+      req.ability = await defineAbilityFor(userObject);
+    } catch (err) {
+      next(err);
+    }
   }
 
   next();

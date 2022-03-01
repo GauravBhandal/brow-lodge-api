@@ -35,22 +35,22 @@ export interface CreateStaffProfileProps {
   lastName: StaffProfile["lastName"];
   preferredName: StaffProfile["preferredName"];
   email: StaffProfile["email"];
-  gender: StaffProfile["gender"];
-  dateOfBirth: StaffProfile["dateOfBirth"];
-  personalContactNumber: StaffProfile["personalContactNumber"];
-  workContactNumber: StaffProfile["workContactNumber"];
-  address: StaffProfile["address"];
-  emergencyContactName: StaffProfile["emergencyContactName"];
-  emergencyContactPhone: StaffProfile["emergencyContactPhone"];
-  emergencyContactRelation: StaffProfile["emergencyContactRelation"];
-  jobTitle: StaffProfile["jobTitle"];
-  employmentStartDate: StaffProfile["employmentStartDate"];
-  employmentEndDate: StaffProfile["employmentEndDate"];
-  employmentType: StaffProfile["employmentType"];
-  manager: StaffProfile["manager"];
+  gender?: StaffProfile["gender"];
+  dateOfBirth?: StaffProfile["dateOfBirth"];
+  personalContactNumber?: StaffProfile["personalContactNumber"];
+  workContactNumber?: StaffProfile["workContactNumber"];
+  address?: StaffProfile["address"];
+  emergencyContactName?: StaffProfile["emergencyContactName"];
+  emergencyContactPhone?: StaffProfile["emergencyContactPhone"];
+  emergencyContactRelation?: StaffProfile["emergencyContactRelation"];
+  jobTitle?: StaffProfile["jobTitle"];
+  employmentStartDate?: StaffProfile["employmentStartDate"];
+  employmentEndDate?: StaffProfile["employmentEndDate"];
+  employmentType?: StaffProfile["employmentType"];
+  manager?: StaffProfile["manager"];
   user: StaffProfile["user"];
   company: StaffProfile["company"];
-  attachment: StaffProfile["attachment"];
+  attachment?: StaffProfile["attachment"];
 }
 
 export interface UpdateStaffProfileProps extends CreateStaffProfileProps {

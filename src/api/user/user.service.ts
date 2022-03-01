@@ -23,6 +23,7 @@ import config from "../../config/environment";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { RoleModel, roleService } from "../role";
+import { staffProfileService } from "../staffProfile";
 import { companyService } from "../company";
 import { userRoleService } from "./userRole";
 import { getFilters } from "../../components/filters";
@@ -95,6 +96,11 @@ class UserService {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
 
+    // Check if the account is active or not
+    if (user.blocked) {
+      throw new CustomError(401, UserErrorCode.ACCOUNT_IS_INACTIVE);
+    }
+
     const secretUserInfo = await this._getUserPassword(email);
 
     // Check if password matches with one store in database
@@ -126,6 +132,7 @@ class UserService {
 
   async registerUser(props: RegisterUserProps) {
     // Check if user already exist
+    // TODO: Don't allow duplicate email
     const existingUser = await UserModel.findOne({
       where: { email: props.email },
     });
@@ -148,7 +155,7 @@ class UserService {
     });
 
     // Create user
-    const user = await this.createUser({
+    const user: any = await this.createUser({
       firstName: props.firstName,
       lastName: props.lastName,
       email: props.email,
@@ -156,6 +163,16 @@ class UserService {
       blocked: false,
       company: company.id,
       roles: [role.id],
+    });
+
+    // Create staff
+    await staffProfileService.createStaffProfile({
+      firstName: props.firstName,
+      lastName: props.lastName,
+      preferredName: props.firstName,
+      email: props.email,
+      user: user.id,
+      company: company.id,
     });
 
     return user;
@@ -172,6 +189,11 @@ class UserService {
     // if user not found, throw an error
     if (!existingUser) {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    // Check if the account is active or not
+    if (existingUser.blocked) {
+      throw new CustomError(401, UserErrorCode.ACCOUNT_IS_INACTIVE);
     }
 
     // Create new password reset token
@@ -224,6 +246,11 @@ class UserService {
     // If no user has been found, then throw an error
     if (!user) {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+    }
+
+    // Check if the account is active or not
+    if (user.blocked) {
+      throw new CustomError(401, UserErrorCode.ACCOUNT_IS_INACTIVE);
     }
 
     const secretUserInfo = await this._getUserPassword(user.email);
