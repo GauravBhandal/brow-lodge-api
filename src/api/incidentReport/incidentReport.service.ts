@@ -197,6 +197,24 @@ class IncidentReportService {
           ...filters["Client"],
         },
       },
+      {
+        model: StaffProfileModel,
+        through: {
+          attributes: [],
+        },
+        as: "Staff",
+      },
+      {
+        model: IncidentTypeModel,
+        through: {
+          attributes: [],
+        },
+        as: "Types",
+      },
+      {
+        model: StaffProfileModel,
+        as: "Manager",
+      },
     ];
 
     // Count total incidentReports in the given company
