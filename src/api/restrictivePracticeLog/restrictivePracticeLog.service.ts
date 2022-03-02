@@ -151,6 +151,7 @@ class RestrictivePracticeLogService {
           attributes: [],
         },
         as: "Staff",
+        duplicating: false,
       },
       {
         model: ClientProfileModel,

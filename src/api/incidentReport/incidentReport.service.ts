@@ -203,6 +203,7 @@ class IncidentReportService {
           attributes: [],
         },
         as: "Staff",
+        duplicating: false,
       },
       {
         model: IncidentTypeModel,
@@ -210,6 +211,7 @@ class IncidentReportService {
           attributes: [],
         },
         as: "Types",
+        duplicating: false,
       },
       {
         model: StaffProfileModel,
