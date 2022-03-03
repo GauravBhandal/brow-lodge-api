@@ -908,6 +908,30 @@ CREATE TABLE IF NOT EXISTS "incident_types" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "incident_types" ENABLE ROW LEVEL SECURITY;
+INSERT INTO incident_types VALUES
+    ('2ba3703f-1c03-432e-852f-5b9e967bbc09', 'Death of a participant', true, now(), now()),
+    ('05c98255-d3a8-4402-90ec-9625875b5d33', 'Serious injury of a participant', true, now(), now()),
+    ('9015cb7c-3a7d-430f-821b-31f2abbdd502', 'Abuse or Neglect of a participant', true, now(), now()),
+    ('88569c7a-ba80-4e36-b186-5eb8de91ed85', 'Unlawful sexual or physical contact of a participant', true, now(), now()),
+    ('d1569bd4-81d8-43fe-967d-1559b2a604ce', 'Sexual misconduct', true, now(), now()),
+    ('1c10efe5-e02e-445c-b739-54463d4c9068', 'Unauthorised use of restrictive practice', true, now(), now()),
+    ('f21ea46f-fb78-4b14-9300-014689cccaf6', 'Sexual misconduct', false, now(), now()),
+    ('e32bcc33-1052-4628-812b-90b8ad57238c', 'Abuse or Neglect of a participant', false, now(), now()),
+    ('bc408418-4bdb-46aa-9259-a46432bbb2a7', 'Aggression physical', false, now(), now()),
+    ('e73ea0cc-87f9-4ed1-9326-67b741c963b1', 'Aggression verbal', false, now(), now()),
+    ('c8db8090-b944-4309-8d75-b98dd8deb4ea', 'Confidentiality breach', false, now(), now()),
+    ('29f979bb-42f6-45ed-adbd-b3f1a0391c0a', 'Conflict with staff, participant or other', false, now(), now()),
+    ('77bd0cbc-5fb4-455d-a4d2-59fe199b7850', 'Participant under the influence of drug', false, now(), now()),
+    ('9db366ef-0d1c-42c6-8c8a-aa98de9f23b4', 'Damage to property', false, now(), now()),
+    ('51264221-42ec-401d-8234-a8c71864af3f', 'Hazard', false, now(), now()),
+    ('66a2b5b6-4d5c-448a-88b8-cd998a36e117', 'Minor injury', false, now(), now()),
+    ('1281fc21-6898-46b8-b1f5-62557dba69aa', 'Missing or Absconded MPR lodged', false, now(), now()),
+    ('71514a52-4218-4696-a2b6-1da33fcb4da8', 'Medication error by staff', false, now(), now()),
+    ('e33294c0-4ab3-4ad8-b90f-16004355c6b1', 'Medication refusal by participant', false, now(), now()),
+    ('9ed9920c-d03a-4df7-a978-7139d2c77e57', 'Motor vehicle incident', false, now(), now()),
+    ('5486bcea-6b80-43b7-99af-e4cbc1d081a6', 'Near miss incident', false, now(), now()),
+    ('22df1342-e010-4f10-aea8-ebba2588c424', 'Unsafe behaviour', false, now(), now()),
+	('9781d6b4-6f6c-4041-a0eb-cb9e301d3e80', 'Other', false, now(), now());
 
 -- 72. Create incident_reports table
 CREATE TABLE IF NOT EXISTS "incident_reports" (
