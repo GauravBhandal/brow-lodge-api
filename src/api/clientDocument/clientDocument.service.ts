@@ -6,6 +6,8 @@ import {
   CreateClientDocumentProps,
   UpdateClientDocumentProps,
   DeleteClientDocumentProps,
+  GetClientDocumentByTypeProps,
+  GetClientDocumentByCategoryProps,
   GetClientDocumentByIdProps,
   GetClientDocumentsProps,
 } from "./clientDocument.types";
@@ -166,6 +168,30 @@ class ClientDocumentService {
         ClientDocumentErrorCode.CLIENT_DOCUMENT_NOT_FOUND
       );
     }
+
+    return clientDocument;
+  }
+
+  async getClientDocumentByType(props: GetClientDocumentByTypeProps) {
+    // Props
+    const { type, company } = props;
+
+    // Find the clientDocument by type and company
+    const clientDocument = await ClientDocumentModel.findAll({
+      where: { type, company },
+    });
+
+    return clientDocument;
+  }
+
+  async getClientDocumentByCategory(props: GetClientDocumentByCategoryProps) {
+    // Props
+    const { category, company } = props;
+
+    // Find the clientDocument by category and company
+    const clientDocument = await ClientDocumentModel.findAll({
+      where: { category, company },
+    });
 
     return clientDocument;
   }

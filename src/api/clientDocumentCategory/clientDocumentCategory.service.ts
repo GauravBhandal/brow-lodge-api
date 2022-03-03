@@ -19,6 +19,7 @@ import {
   clientDocumentTypeService,
   ClientDocumentTypeModel,
 } from "../clientDocumentType";
+import { clientDocumentService } from "../clientDocument";
 
 class ClientDocumentCategoryService {
   async createClientDocumentCategory(props: CreateClientDocumentCategoryProps) {
@@ -126,6 +127,21 @@ class ClientDocumentCategoryService {
   async deleteClientDocumentCategory(props: DeleteClientDocumentCategoryProps) {
     // Props
     const { id, company } = props;
+
+    // Check if this document type is used by any document
+    const clientDocument =
+      await clientDocumentService.getClientDocumentByCategory({
+        category: id,
+        company,
+      });
+
+    // If used, then don't allow the user to delete this
+    if (clientDocument && clientDocument.length > 0) {
+      throw new CustomError(
+        409,
+        ClientDocumentCategoryErrorCode.DOCUMENT_CATEGORY_IN_USE
+      );
+    }
 
     // Find and delete the clientDocumentCategory by id and company
     const clientDocumentCategory = await ClientDocumentCategoryModel.destroy({
