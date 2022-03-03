@@ -46,7 +46,7 @@ const editClientProfileSchema = wrapSchema({
     emergencyContactRelation: Joi.string().allow("", null),
     height: Joi.number().min(1).allow(null),
     fundingType: Joi.string()
-      .valid("NDIS managed", "Plan managed", "Self managed")
+      .valid("NDIS Managed", "Plan Managed", "Self Managed")
       .allow(null),
     ndisNumber: Joi.string().allow("", null),
     medicareNumber: Joi.string().allow("", null),
