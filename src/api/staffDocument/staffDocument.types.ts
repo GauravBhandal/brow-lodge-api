@@ -43,6 +43,15 @@ export interface DeleteStaffDocumentProps {
 
 export interface GetStaffDocumentByIdProps extends DeleteStaffDocumentProps {}
 
+export interface GetStaffDocumentByTypeProps {
+  type: StaffDocument["type"];
+  company: StaffDocument["company"];
+}
+
+export interface GetStaffDocumentByCategoryProps {
+  category: StaffDocument["category"];
+  company: StaffDocument["company"];
+}
 export interface GetStaffDocumentsProps extends QueryParams {
   company: StaffDocument["company"];
 }
