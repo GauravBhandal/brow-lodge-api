@@ -31,6 +31,7 @@ ALTER TABLE "incident_reports" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "incident_reports";
 
 -- 71. DROP incident_types table
+DELETE FROM "incident_types";
 ALTER TABLE "incident_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "incident_types";
 
