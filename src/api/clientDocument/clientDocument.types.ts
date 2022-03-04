@@ -43,6 +43,16 @@ export interface DeleteClientDocumentProps {
 
 export interface GetClientDocumentByIdProps extends DeleteClientDocumentProps {}
 
+export interface GetClientDocumentByTypeProps {
+  type: ClientDocument["type"];
+  company: ClientDocument["company"];
+}
+
+export interface GetClientDocumentByCategoryProps {
+  category: ClientDocument["category"];
+  company: ClientDocument["company"];
+}
+
 export interface GetClientDocumentsProps extends QueryParams {
   company: ClientDocument["company"];
 }

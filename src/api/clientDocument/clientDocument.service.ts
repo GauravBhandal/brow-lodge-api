@@ -6,6 +6,8 @@ import {
   CreateClientDocumentProps,
   UpdateClientDocumentProps,
   DeleteClientDocumentProps,
+  GetClientDocumentByTypeProps,
+  GetClientDocumentByCategoryProps,
   GetClientDocumentByIdProps,
   GetClientDocumentsProps,
 } from "./clientDocument.types";
@@ -170,6 +172,30 @@ class ClientDocumentService {
     return clientDocument;
   }
 
+  async getClientDocumentByType(props: GetClientDocumentByTypeProps) {
+    // Props
+    const { type, company } = props;
+
+    // Find the clientDocument by type and company
+    const clientDocument = await ClientDocumentModel.findAll({
+      where: { type, company },
+    });
+
+    return clientDocument;
+  }
+
+  async getClientDocumentByCategory(props: GetClientDocumentByCategoryProps) {
+    // Props
+    const { category, company } = props;
+
+    // Find the clientDocument by category and company
+    const clientDocument = await ClientDocumentModel.findAll({
+      where: { category, company },
+    });
+
+    return clientDocument;
+  }
+
   async getClientDocuments(props: GetClientDocumentsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
@@ -243,7 +269,6 @@ class ClientDocumentService {
       include,
     });
 
-    // TODO: Clean up getPagingData function
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;

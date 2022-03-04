@@ -9,7 +9,7 @@ const createClientProfileSchema = wrapSchema({
     lastName: Joi.string().required(),
     preferredName: Joi.string().required(),
     email: Joi.string().allow("", null),
-    gender: Joi.string().valid("male", "female", "other").allow(null),
+    gender: Joi.string().valid("Male", "Female", "Other").allow(null),
     dateOfBirth: Joi.date().allow(null),
     address: Joi.string().allow("", null),
     emergencyContactName: Joi.string().allow("", null),
@@ -17,7 +17,7 @@ const createClientProfileSchema = wrapSchema({
     emergencyContactRelation: Joi.string().allow("", null),
     height: Joi.number().min(1).allow(null),
     fundingType: Joi.string()
-      .valid("ndisManaged", "planManaged", "selfManaged")
+      .valid("NDIS Managed", "Plan Managed", "Self Managed")
       .allow(null),
     ndisNumber: Joi.string().allow("", null),
     medicareNumber: Joi.string().allow("", null),
@@ -38,7 +38,7 @@ const editClientProfileSchema = wrapSchema({
     lastName: Joi.string().required(),
     preferredName: Joi.string().required(),
     email: Joi.string().allow("", null),
-    gender: Joi.string().valid("male", "female", "other").allow(null),
+    gender: Joi.string().valid("Male", "Female", "Other").allow(null),
     dateOfBirth: Joi.date().allow(null),
     address: Joi.string().allow("", null),
     emergencyContactName: Joi.string().allow("", null),
@@ -46,7 +46,7 @@ const editClientProfileSchema = wrapSchema({
     emergencyContactRelation: Joi.string().allow("", null),
     height: Joi.number().min(1).allow(null),
     fundingType: Joi.string()
-      .valid("ndisManaged", "planManaged", "selfManaged")
+      .valid("NDIS Managed", "Plan Managed", "Self Managed")
       .allow(null),
     ndisNumber: Joi.string().allow("", null),
     medicareNumber: Joi.string().allow("", null),

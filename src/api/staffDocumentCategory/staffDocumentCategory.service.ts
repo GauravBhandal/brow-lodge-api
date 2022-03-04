@@ -19,6 +19,8 @@ import {
   staffDocumentTypeService,
   StaffDocumentTypeModel,
 } from "../staffDocumentType";
+import { staffDocumentService } from "../staffDocument";
+
 class StaffDocumentCategoryService {
   async createStaffDocumentCategory(props: CreateStaffDocumentCategoryProps) {
     const { types, company, name } = props;
@@ -125,6 +127,21 @@ class StaffDocumentCategoryService {
     // Props
     const { id, company } = props;
 
+    // Check if this document type is used by any document
+    const staffDocuments =
+      await staffDocumentService.getStaffDocumentByCategory({
+        category: id,
+        company,
+      });
+
+    // If userd, then don't allow the user to delete this
+    if (staffDocuments && staffDocuments.length > 0) {
+      throw new CustomError(
+        409,
+        StaffDocumentCategoryErrorCode.DOCUMENT_CATEGORY_IN_USE
+      );
+    }
+
     // Find and delete the staffDocumentCategory by id and company
     const staffDocumentCategory = await StaffDocumentCategoryModel.destroy({
       where: { id, company },
@@ -210,7 +227,6 @@ class StaffDocumentCategoryService {
       include,
     });
 
-    // TODO: Clean up getPagingData function
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;

@@ -7,6 +7,8 @@ import {
   UpdateStaffDocumentProps,
   DeleteStaffDocumentProps,
   GetStaffDocumentByIdProps,
+  GetStaffDocumentByTypeProps,
+  GetStaffDocumentByCategoryProps,
   GetStaffDocumentsProps,
 } from "./staffDocument.types";
 import { CustomError } from "../../components/errors";
@@ -170,6 +172,30 @@ class StaffDocumentService {
     return staffDocument;
   }
 
+  async getStaffDocumentByType(props: GetStaffDocumentByTypeProps) {
+    // Props
+    const { type, company } = props;
+
+    // Find the staffDocument by type and company
+    const staffDocument = await StaffDocumentModel.findAll({
+      where: { type, company },
+    });
+
+    return staffDocument;
+  }
+
+  async getStaffDocumentByCategory(props: GetStaffDocumentByCategoryProps) {
+    // Props
+    const { category, company } = props;
+
+    // Find the staffDocument by category and company
+    const staffDocument = await StaffDocumentModel.findAll({
+      where: { category, company },
+    });
+
+    return staffDocument;
+  }
+
   async getStaffDocuments(props: GetStaffDocumentsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
@@ -243,7 +269,6 @@ class StaffDocumentService {
       include,
     });
 
-    // TODO: Clean up getPagingData function
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;

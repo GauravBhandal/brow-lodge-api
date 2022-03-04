@@ -17,6 +17,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffDocumentCategoryModel } from "../staffDocumentCategory";
 import { getFilters } from "../../components/filters";
+import { staffDocumentService } from "../staffDocument";
 
 class StaffDocumentTypeService {
   async createBulkStaffDocumentType(props: CreateBulkStaffDocumentTypeProps) {
@@ -113,6 +114,20 @@ class StaffDocumentTypeService {
     // Props
     const { id, company } = props;
 
+    // Check if this document type is used by any document
+    const staffDocuments = await staffDocumentService.getStaffDocumentByType({
+      type: id,
+      company,
+    });
+
+    // If userd, then don't allow the user to delete this
+    if (staffDocuments && staffDocuments.length > 0) {
+      throw new CustomError(
+        409,
+        StaffDocumentTypeErrorCode.STAFF_DOCUMENT_TYPE_IN_USE
+      );
+    }
+
     // Find and delete the staffDocumentType by id and company
     const staffDocumentType = await StaffDocumentTypeModel.destroy({
       where: { id, company },
@@ -198,7 +213,6 @@ class StaffDocumentTypeService {
       include,
     });
 
-    // TODO: Clean up getPagingData function
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;

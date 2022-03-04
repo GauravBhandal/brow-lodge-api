@@ -197,6 +197,26 @@ class IncidentReportService {
           ...filters["Client"],
         },
       },
+      {
+        model: StaffProfileModel,
+        through: {
+          attributes: [],
+        },
+        as: "Staff",
+        duplicating: false,
+      },
+      {
+        model: IncidentTypeModel,
+        through: {
+          attributes: [],
+        },
+        as: "Types",
+        duplicating: false,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Manager",
+      },
     ];
 
     // Count total incidentReports in the given company
@@ -221,7 +241,6 @@ class IncidentReportService {
       include,
     });
 
-    // TODO: Clean up getPagingData function
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;

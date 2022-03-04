@@ -8,9 +8,9 @@ const createRepairRequestSchema = wrapSchema({
     problem: Joi.string().required(),
     risk: Joi.string().required(),
     location: Joi.string().required(),
-    priority: Joi.string().valid("low", "medium", "high").required(),
+    priority: Joi.string().valid("Low", "Medium", "High").required(),
     status: Joi.string()
-      .valid("completed", "pending", "rejected", "scheduled")
+      .valid("Completed", "Pending", "Rejected", "Scheduled")
       .required(),
     staff: requiredUUIDSchema(),
     attachments: Joi.array()
@@ -25,9 +25,9 @@ const editRepairRequestSchema = wrapSchema({
     problem: Joi.string().required(),
     risk: Joi.string().required(),
     location: Joi.string().required(),
-    priority: Joi.string().valid("low", "medium", "high").required(),
+    priority: Joi.string().valid("Low", "Medium", "High").required(),
     status: Joi.string()
-      .valid("completed", "pending", "rejected", "scheduled")
+      .valid("Completed", "Pending", "Rejected", "Scheduled")
       .required(),
     staff: requiredUUIDSchema(),
     attachments: Joi.array()
