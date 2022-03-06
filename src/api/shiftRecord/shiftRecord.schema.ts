@@ -12,6 +12,14 @@ const typeSchema = Joi.object().keys({
   type: requiredUUIDSchema(),
 });
 
+// TODO: Add meta
+const shiftRepeatSchema = Joi.object().keys({
+  frequency: Joi.string().valid("daily", "weekly").required(),
+  every: Joi.number().min(1).required(),
+  occurrences: Joi.number().min(1),
+  endDate: Joi.date(),
+});
+
 const createShiftRecordSchema = wrapSchema({
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
@@ -19,6 +27,7 @@ const createShiftRecordSchema = wrapSchema({
     staff: Joi.string().uuid({ version: "uuidv4" }).allow(null),
     client: Joi.string().uuid({ version: "uuidv4" }).allow(null),
     types: Joi.array().items(typeSchema).required(),
+    repeat: shiftRepeatSchema,
   }),
 });
 

@@ -2,6 +2,7 @@ import { omit as _omit } from "lodash";
 
 import ShiftRecordModel from "./shiftRecord.model";
 import {
+  CreateShiftRecordInBulkProps,
   CreateShiftRecordProps,
   UpdateShiftRecordProps,
   DeleteShiftRecordProps,
@@ -18,8 +19,37 @@ import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { shiftRecordShiftTypeService } from "./shiftRecordShiftType";
 import { ShiftTypeModel } from "../shiftType";
+import { createShifts } from "../../utils/shiftGenerator";
 
 class ShiftRecordService {
+  async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
+    const createProps = createShifts(props);
+
+    const firstShift = createProps.shift();
+    const firstShiftCreated = await this.createShiftRecord(
+      _omit(firstShift, ["repeat"])
+    );
+
+    const bulkCreateProps = createProps.map((shift) => ({
+      ...shift,
+      sourceShift: firstShiftCreated.id,
+    }));
+
+    console.log("bulkCreateProps", bulkCreateProps);
+    // Create a shiftRecords in bulk
+    const shiftRecords = await ShiftRecordModel.bulkCreate(bulkCreateProps);
+
+    for (let index = 0; index < shiftRecords.length; index++) {
+      const shiftRecord = shiftRecords[index];
+      await shiftRecordShiftTypeService.createBulkShiftRecordShiftType({
+        shift: shiftRecord.id,
+        types: props.types,
+      });
+    }
+
+    return shiftRecords;
+  }
+
   async createShiftRecord(props: CreateShiftRecordProps) {
     // Create a new shiftRecord
     const shiftRecord = await ShiftRecordModel.create(props);

@@ -4,20 +4,16 @@ import { QueryParams } from "../../common/types";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { ShiftType } from "../shiftType";
+import { TypeProp } from "./shiftRecordShiftType";
 
 export interface ShiftRecord extends DefaultSchemaConfig {
-  startDateTime: Date;
-  endDateTime: Date;
+  startDateTime: string;
+  endDateTime: string;
   staff?: StaffProfile["id"];
   client?: ClientProfile["id"];
   company: Company["id"];
   Company?: Company;
   Types?: ShiftType[];
-}
-
-interface TypeProp {
-  type: ShiftType["id"];
-  startTime: Date;
 }
 
 export interface CreateShiftRecordProps {
@@ -27,6 +23,16 @@ export interface CreateShiftRecordProps {
   client: ShiftRecord["client"];
   company: ShiftRecord["company"];
   types: TypeProp[];
+}
+
+export interface CreateShiftRecordInBulkProps {
+  startDateTime: ShiftRecord["startDateTime"];
+  endDateTime: ShiftRecord["endDateTime"];
+  staff: ShiftRecord["staff"];
+  client: ShiftRecord["client"];
+  company: ShiftRecord["company"];
+  types: TypeProp[];
+  repeat: any; // TODO: Remove any
 }
 
 export interface UpdateShiftRecordProps extends CreateShiftRecordProps {

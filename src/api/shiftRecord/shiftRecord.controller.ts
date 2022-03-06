@@ -10,9 +10,15 @@ class ShiftRecordController {
       ...req.body,
     };
 
-    const shiftRecord = await shiftRecordService.createShiftRecord(props);
-
-    res.status(200).json(shiftRecord);
+    if (req.body.repeat) {
+      const shiftRecords = await shiftRecordService.createShiftRecordInBulk(
+        props
+      );
+      res.status(200).json(shiftRecords);
+    } else {
+      const shiftRecord = await shiftRecordService.createShiftRecord(props);
+      res.status(200).json(shiftRecord);
+    }
   }
 
   async updateShiftRecord(req: Request, res: Response) {
