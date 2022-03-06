@@ -856,7 +856,7 @@ INSERT INTO incident_types VALUES
     ('88569c7a-ba80-4e36-b186-5eb8de91ed85', 'Unlawful sexual or physical contact of a participant', true, now(), now()),
     ('d1569bd4-81d8-43fe-967d-1559b2a604ce', 'Sexual misconduct', true, now(), now()),
     ('1c10efe5-e02e-445c-b739-54463d4c9068', 'Unauthorised use of restrictive practice', true, now(), now()),
-    ('f21ea46f-fb78-4b14-9300-014689cccaf6', 'Sexual misconduct', false, now(), now()),
+    ('f21ea46f-fb78-4b14-9300-014689cccaf6', 'Trespassing or theft', false, now(), now()),
     ('e32bcc33-1052-4628-812b-90b8ad57238c', 'Abuse or Neglect of a participant', false, now(), now()),
     ('bc408418-4bdb-46aa-9259-a46432bbb2a7', 'Aggression physical', false, now(), now()),
     ('e73ea0cc-87f9-4ed1-9326-67b741c963b1', 'Aggression verbal', false, now(), now()),
