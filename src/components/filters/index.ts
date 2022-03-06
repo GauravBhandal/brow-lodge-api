@@ -1,4 +1,9 @@
 import { Op } from "sequelize";
+import { uniq as _uniq } from "lodash";
+
+import { UserErrorCode, userService } from "../../api/user";
+import { teamService } from "../../api/team";
+import { CustomError } from "../errors";
 
 // Helper function to get sequelize OP operation based on provided props
 const getFilterOperations = (op: string, value: string) => {
@@ -61,4 +66,108 @@ export const getFilters = (whereProps: any = {}) => {
     }
   });
   return filters;
+};
+
+// TODO: Delete this function after testing
+export const filterCientByTeams = async (
+  userId: string,
+  companyId: string,
+  response: any
+) => {
+  // Get user by id
+  const user = await userService.getUserById({
+    id: userId,
+    company: companyId,
+  });
+
+  // Throw an error if user don't exists
+  if (!user) {
+    throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+  }
+
+  // Check if the user is mapped to a staff, if not just return all the results as it is
+  if (!user.Staff) {
+    return response;
+  }
+
+  // Find all the teams this staff belongs to and check if permissions if enabled for teams
+
+  const teams = await teamService.getTeams({
+    company: companyId,
+    page: 1,
+    pageSize: 500,
+    sort: "updated:DESC",
+    where: { "Staff.id_eq": user.Staff.id, permissions_eq: "true" },
+  });
+  const clients: any = [];
+  teams.data.forEach((team: any) => {
+    if (team.Client && team.Client.length) {
+      team.Client.forEach((client: any) => {
+        clients.push(client.preferredName);
+      });
+    }
+  });
+  const uniqueClients = _uniq(clients);
+  if (uniqueClients.length > 0) {
+    const filteredResponse = response.data.filter(
+      (item: any) =>
+        item.Client.preferredName !==
+        uniqueClients.find((client) => client === item.Client.preferredName)
+    );
+    const newResponse = {
+      ...response,
+      data: filteredResponse,
+    };
+    return newResponse;
+  } else {
+    return response;
+  }
+};
+
+export const addCientFiltersByTeams = async (
+  userId: string,
+  companyId: string
+) => {
+  // Get user by id
+  const user = await userService.getUserById({
+    id: userId,
+    company: companyId,
+  });
+
+  // Throw an error if user don't exists
+  if (!user) {
+    throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
+  }
+
+  // Check if the user is mapped to a staff, if not just return all the results as it is
+  if (!user.Staff) {
+    return {};
+  }
+
+  // Find all the teams this staff belongs to and check if permissions if enabled for teams
+  const teams = await teamService.getTeams({
+    company: companyId,
+    page: 1,
+    pageSize: 500,
+    sort: "updated:DESC",
+    where: { "Staff.id_eq": user.Staff.id, permissions_eq: "true" },
+  });
+  const clients: any = [];
+  teams.data.forEach((team: any) => {
+    if (team.Client && team.Client.length) {
+      team.Client.forEach((client: any) => {
+        clients.push(client.id);
+      });
+    }
+  });
+  const uniqueClients = _uniq(clients);
+  if (uniqueClients.length === 0) {
+    return {};
+  }
+  const clientFilters = {
+    id: {
+      [Op.or]: uniqueClients,
+    },
+  };
+  return clientFilters;
 };

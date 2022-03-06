@@ -188,6 +188,11 @@ class TeamService {
         through: {
           attributes: [],
         },
+        ...(filters["Staff"] && {
+          where: {
+            ...filters["Staff"],
+          },
+        }),
         as: "Staff",
       },
       {
