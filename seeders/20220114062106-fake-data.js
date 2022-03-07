@@ -1200,36 +1200,36 @@ module.exports = {
       {}
     );
 
-    await queryInterface.bulkInsert(
-      "whs_logs",
-      [
-        {
-          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
-          date: new Date(),
-          category: "data safety sheet",
-          location: "company 1",
-          next_review_date: new Date(),
-          comments: "company 1",
-          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
-          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
-          created: new Date(),
-          updated: new Date(),
-        },
-        {
-          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
-          date: new Date(),
-          category: "data safety sheet",
-          location: "company 2",
-          next_review_date: new Date(),
-          comments: "company 2",
-          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
-          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
-          created: new Date(),
-          updated: new Date(),
-        },
-      ],
-      {}
-    );
+    // await queryInterface.bulkInsert(
+    //   "whs_logs",
+    //   [
+    //     {
+    //       id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
+    //       date: new Date(),
+    //       category: "data safety sheet",
+    //       location: "company 1",
+    //       next_review_date: new Date(),
+    //       comments: "company 1",
+    //       staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
+    //       company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+    //       created: new Date(),
+    //       updated: new Date(),
+    //     },
+    //     {
+    //       id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
+    //       date: new Date(),
+    //       category: "data safety sheet",
+    //       location: "company 2",
+    //       next_review_date: new Date(),
+    //       comments: "company 2",
+    //       staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
+    //       company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+    //       created: new Date(),
+    //       updated: new Date(),
+    //     },
+    //   ],
+    //   {}
+    // );
 
     await queryInterface.bulkInsert(
       "meeting_logs",
@@ -1521,7 +1521,7 @@ module.exports = {
     await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
     await queryInterface.bulkDelete("client_risks", null, {});
     await queryInterface.bulkDelete("meeting_logs", null, {});
-    await queryInterface.bulkDelete("whs_logs", null, {});
+    // await queryInterface.bulkDelete("whs_logs", null, {});
     await queryInterface.bulkDelete("corporate_risks", null, {});
     await queryInterface.bulkDelete("conflict_of_interests", null, {});
     await queryInterface.bulkDelete("repair_requests", null, {});
