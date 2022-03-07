@@ -135,12 +135,6 @@ class ExpenseReimbursementService {
 
     const include = [
       {
-        model: AttachmentModel,
-        through: {
-          attributes: [],
-        },
-      },
-      {
         model: CompanyModel,
       },
       {
