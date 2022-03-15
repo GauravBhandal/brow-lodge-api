@@ -14,8 +14,8 @@ const daysOfWeek = [
 
 const convertDateToMoment = (date: string) => moment(date).format();
 
-const addDaysInDate = (date: string | Date, number: number) =>
-  moment(date).add(number, "days").format();
+const addDaysInDate = (date: string | Date, number: number, type: any) =>
+  moment(date).add(number, type).format();
 
 const specificDay = (date: string, numberOfWeeks: number, day: number) =>
   moment(date).add(numberOfWeeks, "weeks").isoWeekday(day).format();
@@ -25,35 +25,30 @@ const generateShift = (date: string) => ({ shiftDate: date });
 const daysDifference = (repeatStartDate: any, repeatEndDate: any) =>
   moment(repeatEndDate).diff(moment(repeatStartDate), "days");
 
+const getMinutesDiff = (startDate: any, endDate: any) => {
+  const start = moment(startDate);
+  const end = moment(endDate);
+  return moment.duration(end.diff(start)).asMinutes();
+};
+
 const getOccurrenceswithEndDate = (
   repeatStartDate: any,
   repeatEndDate: any,
-  every: any
+  every: any,
+  frequency: any
 ) => {
+  repeatStartDate = moment(repeatStartDate).startOf("day");
   let days = daysDifference(repeatStartDate, repeatEndDate);
+  if (frequency === "weekly") {
+    days = Math.ceil(days / 7);
+  }
   days = Math.floor(days / every);
   return days + 1;
 };
 
 const isDaySelected = (data: any, value: any) => {
-  switch (value) {
-    case "sunday":
-      return data.sunday;
-    case "monday":
-      return data.monday;
-    case "tuesday":
-      return data.tuesday;
-    case "wednesday":
-      return data.wednesday;
-    case "thursday":
-      return data.thursday;
-    case "friday":
-      return data.friday;
-    case "saturday":
-      return data.saturday;
-    default:
-      return false;
-  }
+  const isDayPresent = data.repeat.days.find((day: any) => day === value);
+  return isDayPresent;
 };
 
 export const createShifts = (
@@ -68,55 +63,63 @@ export const createShifts = (
     repeat.repeatEndDate && convertDateToMoment(repeat.repeatEndDate);
   const occurrences =
     repeat.occurrences ||
-    getOccurrenceswithEndDate(repeatStartDate, repeatEndDate, every);
+    getOccurrenceswithEndDate(repeatStartDate, repeatEndDate, every, frequency);
   const finalResult = [];
 
-  console.log("data", data);
-  console.log("repeat", repeat);
-  console.log("frequency", frequency);
-  console.log("repeatStartDate", repeatStartDate);
-  console.log("repeatEndDate", repeatEndDate);
-  console.log("every", every);
-  console.log("occurrences", occurrences);
+  if (frequency === "daily") {
+    const getMinutes = getMinutesDiff(startDateTime, endDateTime);
+    for (let i = 0; i < occurrences; i++) {
+      const shiftStartDateTime = addDaysInDate(
+        repeatStartDate,
+        i * every,
+        "days"
+      );
+      const shiftEndDateTime = addDaysInDate(
+        shiftStartDateTime,
+        getMinutes,
+        "minutes"
+      );
+      finalResult.push({
+        company,
+        client,
+        staff,
+        types,
+        startDateTime: shiftStartDateTime,
+        endDateTime: shiftEndDateTime,
+        repeat,
+      });
+    }
+  } else {
+    for (let day = 0; day < 7; day++) {
+      if (isDaySelected(data, daysOfWeek[day])) {
+        const getMinutes = getMinutesDiff(startDateTime, endDateTime);
 
-  // if (frequency === "daily") {
-  for (let i = 0; i < occurrences; i++) {
-    const shiftStartDateTime = addDaysInDate(repeatStartDate, i * every);
-    const shiftEndDateTime = addDaysInDate(endDateTime, i * every);
-    finalResult.push({
-      company,
-      client,
-      staff,
-      types,
-      startDateTime: shiftStartDateTime,
-      endDateTime: shiftEndDateTime,
-      repeat,
-    });
+        for (let i = 0; i < occurrences; i++) {
+          const shiftStartDateTime = specificDay(
+            repeatStartDate,
+            i * every,
+            day
+          );
+
+          const shiftEndDateTime = addDaysInDate(
+            shiftStartDateTime,
+            getMinutes,
+            "minutes"
+          );
+          if (daysDifference(repeatStartDate, shiftStartDateTime) >= 0) {
+            finalResult.push({
+              company,
+              client,
+              staff,
+              types,
+              startDateTime: shiftStartDateTime,
+              endDateTime: shiftEndDateTime,
+              repeat,
+            });
+          }
+        }
+      }
+    }
   }
-  // }
-  // else {
-  //   for (let day = 0; day < 7; day++) {
-  //     if (isDaySelected(data, daysOfWeek[day])) {
-  //       if (data.repeat.occurrences) {
-  //         for (let i = 0; i < occurrences; i++) {
-  //           const newDate = specificDay(repeatStartDate, i * every, day);
-  //           if (daysDifference(repeatStartDate, newDate) >= 0) {
-  //             finalResult.push(generateShift(newDate));
-  //           }
-  //         }
-  //       } else {
-  //         for (let i = 0; i < 7; i++) {
-  //           const newDate = specificDay(repeatStartDate, i * every, day);
-  //           if (
-  //             daysDifference(repeatStartDate, newDate) >= 0 &&
-  //             daysDifference(newDate, repeatEndDate) >= 0
-  //           ) {
-  //             finalResult.push(generateShift(newDate));
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-  return finalResult;
+  return finalResult as any;
 };

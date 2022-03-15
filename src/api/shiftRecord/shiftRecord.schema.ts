@@ -13,12 +13,15 @@ const typeSchema = Joi.object().keys({
 });
 
 // TODO: Add meta
-const shiftRepeatSchema = Joi.object().keys({
-  frequency: Joi.string().valid("daily", "weekly").required(),
-  every: Joi.number().min(1).required(),
-  occurrences: Joi.number().min(1),
-  endDate: Joi.date(),
-});
+const shiftRepeatSchema = Joi.object()
+  .allow(null)
+  .keys({
+    frequency: Joi.string().valid("daily", "weekly").allow(null),
+    every: Joi.number().min(1).allow(null),
+    occurrences: Joi.number().min(1).allow(null),
+    repeatEndDate: Joi.date().allow(null),
+    days: Joi.array(),
+  });
 
 const createShiftRecordSchema = wrapSchema({
   body: Joi.object().keys({
