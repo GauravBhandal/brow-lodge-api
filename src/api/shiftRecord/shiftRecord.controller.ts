@@ -39,6 +39,7 @@ class ShiftRecordController {
     const props = {
       id: shiftRecordId,
       company: req.auth.companyId,
+      ...req.body,
     };
 
     await shiftRecordService.deleteShiftRecord(props);

@@ -19,6 +19,7 @@ class ShiftRecordModel<
   client: ShiftRecord["client"];
   company!: ShiftRecord["company"];
   Company: ShiftRecord["Company"];
+  repeat?: ShiftRecord["repeat"];
 }
 
 modelManager.init(
