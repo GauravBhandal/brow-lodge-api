@@ -48,8 +48,8 @@ import { incidentTypeRoutes } from "../api/incidentType";
 import { keyDecisionRoutes } from "../api/keyDecision";
 import { restrictivePracticeLogRoutes } from "../api/restrictivePracticeLog";
 import { teamRoutes } from "../api/team";
-import { shiftTypeRoutes } from "../api/shiftType";
-import { shiftRecordRoutes } from "../api/shiftRecord";
+// import { shiftTypeRoutes } from "../api/shiftType";
+// import { shiftRecordRoutes } from "../api/shiftRecord";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -101,7 +101,7 @@ router.use("/incident-type", incidentTypeRoutes);
 router.use("/key-decision", keyDecisionRoutes);
 router.use("/restrictive-practice-log", restrictivePracticeLogRoutes);
 router.use("/team", teamRoutes);
-router.use("/shift-type", shiftTypeRoutes);
-router.use("/shift-record", shiftRecordRoutes);
+// router.use("/shift-type", shiftTypeRoutes);
+// router.use("/shift-record", shiftRecordRoutes);
 
 export default router;
