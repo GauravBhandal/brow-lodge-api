@@ -71,7 +71,8 @@ class IncidentReportController {
     };
 
     const incidentReports = await incidentReportService.getIncidentReports(
-      props
+      props,
+      req.auth.userId
     );
 
     res.status(200).json(incidentReports);

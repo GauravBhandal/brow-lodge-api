@@ -15,7 +15,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class DoctorVisitService {
   async createDoctorVisit(props: CreateDoctorVisitProps) {
@@ -96,13 +96,15 @@ class DoctorVisitService {
     return doctorVisit;
   }
 
-  async getDoctorVisits(props: GetDoctorVisitsProps) {
+  async getDoctorVisits(props: GetDoctorVisitsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     const include = [
       {
@@ -120,6 +122,7 @@ class DoctorVisitService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
       },
     ];

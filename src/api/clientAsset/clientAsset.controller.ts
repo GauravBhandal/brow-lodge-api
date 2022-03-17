@@ -64,7 +64,10 @@ class ClientAssetController {
       ...queryParams,
     };
 
-    const clientAssets = await clientAssetService.getClientAssets(props);
+    const clientAssets = await clientAssetService.getClientAssets(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(clientAssets);
   }

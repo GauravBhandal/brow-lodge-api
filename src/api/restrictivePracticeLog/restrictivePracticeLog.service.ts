@@ -15,7 +15,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { restrictivePracticeLogStaffProfileService } from "./restrictivePracticeLogStaffProfile";
 
 class RestrictivePracticeLogService {
@@ -133,13 +133,18 @@ class RestrictivePracticeLogService {
     return restrictivePracticeLog;
   }
 
-  async getRestrictivePracticeLogs(props: GetRestrictivePracticeLogsProps) {
+  async getRestrictivePracticeLogs(
+    props: GetRestrictivePracticeLogsProps,
+    userId: string
+  ) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     const include = [
       {
@@ -158,6 +163,7 @@ class RestrictivePracticeLogService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
       },
     ];

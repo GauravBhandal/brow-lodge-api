@@ -64,7 +64,10 @@ class InjuryReportController {
       ...queryParams,
     };
 
-    const injuryReports = await injuryReportService.getInjuryReports(props);
+    const injuryReports = await injuryReportService.getInjuryReports(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(injuryReports);
   }

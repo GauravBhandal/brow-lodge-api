@@ -15,7 +15,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class PrnBalanceLogService {
   async createPrnBalanceLog(props: CreatePrnBalanceLogProps) {
@@ -105,13 +105,15 @@ class PrnBalanceLogService {
     return prnBalanceLog;
   }
 
-  async getPrnBalanceLogs(props: GetPrnBalanceLogsProps) {
+  async getPrnBalanceLogs(props: GetPrnBalanceLogsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     const include = [
       {
@@ -129,6 +131,7 @@ class PrnBalanceLogService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
       },
     ];

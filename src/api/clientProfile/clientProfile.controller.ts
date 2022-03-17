@@ -66,7 +66,10 @@ class ClientProfileController {
       ...queryParams,
     };
 
-    const clientProfiles = await clientProfileService.getClientProfiles(props);
+    const clientProfiles = await clientProfileService.getClientProfiles(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(clientProfiles);
   }

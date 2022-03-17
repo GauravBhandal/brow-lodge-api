@@ -64,7 +64,10 @@ class SleepLogController {
       ...queryParams,
     };
 
-    const sleepLogs = await sleepLogService.getSleepLogs(props);
+    const sleepLogs = await sleepLogService.getSleepLogs(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(sleepLogs);
   }

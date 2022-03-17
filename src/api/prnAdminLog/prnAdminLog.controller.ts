@@ -64,7 +64,10 @@ class PrnAdminLogController {
       ...queryParams,
     };
 
-    const prnAdminLogs = await prnAdminLogService.getPrnAdminLogs(props);
+    const prnAdminLogs = await prnAdminLogService.getPrnAdminLogs(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(prnAdminLogs);
   }

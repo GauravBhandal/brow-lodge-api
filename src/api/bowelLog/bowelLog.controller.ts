@@ -64,7 +64,10 @@ class BowelLogController {
       ...queryParams,
     };
 
-    const bowelLogs = await bowelLogService.getBowelLogs(props);
+    const bowelLogs = await bowelLogService.getBowelLogs(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(bowelLogs);
   }
