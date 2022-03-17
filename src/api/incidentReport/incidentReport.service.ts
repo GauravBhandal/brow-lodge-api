@@ -191,6 +191,8 @@ class IncidentReportService {
     const include = [
       {
         model: CompanyModel,
+        duplicating: true,
+        required: true,
       },
       {
         model: ClientProfileModel,
@@ -199,14 +201,20 @@ class IncidentReportService {
           ...filters["Client"],
           ...clientFilters,
         },
+        duplicating: true,
+        required: true,
       },
       {
         model: StaffProfileModel,
         through: {
           attributes: [],
         },
+        where: {
+          ...filters["Staff"],
+        },
         as: "Staff",
-        duplicating: false,
+        duplicating: true,
+        required: true,
       },
       {
         model: IncidentTypeModel,
@@ -214,11 +222,13 @@ class IncidentReportService {
           attributes: [],
         },
         as: "Types",
-        duplicating: false,
+        duplicating: true,
+        required: true,
       },
       {
         model: StaffProfileModel,
         as: "Manager",
+        duplicating: true,
       },
     ];
 

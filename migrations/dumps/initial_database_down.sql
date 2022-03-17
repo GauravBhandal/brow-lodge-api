@@ -1,200 +1,186 @@
--- 60. DROP expense_reimbursements_attachments table
+-- 56. DROP expense_reimbursements_attachments table
 ALTER TABLE "expense_reimbursements_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "expense_reimbursements_attachments";
 
--- 59. DROP restrictive_practice_logs_staff_profiles table
+-- 55. DROP restrictive_practice_logs_staff_profiles table
 ALTER TABLE "restrictive_practice_logs_staff_profiles" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "restrictive_practice_logs_staff_profiles";
 
--- 58. DROP restrictive_practice_logs table
+-- 54. DROP restrictive_practice_logs table
 ALTER TABLE "restrictive_practice_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "restrictive_practice_logs";
 
--- 57. DROP key_decisions table
+-- 53. DROP key_decisions table
 ALTER TABLE "key_decisions" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "key_decisions";
 
--- 56. DROP incident_reports_attachments table
+-- 52. DROP incident_reports_attachments table
 ALTER TABLE "incident_reports_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "incident_reports_attachments";
 
--- 55. DROP incident_reports_incident_types table
+-- 51. DROP incident_reports_incident_types table
 ALTER TABLE "incident_reports_incident_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "incident_reports_incident_types";
 
--- 54. DROP incident_reports_staff_profiles table
+-- 50. DROP incident_reports_staff_profiles table
 ALTER TABLE "incident_reports_staff_profiles" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "incident_reports_staff_profiles";
 
--- 53. DROP incident_reports table
+-- 49. DROP incident_reports table
 ALTER TABLE "incident_reports" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "incident_reports";
 
--- 52. DROP incident_types table
+-- 48. DROP incident_types table
 DELETE FROM "incident_types";
 ALTER TABLE "incident_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "incident_types";
 
--- 51. DROP whs_logs_attachments table
-ALTER TABLE "whs_logs_attachments" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "whs_logs_attachments";
-
--- 50. DROP staff_documents_attachments table
+-- 47. DROP staff_documents_attachments table
 ALTER TABLE "staff_documents_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "staff_documents_attachments";
 
--- 49. DROP staff_documents table
+-- 46. DROP staff_documents table
 ALTER TABLE "staff_documents" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "staff_documents";
 
--- 48. DROP staff_document_types table
+-- 45. DROP staff_document_types table
 ALTER TABLE "staff_document_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "staff_document_types";
 
--- 47. DROP staff_document_categories table
+-- 44. DROP staff_document_categories table
 ALTER TABLE "staff_document_categories" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "staff_document_categories";
 
--- 46. DROP client_documents_attachments table
+-- 43. DROP client_documents_attachments table
 ALTER TABLE "client_documents_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "client_documents_attachments";
 
--- 45. DROP client_documents table
+-- 42. DROP client_documents table
 ALTER TABLE "client_documents" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "client_documents";
 
--- 44. DROP client_document_types table
+-- 41. DROP client_document_types table
 ALTER TABLE "client_document_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "client_document_types";
 
--- 43. DROP client_document_categories table
+-- 40. DROP client_document_categories table
 ALTER TABLE "client_document_categories" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "client_document_categories";
 
--- 42. DROP repair_requests_attachments table
+-- 39. DROP repair_requests_attachments table
 ALTER TABLE "repair_requests_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "repair_requests_attachments";
 
--- 41. DROP lease_and_utility_logs_attachments table
+-- 38. DROP lease_and_utility_logs_attachments table
 ALTER TABLE "lease_and_utility_logs_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "lease_and_utility_logs_attachments";
 
--- 40. DROP maintenance_logs_attachments table
+-- 37. DROP maintenance_logs_attachments table
 ALTER TABLE "maintenance_logs_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "maintenance_logs_attachments";
 
--- 39. DROP injury_reports_attachments table
+-- 36. DROP injury_reports_attachments table
 ALTER TABLE "injury_reports_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "injury_reports_attachments";
 
--- 38. DROP attachment from companies table
+-- 35. DROP attachment from companies table
 ALTER TABLE "companies" DROP CONSTRAINT "fk_companies_attachments";
 
--- 37. DROP feedbacks table
+-- 34. DROP feedbacks table
 ALTER TABLE "feedbacks" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "feedbacks";
 
--- 36. DROP maintenance_logs table
+-- 33. DROP maintenance_logs table
 ALTER TABLE "maintenance_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "maintenance_logs";
 
--- 35. DROP lease_and_utility_logs table
+-- 32. DROP lease_and_utility_logs table
 ALTER TABLE "lease_and_utility_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "lease_and_utility_logs";
 
--- 34. DROP attachments table
+-- 31. DROP attachments table
 ALTER TABLE "attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "attachments";
 
--- 33. DROP resources table
+-- 30. DROP resources table
 ALTER TABLE "resources" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "resources";
 
--- 32. DROP staff_sleep_disturbances table
+-- 29. DROP staff_sleep_disturbances table
 ALTER TABLE "staff_sleep_disturbances" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "staff_sleep_disturbances";
 
--- 31. DROP client_risks table
+-- 28. DROP client_risks table
 ALTER TABLE "client_risks" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "client_risks";
 
--- 30. DROP meeting_logs table
+-- 27. DROP meeting_logs table
 ALTER TABLE "meeting_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "meeting_logs";
 
--- 29. DROP whs_logs table
-ALTER TABLE "whs_logs" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "whs_logs";
-
--- 28. DROP corporate_risks table
+-- 26. DROP corporate_risks table
 ALTER TABLE "corporate_risks" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "corporate_risks";
 
--- 27. DROP conflict_of_interests table
+-- 25. DROP conflict_of_interests table
 ALTER TABLE "conflict_of_interests" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "conflict_of_interests";
 
--- 26. DROP repair_requests table
+-- 24. DROP repair_requests table
 ALTER TABLE "repair_requests" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "repair_requests";
 
--- 25. DROP company_assets table
+-- 23. DROP company_assets table
 ALTER TABLE "company_assets" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "company_assets";
 
--- 24. DROP client_assets table
+-- 22. DROP client_assets table
 ALTER TABLE "client_assets" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "client_assets";
 
--- 23. DROP doctor_visits table
+-- 21. DROP doctor_visits table
 ALTER TABLE "doctor_visits" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "doctor_visits";
 
--- 22. DROP expense_reimbursements table
+-- 20. DROP expense_reimbursements table
 ALTER TABLE "expense_reimbursements" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "expense_reimbursements";
 
--- 21. DROP injury_reports table
+-- 19. DROP injury_reports table
 ALTER TABLE "injury_reports" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "injury_reports";
 
--- 20. DROP vehicle_logs table
+-- 18. DROP vehicle_logs table
 ALTER TABLE "vehicle_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "vehicle_logs";
 
--- 19.  transport_behaviours table deleted
-
--- 18. DROP client_behaviours table
+-- 17. DROP client_behaviours table
 ALTER TABLE "client_behaviours" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "client_behaviours";
 
--- 17. DROP prn_balance_logs table
+-- 16. DROP prn_balance_logs table
 ALTER TABLE "prn_balance_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "prn_balance_logs";
 
--- 16. DROP prn_admin_logs table
+-- 15. DROP prn_admin_logs table
 ALTER TABLE "prn_admin_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "prn_admin_logs";
 
--- 15. DROP seizure_logs table
+-- 14. DROP seizure_logs table
 ALTER TABLE "seizure_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "seizure_logs";
 
--- 14. DROP oxygen_saturation_logs table
+-- 13. DROP oxygen_saturation_logs table
 ALTER TABLE "oxygen_saturation_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "oxygen_saturation_logs";
 
--- 13. DROP weight_logs table
+-- 12. DROP weight_logs table
 ALTER TABLE "weight_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "weight_logs";
 
--- 12. DROP temperature_logs table
+-- 11. DROP temperature_logs table
 ALTER TABLE "temperature_logs" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "temperature_logs";
-
--- 11. DROP sleep_logs table
--- ALTER TABLE "sleep_logs" DISABLE ROW LEVEL SECURITY;
--- DROP TABLE IF EXISTS "sleep_logs";
 
 -- 10. Create blood_pressure_logs table
 ALTER TABLE "blood_pressure_logs" DISABLE ROW LEVEL SECURITY;

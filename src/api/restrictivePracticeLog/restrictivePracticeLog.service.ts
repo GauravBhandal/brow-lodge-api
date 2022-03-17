@@ -149,14 +149,20 @@ class RestrictivePracticeLogService {
     const include = [
       {
         model: CompanyModel,
+        duplicating: true,
+        required: true,
       },
       {
         model: StaffProfileModel,
         through: {
           attributes: [],
         },
+        where: {
+          ...filters["Staff"],
+        },
         as: "Staff",
-        duplicating: false,
+        duplicating: true,
+        required: true,
       },
       {
         model: ClientProfileModel,
@@ -165,6 +171,8 @@ class RestrictivePracticeLogService {
           ...filters["Client"],
           ...clientFilters,
         },
+        duplicating: true,
+        required: true,
       },
     ];
 
