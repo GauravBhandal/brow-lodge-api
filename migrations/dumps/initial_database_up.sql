@@ -187,24 +187,7 @@ CREATE TABLE IF NOT EXISTS "blood_pressure_logs"(
 );
 ALTER TABLE "blood_pressure_logs" ENABLE ROW LEVEL SECURITY;
 
- -- 11. Create sleep_logs table
--- CREATE TABLE IF NOT EXISTS "sleep_logs"(
---     "id" UUID NOT NULL,
---     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "time" TIME WITHOUT TIME ZONE NOT NULL,
---     "activity" VARCHAR (255) NOT NULL,
---     "comments" VARCHAR,
---     "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
---     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
---     "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
---     "created" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
---     "deleted" TIMESTAMP WITH TIME ZONE,
---     PRIMARY KEY ("id")
--- );
--- ALTER TABLE "sleep_logs" ENABLE ROW LEVEL SECURITY;
-
--- 12. Create temperature_logs table
+-- 11. Create temperature_logs table
 CREATE TABLE IF NOT EXISTS "temperature_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -221,7 +204,7 @@ CREATE TABLE IF NOT EXISTS "temperature_logs" (
 );
 ALTER TABLE "temperature_logs" ENABLE ROW LEVEL SECURITY;
 
--- 13. Create weight_logs table
+-- 12. Create weight_logs table
 CREATE TABLE IF NOT EXISTS "weight_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -238,7 +221,7 @@ CREATE TABLE IF NOT EXISTS "weight_logs" (
 );
 ALTER TABLE "weight_logs" ENABLE ROW LEVEL SECURITY;
 
--- 14. Create oxygen_saturation_logs table
+-- 13. Create oxygen_saturation_logs table
 CREATE TABLE IF NOT EXISTS "oxygen_saturation_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -260,7 +243,7 @@ CREATE TABLE IF NOT EXISTS "oxygen_saturation_logs" (
 );
 ALTER TABLE "oxygen_saturation_logs" ENABLE ROW LEVEL SECURITY;
 
--- 15. Create seizure_logs table
+-- 14. Create seizure_logs table
 CREATE TABLE IF NOT EXISTS "seizure_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -279,7 +262,7 @@ CREATE TABLE IF NOT EXISTS "seizure_logs" (
 );
 ALTER TABLE "seizure_logs" ENABLE ROW LEVEL SECURITY;
 
--- 16. Create prn_admin_logs table
+-- 15. Create prn_admin_logs table
 CREATE TABLE IF NOT EXISTS "prn_admin_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -298,7 +281,7 @@ CREATE TABLE IF NOT EXISTS "prn_admin_logs" (
 );
 ALTER TABLE "prn_admin_logs" ENABLE ROW LEVEL SECURITY;
 
--- 17. Create prn_balance_logs table
+-- 16. Create prn_balance_logs table
 CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -315,7 +298,7 @@ CREATE TABLE IF NOT EXISTS "prn_balance_logs" (
 );
 ALTER TABLE "prn_balance_logs" ENABLE ROW LEVEL SECURITY;
 
--- 18. Create client_behaviours table
+-- 17. Create client_behaviours table
 CREATE TABLE IF NOT EXISTS "client_behaviours" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -334,9 +317,7 @@ CREATE TABLE IF NOT EXISTS "client_behaviours" (
 );
 ALTER TABLE "client_behaviours" ENABLE ROW LEVEL SECURITY;
 
--- 19. Transport behaviour logs deleted
-
--- 20. Create vehicle_logs table
+-- 18. Create vehicle_logs table
 CREATE TABLE IF NOT EXISTS "vehicle_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -357,7 +338,7 @@ CREATE TABLE IF NOT EXISTS "vehicle_logs" (
 );
 ALTER TABLE "vehicle_logs" ENABLE ROW LEVEL SECURITY;
 
--- 21. Create injury_reports table
+-- 19. Create injury_reports table
 CREATE TABLE IF NOT EXISTS "injury_reports" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -373,7 +354,7 @@ CREATE TABLE IF NOT EXISTS "injury_reports" (
 );
 ALTER TABLE "injury_reports" ENABLE ROW LEVEL SECURITY;
 
--- 22. Create expense_reimbursements table
+-- 20. Create expense_reimbursements table
 CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -390,7 +371,7 @@ CREATE TABLE IF NOT EXISTS "expense_reimbursements" (
 );
 ALTER TABLE "expense_reimbursements" ENABLE ROW LEVEL SECURITY;
 
--- 23. Create doctor_visits table
+-- 21. Create doctor_visits table
 CREATE TABLE IF NOT EXISTS "doctor_visits" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -412,7 +393,7 @@ CREATE TABLE IF NOT EXISTS "doctor_visits" (
 );
 ALTER TABLE "doctor_visits" ENABLE ROW LEVEL SECURITY;
 
--- 24. Create client_assets table
+-- 22. Create client_assets table
 CREATE TABLE IF NOT EXISTS "client_assets" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -429,7 +410,7 @@ CREATE TABLE IF NOT EXISTS "client_assets" (
 );
 ALTER TABLE "client_assets" ENABLE ROW LEVEL SECURITY;
 
--- 25. Create company_assets table
+-- 23. Create company_assets table
 CREATE TABLE IF NOT EXISTS "company_assets" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -445,7 +426,7 @@ CREATE TABLE IF NOT EXISTS "company_assets" (
 );
 ALTER TABLE "company_assets" ENABLE ROW LEVEL SECURITY;
 
--- 26. Create repair_requests table
+-- 24. Create repair_requests table
 CREATE TABLE IF NOT EXISTS "repair_requests" (
     "id" UUID NOT NULL,
     "problem" VARCHAR NOT NULL,
@@ -462,7 +443,7 @@ CREATE TABLE IF NOT EXISTS "repair_requests" (
 );
 ALTER TABLE "repair_requests" ENABLE ROW LEVEL SECURITY;
 
--- 27. Create conflict_of_interests table
+-- 25. Create conflict_of_interests table
 CREATE TABLE IF NOT EXISTS "conflict_of_interests" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -477,7 +458,7 @@ CREATE TABLE IF NOT EXISTS "conflict_of_interests" (
 );
 ALTER TABLE "conflict_of_interests" ENABLE ROW LEVEL SECURITY;
 
--- 28. Create corporate_risks table
+-- 26. Create corporate_risks table
 CREATE TABLE IF NOT EXISTS "corporate_risks" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -496,24 +477,7 @@ CREATE TABLE IF NOT EXISTS "corporate_risks" (
 );
 ALTER TABLE "corporate_risks" ENABLE ROW LEVEL SECURITY;
 
--- 29. Create whs_logs table
-CREATE TABLE IF NOT EXISTS "whs_logs" (
-    "id" UUID NOT NULL,
-    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "category" VARCHAR NOT NULL,
-    "location" VARCHAR ,
-    "next_review_date" TIMESTAMP WITH TIME ZONE,
-    "comments" VARCHAR ,
-    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "deleted" TIMESTAMP WITH TIME ZONE,
-    PRIMARY KEY ("id")
-);
-ALTER TABLE "whs_logs" ENABLE ROW LEVEL SECURITY;
-
--- 30. Create meeting_logs table
+-- 27. Create meeting_logs table
 CREATE TABLE IF NOT EXISTS "meeting_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -537,7 +501,7 @@ CREATE TABLE IF NOT EXISTS "meeting_logs" (
 );
 ALTER TABLE "meeting_logs" ENABLE ROW LEVEL SECURITY;
 
--- 31. Create client_risks table
+-- 28. Create client_risks table
 CREATE TABLE IF NOT EXISTS "client_risks" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -557,7 +521,7 @@ CREATE TABLE IF NOT EXISTS "client_risks" (
 );
 ALTER TABLE "client_risks" ENABLE ROW LEVEL SECURITY;
 
--- 32. Create staff_sleep_disturbances table
+-- 29. Create staff_sleep_disturbances table
 CREATE TABLE IF NOT EXISTS "staff_sleep_disturbances" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -576,7 +540,7 @@ CREATE TABLE IF NOT EXISTS "staff_sleep_disturbances" (
 );
 ALTER TABLE "staff_sleep_disturbances" ENABLE ROW LEVEL SECURITY;
 
--- 33. Create resources table
+-- 30. Create resources table
 CREATE TABLE IF NOT EXISTS "resources" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -595,7 +559,7 @@ CREATE TABLE IF NOT EXISTS "resources" (
 );
 ALTER TABLE "resources" ENABLE ROW LEVEL SECURITY;
 
--- 34. Create attachments table
+-- 31. Create attachments table
 CREATE TABLE IF NOT EXISTS "attachments" (
     "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
@@ -609,7 +573,7 @@ CREATE TABLE IF NOT EXISTS "attachments" (
 );
 ALTER TABLE "attachments" ENABLE ROW LEVEL SECURITY;
 
--- 35. Create lease_and_utility_logs table
+-- 32. Create lease_and_utility_logs table
 CREATE TABLE IF NOT EXISTS "lease_and_utility_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -625,7 +589,7 @@ CREATE TABLE IF NOT EXISTS "lease_and_utility_logs" (
 );
 ALTER TABLE "lease_and_utility_logs" ENABLE ROW LEVEL SECURITY;
 
--- 36. Create  maintenance_logs table
+-- 33. Create  maintenance_logs table
 CREATE TABLE IF NOT EXISTS "maintenance_logs" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -642,7 +606,7 @@ CREATE TABLE IF NOT EXISTS "maintenance_logs" (
 );
 ALTER TABLE "maintenance_logs" ENABLE ROW LEVEL SECURITY;
 
--- 37. Create  feedbacks table
+-- 34. Create  feedbacks table
 CREATE TABLE IF NOT EXISTS "feedbacks" (
     "id" UUID NOT NULL,
     "date_reported" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -666,11 +630,11 @@ CREATE TABLE IF NOT EXISTS "feedbacks" (
 );
 ALTER TABLE "feedbacks" ENABLE ROW LEVEL SECURITY;
 
--- 38. Add attachment to companies table
+-- 35. Add attachment to companies table
 ALTER TABLE "companies" ADD CONSTRAINT "fk_companies_attachments" 
 FOREIGN KEY ("attachment") REFERENCES "attachments"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
--- 39. Create injury_reports_attachments table
+-- 36. Create injury_reports_attachments table
 CREATE TABLE IF NOT EXISTS "injury_reports_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "injury_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -682,7 +646,7 @@ CREATE TABLE IF NOT EXISTS "injury_reports_attachments" (
 );
 ALTER TABLE "injury_reports_attachments" ENABLE ROW LEVEL SECURITY;
 
--- 40. Create maintenance_logs_attachments table
+-- 37. Create maintenance_logs_attachments table
 CREATE TABLE IF NOT EXISTS "maintenance_logs_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "maintenance_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -694,7 +658,7 @@ CREATE TABLE IF NOT EXISTS "maintenance_logs_attachments" (
 );
 ALTER TABLE "maintenance_logs_attachments" ENABLE ROW LEVEL SECURITY;
 
--- 41. Create lease_and_utility_logs_attachments table
+-- 38. Create lease_and_utility_logs_attachments table
 CREATE TABLE IF NOT EXISTS "lease_and_utility_logs_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "lease_and_utility_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -706,7 +670,7 @@ CREATE TABLE IF NOT EXISTS "lease_and_utility_logs_attachments" (
 );
 ALTER TABLE "lease_and_utility_logs_attachments" ENABLE ROW LEVEL SECURITY;
 
--- 42. Create repair_requests_attachments table
+-- 39. Create repair_requests_attachments table
 CREATE TABLE IF NOT EXISTS "repair_requests_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "repair_requests" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -718,7 +682,7 @@ CREATE TABLE IF NOT EXISTS "repair_requests_attachments" (
 );
 ALTER TABLE "repair_requests_attachments" ENABLE ROW LEVEL SECURITY;
 
--- 43. Create client_document_categories table
+-- 40. Create client_document_categories table
 CREATE TABLE IF NOT EXISTS "client_document_categories" (
     "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
@@ -730,7 +694,7 @@ CREATE TABLE IF NOT EXISTS "client_document_categories" (
 );
 ALTER TABLE "client_document_categories" ENABLE ROW LEVEL SECURITY;
 
--- 44. Create client_document_types table
+-- 41. Create client_document_types table
 CREATE TABLE IF NOT EXISTS "client_document_types" (
     "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
@@ -743,7 +707,7 @@ CREATE TABLE IF NOT EXISTS "client_document_types" (
 );
 ALTER TABLE "client_document_types" ENABLE ROW LEVEL SECURITY;
 
--- 45. Create client_documents table
+-- 42. Create client_documents table
 CREATE TABLE IF NOT EXISTS "client_documents" (
     "id" UUID NOT NULL,
     "comments" VARCHAR,
@@ -760,7 +724,7 @@ CREATE TABLE IF NOT EXISTS "client_documents" (
 );
 ALTER TABLE "client_documents" ENABLE ROW LEVEL SECURITY;
 
--- 46. Create client_documents_attachments table
+-- 43. Create client_documents_attachments table
 CREATE TABLE IF NOT EXISTS "client_documents_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "client_documents" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -772,7 +736,7 @@ CREATE TABLE IF NOT EXISTS "client_documents_attachments" (
 );
 ALTER TABLE "client_documents_attachments" ENABLE ROW LEVEL SECURITY;
 
--- 47. Create staff_document_categories table
+-- 44. Create staff_document_categories table
 CREATE TABLE IF NOT EXISTS "staff_document_categories" (
     "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
@@ -784,7 +748,7 @@ CREATE TABLE IF NOT EXISTS "staff_document_categories" (
 );
 ALTER TABLE "staff_document_categories" ENABLE ROW LEVEL SECURITY;
 
--- 48. Create staff_document_types table
+-- 45. Create staff_document_types table
 CREATE TABLE IF NOT EXISTS "staff_document_types" (
     "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
@@ -797,7 +761,7 @@ CREATE TABLE IF NOT EXISTS "staff_document_types" (
 );
 ALTER TABLE "staff_document_types" ENABLE ROW LEVEL SECURITY;
 
--- 49. Create staff_documents table
+-- 46. Create staff_documents table
 CREATE TABLE IF NOT EXISTS "staff_documents" (
     "id" UUID NOT NULL,
     "comments" VARCHAR,
@@ -814,7 +778,7 @@ CREATE TABLE IF NOT EXISTS "staff_documents" (
 );
 ALTER TABLE "staff_documents" ENABLE ROW LEVEL SECURITY;
 
--- 50. Create staff_documents_attachments table
+-- 47. Create staff_documents_attachments table
 CREATE TABLE IF NOT EXISTS "staff_documents_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "staff_documents" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -826,19 +790,7 @@ CREATE TABLE IF NOT EXISTS "staff_documents_attachments" (
 );
 ALTER TABLE "staff_documents_attachments" ENABLE ROW LEVEL SECURITY;
 
--- 51. Create whs_logs_attachments table
-CREATE TABLE IF NOT EXISTS "whs_logs_attachments" (
-    "id" UUID NOT NULL,
-    "relation" UUID NOT NULL REFERENCES "whs_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "attachment" UUID NOT NULL REFERENCES "attachments" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "deleted" TIMESTAMP WITH TIME ZONE,
-    PRIMARY KEY ("id")
-);
-ALTER TABLE "whs_logs_attachments" ENABLE ROW LEVEL SECURITY;
-
--- 52. Create incident_types table
+-- 48. Create incident_types table
 CREATE TABLE IF NOT EXISTS "incident_types" (
   "id" UUID NOT NULL,
   "type" VARCHAR NOT NULL,
@@ -856,8 +808,6 @@ INSERT INTO incident_types VALUES
     ('88569c7a-ba80-4e36-b186-5eb8de91ed85', 'Unlawful sexual or physical contact of a participant', true, now(), now()),
     ('d1569bd4-81d8-43fe-967d-1559b2a604ce', 'Sexual misconduct', true, now(), now()),
     ('1c10efe5-e02e-445c-b739-54463d4c9068', 'Unauthorised use of restrictive practice', true, now(), now()),
-    ('f21ea46f-fb78-4b14-9300-014689cccaf6', 'Sexual misconduct', false, now(), now()),
-    ('e32bcc33-1052-4628-812b-90b8ad57238c', 'Abuse or Neglect of a participant', false, now(), now()),
     ('bc408418-4bdb-46aa-9259-a46432bbb2a7', 'Aggression physical', false, now(), now()),
     ('e73ea0cc-87f9-4ed1-9326-67b741c963b1', 'Aggression verbal', false, now(), now()),
     ('c8db8090-b944-4309-8d75-b98dd8deb4ea', 'Confidentiality breach', false, now(), now()),
@@ -871,10 +821,11 @@ INSERT INTO incident_types VALUES
     ('e33294c0-4ab3-4ad8-b90f-16004355c6b1', 'Medication refusal by participant', false, now(), now()),
     ('9ed9920c-d03a-4df7-a978-7139d2c77e57', 'Motor vehicle incident', false, now(), now()),
     ('5486bcea-6b80-43b7-99af-e4cbc1d081a6', 'Near miss incident', false, now(), now()),
+    ('f21ea46f-fb78-4b14-9300-014689cccaf6', 'Trespassing or theft', false, now(), now()),
     ('22df1342-e010-4f10-aea8-ebba2588c424', 'Unsafe behaviour', false, now(), now()),
 	('9781d6b4-6f6c-4041-a0eb-cb9e301d3e80', 'Other', false, now(), now());
 
--- 53. Create incident_reports table
+-- 49. Create incident_reports table
 CREATE TABLE IF NOT EXISTS "incident_reports" (
     "id" UUID NOT NULL,
     "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -900,7 +851,7 @@ CREATE TABLE IF NOT EXISTS "incident_reports" (
 );
 ALTER TABLE "incident_reports" ENABLE ROW LEVEL SECURITY;
 
--- 54. Create incident_reports_staff_profiles table
+-- 50. Create incident_reports_staff_profiles table
 CREATE TABLE IF NOT EXISTS "incident_reports_staff_profiles" (
   "id" UUID NOT NULL,
   "incident" UUID NOT NULL REFERENCES "incident_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -912,7 +863,7 @@ CREATE TABLE IF NOT EXISTS "incident_reports_staff_profiles" (
 );
 ALTER TABLE "incident_reports_staff_profiles" ENABLE ROW LEVEL SECURITY;
 
--- 55. Create incident_reports_incident_types table
+-- 51. Create incident_reports_incident_types table
 CREATE TABLE IF NOT EXISTS "incident_reports_incident_types" (
   "id" UUID NOT NULL,
   "incident" UUID NOT NULL REFERENCES "incident_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -924,7 +875,7 @@ CREATE TABLE IF NOT EXISTS "incident_reports_incident_types" (
 );
 ALTER TABLE "incident_reports_incident_types" ENABLE ROW LEVEL SECURITY;
 
--- 56. Create incident_reports_attachments table
+-- 52. Create incident_reports_attachments table
 CREATE TABLE IF NOT EXISTS "incident_reports_attachments" (
     "id" UUID NOT NULL,
     "relation" UUID NOT NULL REFERENCES "incident_reports" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -936,7 +887,7 @@ CREATE TABLE IF NOT EXISTS "incident_reports_attachments" (
 );
 ALTER TABLE "incident_reports_attachments" ENABLE ROW LEVEL SECURITY;
 
--- 57. Create key_decisions table
+-- 53. Create key_decisions table
 CREATE TABLE IF NOT EXISTS "key_decisions" (
   "id" UUID NOT NULL,
   "date" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -953,7 +904,7 @@ CREATE TABLE IF NOT EXISTS "key_decisions" (
 );
 ALTER TABLE "key_decisions" ENABLE ROW LEVEL SECURITY;
 
--- 58. Create restrictive_practice_logs table
+-- 54. Create restrictive_practice_logs table
 CREATE TABLE IF NOT EXISTS "restrictive_practice_logs" (
   "id" UUID NOT NULL,
   "is_authorised" VARCHAR NOT NULL,
@@ -982,7 +933,7 @@ CREATE TABLE IF NOT EXISTS "restrictive_practice_logs" (
 );
 ALTER TABLE "restrictive_practice_logs" ENABLE ROW LEVEL SECURITY;
 
--- 59. Create restrictive_practice_logs_staff_profiles table
+-- 55. Create restrictive_practice_logs_staff_profiles table
 CREATE TABLE IF NOT EXISTS "restrictive_practice_logs_staff_profiles" (
   "id" UUID NOT NULL,
   "relation" UUID NOT NULL REFERENCES "restrictive_practice_logs" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -994,7 +945,7 @@ CREATE TABLE IF NOT EXISTS "restrictive_practice_logs_staff_profiles" (
 );
 ALTER TABLE "restrictive_practice_logs_staff_profiles" ENABLE ROW LEVEL SECURITY;
 
--- 60. Create expense_reimbursements_attachments table
+-- 56. Create expense_reimbursements_attachments table
 CREATE TABLE IF NOT EXISTS "expense_reimbursements_attachments" (
   "id" UUID NOT NULL,
   "relation" UUID NOT NULL REFERENCES "expense_reimbursements" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
