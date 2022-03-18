@@ -8,6 +8,7 @@ import {
   DeleteTeamProps,
   GetTeamByIdProps,
   GetTeamsProps,
+  UpdateTeamPermissionsProps,
 } from "./team.types";
 import { CustomError } from "../../components/errors";
 import TeamErrorCode from "./team.error";
@@ -229,6 +230,20 @@ class TeamService {
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;
+  }
+
+  async updateTeamPermissions(props: UpdateTeamPermissionsProps) {
+    const { permissions, company } = props;
+
+    // Finally, update the team
+    const [, [updatedTeams]] = await TeamModel.update(
+      { permissions },
+      {
+        where: { company },
+        returning: true,
+      }
+    );
+    return updatedTeams;
   }
 }
 

@@ -34,3 +34,7 @@ export interface GetTeamByIdProps extends DeleteTeamProps {}
 export interface GetTeamsProps extends QueryParams {
   company: Team["company"];
 }
+export interface UpdateTeamPermissionsProps {
+  company: Team["company"];
+  permissions: boolean;
+}

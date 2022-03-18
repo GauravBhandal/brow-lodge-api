@@ -12,6 +12,7 @@ const createTeamSchema = wrapSchema({
     client: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
+    permissions: Joi.bool().required(),
   }),
 });
 
@@ -40,6 +41,12 @@ const getTeamByIdSchema = wrapSchema({
   }),
 });
 
+const updateTeamPermissionsSchema = wrapSchema({
+  body: Joi.object().keys({
+    permissions: Joi.bool().required(),
+  }),
+});
+
 const getTeamSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
@@ -52,6 +59,7 @@ const getTeamSchema = wrapSchema({
 export default {
   createTeam: joiMiddleware(createTeamSchema),
   editTeam: joiMiddleware(editTeamSchema),
+  updateTeamPermissions: joiMiddleware(updateTeamPermissionsSchema),
   deleteTeam: joiMiddleware(deleteTeamSchema),
   getTeamById: joiMiddleware(getTeamByIdSchema),
   getTeams: joiMiddleware(getTeamSchema),

@@ -15,6 +15,13 @@ router.post(
 );
 
 router.put(
+  "/permissions",
+  canDo("update", "team"),
+  teamSchems.updateTeamPermissions,
+  catchWrap(controller.updateTeamPermissions)
+);
+
+router.put(
   "/:teamId",
   canDo("update", "team"),
   teamSchems.editTeam,
