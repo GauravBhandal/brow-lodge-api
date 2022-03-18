@@ -46,6 +46,7 @@ import { RestrictivePracticeLogModel } from "../../api/restrictivePracticeLog";
 import { TeamModel } from "../../api/team";
 import { ShiftTypeModel } from "../../api/shiftType";
 import { ShiftRecordModel } from "../../api/shiftRecord";
+import { ShiftRepeatModel } from "../../api/shiftRepeat";
 
 export default {
   initialize() {
@@ -95,6 +96,7 @@ export default {
     initializeRestrictivePracticeLogModelAssociations();
     initializeTeamModelAssociations();
     initializeShiftTypeModelAssociations();
+    initializeShiftRepeatModelAssociations();
     initializeShiftRecordModelAssociations();
   },
 };
@@ -744,6 +746,12 @@ function initializeShiftTypeModelAssociations() {
   });
 }
 
+function initializeShiftRepeatModelAssociations() {
+  ShiftRepeatModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
 function initializeShiftRecordModelAssociations() {
   ShiftRecordModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -760,5 +768,11 @@ function initializeShiftRecordModelAssociations() {
     through: "shift_records_shift_types",
     foreignKey: "shift",
     otherKey: "type",
+  });
+  ShiftRecordModel.belongsTo(ShiftRepeatModel, {
+    foreignKey: {
+      name: "repeat",
+    },
+    as: "Repeat",
   });
 }

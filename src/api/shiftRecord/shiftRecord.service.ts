@@ -1,7 +1,9 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import ShiftRecordModel from "./shiftRecord.model";
 import {
+  CreateShiftRecordInBulkProps,
   CreateShiftRecordProps,
   UpdateShiftRecordProps,
   DeleteShiftRecordProps,
@@ -18,8 +20,36 @@ import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { shiftRecordShiftTypeService } from "./shiftRecordShiftType";
 import { ShiftTypeModel } from "../shiftType";
+import { createShifts } from "../../utils/shiftGenerator";
+import { shiftRepeatService } from "../shiftRepeat";
 
 class ShiftRecordService {
+  async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
+    const createProps = createShifts(props);
+
+    const shiftRepeat = await shiftRepeatService.createShiftRepeat({
+      meta: props.repeat,
+      company: props.company,
+    });
+
+    const bulkCreateProps = createProps.map((shift) => {
+      return { ...shift, repeat: shiftRepeat.id };
+    });
+
+    // Create a shiftRecords in bulk
+    const shiftRecords = await ShiftRecordModel.bulkCreate(bulkCreateProps);
+
+    for (let index = 0; index < shiftRecords.length; index++) {
+      const shiftRecord = shiftRecords[index];
+      await shiftRecordShiftTypeService.createBulkShiftRecordShiftType({
+        shift: shiftRecord.id,
+        types: props.types,
+      });
+    }
+
+    return shiftRecords;
+  }
+
   async createShiftRecord(props: CreateShiftRecordProps) {
     // Create a new shiftRecord
     const shiftRecord = await ShiftRecordModel.create(props);
@@ -72,19 +102,34 @@ class ShiftRecordService {
 
   async deleteShiftRecord(props: DeleteShiftRecordProps) {
     // Props
-    const { id, company } = props;
-
-    // Find and delete the shiftRecord by id and company
-    const shiftRecord = await ShiftRecordModel.destroy({
+    const { id, company, deleteRecurring } = props;
+    // Find  the shiftRecord by id and company
+    const shiftRecord = await ShiftRecordModel.findOne({
       where: { id, company },
     });
 
-    // if shiftRecord has been deleted, throw an error
+    // if shiftRecord has not been found, throw an error
     if (!shiftRecord) {
       throw new CustomError(404, ShiftRecordErrorCode.SHIFT_RECORD_NOT_FOUND);
     }
 
-    return shiftRecord;
+    if (deleteRecurring && shiftRecord.repeat) {
+      // Find and delete the shiftRecords by company, has repeat and date greater than equal to that shift
+      const shiftRecords = await ShiftRecordModel.destroy({
+        where: {
+          company,
+          repeat: shiftRecord.repeat,
+          startDateTime: { [Op.gte]: shiftRecord.startDateTime },
+        },
+      });
+      return shiftRecords;
+    } else {
+      // Find and delete the shiftRecord by id and company
+      const shiftRecord = await ShiftRecordModel.destroy({
+        where: { id, company },
+      });
+      return shiftRecord;
+    }
   }
 
   async getShiftRecordById(props: GetShiftRecordByIdProps) {

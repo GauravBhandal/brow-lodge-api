@@ -2,7 +2,7 @@ import { DefaultSchemaConfig } from "../../../components/sequelize/manager";
 import { ShiftRecord } from "..";
 import { ShiftType } from "../../shiftType";
 
-interface TypeProp {
+export interface TypeProp {
   type: ShiftType["id"];
   startTime: Date;
 }
