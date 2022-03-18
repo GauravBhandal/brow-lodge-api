@@ -64,7 +64,10 @@ class VehicleLogController {
       ...queryParams,
     };
 
-    const vehicleLogs = await vehicleLogService.getVehicleLogs(props);
+    const vehicleLogs = await vehicleLogService.getVehicleLogs(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(vehicleLogs);
   }

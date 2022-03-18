@@ -16,7 +16,7 @@ import ClientDocumentErrorCode from "./clientDocument.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { clientDocumentAttachmentService } from "./clientDocumentAttachment";
 import { AttachmentModel } from "../attachment";
 import { ClientDocumentTypeModel } from "../clientDocumentType";
@@ -196,13 +196,15 @@ class ClientDocumentService {
     return clientDocument;
   }
 
-  async getClientDocuments(props: GetClientDocumentsProps) {
+  async getClientDocuments(props: GetClientDocumentsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     let filters = getFilters(where);
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     // Only return archived results if filters contains archived
     if (filters.Client) {
@@ -229,6 +231,7 @@ class ClientDocumentService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
       },
       {

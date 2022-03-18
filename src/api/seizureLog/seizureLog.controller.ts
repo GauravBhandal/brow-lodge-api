@@ -64,7 +64,10 @@ class SeizureLogController {
       ...queryParams,
     };
 
-    const seizureLogs = await seizureLogService.getSeizureLogs(props);
+    const seizureLogs = await seizureLogService.getSeizureLogs(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(seizureLogs);
   }

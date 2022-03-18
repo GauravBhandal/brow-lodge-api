@@ -71,7 +71,8 @@ class ClientDocumentController {
     };
 
     const clientDocuments = await clientDocumentService.getClientDocuments(
-      props
+      props,
+      req.auth.userId
     );
 
     res.status(200).json(clientDocuments);

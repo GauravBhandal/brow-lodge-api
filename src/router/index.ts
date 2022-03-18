@@ -47,7 +47,7 @@ import { incidentReportRoutes } from "../api/incidentReport";
 import { incidentTypeRoutes } from "../api/incidentType";
 import { keyDecisionRoutes } from "../api/keyDecision";
 import { restrictivePracticeLogRoutes } from "../api/restrictivePracticeLog";
-// import { teamRoutes } from "../api/team";
+import { teamRoutes } from "../api/team";
 // import { shiftTypeRoutes } from "../api/shiftType";
 // import { shiftRecordRoutes } from "../api/shiftRecord";
 
@@ -100,8 +100,8 @@ router.use("/incident-report", incidentReportRoutes);
 router.use("/incident-type", incidentTypeRoutes);
 router.use("/key-decision", keyDecisionRoutes);
 router.use("/restrictive-practice-log", restrictivePracticeLogRoutes);
-// TODO: Following routes will be included in the roster release
-// router.use("/team", teamRoutes);
+router.use("/team", teamRoutes);
 // router.use("/shift-type", shiftTypeRoutes);
 // router.use("/shift-record", shiftRecordRoutes);
+
 export default router;

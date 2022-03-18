@@ -14,6 +14,7 @@ class TeamModel<
   implements Team
 {
   name!: Team["name"];
+  permissions: Team["permissions"];
   Staff: Team["Staff"];
   Client: Team["Client"];
   company!: Team["company"];
@@ -27,6 +28,9 @@ modelManager.init(
     name: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    permissions: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

@@ -71,7 +71,8 @@ class ClientBehaviourController {
     };
 
     const clientBehaviours = await clientBehaviourService.getClientBehaviours(
-      props
+      props,
+      req.auth.userId
     );
 
     res.status(200).json(clientBehaviours);
