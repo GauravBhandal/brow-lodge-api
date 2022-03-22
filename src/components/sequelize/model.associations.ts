@@ -46,6 +46,7 @@ import { RestrictivePracticeLogModel } from "../../api/restrictivePracticeLog";
 import { TeamModel } from "../../api/team";
 // import { ShiftTypeModel } from "../../api/shiftType";
 // import { ShiftRecordModel } from "../../api/shiftRecord";
+import { PolicyModel } from "../../api/policy";
 
 export default {
   initialize() {
@@ -96,6 +97,7 @@ export default {
     initializeTeamModelAssociations();
     // initializeShiftTypeModelAssociations();
     // initializeShiftRecordModelAssociations();
+    initializePolicyModelAssociations();
   },
 };
 
@@ -762,3 +764,14 @@ function initializeTeamModelAssociations() {
 //     otherKey: "type",
 //   });
 // }
+
+function initializePolicyModelAssociations() {
+  PolicyModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PolicyModel.belongsToMany(AttachmentModel, {
+    through: "policies_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
