@@ -47,6 +47,7 @@ import { TeamModel } from "../../api/team";
 // import { ShiftTypeModel } from "../../api/shiftType";
 // import { ShiftRecordModel } from "../../api/shiftRecord";
 import { PolicyModel } from "../../api/policy";
+import { CompanyExpenseModel } from "../../api/companyExpense";
 
 export default {
   initialize() {
@@ -98,6 +99,7 @@ export default {
     // initializeShiftTypeModelAssociations();
     // initializeShiftRecordModelAssociations();
     initializePolicyModelAssociations();
+    initializeCompanyExpenseModelAssociations();
   },
 };
 
@@ -771,6 +773,21 @@ function initializePolicyModelAssociations() {
   });
   PolicyModel.belongsToMany(AttachmentModel, {
     through: "policies_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeCompanyExpenseModelAssociations() {
+  CompanyExpenseModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  CompanyExpenseModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  CompanyExpenseModel.belongsToMany(AttachmentModel, {
+    through: "company_expenses_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });

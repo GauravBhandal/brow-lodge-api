@@ -54,6 +54,7 @@ type Subject =
   | "incidentType"
   | "keyDecision"
   | "restrictivePracticeLog"
+  | "companyExpense"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {
