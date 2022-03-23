@@ -49,6 +49,7 @@ import { keyDecisionRoutes } from "../api/keyDecision";
 import { restrictivePracticeLogRoutes } from "../api/restrictivePracticeLog";
 import { teamRoutes } from "../api/team";
 import { policyRoutes } from "../api/policy";
+import { progressReportRoutes } from "../api/progressReport";
 // import { shiftTypeRoutes } from "../api/shiftType";
 // import { shiftRecordRoutes } from "../api/shiftRecord";
 
@@ -103,6 +104,7 @@ router.use("/key-decision", keyDecisionRoutes);
 router.use("/restrictive-practice-log", restrictivePracticeLogRoutes);
 router.use("/team", teamRoutes);
 router.use("/policy", policyRoutes);
+router.use("/progress-report", progressReportRoutes);
 // router.use("/shift-type", shiftTypeRoutes);
 // router.use("/shift-record", shiftRecordRoutes);
 
