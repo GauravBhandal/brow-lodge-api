@@ -54,6 +54,7 @@ type Subject =
   | "incidentType"
   | "keyDecision"
   | "restrictivePracticeLog"
+  | "companyExpense"
   | "progressReport"
   | "policy";
 
