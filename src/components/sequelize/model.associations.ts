@@ -8,7 +8,7 @@ import { BloodGlucoseLogModel } from "../../api/bloodGlucoseLog";
 import { BloodPressureLogModel } from "../../api/bloodPressureLog";
 import { BowelLogModel } from "../../api/bowelLog";
 import { WeightLogModel } from "../../api/weightLog";
-// import { SleepLogModel } from "../../api/sleepLog";
+import { SleepLogModel } from "../../api/sleepLog";
 import { TemperatureLogModel } from "../../api/temperatureLog";
 import { OxygenSaturationLogModel } from "../../api/oxygenSaturationLog";
 import { SeizureLogModel } from "../../api/seizureLog";
@@ -62,7 +62,7 @@ export default {
     initializeBloodPressureLogModelAssociations();
     initializeBowelLogModelAssociations();
     initializeWeightLogModelAssociations();
-    // initializeSleepLogModelAssociations();
+    initializeSleepLogModelAssociations();
     initializeTemperatureLogModelAssociations();
     initializeOxygenSaturationLogModelAssociations();
     initializeSeizureLogModelAssociations();
@@ -226,19 +226,19 @@ function initializeBloodPressureLogModelAssociations() {
   });
 }
 
-// function initializeSleepLogModelAssociations() {
-//   SleepLogModel.belongsTo(CompanyModel, {
-//     foreignKey: { name: "company", allowNull: false },
-//   });
-//   SleepLogModel.belongsTo(StaffProfileModel, {
-//     foreignKey: { name: "staff", allowNull: false },
-//     as: "Staff",
-//   });
-//   SleepLogModel.belongsTo(ClientProfileModel, {
-//     foreignKey: { name: "client", allowNull: false },
-//     as: "Client",
-//   });
-// }
+function initializeSleepLogModelAssociations() {
+  SleepLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  SleepLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  SleepLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
 
 function initializeTemperatureLogModelAssociations() {
   TemperatureLogModel.belongsTo(CompanyModel, {

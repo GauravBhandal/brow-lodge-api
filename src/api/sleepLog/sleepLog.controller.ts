@@ -5,10 +5,10 @@ import sleepLogService from "./sleepLog.service";
 
 class SleepLogController {
   async createSleepLog(req: Request, res: Response) {
-    const props = {
+    const props = req.body?.sleepLogs?.map((sleepLog: any) => ({
       company: req.auth.companyId,
-      ...req.body,
-    };
+      ...sleepLog,
+    }));
 
     const sleepLog = await sleepLogService.createSleepLog(props);
 

@@ -18,8 +18,8 @@ import { ClientProfileModel } from "../clientProfile";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class SleepLogService {
-  async createSleepLog(props: CreateSleepLogProps) {
-    const sleepLog = await SleepLogModel.create(props);
+  async createSleepLog(props: CreateSleepLogProps[]) {
+    const sleepLog = await SleepLogModel.bulkCreate(props);
     return sleepLog;
   }
 
