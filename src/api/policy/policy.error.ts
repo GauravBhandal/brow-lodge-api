@@ -1,5 +1,5 @@
 enum PolicyErrorCode {
-  POLICY = "POLICY",
+  POLICY_NOT_FOUND = "POLICY_NOT_FOUND",
 }
 
 export default PolicyErrorCode;
