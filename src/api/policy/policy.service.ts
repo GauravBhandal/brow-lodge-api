@@ -43,7 +43,7 @@ class PolicyService {
 
     // if policy not found, throw an error
     if (!policy) {
-      throw new CustomError(404, PolicyErrorCode.POLICY);
+      throw new CustomError(404, PolicyErrorCode.POLICY_NOT_FOUND);
     }
 
     // Finally, update the policy
@@ -74,7 +74,7 @@ class PolicyService {
 
     // if policy has been deleted, throw an error
     if (!policy) {
-      throw new CustomError(404, PolicyErrorCode.POLICY);
+      throw new CustomError(404, PolicyErrorCode.POLICY_NOT_FOUND);
     }
 
     return policy;
@@ -102,7 +102,7 @@ class PolicyService {
 
     // If no policy has been found, then throw an error
     if (!policy) {
-      throw new CustomError(404, PolicyErrorCode.POLICY);
+      throw new CustomError(404, PolicyErrorCode.POLICY_NOT_FOUND);
     }
 
     return policy;

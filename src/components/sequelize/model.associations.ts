@@ -46,6 +46,7 @@ import { RestrictivePracticeLogModel } from "../../api/restrictivePracticeLog";
 import { TeamModel } from "../../api/team";
 // import { ShiftTypeModel } from "../../api/shiftType";
 // import { ShiftRecordModel } from "../../api/shiftRecord";
+import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
 import { CompanyExpenseModel } from "../../api/companyExpense";
 
@@ -100,6 +101,7 @@ export default {
     // initializeShiftRecordModelAssociations();
     initializePolicyModelAssociations();
     initializeCompanyExpenseModelAssociations();
+    initializeProgressReportModelAssociations();
   },
 };
 
@@ -790,5 +792,19 @@ function initializeCompanyExpenseModelAssociations() {
     through: "company_expenses_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
+  });
+}
+
+function initializeProgressReportModelAssociations() {
+  ProgressReportModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ProgressReportModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ProgressReportModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
   });
 }
