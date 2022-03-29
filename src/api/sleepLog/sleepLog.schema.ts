@@ -9,12 +9,18 @@ import {
 
 const createSleepLogSchema = wrapSchema({
   body: Joi.object().keys({
-    date: Joi.date().required(),
-    time: requiredTimeSchema(),
-    activity: Joi.string().valid("Awake", "Sleep").required(),
-    comments: Joi.string().allow("", null),
-    staff: requiredUUIDSchema(),
-    client: requiredUUIDSchema(),
+    sleepLogs: Joi.array()
+      .items(
+        Joi.object().keys({
+          date: Joi.date().required(),
+          time: requiredTimeSchema(),
+          activity: Joi.string().valid("Awake", "Sleep").required(),
+          comments: Joi.string().allow("", null),
+          staff: requiredUUIDSchema(),
+          client: requiredUUIDSchema(),
+        })
+      )
+      .required(),
   }),
 });
 
