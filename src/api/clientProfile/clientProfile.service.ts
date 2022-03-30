@@ -132,7 +132,7 @@ class ClientProfileService {
       where: {
         company,
         ...filters["primaryFilters"],
-        // ...clientFilters,
+        ...clientFilters,
       },
     });
 

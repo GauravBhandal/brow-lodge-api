@@ -49,6 +49,7 @@ import { TeamModel } from "../../api/team";
 import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
 import { CompanyExpenseModel } from "../../api/companyExpense";
+import { PolicyReviewModel } from "../../api/policyReview";
 
 export default {
   initialize() {
@@ -102,6 +103,7 @@ export default {
     initializePolicyModelAssociations();
     initializeCompanyExpenseModelAssociations();
     initializeProgressReportModelAssociations();
+    initializePolicyReviewModelAssociations();
   },
 };
 
@@ -806,5 +808,24 @@ function initializeProgressReportModelAssociations() {
   ProgressReportModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+}
+
+function initializePolicyReviewModelAssociations() {
+  PolicyReviewModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PolicyReviewModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff" },
+    as: "Staff",
+  });
+  PolicyReviewModel.belongsTo(PolicyModel, {
+    foreignKey: { name: "policy" },
+    as: "Policy",
+  });
+  PolicyReviewModel.belongsToMany(AttachmentModel, {
+    through: "policy_reviews_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
