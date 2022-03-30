@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  canDo("create", "policyReview"),
+  canDo("update", "policy"), // User can only create policy review while updating a policy
   policyReviewSchems.createPolicyReview,
   catchWrap(controller.createPolicyReview)
 );
