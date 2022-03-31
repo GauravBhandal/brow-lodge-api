@@ -758,12 +758,16 @@ function initializeShiftRecordModelAssociations() {
   ShiftRecordModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
-  ShiftRecordModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
+  ShiftRecordModel.belongsToMany(StaffProfileModel, {
+    through: "shift_records_staff_profiles",
+    foreignKey: "shift",
+    otherKey: "staff",
     as: "Staff",
   });
-  ShiftRecordModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
+  ShiftRecordModel.belongsToMany(ClientProfileModel, {
+    through: "shift_records_client_profiles",
+    foreignKey: "shift",
+    otherKey: "client",
     as: "Client",
   });
   ShiftRecordModel.belongsToMany(ShiftTypeModel, {
