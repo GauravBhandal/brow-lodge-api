@@ -52,9 +52,8 @@ import { companyExpenseRoutes } from "../api/companyExpense";
 import { policyRoutes } from "../api/policy";
 import { progressReportRoutes } from "../api/progressReport";
 import { policyReviewRoutes } from "../api/policyReview";
-
-// import { shiftTypeRoutes } from "../api/shiftType";
-// import { shiftRecordRoutes } from "../api/shiftRecord";
+import { shiftTypeRoutes } from "../api/shiftType";
+import { shiftRecordRoutes } from "../api/shiftRecord";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -110,7 +109,7 @@ router.use("/policy", policyRoutes);
 router.use("/company-expense", companyExpenseRoutes);
 router.use("/progress-report", progressReportRoutes);
 router.use("/policy-review", policyReviewRoutes);
-// router.use("/shift-type", shiftTypeRoutes);
-// router.use("/shift-record", shiftRecordRoutes);
+router.use("/shift-type", shiftTypeRoutes);
+router.use("/shift-record", shiftRecordRoutes);
 
 export default router;
