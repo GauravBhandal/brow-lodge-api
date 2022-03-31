@@ -6,6 +6,7 @@ import { QueryParams } from "../../common/types";
 
 export interface Team extends DefaultSchemaConfig {
   name: string;
+  permissions?: boolean;
   company: Company["id"];
   Company?: Company;
   Staff?: StaffProfile["id"][];
@@ -32,4 +33,8 @@ export interface GetTeamByIdProps extends DeleteTeamProps {}
 
 export interface GetTeamsProps extends QueryParams {
   company: Team["company"];
+}
+export interface UpdateTeamPermissionsProps {
+  company: Team["company"];
+  permissions: boolean;
 }

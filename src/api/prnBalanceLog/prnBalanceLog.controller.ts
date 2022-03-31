@@ -66,7 +66,10 @@ class PrnBalanceLogController {
       ...queryParams,
     };
 
-    const prnBalanceLogs = await prnBalanceLogService.getPrnBalanceLogs(props);
+    const prnBalanceLogs = await prnBalanceLogService.getPrnBalanceLogs(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(prnBalanceLogs);
   }

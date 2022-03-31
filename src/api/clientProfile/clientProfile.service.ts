@@ -13,7 +13,7 @@ import { CustomError } from "../../components/errors";
 import ClientProfileErrorCode from "./clientProfile.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class ClientProfileService {
   async createClientProfile(props: CreateClientProfileProps) {
@@ -91,13 +91,14 @@ class ClientProfileService {
     return clientProfile;
   }
 
-  async getClientProfiles(props: GetClientProfilesProps) {
+  async getClientProfiles(props: GetClientProfilesProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     let filters = getFilters(where);
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     // Only return archived results if filters contains archived
     if (filters.primaryFilters && !filters.primaryFilters.archived) {
@@ -131,6 +132,7 @@ class ClientProfileService {
       where: {
         company,
         ...filters["primaryFilters"],
+        ...clientFilters,
       },
     });
 

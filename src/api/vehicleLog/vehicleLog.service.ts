@@ -15,7 +15,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class VehicleLogService {
   async createVehicleLog(props: CreateVehicleLogProps) {
@@ -93,13 +93,16 @@ class VehicleLogService {
     return vehicleLog;
   }
 
-  async getVehicleLogs(props: GetVehicleLogsProps) {
+  async getVehicleLogs(props: GetVehicleLogsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
+
     const include = [
       {
         model: CompanyModel,
@@ -116,6 +119,7 @@ class VehicleLogService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
       },
     ];

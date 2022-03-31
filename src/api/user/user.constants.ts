@@ -7,14 +7,6 @@ export const permissions = {
       update: true,
     },
   },
-  whsLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
   company: {
     actions: {
       read: true,

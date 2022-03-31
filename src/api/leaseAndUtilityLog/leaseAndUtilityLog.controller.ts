@@ -68,7 +68,10 @@ class LeaseAndUtilityLogController {
     };
 
     const leaseAndUtilityLogs =
-      await leaseAndUtilityLogService.getLeaseAndUtilityLogs(props);
+      await leaseAndUtilityLogService.getLeaseAndUtilityLogs(
+        props,
+        req.auth.userId
+      );
 
     res.status(200).json(leaseAndUtilityLogs);
   }

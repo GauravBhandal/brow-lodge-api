@@ -64,7 +64,10 @@ class ClientRiskController {
       ...queryParams,
     };
 
-    const clientRisks = await clientRiskService.getClientRisks(props);
+    const clientRisks = await clientRiskService.getClientRisks(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(clientRisks);
   }

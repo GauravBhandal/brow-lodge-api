@@ -64,7 +64,10 @@ class MeetingLogController {
       ...queryParams,
     };
 
-    const meetingLogs = await meetingLogService.getMeetingLogs(props);
+    const meetingLogs = await meetingLogService.getMeetingLogs(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(meetingLogs);
   }

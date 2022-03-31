@@ -64,7 +64,10 @@ class ProgressNoteController {
       ...queryParams,
     };
 
-    const progressNotes = await progressNoteService.getProgressNotes(props);
+    const progressNotes = await progressNoteService.getProgressNotes(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(progressNotes);
   }

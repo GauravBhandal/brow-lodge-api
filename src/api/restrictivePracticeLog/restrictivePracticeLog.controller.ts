@@ -68,7 +68,10 @@ class RestrictivePracticeLogController {
     };
 
     const restrictivePracticeLogs =
-      await restrictivePracticeLogService.getRestrictivePracticeLogs(props);
+      await restrictivePracticeLogService.getRestrictivePracticeLogs(
+        props,
+        req.auth.userId
+      );
 
     res.status(200).json(restrictivePracticeLogs);
   }

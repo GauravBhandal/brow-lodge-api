@@ -71,7 +71,8 @@ class TemperatureLogController {
     };
 
     const temperatureLogs = await temperatureLogService.getTemperatureLogs(
-      props
+      props,
+      req.auth.userId
     );
 
     res.status(200).json(temperatureLogs);

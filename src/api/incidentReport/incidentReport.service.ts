@@ -16,7 +16,7 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { IncidentTypeModel } from "../incidentType";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { incidentReportAttachmentService } from "./incidentReportAttachment";
 import { incidentReportStaffProfileService } from "./incidentReportStaffProfile";
 import { incidentReportIncidentTypeService } from "./incidentReportIncidentType";
@@ -178,7 +178,7 @@ class IncidentReportService {
     return incidentReport;
   }
 
-  async getIncidentReports(props: GetIncidentReportsProps) {
+  async getIncidentReports(props: GetIncidentReportsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
@@ -186,24 +186,35 @@ class IncidentReportService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
 
+    const clientFilters = await addCientFiltersByTeams(userId, company);
+
     const include = [
       {
         model: CompanyModel,
+        duplicating: true,
+        required: true,
       },
       {
         model: ClientProfileModel,
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
+        duplicating: true,
+        required: true,
       },
       {
         model: StaffProfileModel,
         through: {
           attributes: [],
         },
+        where: {
+          ...filters["Staff"],
+        },
         as: "Staff",
-        duplicating: false,
+        duplicating: true,
+        required: true,
       },
       {
         model: IncidentTypeModel,
@@ -211,11 +222,13 @@ class IncidentReportService {
           attributes: [],
         },
         as: "Types",
-        duplicating: false,
+        duplicating: true,
+        required: true,
       },
       {
         model: StaffProfileModel,
         as: "Manager",
+        duplicating: true,
       },
     ];
 

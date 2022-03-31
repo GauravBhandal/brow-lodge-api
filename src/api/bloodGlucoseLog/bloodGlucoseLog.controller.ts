@@ -71,7 +71,8 @@ class BloodGlucoseLogController {
     };
 
     const bloodGlucoseLogs = await bloodGlucoseLogService.getBloodGlucoseLogs(
-      props
+      props,
+      req.auth.userId
     );
 
     res.status(200).json(bloodGlucoseLogs);

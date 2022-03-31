@@ -15,7 +15,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class BowelLogService {
   async createBowelLog(props: CreateBowelLogProps) {
@@ -93,13 +93,14 @@ class BowelLogService {
     return bowelLog;
   }
 
-  async getBowelLogs(props: GetBowelLogsProps) {
+  async getBowelLogs(props: GetBowelLogsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+    const clientFilters = await addCientFiltersByTeams(userId, company);
     const include = [
       {
         model: CompanyModel,
@@ -116,6 +117,7 @@ class BowelLogService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
       },
     ];
