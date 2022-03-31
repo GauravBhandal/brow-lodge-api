@@ -186,10 +186,16 @@ class ShiftRecordService {
         },
         {
           model: StaffProfileModel,
+          through: {
+            attributes: [],
+          },
           as: "Staff",
         },
         {
           model: ClientProfileModel,
+          through: {
+            attributes: [],
+          },
           as: "Client",
         },
         {
