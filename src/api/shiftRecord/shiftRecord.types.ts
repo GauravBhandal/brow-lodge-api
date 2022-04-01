@@ -10,8 +10,8 @@ import { ShiftRepeat } from "../shiftRepeat";
 export interface ShiftRecord extends DefaultSchemaConfig {
   startDateTime: string;
   endDateTime: string;
-  staff?: StaffProfile["id"];
-  client?: ClientProfile["id"];
+  Staff?: StaffProfile[];
+  Client?: ClientProfile[];
   company: Company["id"];
   Company?: Company;
   Types?: ShiftType[];
@@ -21,8 +21,8 @@ export interface ShiftRecord extends DefaultSchemaConfig {
 export interface CreateShiftRecordProps {
   startDateTime: ShiftRecord["startDateTime"];
   endDateTime: ShiftRecord["endDateTime"];
-  staff: ShiftRecord["staff"];
-  client: ShiftRecord["client"];
+  staff: StaffProfile["id"][];
+  client: ClientProfile["id"][];
   company: ShiftRecord["company"];
   types: TypeProp[];
 }
@@ -30,8 +30,8 @@ export interface CreateShiftRecordProps {
 export interface CreateShiftRecordInBulkProps {
   startDateTime: ShiftRecord["startDateTime"];
   endDateTime: ShiftRecord["endDateTime"];
-  staff: ShiftRecord["staff"];
-  client: ShiftRecord["client"];
+  staff: StaffProfile["id"][];
+  client: ClientProfile["id"][];
   company: ShiftRecord["company"];
   types: TypeProp[];
   repeat: any; // TODO: Remove any
