@@ -22,6 +22,8 @@ import { shiftRecordShiftTypeService } from "./shiftRecordShiftType";
 import { ShiftTypeModel } from "../shiftType";
 import { createShifts } from "../../utils/shiftGenerator";
 import { shiftRepeatService } from "../shiftRepeat";
+import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
+import { shiftRecordClientProfileService } from "./shiftRecordClientProfile";
 
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
@@ -45,6 +47,14 @@ class ShiftRecordService {
         shift: shiftRecord.id,
         types: props.types,
       });
+      await shiftRecordStaffProfileService.createBulkShiftRecordStaffProfile({
+        shift: shiftRecord.id,
+        staff: props.staff,
+      });
+      await shiftRecordClientProfileService.createBulkShiftRecordClientProfile({
+        shift: shiftRecord.id,
+        client: props.client,
+      });
     }
 
     return shiftRecords;
@@ -54,6 +64,21 @@ class ShiftRecordService {
     // Create a new shiftRecord
     const shiftRecord = await ShiftRecordModel.create(props);
 
+    // Assign staff profiles
+    if (props.staff && props.staff.length) {
+      await shiftRecordStaffProfileService.createBulkShiftRecordStaffProfile({
+        shift: shiftRecord.id,
+        staff: props.staff,
+      });
+    }
+
+    // Assign client profiles
+    if (props.client && props.client.length) {
+      await shiftRecordClientProfileService.createBulkShiftRecordClientProfile({
+        shift: shiftRecord.id,
+        client: props.client,
+      });
+    }
     // Create types
     if (props.types && props.types.length) {
       await shiftRecordShiftTypeService.createBulkShiftRecordShiftType({
@@ -94,6 +119,22 @@ class ShiftRecordService {
       await shiftRecordShiftTypeService.updateBulkShiftRecordShiftType({
         shift: shiftRecord.id,
         types: props.types,
+      });
+    }
+
+    // Assign staff profiles
+    if (props.staff && props.staff.length) {
+      await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile({
+        shift: shiftRecord.id,
+        staff: props.staff,
+      });
+    }
+
+    // Assign client profiles
+    if (props.client && props.client.length) {
+      await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile({
+        shift: shiftRecord.id,
+        client: props.client,
       });
     }
 
@@ -145,10 +186,16 @@ class ShiftRecordService {
         },
         {
           model: StaffProfileModel,
+          through: {
+            attributes: [],
+          },
           as: "Staff",
         },
         {
           model: ClientProfileModel,
+          through: {
+            attributes: [],
+          },
           as: "Client",
         },
         {
@@ -182,17 +229,27 @@ class ShiftRecordService {
       },
       {
         model: StaffProfileModel,
-        as: "Staff",
+        through: {
+          attributes: [],
+        },
         where: {
           ...filters["Staff"],
         },
+        as: "Staff",
+        duplicating: true,
+        required: true,
       },
       {
         model: ClientProfileModel,
-        as: "Client",
+        through: {
+          attributes: [],
+        },
         where: {
           ...filters["Client"],
         },
+        as: "Client",
+        duplicating: true,
+        required: true,
       },
     ];
 
