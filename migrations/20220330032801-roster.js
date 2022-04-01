@@ -58,6 +58,9 @@ DROP TABLE IF EXISTS "shift_records_shift_types";
 ALTER TABLE "shift_records" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_records";
 
+ALTER TABLE "shift_repeats" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "shift_repeats";
+
 ALTER TABLE "shift_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_types";
 `;
