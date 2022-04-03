@@ -136,9 +136,9 @@ class ClientProfileService {
       },
     });
 
-    // const response = getPagingData({ count, rows: data }, page, limit);
+    const response = getPagingData({ count, rows: data }, page, limit);
 
-    // return response;
+    return response;
   }
 }
 
