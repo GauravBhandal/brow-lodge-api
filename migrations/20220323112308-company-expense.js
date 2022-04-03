@@ -4,7 +4,7 @@ const queryUp = `
 CREATE TABLE IF NOT EXISTS "company_expenses" (
   "id" UUID NOT NULL,
   "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "total_cost" VARCHAR NOT NULL,
+  "total_cost" DOUBLE PRECISION NOT NULL,
   "description" VARCHAR NOT NULL,
   "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
