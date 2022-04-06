@@ -68,7 +68,10 @@ class StaffSleepDisturbanceController {
     };
 
     const staffSleepDisturbances =
-      await staffSleepDisturbanceService.getStaffSleepDisturbances(props);
+      await staffSleepDisturbanceService.getStaffSleepDisturbances(
+        props,
+        req.auth.userId
+      );
 
     res.status(200).json(staffSleepDisturbances);
   }

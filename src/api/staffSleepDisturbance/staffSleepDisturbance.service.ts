@@ -16,7 +16,7 @@ import { CompanyModel } from "../company";
 import { ClientProfileModel } from "../clientProfile";
 import { StaffProfileModel } from "../staffProfile";
 
-import { getFilters } from "../../components/filters";
+import { getFilters, addCientFiltersByTeams } from "../../components/filters";
 
 class StaffSleepDisturbanceService {
   async createStaffSleepDisturbance(props: CreateStaffSleepDisturbanceProps) {
@@ -106,13 +106,18 @@ class StaffSleepDisturbanceService {
     return staffSleepDisturbance;
   }
 
-  async getStaffSleepDisturbances(props: GetStaffSleepDisturbancesProps) {
+  async getStaffSleepDisturbances(
+    props: GetStaffSleepDisturbancesProps,
+    userId: string
+  ) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     const include = [
       {
@@ -130,6 +135,7 @@ class StaffSleepDisturbanceService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
       },
     ];
