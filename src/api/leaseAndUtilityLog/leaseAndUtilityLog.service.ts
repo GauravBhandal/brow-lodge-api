@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import LeaseAndUtilityLogModel from "./leaseAndUtilityLog.model";
 import {
@@ -15,7 +16,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { ClientProfileModel } from "../clientProfile";
 import { StaffProfileModel } from "../staffProfile";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { leaseAndUtilityLogAttachmentService } from "./leaseAndUtilityLogAttachment";
 import { AttachmentModel } from "../attachment";
 
@@ -133,13 +134,17 @@ class LeaseAndUtilityLogService {
     return leaseAndUtilityLog;
   }
 
-  async getLeaseAndUtilityLogs(props: GetLeaseAndUtilityLogsProps) {
+  async getLeaseAndUtilityLogs(
+    props: GetLeaseAndUtilityLogsProps,
+    userId: string
+  ) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     const include = [
       {
@@ -155,7 +160,11 @@ class LeaseAndUtilityLogService {
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...clientFilters,
+        },
         required: false,
+        right: true,
       },
     ];
     // Count total leaseAndUtilityLogs in the given company

@@ -64,7 +64,10 @@ class WeightLogController {
       ...queryParams,
     };
 
-    const weightLogs = await weightLogService.getWeightLogs(props);
+    const weightLogs = await weightLogService.getWeightLogs(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(weightLogs);
   }

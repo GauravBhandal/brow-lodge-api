@@ -16,7 +16,7 @@ import { CompanyModel } from "../company";
 import { ClientProfileModel } from "../clientProfile";
 import { StaffProfileModel } from "../staffProfile";
 
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class ClientRiskService {
   async createClientRisk(props: CreateClientRiskProps) {
@@ -94,13 +94,14 @@ class ClientRiskService {
     return clientRisk;
   }
 
-  async getClientRisks(props: GetClientRisksProps) {
+  async getClientRisks(props: GetClientRisksProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     const include = [
       {
@@ -118,6 +119,7 @@ class ClientRiskService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
       },
     ];

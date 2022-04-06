@@ -28,6 +28,17 @@ class TeamController {
     res.status(200).json(team);
   }
 
+  async updateTeamPermissions(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+      ...req.body,
+    };
+
+    const team = await teamService.updateTeamPermissions(props);
+
+    res.status(200).json(team);
+  }
+
   async deleteTeam(req: Request, res: Response) {
     const { teamId } = req.params;
     const props = {

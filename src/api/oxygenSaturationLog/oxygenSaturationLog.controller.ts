@@ -68,7 +68,10 @@ class OxygenSaturationLogController {
     };
 
     const oxygenSaturationLogs =
-      await oxygenSaturationLogService.getOxygenSaturationLogs(props);
+      await oxygenSaturationLogService.getOxygenSaturationLogs(
+        props,
+        req.auth.userId
+      );
 
     res.status(200).json(oxygenSaturationLogs);
   }

@@ -8,7 +8,7 @@ import { BloodGlucoseLogModel } from "../../api/bloodGlucoseLog";
 import { BloodPressureLogModel } from "../../api/bloodPressureLog";
 import { BowelLogModel } from "../../api/bowelLog";
 import { WeightLogModel } from "../../api/weightLog";
-// import { SleepLogModel } from "../../api/sleepLog";
+import { SleepLogModel } from "../../api/sleepLog";
 import { TemperatureLogModel } from "../../api/temperatureLog";
 import { OxygenSaturationLogModel } from "../../api/oxygenSaturationLog";
 import { SeizureLogModel } from "../../api/seizureLog";
@@ -43,9 +43,13 @@ import { IncidentReportModel } from "../../api/incidentReport";
 import { IncidentTypeModel } from "../../api/incidentType";
 import { KeyDecisionModel } from "../../api/keyDecision";
 import { RestrictivePracticeLogModel } from "../../api/restrictivePracticeLog";
-// import { TeamModel } from "../../api/team";
+import { TeamModel } from "../../api/team";
 // import { ShiftTypeModel } from "../../api/shiftType";
 // import { ShiftRecordModel } from "../../api/shiftRecord";
+import { ProgressReportModel } from "../../api/progressReport";
+import { PolicyModel } from "../../api/policy";
+import { CompanyExpenseModel } from "../../api/companyExpense";
+import { PolicyReviewModel } from "../../api/policyReview";
 
 export default {
   initialize() {
@@ -59,7 +63,7 @@ export default {
     initializeBloodPressureLogModelAssociations();
     initializeBowelLogModelAssociations();
     initializeWeightLogModelAssociations();
-    // initializeSleepLogModelAssociations();
+    initializeSleepLogModelAssociations();
     initializeTemperatureLogModelAssociations();
     initializeOxygenSaturationLogModelAssociations();
     initializeSeizureLogModelAssociations();
@@ -93,9 +97,13 @@ export default {
     initializeIncidentReportModelAssociations();
     initializeKeyDecisionModelAssociations();
     initializeRestrictivePracticeLogModelAssociations();
-    // initializeTeamModelAssociations();
+    initializeTeamModelAssociations();
     // initializeShiftTypeModelAssociations();
     // initializeShiftRecordModelAssociations();
+    initializePolicyModelAssociations();
+    initializeCompanyExpenseModelAssociations();
+    initializeProgressReportModelAssociations();
+    initializePolicyReviewModelAssociations();
   },
 };
 
@@ -220,19 +228,19 @@ function initializeBloodPressureLogModelAssociations() {
   });
 }
 
-// function initializeSleepLogModelAssociations() {
-//   SleepLogModel.belongsTo(CompanyModel, {
-//     foreignKey: { name: "company", allowNull: false },
-//   });
-//   SleepLogModel.belongsTo(StaffProfileModel, {
-//     foreignKey: { name: "staff", allowNull: false },
-//     as: "Staff",
-//   });
-//   SleepLogModel.belongsTo(ClientProfileModel, {
-//     foreignKey: { name: "client", allowNull: false },
-//     as: "Client",
-//   });
-// }
+function initializeSleepLogModelAssociations() {
+  SleepLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  SleepLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  SleepLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
 
 function initializeTemperatureLogModelAssociations() {
   TemperatureLogModel.belongsTo(CompanyModel, {
@@ -720,23 +728,23 @@ function initializeRestrictivePracticeLogModelAssociations() {
   });
 }
 
-// function initializeTeamModelAssociations() {
-//   TeamModel.belongsTo(CompanyModel, {
-//     foreignKey: { name: "company", allowNull: false },
-//   });
-//   TeamModel.belongsToMany(StaffProfileModel, {
-//     through: "teams_staff_profiles",
-//     foreignKey: "team",
-//     otherKey: "staff",
-//     as: "Staff",
-//   });
-//   TeamModel.belongsToMany(ClientProfileModel, {
-//     through: "teams_client_profiles",
-//     foreignKey: "team",
-//     otherKey: "client",
-//     as: "Client",
-//   });
-// }
+function initializeTeamModelAssociations() {
+  TeamModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TeamModel.belongsToMany(StaffProfileModel, {
+    through: "teams_staff_profiles",
+    foreignKey: "team",
+    otherKey: "staff",
+    as: "Staff",
+  });
+  TeamModel.belongsToMany(ClientProfileModel, {
+    through: "teams_client_profiles",
+    foreignKey: "team",
+    otherKey: "client",
+    as: "Client",
+  });
+}
 
 // function initializeShiftTypeModelAssociations() {
 //   ShiftTypeModel.belongsTo(CompanyModel, {
@@ -762,3 +770,62 @@ function initializeRestrictivePracticeLogModelAssociations() {
 //     otherKey: "type",
 //   });
 // }
+
+function initializePolicyModelAssociations() {
+  PolicyModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PolicyModel.belongsToMany(AttachmentModel, {
+    through: "policies_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeCompanyExpenseModelAssociations() {
+  CompanyExpenseModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  CompanyExpenseModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  CompanyExpenseModel.belongsToMany(AttachmentModel, {
+    through: "company_expenses_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeProgressReportModelAssociations() {
+  ProgressReportModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ProgressReportModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ProgressReportModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializePolicyReviewModelAssociations() {
+  PolicyReviewModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PolicyReviewModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff" },
+    as: "Staff",
+  });
+  PolicyReviewModel.belongsTo(PolicyModel, {
+    foreignKey: { name: "policy" },
+    as: "Policy",
+  });
+  PolicyReviewModel.belongsToMany(AttachmentModel, {
+    through: "policy_reviews_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}

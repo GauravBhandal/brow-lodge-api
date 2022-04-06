@@ -16,7 +16,7 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { IncidentTypeModel } from "../incidentType";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { incidentReportAttachmentService } from "./incidentReportAttachment";
 import { incidentReportStaffProfileService } from "./incidentReportStaffProfile";
 import { incidentReportIncidentTypeService } from "./incidentReportIncidentType";
@@ -178,13 +178,15 @@ class IncidentReportService {
     return incidentReport;
   }
 
-  async getIncidentReports(props: GetIncidentReportsProps) {
+  async getIncidentReports(props: GetIncidentReportsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     const include = [
       {
@@ -197,6 +199,7 @@ class IncidentReportService {
         as: "Client",
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
         duplicating: true,
         required: true,

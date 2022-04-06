@@ -64,7 +64,10 @@ class DoctorVisitController {
       ...queryParams,
     };
 
-    const doctorVisits = await doctorVisitService.getDoctorVisits(props);
+    const doctorVisits = await doctorVisitService.getDoctorVisits(
+      props,
+      req.auth.userId
+    );
 
     res.status(200).json(doctorVisits);
   }

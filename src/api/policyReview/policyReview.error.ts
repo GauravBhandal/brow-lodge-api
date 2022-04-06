@@ -1,0 +1,6 @@
+enum PolicyReviewErrorCode {
+  POLICY_REVIEW_NOT_FOUND = "POLICY_REVIEW_NOT_FOUND",
+  POLICY_REVIEW_ALREADY_EXISTS = "POLICY_REVIEW_ALREADY_EXISTS",
+}
+
+export default PolicyReviewErrorCode;

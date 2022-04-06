@@ -68,7 +68,10 @@ class BloodPressureLogController {
     };
 
     const bloodPressureLogs =
-      await bloodPressureLogService.getBloodPressureLogs(props);
+      await bloodPressureLogService.getBloodPressureLogs(
+        props,
+        req.auth.userId
+      );
 
     res.status(200).json(bloodPressureLogs);
   }

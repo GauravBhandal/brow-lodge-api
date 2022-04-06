@@ -12,7 +12,7 @@ import { bloodGlucoseLogRoutes } from "../api/bloodGlucoseLog";
 import { bloodPressureLogRoutes } from "../api/bloodPressureLog";
 import { bowelLogRoutes } from "../api/bowelLog";
 import { weightLogRoutes } from "../api/weightLog";
-// import { sleepLogRoutes } from "../api/sleepLog";
+import { sleepLogRoutes } from "../api/sleepLog";
 import { temperatureLogRoutes } from "../api/temperatureLog";
 import { prnAdminLogRoutes } from "../api/prnAdminLog";
 import { prnBalanceLogRoutes } from "../api/prnBalanceLog";
@@ -47,7 +47,12 @@ import { incidentReportRoutes } from "../api/incidentReport";
 import { incidentTypeRoutes } from "../api/incidentType";
 import { keyDecisionRoutes } from "../api/keyDecision";
 import { restrictivePracticeLogRoutes } from "../api/restrictivePracticeLog";
-// import { teamRoutes } from "../api/team";
+import { teamRoutes } from "../api/team";
+import { companyExpenseRoutes } from "../api/companyExpense";
+import { policyRoutes } from "../api/policy";
+import { progressReportRoutes } from "../api/progressReport";
+import { policyReviewRoutes } from "../api/policyReview";
+
 // import { shiftTypeRoutes } from "../api/shiftType";
 // import { shiftRecordRoutes } from "../api/shiftRecord";
 
@@ -65,7 +70,7 @@ router.use("/blood-glucose-log", bloodGlucoseLogRoutes);
 router.use("/blood-pressure-log", bloodPressureLogRoutes);
 router.use("/bowel-log", bowelLogRoutes);
 router.use("/weight-log", weightLogRoutes);
-// router.use("/sleep-log", sleepLogRoutes);
+router.use("/sleep-log", sleepLogRoutes);
 router.use("/temperature-log", temperatureLogRoutes);
 router.use("/prn-admin-log", prnAdminLogRoutes);
 router.use("/prn-balance-log", prnBalanceLogRoutes);
@@ -100,8 +105,12 @@ router.use("/incident-report", incidentReportRoutes);
 router.use("/incident-type", incidentTypeRoutes);
 router.use("/key-decision", keyDecisionRoutes);
 router.use("/restrictive-practice-log", restrictivePracticeLogRoutes);
-// TODO: Following routes will be included in the roster release
-// router.use("/team", teamRoutes);
+router.use("/team", teamRoutes);
+router.use("/policy", policyRoutes);
+router.use("/company-expense", companyExpenseRoutes);
+router.use("/progress-report", progressReportRoutes);
+router.use("/policy-review", policyReviewRoutes);
 // router.use("/shift-type", shiftTypeRoutes);
 // router.use("/shift-record", shiftRecordRoutes);
+
 export default router;
