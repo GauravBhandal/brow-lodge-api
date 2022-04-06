@@ -55,17 +55,17 @@ ALTER TABLE "policy_reviews_attachments" ENABLE ROW LEVEL SECURITY;
 `;
 
 const queryDown = `
-ALTER TABLE "policies_attachments" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "policies_attachments";
-
-ALTER TABLE "policies" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "policies";
-
 ALTER TABLE "policy_reviews_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "policy_reviews_attachments";
 
 ALTER TABLE "policy_reviews" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "policy_reviews";
+
+ALTER TABLE "policies_attachments" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "policies_attachments";
+
+ALTER TABLE "policies" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "policies";
 `;
 
 module.exports = {
