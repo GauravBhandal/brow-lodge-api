@@ -4,7 +4,7 @@ import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
 
 export interface Policy extends DefaultSchemaConfig {
-  nextReviewDate: Date;
+  nextReviewDate?: Date;
   name: string;
   version: string;
   company: Company["id"];
