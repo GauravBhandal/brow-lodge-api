@@ -5,6 +5,10 @@ export interface Company extends DefaultSchemaConfig {
   name: string;
   phone?: string;
   address?: string;
+  website?: string;
+  email?: string;
+  ndisRegistrationNumber?: string;
+  timezone?: string;
   attachment?: Attachment["id"];
 }
 
@@ -16,6 +20,10 @@ export interface UpdateMyCompanyProps extends CreateCompanyProps {
   company: Company["id"];
   phone: string;
   address: string;
+  website: string;
+  email: string;
+  ndisRegistrationNumber: string;
+  timezone: string;
   attachment: Attachment["id"];
 }
 
