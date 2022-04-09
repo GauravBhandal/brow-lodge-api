@@ -27,6 +27,7 @@ const createShiftRecordSchema = wrapSchema({
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
+    break: Joi.number().allow("", null),
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     types: Joi.array().items(typeSchema).required(),
@@ -39,6 +40,7 @@ const editShiftRecordSchema = wrapSchema({
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
+    break: Joi.number().allow("", null),
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     types: Joi.array().items(typeSchema).required(),
