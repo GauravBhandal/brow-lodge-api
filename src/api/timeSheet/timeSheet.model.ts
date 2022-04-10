@@ -15,6 +15,7 @@ class TimeSheetModel<
 {
   startDateTime!: TimeSheet["startDateTime"];
   endDateTime!: TimeSheet["endDateTime"];
+  status!: TimeSheet["status"];
   staff!: TimeSheet["staff"];
   Staff: TimeSheet["Staff"];
   shift!: TimeSheet["shift"];
@@ -33,6 +34,10 @@ modelManager.init(
     },
     endDateTime: {
       type: Sequelize.DATE,
+      allowNull: false,
+    },
+    status: {
+      type: Sequelize.STRING,
       allowNull: false,
     },
   },

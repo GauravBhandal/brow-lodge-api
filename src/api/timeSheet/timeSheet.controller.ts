@@ -4,17 +4,6 @@ import { pick as _pick } from "lodash";
 import timeSheetService from "./timeSheet.service";
 
 class TimeSheetController {
-  async createTimeSheet(req: Request, res: Response) {
-    const props = {
-      company: req.auth.companyId,
-      ...req.body,
-    };
-
-    const timeSheet = await timeSheetService.createTimeSheet(props);
-
-    res.status(200).json(timeSheet);
-  }
-
   async updateTimeSheet(req: Request, res: Response) {
     const { timeSheetId } = req.params;
     const props = {
@@ -28,16 +17,15 @@ class TimeSheetController {
     res.status(200).json(timeSheet);
   }
 
-  async deleteTimeSheet(req: Request, res: Response) {
-    const { timeSheetId } = req.params;
+  async updateTimeSheetStatus(req: Request, res: Response) {
     const props = {
-      id: timeSheetId,
       company: req.auth.companyId,
+      ...req.body,
     };
 
-    await timeSheetService.deleteTimeSheet(props);
+    const timeSheet = await timeSheetService.updateTimeSheetStatus(props);
 
-    res.status(204).json();
+    res.status(200).json(timeSheet);
   }
 
   async gettimeSheetById(req: Request, res: Response) {

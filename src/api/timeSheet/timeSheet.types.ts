@@ -7,6 +7,7 @@ import { ShiftRecord } from "../shiftRecord";
 export interface TimeSheet extends DefaultSchemaConfig {
   startDateTime: Date;
   endDateTime: Date;
+  status: string;
   shift: ShiftRecord["id"];
   Shift?: ShiftRecord;
   staff: StaffProfile["id"];
@@ -18,21 +19,43 @@ export interface TimeSheet extends DefaultSchemaConfig {
 export interface CreateTimeSheetProps {
   startDateTime: TimeSheet["startDateTime"];
   endDateTime: TimeSheet["endDateTime"];
+  status: TimeSheet["status"];
+  shift: TimeSheet["shift"];
+  staff: TimeSheet["staff"][];
+  company: TimeSheet["company"];
+}
+
+export interface UpdateTimeSheetProps {
+  id: TimeSheet["id"];
+  startDateTime: TimeSheet["startDateTime"];
+  endDateTime: TimeSheet["endDateTime"];
+  status: TimeSheet["status"];
   shift: TimeSheet["shift"];
   staff: TimeSheet["staff"];
   company: TimeSheet["company"];
 }
-
-export interface UpdateTimeSheetProps extends CreateTimeSheetProps {
-  id: TimeSheet["id"];
+export interface UpdateTimeSheetStatusProps {
+  ids: TimeSheet["id"][];
+  status: TimeSheet["status"];
+  company: TimeSheet["company"];
 }
-
-export interface DeleteTimeSheetProps {
-  id: TimeSheet["id"];
+export interface UpdateTimeSheetOnShiftUpdateProps {
+  startDateTime: TimeSheet["startDateTime"];
+  endDateTime: TimeSheet["endDateTime"];
+  shift: TimeSheet["shift"];
+  staff: TimeSheet["staff"][];
   company: TimeSheet["company"];
 }
 
-export interface GetTimeSheetByIdProps extends DeleteTimeSheetProps {}
+export interface DeleteTimeSheetProps {
+  shift: TimeSheet["shift"];
+  company: TimeSheet["company"];
+}
+
+export interface GetTimeSheetByIdProps {
+  id: TimeSheet["id"];
+  company: TimeSheet["company"];
+}
 
 export interface GetTimeSheetsProps extends QueryParams {
   company: TimeSheet["company"];

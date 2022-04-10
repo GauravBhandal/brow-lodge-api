@@ -11,6 +11,7 @@ const createTimeSheetSchema = wrapSchema({
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
+    status: Joi.string().required(),
     shift: requiredUUIDSchema(),
     staff: requiredUUIDSchema(),
   }),
@@ -21,8 +22,16 @@ const editTimeSheetSchema = wrapSchema({
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
+    status: Joi.string().required(),
     shift: requiredUUIDSchema(),
     staff: requiredUUIDSchema(),
+  }),
+});
+
+const updateTimeSheetStatusSchema = wrapSchema({
+  body: Joi.object().keys({
+    status: Joi.string().required(),
+    ids: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
@@ -50,6 +59,7 @@ const getTimeSheetSchema = wrapSchema({
 export default {
   createTimeSheet: joiMiddleware(createTimeSheetSchema),
   editTimeSheet: joiMiddleware(editTimeSheetSchema),
+  updateTimeSheetStatus: joiMiddleware(updateTimeSheetStatusSchema),
   deleteTimeSheet: joiMiddleware(deleteTimeSheetSchema),
   getTimeSheetById: joiMiddleware(getTimeSheetByIdSchema),
   getTimeSheets: joiMiddleware(getTimeSheetSchema),

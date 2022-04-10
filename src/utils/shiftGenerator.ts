@@ -58,7 +58,7 @@ export const createShifts = (
     data;
   const { frequency, every } = repeat;
 
-  const repeatStartDate = convertDateToMoment(startDateTime);
+  const repeatStartDate = convertDateToMoment(`${startDateTime}`);
   const repeatEndDate =
     repeat.repeatEndDate && convertDateToMoment(repeat.repeatEndDate);
   const occurrences =

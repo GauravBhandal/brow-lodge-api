@@ -7,11 +7,11 @@ import { canDo } from "../../components/ability/canDo";
 
 const router = express.Router();
 
-router.post(
-  "/",
-  // canDo("create", "timeSheet"),
-  timeSheetSchems.createTimeSheet,
-  catchWrap(controller.createTimeSheet)
+router.put(
+  "/status",
+  canDo("update", "timeSheet"),
+  timeSheetSchems.updateTimeSheetStatus,
+  catchWrap(controller.updateTimeSheetStatus)
 );
 
 router.put(
@@ -19,13 +19,6 @@ router.put(
   canDo("update", "timeSheet"),
   timeSheetSchems.editTimeSheet,
   catchWrap(controller.updateTimeSheet)
-);
-
-router.delete(
-  "/:timeSheetId",
-  canDo("delete", "timeSheet"),
-  timeSheetSchems.deleteTimeSheet,
-  catchWrap(controller.deleteTimeSheet)
 );
 
 router.get(

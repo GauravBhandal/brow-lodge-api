@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import TimeSheetModel from "./timeSheet.model";
 import {
@@ -7,6 +8,8 @@ import {
   DeleteTimeSheetProps,
   GetTimeSheetByIdProps,
   GetTimeSheetsProps,
+  UpdateTimeSheetOnShiftUpdateProps,
+  UpdateTimeSheetStatusProps,
 } from "./timeSheet.types";
 import { CustomError } from "../../components/errors";
 import TimeSheetErrorCode from "./timeSheet.error";
@@ -18,8 +21,12 @@ import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 
 class TimeSheetService {
-  async createTimeSheet(props: CreateTimeSheetProps) {
-    const timeSheet = await TimeSheetModel.create(props);
+  async createTimeSheetInBulk(props: CreateTimeSheetProps) {
+    const createProps = props.staff.map((singleStaff) => ({
+      ...props,
+      staff: singleStaff,
+    }));
+    const timeSheet = await TimeSheetModel.bulkCreate(createProps);
     return timeSheet;
   }
 
@@ -46,13 +53,60 @@ class TimeSheetService {
     return updatedTimeSheet;
   }
 
+  async updateTimeSheetStatus(props: UpdateTimeSheetStatusProps) {
+    // Props
+    const { ids, company, status } = props;
+
+    const updateProps = { status };
+
+    // Finally, update the timeSheet
+    const [, [updatedTimeSheet]] = await TimeSheetModel.update(updateProps, {
+      where: {
+        id: {
+          [Op.or]: ids,
+        },
+        company,
+      },
+      returning: true,
+    });
+    return updatedTimeSheet;
+  }
+  async updateTimeSheetOnShiftUpdate(props: UpdateTimeSheetOnShiftUpdateProps) {
+    // Props
+    const { shift, company, startDateTime, endDateTime, staff } = props;
+
+    // Find timeSheets by shift id and company
+    const timeSheets = await TimeSheetModel.findAll({
+      where: { shift, company },
+    });
+
+    // if timeSheet not found, throw an error
+    if (!timeSheets) {
+      throw new CustomError(404, TimeSheetErrorCode.TIME_SHEET_NOT_FOUND);
+    }
+
+    // Delete all the existing timesheets for this shift
+    await this.deleteTimeSheet({ shift, company });
+
+    // creating new timesheets for shift update
+    const newTimeSheets = await this.createTimeSheetInBulk({
+      startDateTime,
+      endDateTime,
+      status: "Pending",
+      shift,
+      staff,
+      company,
+    });
+    return newTimeSheets;
+  }
+
   async deleteTimeSheet(props: DeleteTimeSheetProps) {
     // Props
-    const { id, company } = props;
+    const { shift, company } = props;
 
     // Find and delete the timeSheet by id and company
     const timeSheet = await TimeSheetModel.destroy({
-      where: { id, company },
+      where: { shift, company },
     });
 
     // if timeSheet has been deleted, throw an error
