@@ -9,6 +9,22 @@ const permissions = {
       update: true,
     },
   },
+  team: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  policy: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   company: {
     actions: {
       read: true,
@@ -32,6 +48,14 @@ const permissions = {
     },
   },
   resource: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  sleepLog: {
     actions: {
       read: true,
       create: true,
@@ -127,6 +151,13 @@ const permissions = {
       update: true,
     },
   },
+  policyReview: {
+    actions: {
+      read: true,
+      delete: true,
+      update: true,
+    },
+  },
   progressNote: {
     actions: {
       read: true,
@@ -201,6 +232,14 @@ const permissions = {
       update: true,
     },
   },
+  companyExpense: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   incidentReport: {
     actions: {
       read: true,
@@ -210,6 +249,14 @@ const permissions = {
     },
   },
   maintenanceLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  progressReport: {
     actions: {
       read: true,
       create: true,

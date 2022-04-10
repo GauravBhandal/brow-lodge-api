@@ -13,7 +13,7 @@ class PolicyModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements Policy
 {
-  nextReviewDate!: Policy["nextReviewDate"];
+  nextReviewDate: Policy["nextReviewDate"];
   name!: Policy["name"];
   version!: Policy["version"];
   company!: Policy["company"];
@@ -27,7 +27,6 @@ modelManager.init(
   {
     nextReviewDate: {
       type: Sequelize.DATE,
-      allowNull: false,
     },
     name: {
       type: Sequelize.STRING,

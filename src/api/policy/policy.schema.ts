@@ -9,7 +9,7 @@ import {
 
 const createPolicySchema = wrapSchema({
   body: Joi.object().keys({
-    nextReviewDate: Joi.date().required(),
+    nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
@@ -21,7 +21,7 @@ const createPolicySchema = wrapSchema({
 const editPolicySchema = wrapSchema({
   params: Joi.object().keys({ policyId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    nextReviewDate: Joi.date().required(),
+    nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
