@@ -25,7 +25,7 @@ router.get(
   "/:timeSheetId",
   canDo("read", "timeSheet"),
   timeSheetSchems.getTimeSheetById,
-  catchWrap(controller.gettimeSheetById)
+  catchWrap(controller.getTimeSheetById)
 );
 
 router.get(

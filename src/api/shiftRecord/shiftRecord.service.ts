@@ -176,6 +176,7 @@ class ShiftRecordService {
       });
     }
 
+    // Update timesheets
     await timeSheetService.updateTimeSheetOnShiftUpdate({
       startDateTime: props.startDateTime,
       endDateTime: props.endDateTime,
@@ -184,7 +185,7 @@ class ShiftRecordService {
       company: props.company,
     });
 
-    return updateProps;
+    return updatedShiftRecord;
   }
 
   async deleteShiftRecord(props: DeleteShiftRecordProps) {

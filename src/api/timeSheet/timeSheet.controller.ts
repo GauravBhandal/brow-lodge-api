@@ -28,7 +28,7 @@ class TimeSheetController {
     res.status(200).json(timeSheet);
   }
 
-  async gettimeSheetById(req: Request, res: Response) {
+  async getTimeSheetById(req: Request, res: Response) {
     const { timeSheetId } = req.params;
     const props = {
       id: timeSheetId,

@@ -26,6 +26,7 @@ class TimeSheetService {
       ...props,
       staff: singleStaff,
     }));
+
     const timeSheet = await TimeSheetModel.bulkCreate(createProps);
     return timeSheet;
   }
@@ -56,7 +57,6 @@ class TimeSheetService {
   async updateTimeSheetStatus(props: UpdateTimeSheetStatusProps) {
     // Props
     const { ids, company, status } = props;
-
     const updateProps = { status };
 
     // Finally, update the timeSheet
@@ -71,6 +71,7 @@ class TimeSheetService {
     });
     return updatedTimeSheet;
   }
+
   async updateTimeSheetOnShiftUpdate(props: UpdateTimeSheetOnShiftUpdateProps) {
     // Props
     const { shift, company, startDateTime, endDateTime, staff } = props;
@@ -88,7 +89,7 @@ class TimeSheetService {
     // Delete all the existing timesheets for this shift
     await this.deleteTimeSheet({ shift, company });
 
-    // creating new timesheets for shift update
+    // Create new timesheets on shift update
     const newTimeSheets = await this.createTimeSheetInBulk({
       startDateTime,
       endDateTime,
