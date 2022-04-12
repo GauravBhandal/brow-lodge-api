@@ -24,7 +24,7 @@ import { createShifts } from "../../utils/shiftGenerator";
 import { shiftRepeatService } from "../shiftRepeat";
 import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
 import { shiftRecordClientProfileService } from "./shiftRecordClientProfile";
-import { TimeSheetModel, timeSheetService } from "../timeSheet";
+import { TimesheetModel, timesheetService } from "../timesheet";
 
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
@@ -58,7 +58,7 @@ class ShiftRecordService {
       });
 
       // Create timesheet
-      await timeSheetService.createTimeSheetInBulk({
+      await timesheetService.createTimesheetInBulk({
         startDateTime: shiftRecord.startDateTime,
         endDateTime: shiftRecord.endDateTime,
         status: "Pending",
@@ -100,7 +100,7 @@ class ShiftRecordService {
     }
 
     // Create timesheet
-    await timeSheetService.createTimeSheetInBulk({
+    await timesheetService.createTimesheetInBulk({
       startDateTime: props.startDateTime,
       endDateTime: props.endDateTime,
       status: "Pending",
@@ -118,19 +118,19 @@ class ShiftRecordService {
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find all timesheets
-    const timeSheets = await TimeSheetModel.findAll({
+    const timesheets = await TimesheetModel.findAll({
       where: { shift: id, company },
     });
 
     // Checking that if any timesheet is approved or not
-    const timesheetApproved = timeSheets.some(
+    const timesheetApproved = timesheets.some(
       (timesheet) => timesheet.status === "Approved"
     );
 
     if (timesheetApproved) {
       throw new CustomError(
         404,
-        ShiftRecordErrorCode.TIME_SHEET_ALREADY_APPROVED
+        ShiftRecordErrorCode.TIMESHEET_ALREADY_APPROVED
       );
     }
     // Find shiftRecord by id and company
@@ -177,7 +177,7 @@ class ShiftRecordService {
     }
 
     // Update timesheets
-    await timeSheetService.updateTimeSheetOnShiftUpdate({
+    await timesheetService.updateTimesheetOnShiftUpdate({
       startDateTime: props.startDateTime,
       endDateTime: props.endDateTime,
       shift: id,

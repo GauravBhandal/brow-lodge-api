@@ -1,13 +1,13 @@
-import timeSheetRoutes from "./timeSheet.router";
-import TimeSheetErrorCode from "./timeSheet.error";
-import TimeSheetModel from "./timeSheet.model";
-import { TimeSheet } from "./timeSheet.types";
-import timeSheetService from "./timeSheet.service";
+import timesheetRoutes from "./timesheet.router";
+import TimesheetErrorCode from "./timesheet.error";
+import TimesheetModel from "./timesheet.model";
+import { Timesheet } from "./timesheet.types";
+import timesheetService from "./timesheet.service";
 
 export {
-  timeSheetRoutes,
-  TimeSheetErrorCode,
-  TimeSheetModel,
-  TimeSheet,
-  timeSheetService,
+  timesheetRoutes,
+  TimesheetErrorCode,
+  TimesheetModel,
+  Timesheet,
+  timesheetService,
 };

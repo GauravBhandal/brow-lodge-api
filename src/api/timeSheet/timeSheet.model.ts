@@ -4,29 +4,29 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { TimeSheet, CreateTimeSheetProps } from "./timeSheet.types";
+import { Timesheet, CreateTimesheetProps } from "./timesheet.types";
 
-class TimeSheetModel<
-    ModelAttributes = TimeSheet,
-    ModelCreationAttributes = CreateTimeSheetProps
+class TimesheetModel<
+    ModelAttributes = Timesheet,
+    ModelCreationAttributes = CreateTimesheetProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements TimeSheet
+  implements Timesheet
 {
-  startDateTime!: TimeSheet["startDateTime"];
-  endDateTime!: TimeSheet["endDateTime"];
-  status!: TimeSheet["status"];
-  staff!: TimeSheet["staff"];
-  Staff: TimeSheet["Staff"];
-  shift!: TimeSheet["shift"];
-  Shift: TimeSheet["Shift"];
-  company!: TimeSheet["company"];
-  Company: TimeSheet["Company"];
+  startDateTime!: Timesheet["startDateTime"];
+  endDateTime!: Timesheet["endDateTime"];
+  status!: Timesheet["status"];
+  staff!: Timesheet["staff"];
+  Staff: Timesheet["Staff"];
+  shift!: Timesheet["shift"];
+  Shift: Timesheet["Shift"];
+  company!: Timesheet["company"];
+  Company: Timesheet["Company"];
 }
 
 modelManager.init(
-  "TimeSheet",
-  TimeSheetModel,
+  "Timesheet",
+  TimesheetModel,
   {
     startDateTime: {
       type: Sequelize.DATE,
@@ -53,4 +53,4 @@ modelManager.init(
   }
 );
 
-export default TimeSheetModel;
+export default TimesheetModel;

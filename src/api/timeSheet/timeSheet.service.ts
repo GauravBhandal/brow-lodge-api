@@ -1,66 +1,67 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
 
-import TimeSheetModel from "./timeSheet.model";
+import TimesheetModel from "./timesheet.model";
 import {
-  CreateTimeSheetProps,
-  UpdateTimeSheetProps,
-  DeleteTimeSheetProps,
-  GetTimeSheetByIdProps,
-  GetTimeSheetsProps,
-  UpdateTimeSheetOnShiftUpdateProps,
-  UpdateTimeSheetStatusProps,
-} from "./timeSheet.types";
+  CreateTimesheetProps,
+  UpdateTimesheetProps,
+  DeleteTimesheetProps,
+  GetTimesheetByIdProps,
+  GetTimesheetsProps,
+  UpdateTimesheetOnShiftUpdateProps,
+  UpdateTimesheetStatusProps,
+} from "./timesheet.types";
 import { CustomError } from "../../components/errors";
-import TimeSheetErrorCode from "./timeSheet.error";
+import TimesheetErrorCode from "./timesheet.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
+import { ClientProfileModel } from "../clientProfile";
 
-class TimeSheetService {
-  async createTimeSheetInBulk(props: CreateTimeSheetProps) {
+class TimesheetService {
+  async createTimesheetInBulk(props: CreateTimesheetProps) {
     const createProps = props.staff.map((singleStaff) => ({
       ...props,
       staff: singleStaff,
     }));
 
-    const timeSheet = await TimeSheetModel.bulkCreate(createProps);
-    return timeSheet;
+    const timesheet = await TimesheetModel.bulkCreate(createProps);
+    return timesheet;
   }
 
-  async updateTimeSheet(props: UpdateTimeSheetProps) {
+  async updateTimesheet(props: UpdateTimesheetProps) {
     // Props
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
-    // Find timeSheet by id and company
-    const timeSheet = await TimeSheetModel.findOne({
+    // Find timesheet by id and company
+    const timesheet = await TimesheetModel.findOne({
       where: { id, company },
     });
 
-    // if timeSheet not found, throw an error
-    if (!timeSheet) {
-      throw new CustomError(404, TimeSheetErrorCode.TIME_SHEET_NOT_FOUND);
+    // if timesheet not found, throw an error
+    if (!timesheet) {
+      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
     }
 
-    // Finally, update the timeSheet
-    const [, [updatedTimeSheet]] = await TimeSheetModel.update(updateProps, {
+    // Finally, update the timesheet
+    const [, [updatedTimesheet]] = await TimesheetModel.update(updateProps, {
       where: { id, company },
       returning: true,
     });
-    return updatedTimeSheet;
+    return updatedTimesheet;
   }
 
-  async updateTimeSheetStatus(props: UpdateTimeSheetStatusProps) {
+  async updateTimesheetStatus(props: UpdateTimesheetStatusProps) {
     // Props
     const { ids, company, status } = props;
     const updateProps = { status };
 
-    // Finally, update the timeSheet
-    const [, [updatedTimeSheet]] = await TimeSheetModel.update(updateProps, {
+    // Finally, update the timesheet
+    const [, [updatedTimesheet]] = await TimesheetModel.update(updateProps, {
       where: {
         id: {
           [Op.or]: ids,
@@ -69,28 +70,28 @@ class TimeSheetService {
       },
       returning: true,
     });
-    return updatedTimeSheet;
+    return updatedTimesheet;
   }
 
-  async updateTimeSheetOnShiftUpdate(props: UpdateTimeSheetOnShiftUpdateProps) {
+  async updateTimesheetOnShiftUpdate(props: UpdateTimesheetOnShiftUpdateProps) {
     // Props
     const { shift, company, startDateTime, endDateTime, staff } = props;
 
-    // Find timeSheets by shift id and company
-    const timeSheets = await TimeSheetModel.findAll({
+    // Find timesheets by shift id and company
+    const timesheets = await TimesheetModel.findAll({
       where: { shift, company },
     });
 
-    // if timeSheet not found, throw an error
-    if (!timeSheets) {
-      throw new CustomError(404, TimeSheetErrorCode.TIME_SHEET_NOT_FOUND);
+    // if timesheet not found, throw an error
+    if (!timesheets) {
+      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
     }
 
     // Delete all the existing timesheets for this shift
-    await this.deleteTimeSheet({ shift, company });
+    await this.deleteTimesheet({ shift, company });
 
     // Create new timesheets on shift update
-    const newTimeSheets = await this.createTimeSheetInBulk({
+    const newTimesheets = await this.createTimesheetInBulk({
       startDateTime,
       endDateTime,
       status: "Pending",
@@ -98,32 +99,32 @@ class TimeSheetService {
       staff,
       company,
     });
-    return newTimeSheets;
+    return newTimesheets;
   }
 
-  async deleteTimeSheet(props: DeleteTimeSheetProps) {
+  async deleteTimesheet(props: DeleteTimesheetProps) {
     // Props
     const { shift, company } = props;
 
-    // Find and delete the timeSheet by id and company
-    const timeSheet = await TimeSheetModel.destroy({
+    // Find and delete the timesheet by id and company
+    const timesheet = await TimesheetModel.destroy({
       where: { shift, company },
     });
 
-    // if timeSheet has been deleted, throw an error
-    if (!timeSheet) {
-      throw new CustomError(404, TimeSheetErrorCode.TIME_SHEET_NOT_FOUND);
+    // if timesheet has been deleted, throw an error
+    if (!timesheet) {
+      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
     }
 
-    return timeSheet;
+    return timesheet;
   }
 
-  async getTimeSheetById(props: GetTimeSheetByIdProps) {
+  async getTimesheetById(props: GetTimesheetByIdProps) {
     // Props
     const { id, company } = props;
 
-    // Find  the timeSheet by id and company
-    const timeSheet = await TimeSheetModel.findOne({
+    // Find  the timesheet by id and company
+    const timesheet = await TimesheetModel.findOne({
       where: { id, company },
       include: [
         {
@@ -136,15 +137,15 @@ class TimeSheetService {
       ],
     });
 
-    // If no timeSheet has been found, then throw an error
-    if (!timeSheet) {
-      throw new CustomError(404, TimeSheetErrorCode.TIME_SHEET_NOT_FOUND);
+    // If no timesheet has been found, then throw an error
+    if (!timesheet) {
+      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
     }
 
-    return timeSheet;
+    return timesheet;
   }
 
-  async getTimeSheets(props: GetTimeSheetsProps, userId: string) {
+  async getTimesheets(props: GetTimesheetsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
@@ -172,8 +173,8 @@ class TimeSheetService {
       },
     ];
 
-    // Count total timeSheets in the given company
-    const count = await TimeSheetModel.count({
+    // Count total timesheets in the given company
+    const count = await TimesheetModel.count({
       where: {
         company,
         ...filters["primaryFilters"],
@@ -182,8 +183,8 @@ class TimeSheetService {
       include,
     });
 
-    // Find all timeSheets for matching props and company
-    const data = await TimeSheetModel.findAll({
+    // Find all timesheets for matching props and company
+    const data = await TimesheetModel.findAll({
       offset,
       limit,
       order,
@@ -200,4 +201,4 @@ class TimeSheetService {
   }
 }
 
-export default new TimeSheetService();
+export default new TimesheetService();

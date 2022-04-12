@@ -57,7 +57,7 @@ type Subject =
   | "companyExpense"
   | "progressReport"
   | "policyReview"
-  | "timeSheet"
+  | "timesheet"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {

@@ -1,7 +1,7 @@
 import express from "express";
 
-import controller from "./timeSheet.controller";
-import timeSheetSchems from "./timeSheet.schema";
+import controller from "./timesheet.controller";
+import timesheetSchems from "./timesheet.schema";
 import { catchWrap } from "../../components/errors";
 import { canDo } from "../../components/ability/canDo";
 
@@ -9,30 +9,30 @@ const router = express.Router();
 
 router.put(
   "/status",
-  canDo("update", "timeSheet"),
-  timeSheetSchems.updateTimeSheetStatus,
-  catchWrap(controller.updateTimeSheetStatus)
+  canDo("update", "timesheet"),
+  timesheetSchems.updateTimesheetStatus,
+  catchWrap(controller.updateTimesheetStatus)
 );
 
 router.put(
-  "/:timeSheetId",
-  canDo("update", "timeSheet"),
-  timeSheetSchems.editTimeSheet,
-  catchWrap(controller.updateTimeSheet)
+  "/:timesheetId",
+  canDo("update", "timesheet"),
+  timesheetSchems.editTimesheet,
+  catchWrap(controller.updateTimesheet)
 );
 
 router.get(
-  "/:timeSheetId",
-  canDo("read", "timeSheet"),
-  timeSheetSchems.getTimeSheetById,
-  catchWrap(controller.getTimeSheetById)
+  "/:timesheetId",
+  canDo("read", "timesheet"),
+  timesheetSchems.getTimesheetById,
+  catchWrap(controller.getTimesheetById)
 );
 
 router.get(
   "/",
-  canDo("read", "timeSheet"),
-  timeSheetSchems.getTimeSheets,
-  catchWrap(controller.getTimeSheets)
+  canDo("read", "timesheet"),
+  timesheetSchems.getTimesheets,
+  catchWrap(controller.getTimesheets)
 );
 
 export default router;

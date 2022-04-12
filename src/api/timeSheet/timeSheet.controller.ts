@@ -1,46 +1,46 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 
-import timeSheetService from "./timeSheet.service";
+import timesheetService from "./timesheet.service";
 
-class TimeSheetController {
-  async updateTimeSheet(req: Request, res: Response) {
-    const { timeSheetId } = req.params;
+class TimesheetController {
+  async updateTimesheet(req: Request, res: Response) {
+    const { timesheetId } = req.params;
     const props = {
-      id: timeSheetId,
+      id: timesheetId,
       company: req.auth.companyId,
       ...req.body,
     };
 
-    const timeSheet = await timeSheetService.updateTimeSheet(props);
+    const timesheet = await timesheetService.updateTimesheet(props);
 
-    res.status(200).json(timeSheet);
+    res.status(200).json(timesheet);
   }
 
-  async updateTimeSheetStatus(req: Request, res: Response) {
+  async updateTimesheetStatus(req: Request, res: Response) {
     const props = {
       company: req.auth.companyId,
       ...req.body,
     };
 
-    const timeSheet = await timeSheetService.updateTimeSheetStatus(props);
+    const timesheet = await timesheetService.updateTimesheetStatus(props);
 
-    res.status(200).json(timeSheet);
+    res.status(200).json(timesheet);
   }
 
-  async getTimeSheetById(req: Request, res: Response) {
-    const { timeSheetId } = req.params;
+  async getTimesheetById(req: Request, res: Response) {
+    const { timesheetId } = req.params;
     const props = {
-      id: timeSheetId,
+      id: timesheetId,
       company: req.auth.companyId,
     };
 
-    const timeSheet = await timeSheetService.getTimeSheetById(props);
+    const timesheet = await timesheetService.getTimesheetById(props);
 
-    res.status(200).json(timeSheet);
+    res.status(200).json(timesheet);
   }
 
-  async getTimeSheets(req: Request, res: Response) {
+  async getTimesheets(req: Request, res: Response) {
     const queryParams = _pick(req.query, [
       "page",
       "pageSize",
@@ -52,13 +52,13 @@ class TimeSheetController {
       ...queryParams,
     };
 
-    const timeSheets = await timeSheetService.getTimeSheets(
+    const timesheets = await timesheetService.getTimesheets(
       props,
       req.auth.userId
     );
 
-    res.status(200).json(timeSheets);
+    res.status(200).json(timesheets);
   }
 }
 
-export default new TimeSheetController();
+export default new TimesheetController();

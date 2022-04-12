@@ -7,7 +7,7 @@ import {
   requiredTimeSchema,
 } from "../../common/joiSchemas";
 
-const createTimeSheetSchema = wrapSchema({
+const createTimesheetSchema = wrapSchema({
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
@@ -17,8 +17,8 @@ const createTimeSheetSchema = wrapSchema({
   }),
 });
 
-const editTimeSheetSchema = wrapSchema({
-  params: Joi.object().keys({ timeSheetId: requiredUUIDSchema() }),
+const editTimesheetSchema = wrapSchema({
+  params: Joi.object().keys({ timesheetId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
@@ -28,26 +28,26 @@ const editTimeSheetSchema = wrapSchema({
   }),
 });
 
-const updateTimeSheetStatusSchema = wrapSchema({
+const updateTimesheetStatusSchema = wrapSchema({
   body: Joi.object().keys({
     status: Joi.string().required(),
     ids: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
-const deleteTimeSheetSchema = wrapSchema({
+const deleteTimesheetSchema = wrapSchema({
   params: Joi.object().keys({
-    timeSheetId: requiredUUIDSchema(),
+    timesheetId: requiredUUIDSchema(),
   }),
 });
 
-const getTimeSheetByIdSchema = wrapSchema({
+const getTimesheetByIdSchema = wrapSchema({
   params: Joi.object().keys({
-    timeSheetId: requiredUUIDSchema(),
+    timesheetId: requiredUUIDSchema(),
   }),
 });
 
-const getTimeSheetSchema = wrapSchema({
+const getTimesheetSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
@@ -57,10 +57,10 @@ const getTimeSheetSchema = wrapSchema({
 });
 
 export default {
-  createTimeSheet: joiMiddleware(createTimeSheetSchema),
-  editTimeSheet: joiMiddleware(editTimeSheetSchema),
-  updateTimeSheetStatus: joiMiddleware(updateTimeSheetStatusSchema),
-  deleteTimeSheet: joiMiddleware(deleteTimeSheetSchema),
-  getTimeSheetById: joiMiddleware(getTimeSheetByIdSchema),
-  getTimeSheets: joiMiddleware(getTimeSheetSchema),
+  createTimesheet: joiMiddleware(createTimesheetSchema),
+  editTimesheet: joiMiddleware(editTimesheetSchema),
+  updateTimesheetStatus: joiMiddleware(updateTimesheetStatusSchema),
+  deleteTimesheet: joiMiddleware(deleteTimesheetSchema),
+  getTimesheetById: joiMiddleware(getTimesheetByIdSchema),
+  getTimesheets: joiMiddleware(getTimesheetSchema),
 };

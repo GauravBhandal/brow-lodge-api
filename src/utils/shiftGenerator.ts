@@ -20,8 +20,6 @@ const addDaysInDate = (date: string | Date, number: number, type: any) =>
 const specificDay = (date: string, numberOfWeeks: number, day: number) =>
   moment(date).add(numberOfWeeks, "weeks").isoWeekday(day).format();
 
-const generateShift = (date: string) => ({ shiftDate: date });
-
 const daysDifference = (repeatStartDate: any, repeatEndDate: any) =>
   moment(repeatEndDate).diff(moment(repeatStartDate), "days");
 
@@ -40,7 +38,7 @@ const getOccurrenceswithEndDate = (
   repeatStartDate = moment(repeatStartDate).startOf("day");
   let days = daysDifference(repeatStartDate, repeatEndDate);
   if (frequency === "weekly") {
-    days = Math.ceil(days / 7);
+    days = Math.floor(days / 7);
   }
   days = Math.floor(days / every);
   return days + 1;
@@ -58,12 +56,13 @@ export const createShifts = (
     data;
   const { frequency, every } = repeat;
 
-  const repeatStartDate = convertDateToMoment(`${startDateTime}`);
+  const repeatStartDate = convertDateToMoment(startDateTime as any);
   const repeatEndDate =
     repeat.repeatEndDate && convertDateToMoment(repeat.repeatEndDate);
   const occurrences =
     repeat.occurrences ||
     getOccurrenceswithEndDate(repeatStartDate, repeatEndDate, every, frequency);
+  console.log("occurrences", occurrences);
   const finalResult = [];
 
   if (frequency === "daily") {
@@ -84,6 +83,7 @@ export const createShifts = (
         client,
         staff,
         types,
+        break: data.break,
         startDateTime: shiftStartDateTime,
         endDateTime: shiftEndDateTime,
         repeat,
@@ -112,6 +112,7 @@ export const createShifts = (
               client,
               staff,
               types,
+              break: data.break,
               startDateTime: shiftStartDateTime,
               endDateTime: shiftEndDateTime,
               repeat,
