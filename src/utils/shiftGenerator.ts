@@ -62,7 +62,6 @@ export const createShifts = (
   const occurrences =
     repeat.occurrences ||
     getOccurrenceswithEndDate(repeatStartDate, repeatEndDate, every, frequency);
-  console.log("occurrences", occurrences);
   const finalResult = [];
 
   if (frequency === "daily") {
