@@ -12,6 +12,17 @@ CREATE TABLE IF NOT EXISTS "shift_types" (
 );
 ALTER TABLE "shift_types" ENABLE ROW LEVEL SECURITY;
 
+CREATE TABLE IF NOT EXISTS "pay_levels" (
+  "id" UUID NOT NULL,
+  "name" VARCHAR NOT NULL,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "pay_levels" ENABLE ROW LEVEL SECURITY;
+
 CREATE TABLE IF NOT EXISTS "shift_repeats" (
   "id" UUID NOT NULL,
   "meta" JSONB NOT NULL,
@@ -73,6 +84,9 @@ ALTER TABLE "shift_records_client_profiles" ENABLE ROW LEVEL SECURITY;
 `;
 
 const queryDown = `
+ALTER TABLE "pay_levels" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "pay_levels";
+
 ALTER TABLE "shift_records_shift_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_records_shift_types";
 
@@ -87,6 +101,9 @@ DROP TABLE IF EXISTS "shift_records";
 
 ALTER TABLE "shift_repeats" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_repeats";
+
+ALTER TABLE "pay_levels" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "pay_levels";
 
 ALTER TABLE "shift_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_types";

@@ -51,6 +51,7 @@ import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
 import { CompanyExpenseModel } from "../../api/companyExpense";
 import { PolicyReviewModel } from "../../api/policyReview";
+import { PayLevelModel } from "../../api/payLevel";
 
 export default {
   initialize() {
@@ -100,6 +101,7 @@ export default {
     initializeRestrictivePracticeLogModelAssociations();
     initializeTeamModelAssociations();
     initializeShiftTypeModelAssociations();
+    initializePayLevelModelAssociations();
     initializeShiftRepeatModelAssociations();
     initializeShiftRecordModelAssociations();
     initializePolicyModelAssociations();
@@ -845,5 +847,11 @@ function initializePolicyReviewModelAssociations() {
       name: "repeat",
     },
     as: "Repeat",
+  });
+}
+
+function initializePayLevelModelAssociations() {
+  PayLevelModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }
