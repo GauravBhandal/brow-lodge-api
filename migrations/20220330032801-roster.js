@@ -83,6 +83,9 @@ ALTER TABLE "shift_records_client_profiles" ENABLE ROW LEVEL SECURITY;
 `;
 
 const queryDown = `
+ALTER TABLE "pay_levels" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "pay_levels";
+
 ALTER TABLE "shift_records_shift_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_records_shift_types";
 
@@ -98,11 +101,11 @@ DROP TABLE IF EXISTS "shift_records";
 ALTER TABLE "shift_repeats" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_repeats";
 
-ALTER TABLE "shift_types" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "shift_types";
-
 ALTER TABLE "pay_levels" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "pay_levels";
+
+ALTER TABLE "shift_types" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "shift_types";
 `;
 
 module.exports = {
