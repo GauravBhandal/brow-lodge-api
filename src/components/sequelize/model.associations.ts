@@ -51,7 +51,7 @@ import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
 import { CompanyExpenseModel } from "../../api/companyExpense";
 import { PolicyReviewModel } from "../../api/policyReview";
-import { TimesheetModel } from "../../api/timesheets";
+import { TimesheetModel } from "../../api/timesheet";
 
 export default {
   initialize() {
