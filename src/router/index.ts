@@ -54,7 +54,7 @@ import { progressReportRoutes } from "../api/progressReport";
 import { policyReviewRoutes } from "../api/policyReview";
 import { shiftTypeRoutes } from "../api/shiftType";
 import { shiftRecordRoutes } from "../api/shiftRecord";
-import { timesheetRoutes } from "../api/timesheet";
+import { timesheetRoutes } from "../api/timesheets";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file

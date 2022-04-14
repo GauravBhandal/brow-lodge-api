@@ -24,7 +24,7 @@ import { createShifts } from "../../utils/shiftGenerator";
 import { shiftRepeatService } from "../shiftRepeat";
 import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
 import { shiftRecordClientProfileService } from "./shiftRecordClientProfile";
-import { TimesheetModel, timesheetService } from "../timesheet";
+import { TimesheetModel, timesheetService } from "../timesheets";
 
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
