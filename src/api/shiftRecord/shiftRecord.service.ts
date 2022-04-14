@@ -24,6 +24,7 @@ import { createShifts } from "../../utils/shiftGenerator";
 import { shiftRepeatService } from "../shiftRepeat";
 import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
 import { shiftRecordClientProfileService } from "./shiftRecordClientProfile";
+import { TimesheetModel, timesheetService } from "../timesheet";
 
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
@@ -55,6 +56,16 @@ class ShiftRecordService {
         shift: shiftRecord.id,
         client: props.client,
       });
+
+      // Create timesheet
+      await timesheetService.createTimesheetInBulk({
+        startDateTime: shiftRecord.startDateTime,
+        endDateTime: shiftRecord.endDateTime,
+        status: "Pending",
+        shift: shiftRecord.id,
+        staff: props.staff,
+        company: props.company,
+      });
     }
 
     return shiftRecords;
@@ -79,6 +90,7 @@ class ShiftRecordService {
         client: props.client,
       });
     }
+
     // Create types
     if (props.types && props.types.length) {
       await shiftRecordShiftTypeService.createBulkShiftRecordShiftType({
@@ -86,6 +98,16 @@ class ShiftRecordService {
         types: props.types,
       });
     }
+
+    // Create timesheet
+    await timesheetService.createTimesheetInBulk({
+      startDateTime: props.startDateTime,
+      endDateTime: props.endDateTime,
+      status: "Pending",
+      shift: shiftRecord.id,
+      staff: props.staff,
+      company: props.company,
+    });
 
     return shiftRecord;
   }
@@ -95,6 +117,22 @@ class ShiftRecordService {
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
+    // Find all timesheets
+    const timesheets = await TimesheetModel.findAll({
+      where: { shift: id, company },
+    });
+
+    // Checking that if any timesheet is approved or not
+    const timesheetApproved = timesheets.some(
+      (timesheet) => timesheet.status === "Approved"
+    );
+
+    if (timesheetApproved) {
+      throw new CustomError(
+        404,
+        ShiftRecordErrorCode.TIMESHEET_ALREADY_APPROVED
+      );
+    }
     // Find shiftRecord by id and company
     const shiftRecord = await ShiftRecordModel.findOne({
       where: { id, company },
@@ -138,6 +176,15 @@ class ShiftRecordService {
       });
     }
 
+    // Update timesheets
+    await timesheetService.updateTimesheetOnShiftUpdate({
+      startDateTime: props.startDateTime,
+      endDateTime: props.endDateTime,
+      shift: id,
+      staff: props.staff,
+      company: props.company,
+    });
+
     return updatedShiftRecord;
   }
 
@@ -148,7 +195,6 @@ class ShiftRecordService {
     const shiftRecord = await ShiftRecordModel.findOne({
       where: { id, company },
     });
-
     // if shiftRecord has not been found, throw an error
     if (!shiftRecord) {
       throw new CustomError(404, ShiftRecordErrorCode.SHIFT_RECORD_NOT_FOUND);

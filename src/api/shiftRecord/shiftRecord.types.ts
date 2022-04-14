@@ -8,8 +8,8 @@ import { TypeProp } from "./shiftRecordShiftType";
 import { ShiftRepeat } from "../shiftRepeat";
 
 export interface ShiftRecord extends DefaultSchemaConfig {
-  startDateTime: string;
-  endDateTime: string;
+  startDateTime: Date;
+  endDateTime: Date;
   break: Number;
   Staff?: StaffProfile[];
   Client?: ClientProfile[];
