@@ -40,6 +40,23 @@ class ServiceController {
     res.status(204).json();
   }
 
+  async getEffectiveService(req: Request, res: Response) {
+    const queryParams = _pick(req.query, [
+      "page",
+      "pageSize",
+      "sort",
+      "where",
+    ]) as any;
+    const props = {
+      company: req.auth.companyId,
+      ...queryParams,
+    };
+
+    const services = await serviceService.getEffectiveService(props);
+
+    res.status(200).json(services);
+  }
+
   async getserviceById(req: Request, res: Response) {
     const { serviceId } = req.params;
     const props = {

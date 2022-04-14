@@ -24,6 +24,8 @@ import { createShifts } from "../../utils/shiftGenerator";
 import { shiftRepeatService } from "../shiftRepeat";
 import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
 import { shiftRecordClientProfileService } from "./shiftRecordClientProfile";
+import { shiftRecordServiceService } from "./shiftRecordService";
+import { ServiceModel } from "../service";
 
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
@@ -47,6 +49,12 @@ class ShiftRecordService {
         shift: shiftRecord.id,
         types: props.types,
       });
+
+      await shiftRecordServiceService.createBulkShiftRecordService({
+        shift: shiftRecord.id,
+        services: props.services,
+      });
+
       await shiftRecordStaffProfileService.createBulkShiftRecordStaffProfile({
         shift: shiftRecord.id,
         staff: props.staff,
@@ -86,6 +94,13 @@ class ShiftRecordService {
         types: props.types,
       });
     }
+    // Create services
+    if (props.services && props.services.length) {
+      await shiftRecordServiceService.createBulkShiftRecordService({
+        shift: shiftRecord.id,
+        services: props.services,
+      });
+    }
 
     return shiftRecord;
   }
@@ -119,6 +134,14 @@ class ShiftRecordService {
       await shiftRecordShiftTypeService.updateBulkShiftRecordShiftType({
         shift: shiftRecord.id,
         types: props.types,
+      });
+    }
+
+    // Update services
+    if (props.services && props.services.length) {
+      await shiftRecordServiceService.updateBulkShiftRecordService({
+        shift: shiftRecord.id,
+        services: props.services,
       });
     }
 
@@ -200,6 +223,12 @@ class ShiftRecordService {
         },
         {
           model: ShiftTypeModel,
+          through: {
+            attributes: ["start_time"], //TODO: We need to do some cleanup here
+          },
+        },
+        {
+          model: ServiceModel,
           through: {
             attributes: ["start_time"], //TODO: We need to do some cleanup here
           },

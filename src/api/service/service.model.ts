@@ -14,7 +14,7 @@ class ServiceModel<
   implements Service
 {
   code!: Service["code"];
-  description!: Service["description"];
+  name!: Service["name"];
   effectiveDate!: Service["effectiveDate"];
   company!: Service["company"];
   Company: Service["Company"];
@@ -28,7 +28,7 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    description: {
+    name: {
       type: Sequelize.STRING,
       allowNull: false,
     },

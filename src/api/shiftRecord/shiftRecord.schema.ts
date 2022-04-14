@@ -12,6 +12,11 @@ const typeSchema = Joi.object().keys({
   type: requiredUUIDSchema(),
 });
 
+const serviceSchema = Joi.object().keys({
+  startTime: requiredTimeSchema(),
+  service: requiredUUIDSchema(),
+});
+
 // TODO: Add meta
 const shiftRepeatSchema = Joi.object()
   .allow(null)
@@ -31,6 +36,7 @@ const createShiftRecordSchema = wrapSchema({
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     types: Joi.array().items(typeSchema).required(),
+    services: Joi.array().items(serviceSchema).required(),
     repeat: shiftRepeatSchema,
   }),
 });
@@ -44,6 +50,7 @@ const editShiftRecordSchema = wrapSchema({
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     types: Joi.array().items(typeSchema).required(),
+    services: Joi.array().items(serviceSchema).required(),
   }),
 });
 

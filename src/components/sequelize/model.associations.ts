@@ -777,6 +777,11 @@ function initializeShiftRecordModelAssociations() {
     foreignKey: "shift",
     otherKey: "type",
   });
+  ShiftRecordModel.belongsToMany(ServiceModel, {
+    through: "shift_records_services",
+    foreignKey: "shift",
+    otherKey: "service",
+  });
 }
 
 function initializeShiftRepeatModelAssociations() {

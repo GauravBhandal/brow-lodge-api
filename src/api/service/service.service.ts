@@ -15,6 +15,7 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
+import moment from "moment";
 
 class ServiceService {
   async createService(props: CreateServiceProps) {
@@ -154,6 +155,53 @@ class ServiceService {
       where: {
         company,
         ...filters["primaryFilters"],
+      },
+      include,
+    });
+
+    const response = getPagingData({ count, rows: data }, page, limit);
+
+    return response;
+  }
+
+  async getEffectiveService(props: GetServicesProps) {
+    // Props
+    const { page, pageSize, sort, where, company } = props;
+
+    const { offset, limit } = getPagingParams(page, pageSize);
+    const order = getSortingParams(sort);
+    const filters = getFilters(where);
+
+    const include = [
+      {
+        model: CompanyModel,
+      },
+    ];
+
+    // Count total services in the given company
+    const count = await ServiceModel.count({
+      where: {
+        company,
+        ...filters["primaryFilters"],
+      },
+      distinct: true,
+      include,
+    });
+
+    // Find all services for matching props and company
+    const data = await ServiceModel.findAll({
+      offset,
+      limit,
+      order,
+      where: {
+        company,
+        ...filters["primaryFilters"],
+        effectiveDate: {
+          [Op.or]: {
+            [Op.lte]: moment().startOf("day").format(),
+            [Op.eq]: null,
+          },
+        },
       },
       include,
     });

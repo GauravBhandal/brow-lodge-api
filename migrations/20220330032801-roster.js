@@ -15,7 +15,7 @@ ALTER TABLE "shift_types" ENABLE ROW LEVEL SECURITY;
 CREATE TABLE IF NOT EXISTS "services" (
   "id" UUID NOT NULL,
   "code" VARCHAR (255) NOT NULL UNIQUE,
-  "description" VARCHAR (255) NOT NULL,
+  "name" VARCHAR (255) NOT NULL,
   "effective_date" TIMESTAMP WITH TIME ZONE,
   "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -62,6 +62,18 @@ CREATE TABLE IF NOT EXISTS "shift_records_shift_types" (
 );
 ALTER TABLE "shift_records_shift_types" ENABLE ROW LEVEL SECURITY;
 
+CREATE TABLE IF NOT EXISTS "shift_records_services" (
+  "id" UUID NOT NULL,
+  "shift" UUID REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+  "service" UUID REFERENCES "services" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "shift_records_services" ENABLE ROW LEVEL SECURITY;
+
 CREATE TABLE IF NOT EXISTS "shift_records_staff_profiles" (
   "id" UUID NOT NULL,
   "shift" UUID NOT NULL REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -88,6 +100,9 @@ ALTER TABLE "shift_records_client_profiles" ENABLE ROW LEVEL SECURITY;
 const queryDown = `
 ALTER TABLE "shift_records_shift_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_records_shift_types";
+
+ALTER TABLE "shift_records_services" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "shift_records_services";
 
 ALTER TABLE "shift_records_staff_profiles" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_records_staff_profiles";

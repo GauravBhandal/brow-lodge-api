@@ -6,7 +6,7 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createServiceSchema = wrapSchema({
   body: Joi.object().keys({
     code: Joi.string().required().trim(),
-    description: Joi.string().required().trim(),
+    name: Joi.string().required().trim(),
     effectiveDate: Joi.date().allow(null),
   }),
 });
@@ -15,7 +15,7 @@ const editServiceSchema = wrapSchema({
   params: Joi.object().keys({ serviceId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     code: Joi.string().required().trim(),
-    description: Joi.string().required().trim(),
+    name: Joi.string().required().trim(),
     effectiveDate: Joi.date().allow(null),
   }),
 });

@@ -29,6 +29,13 @@ router.delete(
 );
 
 router.get(
+  "/effective",
+  canDo("read", "service"),
+  serviceSchemas.getServices,
+  catchWrap(controller.getEffectiveService)
+);
+
+router.get(
   "/:serviceId",
   canDo("read", "service"),
   serviceSchemas.getServiceById,
