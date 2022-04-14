@@ -51,6 +51,7 @@ import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
 import { CompanyExpenseModel } from "../../api/companyExpense";
 import { PolicyReviewModel } from "../../api/policyReview";
+import { ServiceModel } from "../../api/service";
 
 export default {
   initialize() {
@@ -106,6 +107,7 @@ export default {
     initializeCompanyExpenseModelAssociations();
     initializeProgressReportModelAssociations();
     initializePolicyReviewModelAssociations();
+    initializeServiceModelAssociations();
   },
 };
 
@@ -845,5 +847,11 @@ function initializePolicyReviewModelAssociations() {
       name: "repeat",
     },
     as: "Repeat",
+  });
+}
+
+function initializeServiceModelAssociations() {
+  ServiceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }
