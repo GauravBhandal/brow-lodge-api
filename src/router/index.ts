@@ -55,6 +55,8 @@ import { policyReviewRoutes } from "../api/policyReview";
 import { shiftTypeRoutes } from "../api/shiftType";
 import { shiftRecordRoutes } from "../api/shiftRecord";
 import { serviceRoutes } from "../api/service";
+import { timesheetRoutes } from "../api/timesheet";
+import { payLevelRoutes } from "../api/payLevel";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -113,5 +115,7 @@ router.use("/policy-review", policyReviewRoutes);
 router.use("/shift-type", shiftTypeRoutes);
 router.use("/shift-record", shiftRecordRoutes);
 router.use("/service", serviceRoutes);
+router.use("/timesheet", timesheetRoutes);
+router.use("/pay-level", payLevelRoutes);
 
 export default router;
