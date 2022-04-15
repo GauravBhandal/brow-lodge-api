@@ -54,6 +54,7 @@ import { progressReportRoutes } from "../api/progressReport";
 import { policyReviewRoutes } from "../api/policyReview";
 import { shiftTypeRoutes } from "../api/shiftType";
 import { shiftRecordRoutes } from "../api/shiftRecord";
+import { serviceRoutes } from "../api/service";
 import { timesheetRoutes } from "../api/timesheet";
 import { payLevelRoutes } from "../api/payLevel";
 
@@ -113,6 +114,7 @@ router.use("/progress-report", progressReportRoutes);
 router.use("/policy-review", policyReviewRoutes);
 router.use("/shift-type", shiftTypeRoutes);
 router.use("/shift-record", shiftRecordRoutes);
+router.use("/service", serviceRoutes);
 router.use("/timesheet", timesheetRoutes);
 router.use("/pay-level", payLevelRoutes);
 

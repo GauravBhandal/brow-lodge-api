@@ -51,6 +51,7 @@ import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
 import { CompanyExpenseModel } from "../../api/companyExpense";
 import { PolicyReviewModel } from "../../api/policyReview";
+import { ServiceModel } from "../../api/service";
 import { TimesheetModel } from "../../api/timesheet";
 import { PayLevelModel } from "../../api/payLevel";
 
@@ -109,6 +110,7 @@ export default {
     initializeCompanyExpenseModelAssociations();
     initializeProgressReportModelAssociations();
     initializePolicyReviewModelAssociations();
+    initializeServiceModelAssociations();
     initializeTimesheetModelAssociations();
   },
 };
@@ -779,6 +781,11 @@ function initializeShiftRecordModelAssociations() {
     foreignKey: "shift",
     otherKey: "type",
   });
+  ShiftRecordModel.belongsToMany(ServiceModel, {
+    through: "shift_records_services",
+    foreignKey: "shift",
+    otherKey: "service",
+  });
 }
 
 function initializeShiftRepeatModelAssociations() {
@@ -868,6 +875,12 @@ function initializeTimesheetModelAssociations() {
 
 function initializePayLevelModelAssociations() {
   PayLevelModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeServiceModelAssociations() {
+  ServiceModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
 }

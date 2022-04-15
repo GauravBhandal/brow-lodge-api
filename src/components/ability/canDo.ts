@@ -57,6 +57,7 @@ type Subject =
   | "companyExpense"
   | "progressReport"
   | "policyReview"
+  | "service"
   | "timesheet"
   | "payLevel"
   | "policy";

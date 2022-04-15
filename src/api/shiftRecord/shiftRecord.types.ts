@@ -6,6 +6,8 @@ import { ClientProfile } from "../clientProfile";
 import { ShiftType } from "../shiftType";
 import { TypeProp } from "./shiftRecordShiftType";
 import { ShiftRepeat } from "../shiftRepeat";
+import { Service } from "../service";
+import { ServiceProp } from "./shiftRecordService";
 
 export interface ShiftRecord extends DefaultSchemaConfig {
   startDateTime: Date;
@@ -16,6 +18,7 @@ export interface ShiftRecord extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Types?: ShiftType[];
+  Services?: Service[];
   repeat?: ShiftRepeat["id"];
 }
 
@@ -27,6 +30,7 @@ export interface CreateShiftRecordProps {
   client: ClientProfile["id"][];
   company: ShiftRecord["company"];
   types: TypeProp[];
+  services: ServiceProp[];
 }
 
 export interface CreateShiftRecordInBulkProps {
@@ -37,6 +41,7 @@ export interface CreateShiftRecordInBulkProps {
   client: ClientProfile["id"][];
   company: ShiftRecord["company"];
   types: TypeProp[];
+  services: ServiceProp[];
   repeat: any; // TODO: Remove any
 }
 
