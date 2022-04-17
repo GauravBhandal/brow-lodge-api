@@ -35,6 +35,12 @@ const updateTimesheetStatusSchema = wrapSchema({
   }),
 });
 
+const generateInvoicesSchema = wrapSchema({
+  body: Joi.object().keys({
+    ids: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
+  }),
+});
+
 const deleteTimesheetSchema = wrapSchema({
   params: Joi.object().keys({
     timesheetId: requiredUUIDSchema(),
@@ -60,6 +66,7 @@ export default {
   createTimesheet: joiMiddleware(createTimesheetSchema),
   editTimesheet: joiMiddleware(editTimesheetSchema),
   updateTimesheetStatus: joiMiddleware(updateTimesheetStatusSchema),
+  generateInvoices: joiMiddleware(generateInvoicesSchema),
   deleteTimesheet: joiMiddleware(deleteTimesheetSchema),
   getTimesheetById: joiMiddleware(getTimesheetByIdSchema),
   getTimesheets: joiMiddleware(getTimesheetSchema),

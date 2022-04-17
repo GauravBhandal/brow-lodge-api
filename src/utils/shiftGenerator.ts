@@ -23,7 +23,7 @@ const specificDay = (date: string, numberOfWeeks: number, day: number) =>
 const daysDifference = (repeatStartDate: any, repeatEndDate: any) =>
   moment(repeatEndDate).diff(moment(repeatStartDate), "days");
 
-const getMinutesDiff = (startDate: any, endDate: any) => {
+export const getMinutesDiff = (startDate: any, endDate: any) => {
   const start = moment(startDate);
   const end = moment(endDate);
   return moment.duration(end.diff(start)).asMinutes();

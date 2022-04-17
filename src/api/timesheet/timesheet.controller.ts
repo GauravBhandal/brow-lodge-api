@@ -28,6 +28,17 @@ class TimesheetController {
     res.status(200).json(timesheet);
   }
 
+  async generateInvoices(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+      ...req.body,
+    };
+
+    const timesheet = await timesheetService.generateInvoices(props);
+
+    res.status(200).json(timesheet);
+  }
+
   async getTimesheetById(req: Request, res: Response) {
     const { timesheetId } = req.params;
     const props = {

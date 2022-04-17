@@ -57,6 +57,7 @@ import { shiftRecordRoutes } from "../api/shiftRecord";
 import { serviceRoutes } from "../api/service";
 import { timesheetRoutes } from "../api/timesheet";
 import { payLevelRoutes } from "../api/payLevel";
+import { xeroRoutes } from "../api/xero";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -117,5 +118,6 @@ router.use("/shift-record", shiftRecordRoutes);
 router.use("/service", serviceRoutes);
 router.use("/timesheet", timesheetRoutes);
 router.use("/pay-level", payLevelRoutes);
+router.use("/xero", xeroRoutes);
 
 export default router;

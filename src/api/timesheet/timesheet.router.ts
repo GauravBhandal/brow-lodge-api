@@ -7,6 +7,13 @@ import { canDo } from "../../components/ability/canDo";
 
 const router = express.Router();
 
+router.post(
+  "/invoices",
+  canDo("update", "timesheet"),
+  timesheetSchems.generateInvoices,
+  catchWrap(controller.generateInvoices)
+);
+
 router.put(
   "/status",
   canDo("update", "timesheet"),

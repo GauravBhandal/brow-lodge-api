@@ -5,6 +5,7 @@ import {
   CreateCompanyProps,
   UpdateMyCompanyProps,
   GetMyCompanyProps,
+  UpdateCompanyXeroTokenSetProps,
 } from "./company.types";
 import { CustomError } from "../../components/errors";
 import CompanyErrorCode from "./company.error";
@@ -17,6 +18,30 @@ class CompanyService {
   }
 
   async updateCompany(props: UpdateMyCompanyProps) {
+    // Props
+    const { company } = props;
+    const updateProps = _omit(props, ["company"]);
+
+    // Check if company exists
+    const exsitingCompany = await CompanyModel.findOne({
+      where: { id: company },
+    });
+
+    // If not, then throw an error
+    if (!exsitingCompany) {
+      throw new CustomError(404, CompanyErrorCode.COMPANY_NOT_FOUND);
+    }
+
+    // Update company by passing given props
+    const [, [updatedCompany]] = await CompanyModel.update(updateProps, {
+      where: { id: company },
+      returning: true,
+    });
+
+    return updatedCompany;
+  }
+
+  async updateCompanyXeroTokenSet(props: UpdateCompanyXeroTokenSetProps) {
     // Props
     const { company } = props;
     const updateProps = _omit(props, ["company"]);

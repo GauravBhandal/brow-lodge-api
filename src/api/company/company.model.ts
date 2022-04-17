@@ -17,6 +17,7 @@ class CompanyModel<
   phone: Company["phone"];
   address: Company["address"];
   atttachment: Company["attachment"];
+  xeroTokenSet: Company["xeroTokenSet"];
 }
 
 modelManager.init(
@@ -32,6 +33,9 @@ modelManager.init(
     },
     address: {
       type: Sequelize.STRING,
+    },
+    xeroTokenSet: {
+      type: Sequelize.JSONB,
     },
   },
   {

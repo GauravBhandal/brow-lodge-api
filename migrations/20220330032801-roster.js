@@ -121,9 +121,13 @@ CREATE TABLE IF NOT EXISTS "timesheets" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "timesheets" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "companies" ADD COLUMN "xero_token_set" JSONB;
 `;
 
 const queryDown = `
+ALTER TABLE "companies" DROP COLUMN "xero_token_set";
+
 ALTER TABLE "timesheets" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "timesheets";
 
