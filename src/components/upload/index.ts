@@ -6,7 +6,7 @@ import { Request } from "express";
 
 import { CustomError } from "../errors";
 
-const MAX_DOCUMENT_SIZE = 6000001; // 6 Mb
+const MAX_DOCUMENT_SIZE = 10000001; // 10 Mb
 
 // Configure multer by setting file name and location
 const storage = multer.diskStorage({
@@ -66,7 +66,7 @@ const uploadMiddleware = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: MAX_DOCUMENT_SIZE, // 6 Mb
+    fileSize: MAX_DOCUMENT_SIZE, // 10 Mb
   },
 });
 
