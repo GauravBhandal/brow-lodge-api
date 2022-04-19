@@ -14,4 +14,5 @@ router.put(
   catchWrap(controller.callbackXero)
 );
 
+router.get("/customers", catchWrap(controller.getCustomers));
 export default router;

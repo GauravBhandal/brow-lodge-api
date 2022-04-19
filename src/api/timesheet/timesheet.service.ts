@@ -131,73 +131,76 @@ class TimesheetService {
     timesheets.forEach((timesheet: any) => {
       timesheet.Shift.Client.forEach((client: any) => {
         const services = timesheet.Shift.Services;
-        if (!result[client.id]) {
-          result[client.id] = {};
+        if (!result[client.accountCode]) {
+          result[client.accountCode] = {};
         }
-        result[client.id][services[0]?.code] =
-          (result[client.id][services[0]?.code] || 0) +
-          getMinutesDiff(timesheet.startDateTime, services[0]?.start_time) / 60;
+        result[client.accountCode][services[0]?.code] =
+          (result[client.accountCode][services[0]?.code] || 0) +
+          getMinutesDiff(timesheet.startDateTime, timesheet.endDateTime) / 60;
 
         if (services.length === 2) {
-          result[client.id][services[1]?.code] =
-            (result[client.id][services[1]?.code] || 0) +
+          result[client.accountCode][services[1]?.code] =
+            (result[client.accountCode][services[1]?.code] || 0) +
             getMinutesDiff(services[1]?.start_time, timesheet.endDateTime) / 60;
         }
       });
     });
     console.log("result", result);
-    // const companyData = await companyService.getCompanyById({ company });
-    // await xero.setTokenSet(companyData.xeroTokenSet);
-    // const validTokenSet = await xero.refreshWithRefreshToken(
-    //   "AF4C40B5F2CB4E66929E2ADF6C8A4280",
-    //   "dybnerxaK1pcjTCheC1e4_y9ZrhDzy39elepmTJLJRlc0k6c",
-    //   companyData.xeroTokenSet.refresh_token
-    // ); // save the new tokenset
-    // await xero.updateTenants();
-    // const contact = {
-    //   contactID: "ed8fade3-90d7-48fb-a853-ad1511eab07f",
-    // };
-    // const xeroTenantId = xero.tenants[0].tenantId; //a0f444ba-d500-4e24-9a5e-c5c767f9a222
-    // const summarizeErrors = true;
-    // const unitdp = 4;
-    // const dateValue = "2020-10-10";
-    // const dueDateValue = "2020-10-28";
+    const companyData = await companyService.getCompanyById({ company });
+    await xero.setTokenSet(companyData.xeroTokenSet);
+    const validTokenSet = await xero.refreshWithRefreshToken(
+      "AF4C40B5F2CB4E66929E2ADF6C8A4280",
+      "dybnerxaK1pcjTCheC1e4_y9ZrhDzy39elepmTJLJRlc0k6c",
+      companyData.xeroTokenSet.refresh_token
+    ); // save the new tokenset
+    await xero.updateTenants();
 
-    // const lineItem: LineItem = {
-    //   description: "Foobar",
-    //   quantity: 1.0,
-    //   unitAmount: 20.0,
-    //   accountCode: "000",
-    // };
-    // const lineItems = [];
-    // lineItems.push(lineItem);
+    const xeroTenantId = xero.tenants[0].tenantId; //a0f444ba-d500-4e24-9a5e-c5c767f9a222
+    const summarizeErrors = true;
+    const unitdp = 4;
+    const dateValue = "2020-10-10";
+    const dueDateValue = "2020-10-28";
 
-    // const invoice: Invoice = {
-    //   type: Invoice.TypeEnum.ACCREC,
-    //   contact: contact,
-    //   date: dateValue,
-    //   dueDate: dueDateValue,
-    //   lineItems: lineItems,
-    //   reference: "Website Design",
-    //   status: Invoice.StatusEnum.DRAFT,
-    // };
+    const getLineItems = (services: any) => {
+      const finalLineItems = Object.keys(services).map((service) => ({
+        description: "This is for testing",
+        quantity: services[service],
+        itemCode: service,
+      }));
+      return finalLineItems;
+    };
 
-    // const invoices: Invoices = {
-    //   invoices: [invoice],
-    // };
-
-    // try {
-    //   const response = await xero.accountingApi.updateOrCreateInvoices(
-    //     xeroTenantId,
-    //     invoices,
-    //     summarizeErrors,
-    //     unitdp
-    //   );
-    //   console.log(response.body || response.response.statusCode);
-    // } catch (err: any) {
-    //   const error = JSON.stringify(err.response.body, null, 2);
-    //   console.log(`Status Code: ${err.response.statusCode} => ${error}`);
-    // }
+    const invoiceData: any = [];
+    Object.keys(result).forEach((clientId) => {
+      const invoice: Invoice = {
+        type: Invoice.TypeEnum.ACCREC,
+        contact: {
+          contactID: clientId,
+        },
+        date: dateValue,
+        dueDate: dueDateValue,
+        lineItems: getLineItems(result[clientId]),
+        reference: "Website Design",
+        status: Invoice.StatusEnum.DRAFT,
+      };
+      invoiceData.push(invoice);
+    });
+    const invoices: Invoices = {
+      invoices: invoiceData,
+    };
+    try {
+      const response = await xero.accountingApi.updateOrCreateInvoices(
+        xeroTenantId,
+        invoices,
+        summarizeErrors,
+        unitdp
+      );
+      console.log(response.body || response.response.statusCode);
+    } catch (err: any) {
+      const error = JSON.stringify(err.response.body, null, 2);
+      console.log(`Status Code: ${err.response.statusCode} => ${error}`);
+      throw new CustomError(404, TimesheetErrorCode.INVOICE_NOT_CREATED);
+    }
     return {};
   }
 

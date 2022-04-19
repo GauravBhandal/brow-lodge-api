@@ -34,7 +34,7 @@ modelManager.init(
       allowNull: false,
     },
     startTime: {
-      type: Sequelize.TIME,
+      type: Sequelize.DATE,
       allowNull: false,
     },
   },

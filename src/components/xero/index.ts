@@ -6,7 +6,7 @@ const scopes =
 const xero = new XeroClient({
   clientId: "AF4C40B5F2CB4E66929E2ADF6C8A4280",
   clientSecret: "dybnerxaK1pcjTCheC1e4_y9ZrhDzy39elepmTJLJRlc0k6c",
-  redirectUris: ["http://localhost:3000/roster/timesheets"],
+  redirectUris: ["http://localhost:3000/settings/integration"],
   scopes: scopes.split(" "),
 });
 

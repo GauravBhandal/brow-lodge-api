@@ -1,5 +1,7 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import xero from "../../components/xero";
+import { companyService } from "../company";
 
 import xeroService from "./xero.service";
 
@@ -18,6 +20,13 @@ class XeroController {
     console.log("props", props);
     const tokenSet = await xeroService.callbackXero(props);
     res.status(200).json(tokenSet);
+  }
+  async getCustomers(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+    };
+    const customerList = await xeroService.getCustomers(props);
+    res.status(200).json(customerList);
   }
 }
 

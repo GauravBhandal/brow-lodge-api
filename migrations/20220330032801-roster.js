@@ -76,7 +76,7 @@ ALTER TABLE "shift_records_shift_types" ENABLE ROW LEVEL SECURITY;
 CREATE TABLE IF NOT EXISTS "shift_records_services" (
   "id" UUID NOT NULL,
   "shift" UUID REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+  "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
   "service" UUID REFERENCES "services" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
   "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -123,9 +123,13 @@ CREATE TABLE IF NOT EXISTS "timesheets" (
 ALTER TABLE "timesheets" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "companies" ADD COLUMN "xero_token_set" JSONB;
+
+ALTER TABLE "client_profiles" ADD COLUMN "account_code" VARCHAR;
 `;
 
 const queryDown = `
+ALTER TABLE "client_profiles" DROP COLUMN "account_code";
+
 ALTER TABLE "companies" DROP COLUMN "xero_token_set";
 
 ALTER TABLE "timesheets" DISABLE ROW LEVEL SECURITY;

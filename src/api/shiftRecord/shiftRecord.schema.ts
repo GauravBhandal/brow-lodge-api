@@ -13,7 +13,7 @@ const typeSchema = Joi.object().keys({
 });
 
 const serviceSchema = Joi.object().keys({
-  startTime: requiredTimeSchema(),
+  startTime: Joi.date().required(),
   service: requiredUUIDSchema(),
 });
 
