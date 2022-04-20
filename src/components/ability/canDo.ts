@@ -49,7 +49,6 @@ type Subject =
   | "staffDocument"
   | "incidentReport"
   | "team"
-  | "shiftType"
   | "shiftRecord"
   | "incidentType"
   | "keyDecision"

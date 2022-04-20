@@ -18,8 +18,6 @@ import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
-import { shiftRecordShiftTypeService } from "./shiftRecordShiftType";
-import { ShiftTypeModel } from "../shiftType";
 import { createShifts } from "../../utils/shiftGenerator";
 import { shiftRepeatService } from "../shiftRepeat";
 import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
@@ -46,10 +44,6 @@ class ShiftRecordService {
 
     for (let index = 0; index < shiftRecords.length; index++) {
       const shiftRecord = shiftRecords[index];
-      await shiftRecordShiftTypeService.createBulkShiftRecordShiftType({
-        shift: shiftRecord.id,
-        types: props.types,
-      });
 
       await shiftRecordServiceService.createBulkShiftRecordService({
         shift: shiftRecord.id,
@@ -99,13 +93,6 @@ class ShiftRecordService {
       });
     }
 
-    // Create types
-    if (props.types && props.types.length) {
-      await shiftRecordShiftTypeService.createBulkShiftRecordShiftType({
-        shift: shiftRecord.id,
-        types: props.types,
-      });
-    }
     // Create services
     if (props.services && props.services.length) {
       await shiftRecordServiceService.createBulkShiftRecordService({
@@ -166,14 +153,6 @@ class ShiftRecordService {
         returning: true,
       }
     );
-
-    // Update types
-    if (props.types && props.types.length) {
-      await shiftRecordShiftTypeService.updateBulkShiftRecordShiftType({
-        shift: shiftRecord.id,
-        types: props.types,
-      });
-    }
 
     // Update services
     if (props.services && props.services.length) {
@@ -266,12 +245,6 @@ class ShiftRecordService {
             attributes: [],
           },
           as: "Client",
-        },
-        {
-          model: ShiftTypeModel,
-          through: {
-            attributes: ["start_time"], //TODO: We need to do some cleanup here
-          },
         },
         {
           model: ServiceModel,

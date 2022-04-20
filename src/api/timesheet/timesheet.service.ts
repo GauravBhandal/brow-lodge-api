@@ -22,7 +22,6 @@ import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
-import { ShiftTypeModel } from "../shiftType";
 import { ServiceModel } from "../service";
 import { CreditNote, Invoice, Invoices, LineItem } from "xero-node";
 import xero from "../../components/xero";
@@ -108,12 +107,6 @@ class TimesheetService {
               attributes: [],
             },
             as: "Client",
-          },
-          {
-            model: ShiftTypeModel,
-            through: {
-              attributes: ["start_time"], //TODO: We need to do some cleanup here
-            },
           },
           {
             model: ServiceModel,

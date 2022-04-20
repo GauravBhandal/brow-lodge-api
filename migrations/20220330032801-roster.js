@@ -1,17 +1,6 @@
 "use strict";
 
 const queryUp = `
-CREATE TABLE IF NOT EXISTS "shift_types" (
-  "id" UUID NOT NULL,
-  "name" VARCHAR NOT NULL,
-  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "deleted" TIMESTAMP WITH TIME ZONE,
-  PRIMARY KEY ("id")
-);
-ALTER TABLE "shift_types" ENABLE ROW LEVEL SECURITY;
-
 CREATE TABLE IF NOT EXISTS "pay_levels" (
   "id" UUID NOT NULL,
   "name" VARCHAR NOT NULL,
@@ -60,18 +49,6 @@ CREATE TABLE IF NOT EXISTS "shift_records" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "shift_records" ENABLE ROW LEVEL SECURITY;
-
-CREATE TABLE IF NOT EXISTS "shift_records_shift_types" (
-  "id" UUID NOT NULL,
-  "start_time" TIME WITHOUT TIME ZONE NOT NULL,
-  "shift" UUID REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "type" UUID REFERENCES "shift_types" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "deleted" TIMESTAMP WITH TIME ZONE,
-  PRIMARY KEY ("id")
-);
-ALTER TABLE "shift_records_shift_types" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "shift_records_services" (
   "id" UUID NOT NULL,
@@ -135,9 +112,6 @@ ALTER TABLE "companies" DROP COLUMN "xero_token_set";
 ALTER TABLE "timesheets" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "timesheets";
 
-ALTER TABLE "shift_records_shift_types" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "shift_records_shift_types";
-
 ALTER TABLE "shift_records_services" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_records_services";
 
@@ -158,9 +132,6 @@ DROP TABLE IF EXISTS "services";
 
 ALTER TABLE "pay_levels" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "pay_levels";
-
-ALTER TABLE "shift_types" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "shift_types";
 `;
 
 module.exports = {

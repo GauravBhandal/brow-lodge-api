@@ -3,8 +3,6 @@ import { Company } from "../company";
 import { QueryParams } from "../../common/types";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
-import { ShiftType } from "../shiftType";
-import { TypeProp } from "./shiftRecordShiftType";
 import { ShiftRepeat } from "../shiftRepeat";
 import { Service } from "../service";
 import { ServiceProp } from "./shiftRecordService";
@@ -17,7 +15,6 @@ export interface ShiftRecord extends DefaultSchemaConfig {
   Client?: ClientProfile[];
   company: Company["id"];
   Company?: Company;
-  Types?: ShiftType[];
   Services?: Service[];
   repeat?: ShiftRepeat["id"];
 }
@@ -29,7 +26,6 @@ export interface CreateShiftRecordProps {
   staff: StaffProfile["id"][];
   client: ClientProfile["id"][];
   company: ShiftRecord["company"];
-  types: TypeProp[];
   services: ServiceProp[];
 }
 
@@ -40,7 +36,6 @@ export interface CreateShiftRecordInBulkProps {
   staff: StaffProfile["id"][];
   client: ClientProfile["id"][];
   company: ShiftRecord["company"];
-  types: TypeProp[];
   services: ServiceProp[];
   repeat: any; // TODO: Remove any
 }
