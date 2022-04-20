@@ -1,5 +1,6 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
+import config from "../../config/environment";
 
 import TimesheetModel from "./timesheet.model";
 import {
@@ -149,8 +150,8 @@ class TimesheetService {
     const companyData = await companyService.getCompanyById({ company });
     await xero.setTokenSet(companyData.xeroTokenSet);
     const validTokenSet = await xero.refreshWithRefreshToken(
-      "AF4C40B5F2CB4E66929E2ADF6C8A4280",
-      "dybnerxaK1pcjTCheC1e4_y9ZrhDzy39elepmTJLJRlc0k6c",
+      config.CLIENT_ID,
+      config.CLIENT_SECRET,
       companyData.xeroTokenSet.refresh_token
     ); // save the new tokenset
     await xero.updateTenants();

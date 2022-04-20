@@ -19,4 +19,7 @@ export interface ProcessDotEnv {
   AWS_SECRET_KEY: string;
 
   SENTRY_DNS: string;
+
+  CLIENT_ID: string;
+  CLIENT_SECRET: string;
 }

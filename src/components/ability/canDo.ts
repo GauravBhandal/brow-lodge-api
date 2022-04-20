@@ -60,6 +60,7 @@ type Subject =
   | "service"
   | "timesheet"
   | "payLevel"
+  | "integration"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {
