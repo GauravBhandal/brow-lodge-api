@@ -60,6 +60,7 @@ type Subject =
   | "timesheet"
   | "payLevel"
   | "integration"
+  | "invoice"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {

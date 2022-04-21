@@ -53,6 +53,7 @@ import { PolicyReviewModel } from "../../api/policyReview";
 import { ServiceModel } from "../../api/service";
 import { TimesheetModel } from "../../api/timesheet";
 import { PayLevelModel } from "../../api/payLevel";
+import { InvoiceModel } from "../../api/invoice";
 
 export default {
   initialize() {
@@ -110,6 +111,7 @@ export default {
     initializePolicyReviewModelAssociations();
     initializeServiceModelAssociations();
     initializeTimesheetModelAssociations();
+    initializeInvoiceModelAssociations();
   },
 };
 
@@ -855,6 +857,20 @@ function initializeTimesheetModelAssociations() {
     as: "Staff",
   });
   TimesheetModel.belongsTo(ShiftRecordModel, {
+    foreignKey: { name: "shift", allowNull: false },
+    as: "Shift",
+  });
+}
+
+function initializeInvoiceModelAssociations() {
+  InvoiceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  InvoiceModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  InvoiceModel.belongsTo(ShiftRecordModel, {
     foreignKey: { name: "shift", allowNull: false },
     as: "Shift",
   });

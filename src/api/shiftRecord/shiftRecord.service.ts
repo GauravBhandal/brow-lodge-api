@@ -25,6 +25,7 @@ import { shiftRecordClientProfileService } from "./shiftRecordClientProfile";
 import { shiftRecordServiceService } from "./shiftRecordService";
 import { ServiceModel } from "../service";
 import { TimesheetModel, timesheetService } from "../timesheet";
+import { InvoiceModel, invoiceService } from "../invoice";
 
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
@@ -66,6 +67,16 @@ class ShiftRecordService {
         status: "Pending",
         shift: shiftRecord.id,
         staff: props.staff,
+        company: props.company,
+      });
+
+      // Create invoices
+      await invoiceService.createInvoiceInBulk({
+        startDateTime: shiftRecord.startDateTime,
+        endDateTime: shiftRecord.endDateTime,
+        status: "Pending",
+        shift: shiftRecord.id,
+        client: props.client,
         company: props.company,
       });
     }
@@ -111,6 +122,16 @@ class ShiftRecordService {
       company: props.company,
     });
 
+    // Create invoice
+    await invoiceService.createInvoiceInBulk({
+      startDateTime: props.startDateTime,
+      endDateTime: props.endDateTime,
+      status: "Pending",
+      shift: shiftRecord.id,
+      client: props.client,
+      company: props.company,
+    });
+
     return shiftRecord;
   }
 
@@ -134,6 +155,20 @@ class ShiftRecordService {
         404,
         ShiftRecordErrorCode.TIMESHEET_ALREADY_APPROVED
       );
+    }
+
+    // Find all invoices
+    const invoices = await InvoiceModel.findAll({
+      where: { shift: id, company },
+    });
+
+    // Checking that if any invoice is approved or not
+    const invoiceApproved = invoices.some(
+      (invoice) => invoice.status === "Approved"
+    );
+
+    if (invoiceApproved) {
+      throw new CustomError(404, ShiftRecordErrorCode.INVOICE_ALREADY_APPROVED);
     }
     // Find shiftRecord by id and company
     const shiftRecord = await ShiftRecordModel.findOne({
@@ -184,6 +219,15 @@ class ShiftRecordService {
       endDateTime: props.endDateTime,
       shift: id,
       staff: props.staff,
+      company: props.company,
+    });
+
+    // Update invoices
+    await invoiceService.updateInvoiceOnShiftUpdate({
+      startDateTime: props.startDateTime,
+      endDateTime: props.endDateTime,
+      shift: id,
+      client: props.client,
       company: props.company,
     });
 

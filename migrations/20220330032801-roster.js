@@ -99,6 +99,22 @@ CREATE TABLE IF NOT EXISTS "timesheets" (
 );
 ALTER TABLE "timesheets" ENABLE ROW LEVEL SECURITY;
 
+CREATE TABLE IF NOT EXISTS "invoices" (
+  "id" UUID NOT NULL,
+  "last_exported_xero" TIMESTAMP WITH TIME ZONE,
+  "start_date_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "end_date_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "status" VARCHAR NOT NULL,
+  "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "shift" UUID NOT NULL REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "invoices" ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE "companies" ADD COLUMN "xero_token_set" JSONB;
 
 ALTER TABLE "client_profiles" ADD COLUMN "account_code" VARCHAR;
@@ -108,6 +124,9 @@ const queryDown = `
 ALTER TABLE "client_profiles" DROP COLUMN "account_code";
 
 ALTER TABLE "companies" DROP COLUMN "xero_token_set";
+
+ALTER TABLE "invoices" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "invoices";
 
 ALTER TABLE "timesheets" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "timesheets";
