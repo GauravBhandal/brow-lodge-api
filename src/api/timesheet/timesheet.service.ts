@@ -1,5 +1,6 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
+import config from "../../config/environment";
 
 import TimesheetModel from "./timesheet.model";
 import {
@@ -21,7 +22,6 @@ import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
-import { ShiftTypeModel } from "../shiftType";
 import { ServiceModel } from "../service";
 import { CreditNote, Invoice, Invoices, LineItem } from "xero-node";
 import xero from "../../components/xero";
@@ -109,12 +109,6 @@ class TimesheetService {
             as: "Client",
           },
           {
-            model: ShiftTypeModel,
-            through: {
-              attributes: ["start_time"], //TODO: We need to do some cleanup here
-            },
-          },
-          {
             model: ServiceModel,
             through: {
               attributes: ["start_time"], //TODO: We need to do some cleanup here
@@ -149,8 +143,8 @@ class TimesheetService {
     const companyData = await companyService.getCompanyById({ company });
     await xero.setTokenSet(companyData.xeroTokenSet);
     const validTokenSet = await xero.refreshWithRefreshToken(
-      "AF4C40B5F2CB4E66929E2ADF6C8A4280",
-      "dybnerxaK1pcjTCheC1e4_y9ZrhDzy39elepmTJLJRlc0k6c",
+      config.XERO_CLIENT_ID,
+      config.XERO_CLIENT_SECRET,
       companyData.xeroTokenSet.refresh_token
     ); // save the new tokenset
     await xero.updateTenants();

@@ -52,8 +52,7 @@ const isDaySelected = (data: any, value: any) => {
 export const createShifts = (
   data: CreateShiftRecordInBulkProps
 ): CreateShiftRecordInBulkProps[] => {
-  const { repeat, startDateTime, endDateTime, company, client, staff, types } =
-    data;
+  const { repeat, startDateTime, endDateTime, company, client, staff } = data;
   const { frequency, every } = repeat;
 
   const repeatStartDate = convertDateToMoment(startDateTime as any);
@@ -81,7 +80,6 @@ export const createShifts = (
         company,
         client,
         staff,
-        types,
         break: data.break,
         startDateTime: shiftStartDateTime,
         endDateTime: shiftEndDateTime,
@@ -110,7 +108,6 @@ export const createShifts = (
               company,
               client,
               staff,
-              types,
               break: data.break,
               startDateTime: shiftStartDateTime,
               endDateTime: shiftEndDateTime,

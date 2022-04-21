@@ -44,7 +44,6 @@ import { IncidentTypeModel } from "../../api/incidentType";
 import { KeyDecisionModel } from "../../api/keyDecision";
 import { RestrictivePracticeLogModel } from "../../api/restrictivePracticeLog";
 import { TeamModel } from "../../api/team";
-import { ShiftTypeModel } from "../../api/shiftType";
 import { ShiftRecordModel } from "../../api/shiftRecord";
 import { ShiftRepeatModel } from "../../api/shiftRepeat";
 import { ProgressReportModel } from "../../api/progressReport";
@@ -102,7 +101,6 @@ export default {
     initializeKeyDecisionModelAssociations();
     initializeRestrictivePracticeLogModelAssociations();
     initializeTeamModelAssociations();
-    initializeShiftTypeModelAssociations();
     initializePayLevelModelAssociations();
     initializeShiftRepeatModelAssociations();
     initializeShiftRecordModelAssociations();
@@ -754,12 +752,6 @@ function initializeTeamModelAssociations() {
   });
 }
 
-function initializeShiftTypeModelAssociations() {
-  ShiftTypeModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-}
-
 function initializeShiftRecordModelAssociations() {
   ShiftRecordModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -775,11 +767,6 @@ function initializeShiftRecordModelAssociations() {
     foreignKey: "shift",
     otherKey: "client",
     as: "Client",
-  });
-  ShiftRecordModel.belongsToMany(ShiftTypeModel, {
-    through: "shift_records_shift_types",
-    foreignKey: "shift",
-    otherKey: "type",
   });
   ShiftRecordModel.belongsToMany(ServiceModel, {
     through: "shift_records_services",

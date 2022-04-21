@@ -2,6 +2,7 @@ import { omit as _omit } from "lodash";
 import xero from "../../components/xero";
 import { companyService } from "../company";
 import { GetCustomersProp, XeroCallbackProps } from "./xero.types";
+import config from "../../config/environment";
 
 class XeroService {
   async connectXero() {
@@ -30,8 +31,8 @@ class XeroService {
 
     await xero.setTokenSet(companyData.xeroTokenSet);
     const validTokenSet = await xero.refreshWithRefreshToken(
-      "AF4C40B5F2CB4E66929E2ADF6C8A4280",
-      "dybnerxaK1pcjTCheC1e4_y9ZrhDzy39elepmTJLJRlc0k6c",
+      config.XERO_CLIENT_ID,
+      config.XERO_CLIENT_SECRET,
       companyData.xeroTokenSet.refresh_token
     ); // save the new tokenset
     await xero.updateTenants();
@@ -55,8 +56,8 @@ class XeroService {
 
     await xero.setTokenSet(companyData.xeroTokenSet);
     const validTokenSet = await xero.refreshWithRefreshToken(
-      "AF4C40B5F2CB4E66929E2ADF6C8A4280",
-      "dybnerxaK1pcjTCheC1e4_y9ZrhDzy39elepmTJLJRlc0k6c",
+      config.XERO_CLIENT_ID,
+      config.XERO_CLIENT_SECRET,
       companyData.xeroTokenSet.refresh_token
     ); // save the new tokenset
     await xero.updateTenants();
