@@ -143,8 +143,8 @@ class TimesheetService {
     const companyData = await companyService.getCompanyById({ company });
     await xero.setTokenSet(companyData.xeroTokenSet);
     const validTokenSet = await xero.refreshWithRefreshToken(
-      config.CLIENT_ID,
-      config.CLIENT_SECRET,
+      config.XERO_CLIENT_ID,
+      config.XERO_CLIENT_SECRET,
       companyData.xeroTokenSet.refresh_token
     ); // save the new tokenset
     await xero.updateTenants();

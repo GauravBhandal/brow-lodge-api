@@ -22,8 +22,8 @@ const environmentSchema = Joi.object().keys({
 
   SENTRY_DNS: Joi.string().required(),
 
-  CLIENT_ID: Joi.string().required(),
-  CLIENT_SECRET: Joi.string().required(),
+  XERO_CLIENT_ID: Joi.string().required(),
+  XERO_CLIENT_SECRET: Joi.string().required(),
 });
 
 export default environmentSchema;

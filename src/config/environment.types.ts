@@ -20,6 +20,6 @@ export interface ProcessDotEnv {
 
   SENTRY_DNS: string;
 
-  CLIENT_ID: string;
-  CLIENT_SECRET: string;
+  XERO_CLIENT_ID: string;
+  XERO_CLIENT_SECRET: string;
 }
