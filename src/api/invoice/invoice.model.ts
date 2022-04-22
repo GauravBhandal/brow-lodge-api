@@ -13,7 +13,7 @@ class InvoiceModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements Invoice
 {
-  lastExportedXero!: Invoice["lastExportedXero"];
+  lastExportedOn!: Invoice["lastExportedOn"];
   startDateTime!: Invoice["startDateTime"];
   endDateTime!: Invoice["endDateTime"];
   status!: Invoice["status"];
@@ -41,7 +41,7 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    lastExportedXero: {
+    lastExportedOn: {
       type: Sequelize.DATE,
     },
   },

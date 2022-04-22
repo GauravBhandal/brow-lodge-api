@@ -26,6 +26,7 @@ import { ServiceModel } from "../service";
 import { Invoice, Invoices } from "xero-node";
 import xero from "../../components/xero";
 import { getMinutesDiff } from "../../utils/shiftGenerator";
+import moment from "moment";
 
 class InvoiceService {
   async createInvoiceInBulk(props: CreateInvoiceProps) {
@@ -63,8 +64,8 @@ class InvoiceService {
 
   async updateInvoiceStatus(props: UpdateInvoiceStatusProps) {
     // Props
-    const { ids, company, status, lastExportedXero } = props;
-    const updateProps = { status, lastExportedXero };
+    const { ids, company, status, lastExportedOn } = props;
+    const updateProps = { status, lastExportedOn };
 
     // Finally, update the invoice
     const [, [updatedInvoice]] = await InvoiceModel.update(updateProps, {
@@ -194,7 +195,7 @@ class InvoiceService {
         company,
         ids,
         status: "Approved",
-        lastExportedXero: new Date(),
+        lastExportedOn: new Date(),
       });
     } catch (err: any) {
       const error = JSON.stringify(err.response.body, null, 2);

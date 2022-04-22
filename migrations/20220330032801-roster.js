@@ -101,7 +101,7 @@ ALTER TABLE "timesheets" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "invoices" (
   "id" UUID NOT NULL,
-  "last_exported_xero" TIMESTAMP WITH TIME ZONE,
+  "last_exported_on" TIMESTAMP WITH TIME ZONE,
   "start_date_time" TIMESTAMP WITH TIME ZONE NOT NULL,
   "end_date_time" TIMESTAMP WITH TIME ZONE NOT NULL,
   "status" VARCHAR NOT NULL,

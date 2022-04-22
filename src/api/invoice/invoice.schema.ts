@@ -27,7 +27,7 @@ const editInvoiceSchema = wrapSchema({
 const updateInvoiceStatusSchema = wrapSchema({
   body: Joi.object().keys({
     status: Joi.string().required(),
-    lastExportedXero: Joi.date().allow(null),
+    lastExportedOn: Joi.date().allow(null),
     ids: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });

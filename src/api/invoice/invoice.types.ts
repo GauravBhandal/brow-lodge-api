@@ -5,7 +5,7 @@ import { QueryParams } from "../../common/types";
 import { ShiftRecord } from "../shiftRecord";
 
 export interface Invoice extends DefaultSchemaConfig {
-  lastExportedXero: Date;
+  lastExportedOn: Date;
   startDateTime: Date;
   endDateTime: Date;
   status: string;
@@ -38,7 +38,7 @@ export interface UpdateInvoiceProps {
 export interface UpdateInvoiceStatusProps {
   ids: Invoice["id"][];
   status: Invoice["status"];
-  lastExportedXero: Invoice["lastExportedXero"];
+  lastExportedOn: Invoice["lastExportedOn"];
   company: Invoice["company"];
 }
 
