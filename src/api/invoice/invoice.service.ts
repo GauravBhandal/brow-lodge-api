@@ -301,6 +301,14 @@ class InvoiceService {
         where: {
           ...filters["Shift"],
         },
+        include: [
+          {
+            model: ServiceModel,
+            through: {
+              attributes: ["start_time"], //TODO: We need to do some cleanup here
+            },
+          },
+        ],
       },
     ];
 
