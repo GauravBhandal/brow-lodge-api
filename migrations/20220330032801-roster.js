@@ -118,9 +118,25 @@ ALTER TABLE "invoices" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "companies" ADD COLUMN "xero_token_set" JSONB;
 
 ALTER TABLE "client_profiles" ADD COLUMN "account_code" VARCHAR;
+
+CREATE TABLE IF NOT EXISTS "integrations" (
+  "id" UUID NOT NULL,
+  "name" VARCHAR NOT NULL,
+  "key" VARCHAR NOT NULL,
+  "meta" VARCHAR NOT NULL,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "integrations" ENABLE ROW LEVEL SECURITY;
 `;
 
 const queryDown = `
+ALTER TABLE "integrations" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "integrations";
+
 ALTER TABLE "client_profiles" DROP COLUMN "account_code";
 
 ALTER TABLE "companies" DROP COLUMN "xero_token_set";
