@@ -13,15 +13,13 @@ export interface Integration extends DefaultSchemaConfig {
 export interface CreateIntegrationProps {
   name: Integration["name"];
   key: Integration["key"];
-  meta: Integration["meta"];
+  meta: any;
   company: Integration["company"];
 }
 
 export interface UpdateIntegrationProps {
-  id: Integration["id"];
-  name: Integration["name"];
   key: Integration["key"];
-  meta: Integration["meta"];
+  meta: any;
   company: Integration["company"];
 }
 
@@ -34,6 +32,9 @@ export interface GetIntegrationBykeyProps {
   key: Integration["key"];
   company: Integration["company"];
 }
+
+export interface GetIntegrationStatusByKeyProps
+  extends GetIntegrationBykeyProps {}
 
 export interface DeleteIntegrationBykeyProps extends GetIntegrationBykeyProps {}
 

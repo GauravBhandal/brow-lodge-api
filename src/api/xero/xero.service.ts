@@ -1,20 +1,50 @@
-import crypto from "crypto-js";
 import { omit as _omit } from "lodash";
 
 import xero from "../../components/xero";
-import { companyService } from "../company";
 import { integrationService } from "../integration";
 import {
-  GetCustomersProp,
+  RefreshXeroInstanceProps,
   XeroCallbackProps,
   IsConnectedToXeroProps,
   DisconnectXeroProps,
+  GetXeroCustomersProp,
+  GetXeroEmployeesProp,
 } from "./xero.types";
 import config from "../../config/environment";
 
 const XERO_INTEGRATION_KEY = "xero";
 
 class XeroService {
+  async refreshXeroInstance(props: RefreshXeroInstanceProps) {
+    // Props
+    const { company } = props;
+
+    // Get the tokenSet for Xero integration from the integrations table
+    const xeroTokenSet = await integrationService.getIntegrationByKey({
+      company,
+      key: XERO_INTEGRATION_KEY,
+    });
+
+    // Set the token on xero instance
+    await xero.setTokenSet(xeroTokenSet);
+
+    // Refresh token set
+    const newXeroTokenSet = await xero.refreshWithRefreshToken(
+      config.XERO_CLIENT_ID,
+      config.XERO_CLIENT_SECRET,
+      xeroTokenSet.refresh_token
+    );
+
+    // Save the new tokenset
+    await integrationService.updateIntegration({
+      key: XERO_INTEGRATION_KEY,
+      company,
+      meta: newXeroTokenSet,
+    });
+
+    await xero.updateTenants();
+  }
+
   async connectXero() {
     const consentUrl = await xero.buildConsentUrl();
     return consentUrl;
@@ -24,17 +54,10 @@ class XeroService {
     // Props
     const { company } = props;
 
-    let response = {
-      isConnected: false,
-    };
-
-    try {
-      await integrationService.getIntegrationByKey({
-        company,
-        key: XERO_INTEGRATION_KEY,
-      });
-      response.isConnected = true;
-    } catch (error) {}
+    const response = await integrationService.getIntegrationStatusByKey({
+      company,
+      key: XERO_INTEGRATION_KEY,
+    });
 
     return response;
   }
@@ -58,16 +81,10 @@ class XeroService {
     // Generate xero token
     const tokenSet = await xero.apiCallback(url);
 
-    // Encrypt the tokenSet
-    const encryptedTokenSet = crypto.AES.encrypt(
-      JSON.stringify(tokenSet),
-      config.TOKEN_KEY
-    ).toString();
-
     const payload = {
       name: "Xero",
       key: "xero",
-      meta: encryptedTokenSet,
+      meta: tokenSet,
       company,
     };
 
@@ -77,55 +94,32 @@ class XeroService {
     return {};
   }
 
-  async getCustomers(props: GetCustomersProp) {
-    // Props
-    const { company } = props;
-
-    const companyData = await companyService.getCompanyById({ company });
-
-    await xero.setTokenSet(companyData.xeroTokenSet);
-    const validTokenSet = await xero.refreshWithRefreshToken(
-      config.XERO_CLIENT_ID,
-      config.XERO_CLIENT_SECRET,
-      companyData.xeroTokenSet.refresh_token
-    ); // save the new tokenset
-    await xero.updateTenants();
+  async getXeroCustomers(props: GetXeroCustomersProp) {
+    await this.refreshXeroInstance(props);
     const xeroTenantId = xero.tenants[0].tenantId;
+
     try {
       const response = await xero.accountingApi.getContacts(xeroTenantId);
-      console.log(response.body || response.response.statusCode);
       return response.body;
     } catch (err: any) {
-      const error = JSON.stringify(err.response.body, null, 2);
-      console.log(`Status Code: ${err.response.statusCode} => ${error}`);
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return {};
     }
-
-    return {};
   }
-  async getEmployees(props: GetCustomersProp) {
-    // Props
-    const { company } = props;
 
-    const companyData = await companyService.getCompanyById({ company });
+  async getXeroEmployees(props: GetXeroEmployeesProp) {
+    await this.refreshXeroInstance(props);
+    const xeroTenantId = xero.tenants[1].tenantId;
 
-    await xero.setTokenSet(companyData.xeroTokenSet);
-    const validTokenSet = await xero.refreshWithRefreshToken(
-      config.XERO_CLIENT_ID,
-      config.XERO_CLIENT_SECRET,
-      companyData.xeroTokenSet.refresh_token
-    ); // save the new tokenset
-    await xero.updateTenants();
-    const xeroTenantId = xero.tenants[0].tenantId;
     try {
       const response = await xero.accountingApi.getEmployees(xeroTenantId);
-      console.log(response.body || response.response.statusCode);
       return response.body;
     } catch (err: any) {
-      const error = JSON.stringify(err.response.body, null, 2);
-      console.log(`Status Code: ${err.response.statusCode} => ${error}`);
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return {};
     }
-
-    return {};
   }
 }
 

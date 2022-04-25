@@ -34,8 +34,14 @@ router.put(
 
 router.get(
   "/customers",
-  canDo("update", "clientProfile"),
-  catchWrap(controller.getCustomers)
+  canDo("read", "integration"), // TODO: Fix permissions in this file
+  catchWrap(controller.getXeroCustomers)
+);
+
+router.get(
+  "/employees",
+  canDo("read", "integration"),
+  catchWrap(controller.getXeroEmployees)
 );
 
 export default router;

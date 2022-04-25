@@ -29,6 +29,7 @@ class XeroController {
 
     res.status(204).json();
   }
+
   async callbackXero(req: Request, res: Response) {
     const props = {
       company: req.auth.companyId,
@@ -38,13 +39,23 @@ class XeroController {
     const tokenSet = await xeroService.callbackXero(props);
     res.status(200).json(tokenSet);
   }
-  async getCustomers(req: Request, res: Response) {
+
+  async getXeroCustomers(req: Request, res: Response) {
     const props = {
       company: req.auth.companyId,
     };
 
-    const customerList = await xeroService.getCustomers(props);
-    res.status(200).json(customerList);
+    const customers = await xeroService.getXeroCustomers(props);
+    res.status(200).json(customers);
+  }
+
+  async getXeroEmployees(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+    };
+
+    const employees = await xeroService.getXeroEmployees(props);
+    res.status(200).json(employees);
   }
 }
 

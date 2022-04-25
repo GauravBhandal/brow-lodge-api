@@ -11,6 +11,8 @@ export interface IsConnectedToXeroProps {
 
 export interface DisconnectXeroProps extends IsConnectedToXeroProps {}
 
-export interface GetCustomersProp {
-  company: Company["id"];
-}
+export interface RefreshXeroInstanceProps extends IsConnectedToXeroProps {}
+
+export interface GetXeroCustomersProp extends IsConnectedToXeroProps {}
+
+export interface GetXeroEmployeesProp extends IsConnectedToXeroProps {}
