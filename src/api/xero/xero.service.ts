@@ -96,6 +96,7 @@ class XeroService {
 
   async getXeroCustomers(props: GetXeroCustomersProp) {
     await this.refreshXeroInstance(props);
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
     const xeroTenantId = xero.tenants[0].tenantId;
 
     try {
@@ -110,10 +111,11 @@ class XeroService {
 
   async getXeroEmployees(props: GetXeroEmployeesProp) {
     await this.refreshXeroInstance(props);
-    const xeroTenantId = xero.tenants[1].tenantId;
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
+    const xeroTenantId = xero.tenants[0].tenantId;
 
     try {
-      const response = await xero.accountingApi.getEmployees(xeroTenantId);
+      const response = await xero.payrollAUApi.getEmployees(xeroTenantId);
       return response.body;
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);

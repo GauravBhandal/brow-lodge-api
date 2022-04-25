@@ -21,12 +21,13 @@ import config from "../../config/environment";
 class IntegrationService {
   async createIntegration(props: CreateIntegrationProps) {
     // Props
-    const { company } = props;
+    const { company, key } = props;
 
     // Check if integration with same name already exists
     const existingIntegration = await IntegrationModel.findOne({
       where: {
         company,
+        key,
       },
     });
 
