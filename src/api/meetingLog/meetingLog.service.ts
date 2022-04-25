@@ -103,6 +103,13 @@ class MeetingLogService {
     const filters = getFilters(where);
     const clientFilters = await addCientFiltersByTeams(userId, company);
 
+    // func to check for optional clients that to apply team permissions or not
+    const checkClientPermissions = () => {
+      if (Object.keys(clientFilters).length !== 0) {
+        return { right: true };
+      }
+    };
+
     const include = [
       {
         model: CompanyModel,
@@ -121,7 +128,7 @@ class MeetingLogService {
           ...clientFilters,
         },
         required: false,
-        right: true,
+        ...checkClientPermissions(),
       },
     ];
 

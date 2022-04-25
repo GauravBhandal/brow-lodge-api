@@ -16,6 +16,10 @@ class CompanyModel<
   name!: Company["name"];
   phone: Company["phone"];
   address: Company["address"];
+  website: Company["website"];
+  email: Company["email"];
+  ndisRegistrationNumber: Company["ndisRegistrationNumber"];
+  timezone: Company["timezone"];
   atttachment: Company["attachment"];
   xeroTokenSet: Company["xeroTokenSet"];
 }
@@ -37,6 +41,10 @@ modelManager.init(
     xeroTokenSet: {
       type: Sequelize.JSONB,
     },
+    website: { type: Sequelize.STRING },
+    email: { type: Sequelize.STRING },
+    ndisRegistrationNumber: { type: Sequelize.STRING },
+    timezone: { type: Sequelize.STRING },
   },
   {
     defaultScope: {
