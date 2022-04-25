@@ -5,9 +5,9 @@ import IntegrationModel from "./integration.model";
 import {
   CreateIntegrationProps,
   UpdateIntegrationProps,
-  DeleteIntegrationProps,
-  GetIntegrationByIdProps,
+  GetIntegrationBykeyProps,
   GetIntegrationsProps,
+  DeleteIntegrationBykeyProps,
 } from "./integration.types";
 import { CustomError } from "../../components/errors";
 import IntegrationErrorCode from "./integration.error";
@@ -89,13 +89,13 @@ class IntegrationService {
     return updatedIntegration;
   }
 
-  async deleteIntegration(props: DeleteIntegrationProps) {
+  async deleteIntegrationByKey(props: DeleteIntegrationBykeyProps) {
     // Props
-    const { id, company } = props;
+    const { key, company } = props;
 
     // Find and delete the integration by id and company
     const integration = await IntegrationModel.destroy({
-      where: { id, company },
+      where: { key, company },
     });
 
     // if integration has been deleted, throw an error
@@ -106,18 +106,14 @@ class IntegrationService {
     return integration;
   }
 
-  async getIntegrationById(props: GetIntegrationByIdProps) {
+  async getIntegrationByKey(props: GetIntegrationBykeyProps) {
     // Props
-    const { id, company } = props;
+    const { key, company } = props;
 
-    // Find  the integration by id and company
+    // Find  the integration by key and company
     const integration = await IntegrationModel.findOne({
-      where: { id, company },
-      include: [
-        {
-          model: CompanyModel,
-        },
-      ],
+      attributes: { exclude: ["meta"] },
+      where: { key, company },
     });
 
     // If no integration has been found, then throw an error

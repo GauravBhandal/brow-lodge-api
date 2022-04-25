@@ -1,8 +1,18 @@
+import crypto from "crypto-js";
 import { omit as _omit } from "lodash";
+
 import xero from "../../components/xero";
 import { companyService } from "../company";
-import { GetCustomersProp, XeroCallbackProps } from "./xero.types";
+import { integrationService } from "../integration";
+import {
+  GetCustomersProp,
+  XeroCallbackProps,
+  IsConnectedToXeroProps,
+  DisconnectXeroProps,
+} from "./xero.types";
 import config from "../../config/environment";
+
+const XERO_INTEGRATION_KEY = "xero";
 
 class XeroService {
   async connectXero() {
@@ -10,19 +20,55 @@ class XeroService {
     return consentUrl;
   }
 
+  async isConnectedToXero(props: IsConnectedToXeroProps) {
+    // Props
+    const { company } = props;
+
+    const isConnected = await integrationService.getIntegrationByKey({
+      company,
+      key: XERO_INTEGRATION_KEY,
+    });
+    return isConnected;
+  }
+
+  async disconnectXero(props: DisconnectXeroProps) {
+    // Props
+    const { company } = props;
+
+    const response = await integrationService.deleteIntegrationByKey({
+      company,
+      key: XERO_INTEGRATION_KEY,
+    });
+
+    return response;
+  }
+
   async callbackXero(props: XeroCallbackProps) {
     // Props
     const { company, url } = props;
 
+    // Generate xero token
     const tokenSet = await xero.apiCallback(url);
-    const updateTokenProps = { xeroTokenSet: tokenSet, company };
 
-    const updatedCompany = await companyService.updateCompanyXeroTokenSet(
-      updateTokenProps
-    );
+    // Encrypt the tokenSet
+    const encryptedTokenSet = crypto.AES.encrypt(
+      JSON.stringify(tokenSet),
+      config.TOKEN_KEY
+    ).toString();
 
-    return updatedCompany;
+    const payload = {
+      name: "Xero",
+      key: "xero",
+      meta: encryptedTokenSet,
+      company,
+    };
+
+    // Store xero integration info in DB
+    await integrationService.createIntegration(payload);
+
+    return {};
   }
+
   async getCustomers(props: GetCustomersProp) {
     // Props
     const { company } = props;

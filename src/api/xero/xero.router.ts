@@ -13,6 +13,18 @@ router.post(
   catchWrap(controller.connectXero)
 );
 
+router.delete(
+  "/disconnect",
+  canDo("update", "integration"),
+  catchWrap(controller.disconnectXero)
+);
+
+router.get(
+  "/is-connected",
+  canDo("read", "integration"),
+  catchWrap(controller.isConnectedToXero)
+);
+
 router.put(
   "/callback",
   canDo("update", "integration"),
@@ -25,4 +37,5 @@ router.get(
   canDo("update", "clientProfile"),
   catchWrap(controller.getCustomers)
 );
+
 export default router;

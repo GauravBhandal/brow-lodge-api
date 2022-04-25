@@ -54,6 +54,7 @@ import { ServiceModel } from "../../api/service";
 import { TimesheetModel } from "../../api/timesheet";
 import { PayLevelModel } from "../../api/payLevel";
 import { InvoiceModel } from "../../api/invoice";
+import { IntegrationModel } from "../../api/integration";
 
 export default {
   initialize() {
@@ -112,6 +113,7 @@ export default {
     initializeServiceModelAssociations();
     initializeTimesheetModelAssociations();
     initializeInvoiceModelAssociations();
+    initializeIntegrationModelAssociations();
   },
 };
 
@@ -884,6 +886,12 @@ function initializePayLevelModelAssociations() {
 
 function initializeServiceModelAssociations() {
   ServiceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeIntegrationModelAssociations() {
+  IntegrationModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
 }

@@ -30,10 +30,12 @@ export interface DeleteIntegrationProps {
   company: Integration["company"];
 }
 
-export interface GetIntegrationByIdProps {
-  id: Integration["id"];
+export interface GetIntegrationBykeyProps {
+  key: Integration["key"];
   company: Integration["company"];
 }
+
+export interface DeleteIntegrationBykeyProps extends GetIntegrationBykeyProps {}
 
 export interface GetIntegrationsProps extends QueryParams {
   company: Integration["company"];
