@@ -24,20 +24,17 @@ class XeroService {
     // Props
     const { company } = props;
 
-    let response = {};
+    let response = {
+      isConnected: false,
+    };
+
     try {
       await integrationService.getIntegrationByKey({
         company,
         key: XERO_INTEGRATION_KEY,
       });
-      response = {
-        isConnected: true,
-      };
-    } catch (error) {
-      response = {
-        isConnected: false,
-      };
-    }
+      response.isConnected = true;
+    } catch (error) {}
 
     return response;
   }
