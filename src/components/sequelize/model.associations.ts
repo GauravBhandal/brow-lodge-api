@@ -44,7 +44,6 @@ import { IncidentTypeModel } from "../../api/incidentType";
 import { KeyDecisionModel } from "../../api/keyDecision";
 import { RestrictivePracticeLogModel } from "../../api/restrictivePracticeLog";
 import { TeamModel } from "../../api/team";
-import { ShiftTypeModel } from "../../api/shiftType";
 import { ShiftRecordModel } from "../../api/shiftRecord";
 import { ShiftRepeatModel } from "../../api/shiftRepeat";
 import { ProgressReportModel } from "../../api/progressReport";
@@ -54,6 +53,8 @@ import { PolicyReviewModel } from "../../api/policyReview";
 import { ServiceModel } from "../../api/service";
 import { TimesheetModel } from "../../api/timesheet";
 import { PayLevelModel } from "../../api/payLevel";
+import { InvoiceModel } from "../../api/invoice";
+import { IntegrationModel } from "../../api/integration";
 
 export default {
   initialize() {
@@ -102,7 +103,6 @@ export default {
     initializeKeyDecisionModelAssociations();
     initializeRestrictivePracticeLogModelAssociations();
     initializeTeamModelAssociations();
-    initializeShiftTypeModelAssociations();
     initializePayLevelModelAssociations();
     initializeShiftRepeatModelAssociations();
     initializeShiftRecordModelAssociations();
@@ -112,6 +112,8 @@ export default {
     initializePolicyReviewModelAssociations();
     initializeServiceModelAssociations();
     initializeTimesheetModelAssociations();
+    initializeInvoiceModelAssociations();
+    initializeIntegrationModelAssociations();
   },
 };
 
@@ -754,12 +756,6 @@ function initializeTeamModelAssociations() {
   });
 }
 
-function initializeShiftTypeModelAssociations() {
-  ShiftTypeModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-}
-
 function initializeShiftRecordModelAssociations() {
   ShiftRecordModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -775,11 +771,6 @@ function initializeShiftRecordModelAssociations() {
     foreignKey: "shift",
     otherKey: "client",
     as: "Client",
-  });
-  ShiftRecordModel.belongsToMany(ShiftTypeModel, {
-    through: "shift_records_shift_types",
-    foreignKey: "shift",
-    otherKey: "type",
   });
   ShiftRecordModel.belongsToMany(ServiceModel, {
     through: "shift_records_services",
@@ -873,6 +864,20 @@ function initializeTimesheetModelAssociations() {
   });
 }
 
+function initializeInvoiceModelAssociations() {
+  InvoiceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  InvoiceModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  InvoiceModel.belongsTo(ShiftRecordModel, {
+    foreignKey: { name: "shift", allowNull: false },
+    as: "Shift",
+  });
+}
+
 function initializePayLevelModelAssociations() {
   PayLevelModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -881,6 +886,12 @@ function initializePayLevelModelAssociations() {
 
 function initializeServiceModelAssociations() {
   ServiceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeIntegrationModelAssociations() {
+  IntegrationModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
 }

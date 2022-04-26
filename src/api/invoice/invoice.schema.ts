@@ -1,36 +1,33 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import {
-  requiredUUIDSchema,
-  wrapSchema,
-  requiredTimeSchema,
-} from "../../common/joiSchemas";
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
-const createTimesheetSchema = wrapSchema({
+const createInvoiceSchema = wrapSchema({
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
     status: Joi.string().required(),
     shift: requiredUUIDSchema(),
-    staff: requiredUUIDSchema(),
+    client: requiredUUIDSchema(),
   }),
 });
 
-const editTimesheetSchema = wrapSchema({
-  params: Joi.object().keys({ timesheetId: requiredUUIDSchema() }),
+const editInvoiceSchema = wrapSchema({
+  params: Joi.object().keys({ invoiceId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
     status: Joi.string().required(),
     shift: requiredUUIDSchema(),
-    staff: requiredUUIDSchema(),
+    client: requiredUUIDSchema(),
   }),
 });
 
-const updateTimesheetStatusSchema = wrapSchema({
+const updateInvoiceStatusSchema = wrapSchema({
   body: Joi.object().keys({
     status: Joi.string().required(),
+    lastExportedOn: Joi.date().allow(null),
     ids: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
@@ -41,19 +38,19 @@ const generateInvoicesSchema = wrapSchema({
   }),
 });
 
-const deleteTimesheetSchema = wrapSchema({
+const deleteInvoiceSchema = wrapSchema({
   params: Joi.object().keys({
-    timesheetId: requiredUUIDSchema(),
+    invoiceId: requiredUUIDSchema(),
   }),
 });
 
-const getTimesheetByIdSchema = wrapSchema({
+const getInvoiceByIdSchema = wrapSchema({
   params: Joi.object().keys({
-    timesheetId: requiredUUIDSchema(),
+    invoiceId: requiredUUIDSchema(),
   }),
 });
 
-const getTimesheetSchema = wrapSchema({
+const getInvoiceSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
@@ -63,11 +60,11 @@ const getTimesheetSchema = wrapSchema({
 });
 
 export default {
-  createTimesheet: joiMiddleware(createTimesheetSchema),
-  editTimesheet: joiMiddleware(editTimesheetSchema),
-  updateTimesheetStatus: joiMiddleware(updateTimesheetStatusSchema),
+  createInvoice: joiMiddleware(createInvoiceSchema),
+  editInvoice: joiMiddleware(editInvoiceSchema),
+  updateInvoiceStatus: joiMiddleware(updateInvoiceStatusSchema),
   generateInvoices: joiMiddleware(generateInvoicesSchema),
-  deleteTimesheet: joiMiddleware(deleteTimesheetSchema),
-  getTimesheetById: joiMiddleware(getTimesheetByIdSchema),
-  getTimesheets: joiMiddleware(getTimesheetSchema),
+  deleteInvoice: joiMiddleware(deleteInvoiceSchema),
+  getInvoiceById: joiMiddleware(getInvoiceByIdSchema),
+  getInvoices: joiMiddleware(getInvoiceSchema),
 };

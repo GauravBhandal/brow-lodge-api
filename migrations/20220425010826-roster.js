@@ -1,17 +1,6 @@
 "use strict";
 
 const queryUp = `
-CREATE TABLE IF NOT EXISTS "shift_types" (
-  "id" UUID NOT NULL,
-  "name" VARCHAR NOT NULL,
-  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "deleted" TIMESTAMP WITH TIME ZONE,
-  PRIMARY KEY ("id")
-);
-ALTER TABLE "shift_types" ENABLE ROW LEVEL SECURITY;
-
 CREATE TABLE IF NOT EXISTS "pay_levels" (
   "id" UUID NOT NULL,
   "name" VARCHAR NOT NULL,
@@ -61,22 +50,10 @@ CREATE TABLE IF NOT EXISTS "shift_records" (
 );
 ALTER TABLE "shift_records" ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE IF NOT EXISTS "shift_records_shift_types" (
-  "id" UUID NOT NULL,
-  "start_time" TIME WITHOUT TIME ZONE NOT NULL,
-  "shift" UUID REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "type" UUID REFERENCES "shift_types" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "deleted" TIMESTAMP WITH TIME ZONE,
-  PRIMARY KEY ("id")
-);
-ALTER TABLE "shift_records_shift_types" ENABLE ROW LEVEL SECURITY;
-
 CREATE TABLE IF NOT EXISTS "shift_records_services" (
   "id" UUID NOT NULL,
   "shift" UUID REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "start_time" TIME WITHOUT TIME ZONE NOT NULL,
+  "start_time" TIMESTAMP WITH TIME ZONE NOT NULL,
   "service" UUID REFERENCES "services" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
   "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -121,14 +98,54 @@ CREATE TABLE IF NOT EXISTS "timesheets" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "timesheets" ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS "invoices" (
+  "id" UUID NOT NULL,
+  "last_exported_on" TIMESTAMP WITH TIME ZONE,
+  "start_date_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "end_date_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "status" VARCHAR NOT NULL,
+  "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "shift" UUID NOT NULL REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "invoices" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "client_profiles" ADD COLUMN "accounting_code" VARCHAR;
+
+ALTER TABLE "staff_profiles" ADD COLUMN "accounting_code" VARCHAR;
+
+CREATE TABLE IF NOT EXISTS "integrations" (
+  "id" UUID NOT NULL,
+  "name" VARCHAR NOT NULL,
+  "key" VARCHAR NOT NULL,
+  "meta" VARCHAR NOT NULL,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "integrations" ENABLE ROW LEVEL SECURITY;
 `;
 
 const queryDown = `
+ALTER TABLE "integrations" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "integrations";
+
+ALTER TABLE "staff_profiles" DROP COLUMN "accounting_code";
+
+ALTER TABLE "client_profiles" DROP COLUMN "accounting_code";
+
+ALTER TABLE "invoices" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "invoices";
+
 ALTER TABLE "timesheets" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "timesheets";
-
-ALTER TABLE "shift_records_shift_types" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "shift_records_shift_types";
 
 ALTER TABLE "shift_records_services" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "shift_records_services";
@@ -150,9 +167,6 @@ DROP TABLE IF EXISTS "services";
 
 ALTER TABLE "pay_levels" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "pay_levels";
-
-ALTER TABLE "shift_types" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "shift_types";
 `;
 
 module.exports = {

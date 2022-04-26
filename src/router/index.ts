@@ -52,11 +52,12 @@ import { companyExpenseRoutes } from "../api/companyExpense";
 import { policyRoutes } from "../api/policy";
 import { progressReportRoutes } from "../api/progressReport";
 import { policyReviewRoutes } from "../api/policyReview";
-import { shiftTypeRoutes } from "../api/shiftType";
 import { shiftRecordRoutes } from "../api/shiftRecord";
 import { serviceRoutes } from "../api/service";
 import { timesheetRoutes } from "../api/timesheet";
 import { payLevelRoutes } from "../api/payLevel";
+import { xeroRoutes } from "../api/xero";
+import { invoiceRoutes } from "../api/invoice";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -112,10 +113,11 @@ router.use("/policy", policyRoutes);
 router.use("/company-expense", companyExpenseRoutes);
 router.use("/progress-report", progressReportRoutes);
 router.use("/policy-review", policyReviewRoutes);
-router.use("/shift-type", shiftTypeRoutes);
 router.use("/shift-record", shiftRecordRoutes);
 router.use("/service", serviceRoutes);
 router.use("/timesheet", timesheetRoutes);
 router.use("/pay-level", payLevelRoutes);
+router.use("/xero", xeroRoutes);
+router.use("/invoice", invoiceRoutes);
 
 export default router;

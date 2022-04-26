@@ -1,19 +1,10 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import {
-  requiredUUIDSchema,
-  requiredTimeSchema,
-  wrapSchema,
-} from "../../common/joiSchemas";
-
-const typeSchema = Joi.object().keys({
-  startTime: requiredTimeSchema(),
-  type: requiredUUIDSchema(),
-});
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const serviceSchema = Joi.object().keys({
-  startTime: requiredTimeSchema(),
+  startTime: Joi.date().required(),
   service: requiredUUIDSchema(),
 });
 
@@ -35,7 +26,6 @@ const createShiftRecordSchema = wrapSchema({
     break: Joi.number().allow("", null),
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
-    types: Joi.array().items(typeSchema).required(),
     services: Joi.array().items(serviceSchema).required(),
     repeat: shiftRepeatSchema,
   }),
@@ -49,7 +39,6 @@ const editShiftRecordSchema = wrapSchema({
     break: Joi.number().allow("", null),
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
-    types: Joi.array().items(typeSchema).required(),
     services: Joi.array().items(serviceSchema).required(),
   }),
 });

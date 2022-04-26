@@ -1,5 +1,6 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
+import config from "../../config/environment";
 
 import TimesheetModel from "./timesheet.model";
 import {
@@ -10,16 +11,21 @@ import {
   GetTimesheetsProps,
   UpdateTimesheetOnShiftUpdateProps,
   UpdateTimesheetStatusProps,
+  GenerateInvoicesProps,
 } from "./timesheet.types";
 import { CustomError } from "../../components/errors";
 import TimesheetErrorCode from "./timesheet.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { CompanyModel } from "../company";
+import { CompanyModel, companyService } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
+import { ServiceModel } from "../service";
+import { CreditNote, Invoice, Invoices, LineItem } from "xero-node";
+import xero from "../../components/xero";
+import { getMinutesDiff } from "../../utils/shiftGenerator";
 
 class TimesheetService {
   async createTimesheetInBulk(props: CreateTimesheetProps) {
@@ -71,6 +77,125 @@ class TimesheetService {
       returning: true,
     });
     return updatedTimesheet;
+  }
+
+  async generateInvoices(props: GenerateInvoicesProps) {
+    // Props
+    const { ids, company } = props;
+
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: ShiftRecordModel,
+        as: "Shift",
+        include: [
+          {
+            model: CompanyModel,
+          },
+          {
+            model: StaffProfileModel,
+            through: {
+              attributes: [],
+            },
+            as: "Staff",
+          },
+          {
+            model: ClientProfileModel,
+            through: {
+              attributes: [],
+            },
+            as: "Client",
+          },
+          {
+            model: ServiceModel,
+            through: {
+              attributes: ["start_time"], //TODO: We need to do some cleanup here
+            },
+          },
+        ],
+      },
+    ];
+    const timesheets = await TimesheetModel.findAll({
+      where: { id: ids, company },
+      include,
+    });
+    let result: any = {};
+    timesheets.forEach((timesheet: any) => {
+      timesheet.Shift.Client.forEach((client: any) => {
+        const services = timesheet.Shift.Services;
+        if (!result[client.accountingCode]) {
+          result[client.accountingCode] = {};
+        }
+        result[client.accountingCode][services[0]?.code] =
+          (result[client.accountingCode][services[0]?.code] || 0) +
+          getMinutesDiff(timesheet.startDateTime, timesheet.endDateTime) / 60;
+
+        if (services.length === 2) {
+          result[client.accountingCode][services[1]?.code] =
+            (result[client.accountingCode][services[1]?.code] || 0) +
+            getMinutesDiff(services[1]?.start_time, timesheet.endDateTime) / 60;
+        }
+      });
+    });
+    console.log("result", result);
+    // const companyData = await companyService.getCompanyById({ company });
+    // await xero.setTokenSet(companyData.xeroTokenSet);
+    // const validTokenSet = await xero.refreshWithRefreshToken(
+    //   config.XERO_CLIENT_ID,
+    //   config.XERO_CLIENT_SECRET,
+    //   companyData.xeroTokenSet.refresh_token
+    // ); // save the new tokenset
+    // await xero.updateTenants();
+
+    const xeroTenantId = xero.tenants[0].tenantId; //a0f444ba-d500-4e24-9a5e-c5c767f9a222
+    const summarizeErrors = true;
+    const unitdp = 4;
+    const dateValue = "2020-10-10";
+    const dueDateValue = "2020-10-28";
+
+    const getLineItems = (services: any) => {
+      const finalLineItems = Object.keys(services).map((service) => ({
+        description: "This is for testing",
+        quantity: services[service],
+        itemCode: service,
+      }));
+      return finalLineItems;
+    };
+
+    const invoiceData: any = [];
+    Object.keys(result).forEach((clientId) => {
+      const invoice: Invoice = {
+        type: Invoice.TypeEnum.ACCREC,
+        contact: {
+          contactID: clientId,
+        },
+        date: dateValue,
+        dueDate: dueDateValue,
+        lineItems: getLineItems(result[clientId]),
+        reference: "Website Design",
+        status: Invoice.StatusEnum.DRAFT,
+      };
+      invoiceData.push(invoice);
+    });
+    const invoices: Invoices = {
+      invoices: invoiceData,
+    };
+    try {
+      const response = await xero.accountingApi.updateOrCreateInvoices(
+        xeroTenantId,
+        invoices,
+        summarizeErrors,
+        unitdp
+      );
+      console.log(response.body || response.response.statusCode);
+    } catch (err: any) {
+      const error = JSON.stringify(err.response.body, null, 2);
+      console.log(`Status Code: ${err.response.statusCode} => ${error}`);
+      throw new CustomError(404, TimesheetErrorCode.INVOICE_NOT_CREATED);
+    }
+    return {};
   }
 
   async updateTimesheetOnShiftUpdate(props: UpdateTimesheetOnShiftUpdateProps) {

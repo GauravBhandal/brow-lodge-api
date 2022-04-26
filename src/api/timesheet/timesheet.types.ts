@@ -39,6 +39,11 @@ export interface UpdateTimesheetStatusProps {
   status: Timesheet["status"];
   company: Timesheet["company"];
 }
+
+export interface GenerateInvoicesProps {
+  ids: Timesheet["id"][];
+  company: Timesheet["company"];
+}
 export interface UpdateTimesheetOnShiftUpdateProps {
   startDateTime: Timesheet["startDateTime"];
   endDateTime: Timesheet["endDateTime"];
