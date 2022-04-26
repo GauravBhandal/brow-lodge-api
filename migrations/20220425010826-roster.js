@@ -117,7 +117,9 @@ ALTER TABLE "invoices" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "companies" ADD COLUMN "xero_token_set" JSONB;
 
-ALTER TABLE "client_profiles" ADD COLUMN "account_code" VARCHAR;
+ALTER TABLE "client_profiles" ADD COLUMN "accounting_code" VARCHAR;
+
+ALTER TABLE "staff_profiles" ADD COLUMN "accounting_code" VARCHAR;
 
 CREATE TABLE IF NOT EXISTS "integrations" (
   "id" UUID NOT NULL,
@@ -137,7 +139,9 @@ const queryDown = `
 ALTER TABLE "integrations" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "integrations";
 
-ALTER TABLE "client_profiles" DROP COLUMN "account_code";
+ALTER TABLE "staff_profiles" DROP COLUMN "accounting_code";
+
+ALTER TABLE "client_profiles" DROP COLUMN "accounting_code";
 
 ALTER TABLE "companies" DROP COLUMN "xero_token_set";
 

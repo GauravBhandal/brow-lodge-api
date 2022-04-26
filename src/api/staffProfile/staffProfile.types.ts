@@ -11,6 +11,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   email: string;
   gender?: "male" | "female" | "other";
   dateOfBirth?: Date;
+  accountingCode?: string;
   personalContactNumber?: string;
   workContactNumber?: string;
   address?: string;
@@ -36,6 +37,7 @@ export interface CreateStaffProfileProps {
   preferredName: StaffProfile["preferredName"];
   email: StaffProfile["email"];
   gender?: StaffProfile["gender"];
+  accountingCode?: StaffProfile["accountingCode"];
   dateOfBirth?: StaffProfile["dateOfBirth"];
   personalContactNumber?: StaffProfile["personalContactNumber"];
   workContactNumber?: StaffProfile["workContactNumber"];
