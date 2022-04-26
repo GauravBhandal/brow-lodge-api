@@ -16,3 +16,8 @@ export interface RefreshXeroInstanceProps extends IsConnectedToXeroProps {}
 export interface GetXeroCustomersProp extends IsConnectedToXeroProps {}
 
 export interface GetXeroEmployeesProp extends IsConnectedToXeroProps {}
+
+export interface ExportInvoicesToXeroProps {
+  company: Company["id"];
+  invoices: any;
+}

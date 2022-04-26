@@ -1,6 +1,5 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
-import config from "../../config/environment";
 
 import InvoiceModel from "./invoice.model";
 import {
@@ -17,16 +16,15 @@ import { CustomError } from "../../components/errors";
 import InvoiceErrorCode from "./invoice.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { CompanyModel, companyService } from "../company";
+import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
 import { Invoice, Invoices } from "xero-node";
-import xero from "../../components/xero";
 import { getMinutesDiff } from "../../utils/shiftGenerator";
-import moment from "moment";
+import { xeroService } from "../xero";
 
 class InvoiceService {
   async createInvoiceInBulk(props: CreateInvoiceProps) {
@@ -118,12 +116,16 @@ class InvoiceService {
         ],
       },
     ];
-    const AllInvoices = await InvoiceModel.findAll({
+
+    // Find all the invoices for given company and ids
+    const allInvoices = await InvoiceModel.findAll({
       where: { id: ids, company },
       include,
     });
+
+    // Map the total hours per service per client
     let result: any = {};
-    AllInvoices.forEach((invoice: any) => {
+    allInvoices.forEach((invoice: any) => {
       invoice.Shift.Client.forEach((client: any) => {
         const services = invoice.Shift.Services;
         if (!result[client.accountingCode]) {
@@ -140,25 +142,13 @@ class InvoiceService {
         }
       });
     });
-    console.log("result", result);
-    const companyData = await companyService.getCompanyById({ company });
-    await xero.setTokenSet(companyData.xeroTokenSet);
-    const validTokenSet = await xero.refreshWithRefreshToken(
-      config.XERO_CLIENT_ID,
-      config.XERO_CLIENT_SECRET,
-      companyData.xeroTokenSet.refresh_token
-    ); // save the new tokenset
-    await xero.updateTenants();
 
-    const xeroTenantId = xero.tenants[0].tenantId; //a0f444ba-d500-4e24-9a5e-c5c767f9a222
-    const summarizeErrors = true;
-    const unitdp = 4;
-    const dateValue = "2020-10-10";
-    const dueDateValue = "2020-10-28";
+    // TODO: Fix these dates
+    const dateValue = "2020-10-10"; // Should be today's date
+    const dueDateValue = "2020-10-28"; // Should be today's date + 14 days
 
     const getLineItems = (services: any) => {
       const finalLineItems = Object.keys(services).map((service) => ({
-        description: "This is for testing",
         quantity: services[service],
         itemCode: service,
       }));
@@ -175,7 +165,6 @@ class InvoiceService {
         date: dateValue,
         dueDate: dueDateValue,
         lineItems: getLineItems(result[clientId]),
-        reference: "Website Design",
         status: Invoice.StatusEnum.DRAFT,
       };
       invoiceData.push(invoice);
@@ -183,24 +172,22 @@ class InvoiceService {
     const invoices: Invoices = {
       invoices: invoiceData,
     };
+
     try {
-      const response = await xero.accountingApi.updateOrCreateInvoices(
-        xeroTenantId,
+      await xeroService.exportInvoicesToXero({
+        company,
         invoices,
-        summarizeErrors,
-        unitdp
-      );
-      console.log(response.body || response.response.statusCode);
-      const invoice = await this.updateInvoiceStatus({
+      });
+
+      await this.updateInvoiceStatus({
         company,
         ids,
         status: "Approved",
         lastExportedOn: new Date(),
       });
     } catch (err: any) {
-      const error = JSON.stringify(err.response.body, null, 2);
-      console.log(`Status Code: ${err.response.statusCode} => ${error}`);
-      throw new CustomError(404, InvoiceErrorCode.INVOICE_NOT_CREATED);
+      console.log(`Error${err}`);
+      throw new CustomError(404, InvoiceErrorCode.FAILED_TO_GENERATE_INVOICE);
     }
     return {};
   }
