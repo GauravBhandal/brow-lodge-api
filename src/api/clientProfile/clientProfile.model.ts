@@ -18,7 +18,7 @@ class ClientProfileModel<
   preferredName!: ClientProfile["preferredName"];
   email: ClientProfile["email"];
   gender: ClientProfile["gender"];
-  accountCode: ClientProfile["accountCode"];
+  accountingCode: ClientProfile["accountingCode"];
   dateOfBirth: ClientProfile["dateOfBirth"];
   address: ClientProfile["address"];
   emergencyContactName: ClientProfile["emergencyContactName"];
@@ -57,7 +57,7 @@ modelManager.init(
     email: {
       type: Sequelize.STRING,
     },
-    accountCode: {
+    accountingCode: {
       type: Sequelize.STRING,
     },
     gender: {

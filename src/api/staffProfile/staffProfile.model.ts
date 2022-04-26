@@ -19,6 +19,7 @@ class StaffProfileModel<
   email!: StaffProfile["email"];
   dateOfBirth: StaffProfile["dateOfBirth"];
   gender: StaffProfile["gender"];
+  accountingCode: StaffProfile["accountingCode"];
   personalContactNumber: StaffProfile["personalContactNumber"];
   workContactNumber: StaffProfile["workContactNumber"];
   address: StaffProfile["address"];
@@ -57,6 +58,9 @@ modelManager.init(
     email: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    accountingCode: {
+      type: Sequelize.STRING,
     },
     dateOfBirth: {
       type: Sequelize.DATE,
