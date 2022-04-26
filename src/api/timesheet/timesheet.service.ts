@@ -140,14 +140,14 @@ class TimesheetService {
       });
     });
     console.log("result", result);
-    const companyData = await companyService.getCompanyById({ company });
-    await xero.setTokenSet(companyData.xeroTokenSet);
-    const validTokenSet = await xero.refreshWithRefreshToken(
-      config.XERO_CLIENT_ID,
-      config.XERO_CLIENT_SECRET,
-      companyData.xeroTokenSet.refresh_token
-    ); // save the new tokenset
-    await xero.updateTenants();
+    // const companyData = await companyService.getCompanyById({ company });
+    // await xero.setTokenSet(companyData.xeroTokenSet);
+    // const validTokenSet = await xero.refreshWithRefreshToken(
+    //   config.XERO_CLIENT_ID,
+    //   config.XERO_CLIENT_SECRET,
+    //   companyData.xeroTokenSet.refresh_token
+    // ); // save the new tokenset
+    // await xero.updateTenants();
 
     const xeroTenantId = xero.tenants[0].tenantId; //a0f444ba-d500-4e24-9a5e-c5c767f9a222
     const summarizeErrors = true;

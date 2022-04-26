@@ -21,7 +21,6 @@ class CompanyModel<
   ndisRegistrationNumber: Company["ndisRegistrationNumber"];
   timezone: Company["timezone"];
   atttachment: Company["attachment"];
-  xeroTokenSet: Company["xeroTokenSet"];
 }
 
 modelManager.init(
@@ -37,9 +36,6 @@ modelManager.init(
     },
     address: {
       type: Sequelize.STRING,
-    },
-    xeroTokenSet: {
-      type: Sequelize.JSONB,
     },
     website: { type: Sequelize.STRING },
     email: { type: Sequelize.STRING },

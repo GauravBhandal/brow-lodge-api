@@ -115,8 +115,6 @@ CREATE TABLE IF NOT EXISTS "invoices" (
 );
 ALTER TABLE "invoices" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "companies" ADD COLUMN "xero_token_set" JSONB;
-
 ALTER TABLE "client_profiles" ADD COLUMN "accounting_code" VARCHAR;
 
 ALTER TABLE "staff_profiles" ADD COLUMN "accounting_code" VARCHAR;
@@ -142,8 +140,6 @@ DROP TABLE IF EXISTS "integrations";
 ALTER TABLE "staff_profiles" DROP COLUMN "accounting_code";
 
 ALTER TABLE "client_profiles" DROP COLUMN "accounting_code";
-
-ALTER TABLE "companies" DROP COLUMN "xero_token_set";
 
 ALTER TABLE "invoices" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "invoices";

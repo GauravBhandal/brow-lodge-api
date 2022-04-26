@@ -10,7 +10,6 @@ export interface Company extends DefaultSchemaConfig {
   ndisRegistrationNumber?: string;
   timezone?: string;
   attachment?: Attachment["id"];
-  xeroTokenSet: any;
 }
 
 export interface CreateCompanyProps {
@@ -26,11 +25,6 @@ export interface UpdateMyCompanyProps extends CreateCompanyProps {
   ndisRegistrationNumber: string;
   timezone: string;
   attachment: Attachment["id"];
-}
-
-export interface UpdateCompanyXeroTokenSetProps {
-  xeroTokenSet: any;
-  company: Company["id"];
 }
 
 export interface GetMyCompanyProps {
