@@ -152,6 +152,12 @@ function initializeStaffProfileModelAssociations() {
     },
     as: "Manager",
   });
+  StaffProfileModel.belongsToMany(PayLevelModel, {
+    through: "staff_profile_pay_level",
+    foreignKey: "relation",
+    otherKey: "paylevel",
+    as: "Paylevel",
+  });
 }
 
 function initializeUserModelAssociations() {

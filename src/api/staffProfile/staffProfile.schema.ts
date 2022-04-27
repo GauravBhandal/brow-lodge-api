@@ -25,6 +25,9 @@ const createStaffProfileSchema = wrapSchema({
     manager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     user: requiredUUIDSchema(),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    paylevel: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -54,6 +57,9 @@ const editStaffProfileSchema = wrapSchema({
     archived: Joi.boolean(),
     user: requiredUUIDSchema(),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    paylevel: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
