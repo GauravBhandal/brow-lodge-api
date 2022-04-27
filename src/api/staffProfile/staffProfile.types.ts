@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { User } from "../user";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
+import { PayLevel } from "../payLevel";
 
 export interface StaffProfile extends DefaultSchemaConfig {
   firstName: string;
@@ -29,6 +30,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   attachment?: Attachment["id"];
+  Paylevel?: PayLevel[];
 }
 
 export interface CreateStaffProfileProps {
@@ -53,6 +55,7 @@ export interface CreateStaffProfileProps {
   user: StaffProfile["user"];
   company: StaffProfile["company"];
   attachment?: StaffProfile["attachment"];
+  paylevel?: PayLevel["id"][];
 }
 
 export interface UpdateStaffProfileProps extends CreateStaffProfileProps {
