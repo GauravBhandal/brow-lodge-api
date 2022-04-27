@@ -16,7 +16,7 @@ class StaffProfilePayLevelModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements StaffProfilePayLevel
 {
-  relation!: StaffProfilePayLevel["relation"];
+  staff!: StaffProfilePayLevel["staff"];
   paylevel!: StaffProfilePayLevel["paylevel"];
 }
 
@@ -24,7 +24,7 @@ modelManager.init(
   "StaffProfilePayLevel",
   StaffProfilePayLevelModel,
   {
-    relation: {
+    staff: {
       type: Sequelize.UUIDV4,
       allowNull: false,
     },

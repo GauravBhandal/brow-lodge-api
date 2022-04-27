@@ -10,7 +10,7 @@ class StaffProfilePayLevelService {
     props: CreateBulkStaffProfilePayLevelProps
   ) {
     const createProps = props.paylevel.map((level) => ({
-      relation: props.relation,
+      staff: props.staff,
       paylevel: level,
     }));
 
@@ -25,7 +25,7 @@ class StaffProfilePayLevelService {
   ) {
     // Delete all the existing paylevels for the given staffProfile
     await this.deleteBulkStaffProfilePayLevel({
-      relation: props.relation,
+      staff: props.staff,
     });
 
     // Then assign the new paylevels to the given staffProfile
@@ -38,10 +38,10 @@ class StaffProfilePayLevelService {
   async deleteBulkStaffProfilePayLevel(
     props: DeleteBulkStaffProfilePayLevelProps
   ) {
-    const { relation } = props;
+    const { staff } = props;
     await StaffProfilePayLevelModel.destroy({
       where: {
-        relation,
+        staff,
       },
     });
   }

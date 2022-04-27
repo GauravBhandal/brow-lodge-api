@@ -26,7 +26,7 @@ class StaffProfileService {
     // Assign pay levels
     if (props.paylevel && props.paylevel.length) {
       await staffProfilePayLevelService.createBulkStaffProfilePayLevel({
-        relation: staffProfile.id,
+        staff: staffProfile.id,
         paylevel: props.paylevel,
       });
     }
@@ -61,7 +61,7 @@ class StaffProfileService {
     // Update pay levels
     if (props.paylevel) {
       await staffProfilePayLevelService.updateBulkStaffProfilePayLevel({
-        relation: staffProfile.id,
+        staff: staffProfile.id,
         paylevel: props.paylevel,
       });
     }
