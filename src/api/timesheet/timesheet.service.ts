@@ -206,14 +206,10 @@ class TimesheetService {
     const timesheets = await TimesheetModel.findAll({
       where: { shift, company },
     });
-
-    // if timesheet not found, throw an error
-    if (!timesheets) {
-      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
-    }
-
     // Delete all the existing timesheets for this shift
-    await this.deleteTimesheet({ shift, company });
+    if (timesheets.length > 0) {
+      await this.deleteTimesheet({ shift, company });
+    }
 
     // Create new timesheets on shift update
     const newTimesheets = await this.createTimesheetInBulk({

@@ -201,13 +201,10 @@ class InvoiceService {
       where: { shift, company },
     });
 
-    // if invoice not found, throw an error
-    if (!invoices) {
-      throw new CustomError(404, InvoiceErrorCode.INVOICE_NOT_FOUND);
-    }
-
     // Delete all the existing invoices for this shift
-    await this.deleteInvoice({ shift, company });
+    if (invoices.length > 0) {
+      await this.deleteInvoice({ shift, company });
+    }
 
     // Create new invoices on shift update
     const newInvoices = await this.createInvoiceInBulk({

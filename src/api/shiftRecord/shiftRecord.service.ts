@@ -145,16 +145,18 @@ class ShiftRecordService {
       where: { shift: id, company },
     });
 
-    // Checking that if any timesheet is approved or not
-    const timesheetApproved = timesheets.some(
-      (timesheet) => timesheet.status === "Approved"
-    );
-
-    if (timesheetApproved) {
-      throw new CustomError(
-        404,
-        ShiftRecordErrorCode.TIMESHEET_ALREADY_APPROVED
+    if (timesheets.length > 0) {
+      // Checking that if any timesheet is approved or not
+      const timesheetApproved = timesheets.some(
+        (timesheet) => timesheet.status === "Approved"
       );
+
+      if (timesheetApproved) {
+        throw new CustomError(
+          404,
+          ShiftRecordErrorCode.TIMESHEET_ALREADY_APPROVED
+        );
+      }
     }
 
     // Find all invoices
@@ -162,14 +164,20 @@ class ShiftRecordService {
       where: { shift: id, company },
     });
 
-    // Checking that if any invoice is approved or not
-    const invoiceApproved = invoices.some(
-      (invoice) => invoice.status === "Approved"
-    );
+    if (invoices.length > 0) {
+      // Checking that if any invoice is approved or not
+      const invoiceApproved = invoices.some(
+        (invoice) => invoice.status === "Approved"
+      );
 
-    if (invoiceApproved) {
-      throw new CustomError(404, ShiftRecordErrorCode.INVOICE_ALREADY_APPROVED);
+      if (invoiceApproved) {
+        throw new CustomError(
+          404,
+          ShiftRecordErrorCode.INVOICE_ALREADY_APPROVED
+        );
+      }
     }
+
     // Find shiftRecord by id and company
     const shiftRecord = await ShiftRecordModel.findOne({
       where: { id, company },
@@ -198,7 +206,7 @@ class ShiftRecordService {
     }
 
     // Assign staff profiles
-    if (props.staff && props.staff.length) {
+    if (props.staff) {
       await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile({
         shift: shiftRecord.id,
         staff: props.staff,
@@ -206,7 +214,7 @@ class ShiftRecordService {
     }
 
     // Assign client profiles
-    if (props.client && props.client.length) {
+    if (props.client) {
       await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile({
         shift: shiftRecord.id,
         client: props.client,
@@ -329,7 +337,7 @@ class ShiftRecordService {
         },
         as: "Staff",
         duplicating: true,
-        required: true,
+        required: false,
       },
       {
         model: ClientProfileModel,
@@ -341,7 +349,7 @@ class ShiftRecordService {
         },
         as: "Client",
         duplicating: true,
-        required: true,
+        required: false,
       },
     ];
 
