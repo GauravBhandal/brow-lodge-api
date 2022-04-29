@@ -50,6 +50,7 @@ import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
 import { CompanyExpenseModel } from "../../api/companyExpense";
 import { PolicyReviewModel } from "../../api/policyReview";
+import { LegislationRegisterModel } from "../../api/legislationRegister";
 
 export default {
   initialize() {
@@ -104,6 +105,7 @@ export default {
     initializeCompanyExpenseModelAssociations();
     initializeProgressReportModelAssociations();
     initializePolicyReviewModelAssociations();
+    initializeLegislationRegisterModelAssociations();
   },
 };
 
@@ -827,5 +829,11 @@ function initializePolicyReviewModelAssociations() {
     through: "policy_reviews_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
+  });
+}
+
+function initializeLegislationRegisterModelAssociations() {
+  LegislationRegisterModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }
