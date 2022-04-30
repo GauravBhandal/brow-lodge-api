@@ -44,4 +44,10 @@ router.get(
   catchWrap(controller.getXeroEmployees)
 );
 
+router.get(
+  "/pay-items",
+  canDo("read", "integration"),
+  catchWrap(controller.getPayItems)
+);
+
 export default router;

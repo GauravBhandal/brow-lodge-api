@@ -2,7 +2,7 @@ import { XeroClient } from "xero-node";
 import config from "../../config/environment";
 
 const scopes =
-  " openid profile email accounting.settings accounting.reports.read accounting.journals.read accounting.attachments accounting.transactions offline_access accounting.contacts.read payroll.employees.read";
+  " openid profile email accounting.settings accounting.reports.read accounting.journals.read accounting.attachments accounting.transactions offline_access accounting.contacts.read payroll.employees.read payroll.settings";
 
 const xero = new XeroClient({
   clientId: config.XERO_CLIENT_ID,

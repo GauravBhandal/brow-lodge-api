@@ -125,6 +125,21 @@ class XeroService {
     }
   }
 
+  async getPayItems(props: GetXeroEmployeesProp) {
+    await this.refreshXeroInstance(props);
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
+    const xeroTenantId = xero.tenants[0].tenantId;
+
+    try {
+      const response = await xero.payrollAUApi.getPayItems(xeroTenantId);
+      return response.body;
+    } catch (err: any) {
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return {};
+    }
+  }
+
   async exportInvoicesToXero(props: ExportInvoicesToXeroProps) {
     const { company, invoices } = props;
 
