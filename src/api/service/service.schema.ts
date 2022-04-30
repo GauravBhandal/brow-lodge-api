@@ -41,10 +41,25 @@ const getServiceSchema = wrapSchema({
   }),
 });
 
+const updatePayItems = wrapSchema({
+  body: Joi.object().keys({
+    payitems: Joi.array()
+      .items(
+        Joi.object().keys({
+          paylevel: requiredUUIDSchema(),
+          service: requiredUUIDSchema(),
+          payitem: requiredUUIDSchema(),
+        })
+      )
+      .required(),
+  }),
+});
+
 export default {
   createService: joiMiddleware(createServiceSchema),
   editService: joiMiddleware(editServiceSchema),
   deleteService: joiMiddleware(deleteServiceSchema),
   getServiceById: joiMiddleware(getServiceByIdSchema),
   getServices: joiMiddleware(getServiceSchema),
+  updatePayItems: joiMiddleware(updatePayItems),
 };

@@ -14,6 +14,14 @@ router.post(
   catchWrap(controller.createService)
 );
 
+// Level it here (Before the next route)
+router.put(
+  "/pay-items",
+  canDo("update", "service"), // TODO
+  serviceSchemas.updatePayItems,
+  catchWrap(controller.updatePayItems)
+);
+
 router.put(
   "/:serviceId",
   canDo("update", "service"),
@@ -26,6 +34,12 @@ router.delete(
   canDo("delete", "service"),
   serviceSchemas.deleteService,
   catchWrap(controller.deleteService)
+);
+
+router.get(
+  "/pay-items",
+  canDo("read", "service"), // TODO
+  catchWrap(controller.getPayItems)
 );
 
 router.get(

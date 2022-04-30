@@ -41,7 +41,7 @@ modelManager.init(
     },
     underscored: true,
     paranoid: false, // <-- We are setting to false because of the update functionality of this Model
-    tableName: "staff_profile_pay_level",
+    tableName: "staff_profiles_pay_levels",
   }
 );
 

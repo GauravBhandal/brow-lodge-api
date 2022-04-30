@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 
 import serviceService from "./service.service";
+import { servicePayLevelService } from "./servicePayLevel";
 
 class ServiceController {
   async createService(req: Request, res: Response) {
@@ -82,6 +83,33 @@ class ServiceController {
     };
 
     const services = await serviceService.getServices(props);
+
+    res.status(200).json(services);
+  }
+
+  async updatePayItems(req: Request, res: Response) {
+    const { payitems } = req.body;
+    const company = req.auth.companyId;
+
+    const updateProps = payitems?.map((payitem: any) => ({
+      ...payitem,
+      company,
+    }));
+
+    const service = await servicePayLevelService.updateBulkServicePayLevel(
+      updateProps,
+      company
+    );
+
+    res.status(200).json(service);
+  }
+
+  async getPayItems(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+    };
+
+    const services = await servicePayLevelService.getServicePayLevel(props);
 
     res.status(200).json(services);
   }

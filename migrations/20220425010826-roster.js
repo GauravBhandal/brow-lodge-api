@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS "integrations" (
 );
 ALTER TABLE "integrations" ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE IF NOT EXISTS "staff_profile_pay_level" (
+CREATE TABLE IF NOT EXISTS "staff_profiles_pay_levels" (
   "id" UUID NOT NULL,
   "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "paylevel" UUID NOT NULL REFERENCES "pay_levels" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -141,12 +141,29 @@ CREATE TABLE IF NOT EXISTS "staff_profile_pay_level" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
-ALTER TABLE "staff_profile_pay_level" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "staff_profiles_pay_levels" ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS "services_pay_levels" (
+  "id" UUID NOT NULL,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "service" UUID NOT NULL REFERENCES "services" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "paylevel" UUID NOT NULL REFERENCES "pay_levels" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "payitem" UUID NOT NULL,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "services_pay_levels" ENABLE ROW LEVEL SECURITY;
+
 `;
 
 const queryDown = `
-ALTER TABLE "staff_profile_pay_level" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "staff_profile_pay_level";
+ALTER TABLE "services_pay_levels" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "services_pay_levels";
+
+ALTER TABLE "staff_profiles_pay_levels" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "staff_profiles_pay_levels";
 
 ALTER TABLE "integrations" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "integrations";

@@ -153,7 +153,7 @@ function initializeStaffProfileModelAssociations() {
     as: "Manager",
   });
   StaffProfileModel.belongsToMany(PayLevelModel, {
-    through: "staff_profile_pay_level",
+    through: "staff_profiles_pay_levels",
     foreignKey: "staff",
     otherKey: "paylevel",
     as: "Paylevel",
@@ -893,6 +893,11 @@ function initializePayLevelModelAssociations() {
 function initializeServiceModelAssociations() {
   ServiceModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+  ServiceModel.belongsToMany(PayLevelModel, {
+    through: "services_pay_levels",
+    foreignKey: "service",
+    otherKey: "paylevel",
   });
 }
 
