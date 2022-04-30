@@ -52,6 +52,7 @@ import { companyExpenseRoutes } from "../api/companyExpense";
 import { policyRoutes } from "../api/policy";
 import { progressReportRoutes } from "../api/progressReport";
 import { policyReviewRoutes } from "../api/policyReview";
+import { legislationRegisterRoutes } from "../api/legislationRegister";
 
 // import { shiftTypeRoutes } from "../api/shiftType";
 // import { shiftRecordRoutes } from "../api/shiftRecord";
@@ -110,6 +111,7 @@ router.use("/policy", policyRoutes);
 router.use("/company-expense", companyExpenseRoutes);
 router.use("/progress-report", progressReportRoutes);
 router.use("/policy-review", policyReviewRoutes);
+router.use("/legislation-register", legislationRegisterRoutes);
 // router.use("/shift-type", shiftTypeRoutes);
 // router.use("/shift-record", shiftRecordRoutes);
 
