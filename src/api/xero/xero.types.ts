@@ -21,3 +21,7 @@ export interface ExportInvoicesToXeroProps {
   company: Company["id"];
   invoices: any;
 }
+export interface ExportTimesheetsToXeroProps {
+  company: Company["id"];
+  timesheets: any;
+}

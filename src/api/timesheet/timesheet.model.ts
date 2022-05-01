@@ -13,6 +13,7 @@ class TimesheetModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements Timesheet
 {
+  lastExportedOn!: Timesheet["lastExportedOn"];
   startDateTime!: Timesheet["startDateTime"];
   endDateTime!: Timesheet["endDateTime"];
   status!: Timesheet["status"];
@@ -39,6 +40,9 @@ modelManager.init(
     status: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    lastExportedOn: {
+      type: Sequelize.DATE,
     },
   },
   {

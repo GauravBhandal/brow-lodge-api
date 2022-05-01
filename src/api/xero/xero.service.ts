@@ -10,6 +10,7 @@ import {
   GetXeroCustomersProp,
   GetXeroEmployeesProp,
   ExportInvoicesToXeroProps,
+  ExportTimesheetsToXeroProps,
 } from "./xero.types";
 import config from "../../config/environment";
 
@@ -153,6 +154,28 @@ class XeroService {
         xeroTenantId,
         invoices
       );
+      return response.body;
+    } catch (err: any) {
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return {};
+    }
+  }
+
+  async exportTimesheetToXero(props: ExportTimesheetsToXeroProps) {
+    const { company, timesheets } = props;
+
+    await this.refreshXeroInstance({ company });
+
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
+    const xeroTenantId = xero.tenants[0].tenantId;
+    console.log("timesheets", timesheets);
+    try {
+      const response = await xero.payrollAUApi.createTimesheet(
+        xeroTenantId,
+        timesheets
+      );
+      console.log("Response", response.body);
       return response.body;
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
