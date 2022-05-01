@@ -54,6 +54,7 @@ import { progressReportRoutes } from "../api/progressReport";
 import { policyReviewRoutes } from "../api/policyReview";
 import { legislationRegisterRoutes } from "../api/legislationRegister";
 import { templateRoutes } from "../api/template";
+import { internalRegisterRoutes } from "../api/internalRegister";
 
 // import { shiftTypeRoutes } from "../api/shiftType";
 // import { shiftRecordRoutes } from "../api/shiftRecord";
@@ -114,6 +115,7 @@ router.use("/progress-report", progressReportRoutes);
 router.use("/policy-review", policyReviewRoutes);
 router.use("/legislation-register", legislationRegisterRoutes);
 router.use("/template", templateRoutes);
+router.use("/internal-register", internalRegisterRoutes);
 // router.use("/shift-type", shiftTypeRoutes);
 // router.use("/shift-record", shiftRecordRoutes);
 

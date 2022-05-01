@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS "legislation_registers" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "legislation_registers" ENABLE ROW LEVEL SECURITY;
+
 `;
 
 const queryDown = `
