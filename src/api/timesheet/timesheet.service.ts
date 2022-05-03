@@ -16,17 +16,16 @@ import { CustomError } from "../../components/errors";
 import TimesheetErrorCode from "./timesheet.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { CompanyModel, companyService } from "../company";
+import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
-import { Invoice, Invoices } from "xero-node";
-import xero from "../../components/xero";
 import { getMinutesDiff } from "../../utils/shiftGenerator";
 import { xeroService } from "../xero";
-import { Timesheet } from "xero-node/dist/gen/model/payroll-au/timesheet";
+import { PayLevelModel } from "../payLevel";
+import moment from "moment";
 
 class TimesheetService {
   async createTimesheetInBulk(props: CreateTimesheetProps) {
@@ -101,6 +100,12 @@ class TimesheetService {
               attributes: [],
             },
             as: "Staff",
+            include: [
+              {
+                model: PayLevelModel,
+                as: "Paylevel",
+              },
+            ],
           },
           {
             model: ClientProfileModel,
@@ -114,6 +119,14 @@ class TimesheetService {
             through: {
               attributes: ["start_time"], //TODO: We need to do some cleanup here
             },
+            include: [
+              {
+                model: PayLevelModel,
+                through: {
+                  attributes: ["payitem"], //TODO: We need to do some cleanup here
+                },
+              },
+            ],
           },
         ],
       },
@@ -122,65 +135,61 @@ class TimesheetService {
       where: { id: ids, company },
       include,
     });
-    console.log("timesheets", timesheets);
     let result: any = {};
     timesheets.forEach((timesheet: any) => {
       timesheet.Shift.Staff.forEach((staff: any) => {
+        const paylevelId = staff.Paylevel[0].id;
         const services = timesheet.Shift.Services;
+        const payItem = services[0].PayLevels.find(
+          (level: any) => level.id === paylevelId
+        );
+        if (!payItem) {
+          //errror
+        }
+        const payItemId = payItem.services_pay_levels.dataValues.payitem; //TODO: Please remove data values
         if (!result[staff.accountingCode]) {
           result[staff.accountingCode] = {};
         }
-        result[staff.accountingCode][services[0]?.code] =
-          (result[staff.accountingCode][services[0]?.code] || 0) +
-          getMinutesDiff(timesheet.startDateTime, timesheet.endDateTime) / 60;
+        if (!result[staff.accountingCode][payItemId]) {
+          result[staff.accountingCode][payItemId] = [];
+        }
+        result[staff.accountingCode][payItemId].push({
+          units:
+            getMinutesDiff(timesheet.startDateTime, timesheet.endDateTime) / 60,
+          startDate: timesheet.startDateTime,
+        });
 
         if (services.length === 2) {
-          result[staff.accountingCode][services[1]?.code] =
-            (result[staff.accountingCode][services[1]?.code] || 0) +
-            getMinutesDiff(services[1]?.start_time, timesheet.endDateTime) / 60;
+          result[staff.accountingCode][payItemId].push({
+            units:
+              getMinutesDiff(services[1]?.start_time, timesheet.endDateTime) /
+              60,
+            startDate: services[1]?.start_time,
+          });
         }
       });
     });
 
-    // TODO: Fix these dates
-    const dateValue = "2020-10-10"; // Should be today's date
-    const dueDateValue = "2020-10-28"; // Should be today's date + 14 days
-
-    const getLineItems = (services: any) => {
-      const finalLineItems = Object.keys(services).map((service) => ({
-        quantity: services[service],
-        itemCode: service,
-      }));
-      return finalLineItems;
-    };
-
-    const timesheetData: any = [
-      {
-        employeeID: "5cde0289-56a7-4139-a14c-d0d1fbb8573c",
-        startDate: "/Date(1573603200000+0000)/",
-        endDate: "/Date(1573603200000+0000)/",
+    const timesheetData: any = [];
+    Object.keys(result).forEach((staffId) => {
+      const timesheet: any = {
+        employeeID: staffId,
+        startDate: "2022-04-15", //TODO: Fix the dates
+        endDate: "2022-04-28", //TODO: Fix the dates
         status: "DRAFT",
-        timesheetLines: [
-          {
-            earningsRateID: "6c1db981-e6a2-4f37-879a-2cb0235341bf",
-            numberOfUnits: [8.0],
-          },
-        ],
-      },
-    ];
-    // Object.keys(result).forEach((staffId) => {
-    //   const invoice: Invoice = {
-    //     type: Invoice.TypeEnum.ACCREC,
-    //     contact: {
-    //       contactID: staffId,
-    //     },
-    //     date: dateValue,
-    //     dueDate: dueDateValue,
-    //     lineItems: getLineItems(result[staffId]),
-    //     status: Invoice.StatusEnum.DRAFT,
-    //   };
-    //   invoiceData.push(invoice);
-    // });
+        timesheetLines: Object.keys(result[staffId]).map((payItem) => {
+          const units = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          result[staffId][payItem].forEach((item: any) => {
+            units[moment(item.startDate).isoWeekday()] = item.units;
+          });
+          return {
+            earningsRateID: payItem,
+            numberOfUnits: units,
+          };
+        }),
+      };
+      timesheetData.push(timesheet);
+    });
 
     try {
       await xeroService.exportTimesheetToXero({
