@@ -7,13 +7,23 @@ import {
   XeroCallbackProps,
   IsConnectedToXeroProps,
   DisconnectXeroProps,
-  GetXeroCustomersProp,
-  GetXeroEmployeesProp,
+  GetXeroCustomersProps,
+  GetXeroEmployeesProps,
+  GetXeroPayItemsProps,
   ExportInvoicesToXeroProps,
+  SyncXeroEmployeesProps,
+  SyncXeroCustomersProps,
+  SyncXeroPayItemsProps,
 } from "./xero.types";
 import config from "../../config/environment";
+import integrationExternalDataService from "../integration/integrationExternalData/integrationExternalData.service";
 
 const XERO_INTEGRATION_KEY = "xero";
+enum XERO_EXTERNAL_DATA_TYPE {
+  Employees = "xero-employees",
+  Customers = "xero-customers",
+  Payitems = "xero-payitems",
+}
 
 class XeroService {
   async refreshXeroInstance(props: RefreshXeroInstanceProps) {
@@ -21,10 +31,12 @@ class XeroService {
     const { company } = props;
 
     // Get the tokenSet for Xero integration from the integrations table
-    const xeroTokenSet = await integrationService.getIntegrationByKey({
-      company,
-      key: XERO_INTEGRATION_KEY,
-    });
+    const { meta: xeroTokenSet } = await integrationService.getIntegrationByKey(
+      {
+        company,
+        key: XERO_INTEGRATION_KEY,
+      }
+    );
 
     // Set the token on xero instance
     await xero.setTokenSet(xeroTokenSet);
@@ -95,48 +107,72 @@ class XeroService {
     return {};
   }
 
-  async getXeroCustomers(props: GetXeroCustomersProp) {
-    await this.refreshXeroInstance(props);
-    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
-    const xeroTenantId = xero.tenants[0].tenantId;
-
+  async getXeroEmployees(props: GetXeroEmployeesProps) {
+    // We are wrapping these calls to try catch because we want to send empty list in case of INTEGRATION_EXTERNAL_DATA_NOT_FOUND
     try {
-      const response = await xero.accountingApi.getContacts(xeroTenantId);
-      return response.body;
+      const { company } = props;
+
+      // Get the id for Xero integration from the integrations table
+      const { id: integration } = await integrationService.getIntegrationByKey({
+        company,
+        key: XERO_INTEGRATION_KEY,
+      });
+
+      const response =
+        await integrationExternalDataService.getIntegrationExternalData({
+          type: XERO_EXTERNAL_DATA_TYPE.Employees,
+          company,
+          integration,
+        });
+      return response?.data;
     } catch (err: any) {
-      const error = JSON.stringify(err.response?.body, null, 2);
-      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return {};
+      return [];
     }
   }
 
-  async getXeroEmployees(props: GetXeroEmployeesProp) {
-    await this.refreshXeroInstance(props);
-    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
-    const xeroTenantId = xero.tenants[0].tenantId;
-
+  async getXeroCustomers(props: GetXeroCustomersProps) {
+    // We are wrapping these calls to try catch because we want to send empty list in case of INTEGRATION_EXTERNAL_DATA_NOT_FOUND
     try {
-      const response = await xero.payrollAUApi.getEmployees(xeroTenantId);
-      return response.body;
+      const { company } = props;
+
+      // Get the id for Xero integration from the integrations table
+      const { id: integration } = await integrationService.getIntegrationByKey({
+        company,
+        key: XERO_INTEGRATION_KEY,
+      });
+
+      const response =
+        await integrationExternalDataService.getIntegrationExternalData({
+          type: XERO_EXTERNAL_DATA_TYPE.Customers,
+          company,
+          integration,
+        });
+      return response?.data;
     } catch (err: any) {
-      const error = JSON.stringify(err.response?.body, null, 2);
-      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return {};
+      return [];
     }
   }
 
-  async getPayItems(props: GetXeroEmployeesProp) {
-    await this.refreshXeroInstance(props);
-    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
-    const xeroTenantId = xero.tenants[0].tenantId;
-
+  async getPayItems(props: GetXeroPayItemsProps) {
+    // We are wrapping these calls to try catch because we want to send empty list in case of INTEGRATION_EXTERNAL_DATA_NOT_FOUND
     try {
-      const response = await xero.payrollAUApi.getPayItems(xeroTenantId);
-      return response.body;
+      const { company } = props;
+
+      // Get the id for Xero integration from the integrations table
+      const { id: integration } = await integrationService.getIntegrationByKey({
+        company,
+        key: XERO_INTEGRATION_KEY,
+      });
+
+      const response =
+        await integrationExternalDataService.getIntegrationExternalData({
+          type: XERO_EXTERNAL_DATA_TYPE.Payitems,
+          company,
+          integration,
+        });
+      return response?.data;
     } catch (err: any) {
-      const error = JSON.stringify(err.response?.body, null, 2);
-      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return {};
+      return [];
     }
   }
 
@@ -158,6 +194,114 @@ class XeroService {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
       return {};
+    }
+  }
+
+  async syncXeroEmployees(props: SyncXeroEmployeesProps) {
+    const { company } = props;
+
+    await this.refreshXeroInstance(props);
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
+
+    const xeroTenantId = xero.tenants[0].tenantId;
+
+    try {
+      //Get all the employees from xero
+      const response = await xero.payrollAUApi.getEmployees(xeroTenantId);
+
+      // Get the id for Xero integration from the integrations table
+      const { id: integration } = await integrationService.getIntegrationByKey({
+        company,
+        key: XERO_INTEGRATION_KEY,
+      });
+
+      // Store the new list of employees from Xero in the database
+      await integrationExternalDataService.createOrUpdateIntegrationExternalData(
+        {
+          data: response.body,
+          type: XERO_EXTERNAL_DATA_TYPE.Employees,
+          company,
+          integration,
+        }
+      );
+
+      return;
+    } catch (err: any) {
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return;
+    }
+  }
+
+  async syncXeroCustomers(props: SyncXeroCustomersProps) {
+    const { company } = props;
+
+    await this.refreshXeroInstance(props);
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
+
+    const xeroTenantId = xero.tenants[0].tenantId;
+
+    try {
+      // Get all the contacts from xero
+      const response = await xero.accountingApi.getContacts(xeroTenantId);
+
+      // Get the id for Xero integration from the integrations table
+      const { id: integration } = await integrationService.getIntegrationByKey({
+        company,
+        key: XERO_INTEGRATION_KEY,
+      });
+
+      // Store the new list of contacts from Xero in the database
+      await integrationExternalDataService.createOrUpdateIntegrationExternalData(
+        {
+          data: response.body,
+          type: XERO_EXTERNAL_DATA_TYPE.Customers,
+          company,
+          integration,
+        }
+      );
+
+      return;
+    } catch (err: any) {
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return;
+    }
+  }
+
+  async syncXeroPayItems(props: SyncXeroPayItemsProps) {
+    const { company } = props;
+
+    await this.refreshXeroInstance(props);
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
+
+    const xeroTenantId = xero.tenants[0].tenantId;
+
+    try {
+      //Get all the payitems from xero
+      const response = await xero.payrollAUApi.getPayItems(xeroTenantId);
+
+      // Get the id for Xero integration from the integrations table
+      const { id: integration } = await integrationService.getIntegrationByKey({
+        company,
+        key: XERO_INTEGRATION_KEY,
+      });
+
+      // Store the new list of payitems from Xero in the database
+      await integrationExternalDataService.createOrUpdateIntegrationExternalData(
+        {
+          data: response.body,
+          type: XERO_EXTERNAL_DATA_TYPE.Payitems,
+          company,
+          integration,
+        }
+      );
+
+      return;
+    } catch (err: any) {
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return;
     }
   }
 }

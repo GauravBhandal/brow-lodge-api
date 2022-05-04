@@ -66,6 +66,36 @@ class XeroController {
     const payItems = await xeroService.getPayItems(props);
     res.status(200).json(payItems);
   }
+
+  async syncXeroEmployees(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+    };
+
+    await xeroService.syncXeroEmployees(props);
+
+    res.status(204).send();
+  }
+
+  async syncXeroCustomers(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+    };
+
+    await xeroService.syncXeroCustomers(props);
+
+    res.status(204).send();
+  }
+
+  async syncXeroPayItems(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+    };
+
+    await xeroService.syncXeroPayItems(props);
+
+    res.status(204).send();
+  }
 }
 
 export default new XeroController();

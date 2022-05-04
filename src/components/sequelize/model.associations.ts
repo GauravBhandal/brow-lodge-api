@@ -55,6 +55,7 @@ import { TimesheetModel } from "../../api/timesheet";
 import { PayLevelModel } from "../../api/payLevel";
 import { InvoiceModel } from "../../api/invoice";
 import { IntegrationModel } from "../../api/integration";
+import IntegrationExternalDataModel from "../../api/integration/integrationExternalData/integrationExternalData.model";
 
 export default {
   initialize() {
@@ -114,6 +115,7 @@ export default {
     initializeTimesheetModelAssociations();
     initializeInvoiceModelAssociations();
     initializeIntegrationModelAssociations();
+    initializeIntegrationExternalDataModelAssociations();
   },
 };
 
@@ -904,5 +906,18 @@ function initializeServiceModelAssociations() {
 function initializeIntegrationModelAssociations() {
   IntegrationModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+  IntegrationModel.hasMany(IntegrationExternalDataModel, {
+    foreignKey: "integration",
+    sourceKey: "id",
+  });
+}
+
+function initializeIntegrationExternalDataModelAssociations() {
+  IntegrationExternalDataModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  IntegrationExternalDataModel.belongsTo(IntegrationModel, {
+    foreignKey: { name: "integration", allowNull: false },
   });
 }
