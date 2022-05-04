@@ -3,7 +3,6 @@ import { omit as _omit } from "lodash";
 import IntegrationExternalDataModel from "./integrationExternalData.model";
 import {
   CreateOrUpdateIntegrationExternalDataProps,
-  DeleteIntegrationExternalDataProps,
   GetIntegrationExternalDataProps,
 } from "./integrationExternalData.types";
 import { CustomError } from "../../../components/errors";
@@ -47,28 +46,6 @@ class IntegrationExternalDataService {
 
       return integrationExternalData;
     }
-  }
-
-  async deleteIntegrationExternalData(
-    props: DeleteIntegrationExternalDataProps
-  ) {
-    // Props
-    const { integration, company, type } = props;
-
-    // Find and delete the integrationExternalData by integration, company, type
-    const integrationExternalData = await IntegrationExternalDataModel.destroy({
-      where: { integration, company, type },
-    });
-
-    // if integrationExternalData has been deleted, throw an error
-    if (!integrationExternalData) {
-      throw new CustomError(
-        404,
-        IntegrationExternalDataErrorCode.INTEGRATION_EXTERNAL_DATA_NOT_FOUND
-      );
-    }
-
-    return integrationExternalData;
   }
 
   async getIntegrationExternalData(props: GetIntegrationExternalDataProps) {

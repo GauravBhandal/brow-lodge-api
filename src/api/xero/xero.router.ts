@@ -13,12 +13,6 @@ router.post(
   catchWrap(controller.connectXero)
 );
 
-router.post(
-  "/sync/employees",
-  canDo("read", "integration"),
-  catchWrap(controller.syncXeroEmployees)
-);
-
 router.delete(
   "/disconnect",
   canDo("update", "integration"),
@@ -54,6 +48,24 @@ router.get(
   "/pay-items",
   canDo("read", "integration"),
   catchWrap(controller.getPayItems)
+);
+
+router.post(
+  "/sync/employees",
+  canDo("read", "integration"),
+  catchWrap(controller.syncXeroEmployees)
+);
+
+router.post(
+  "/sync/customers",
+  canDo("read", "integration"),
+  catchWrap(controller.syncXeroCustomers)
+);
+
+router.post(
+  "/sync/pay-items",
+  canDo("read", "integration"),
+  catchWrap(controller.syncXeroPayItems)
 );
 
 export default router;

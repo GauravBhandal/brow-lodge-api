@@ -13,11 +13,17 @@ export interface DisconnectXeroProps extends IsConnectedToXeroProps {}
 
 export interface RefreshXeroInstanceProps extends IsConnectedToXeroProps {}
 
-export interface GetXeroCustomersProp extends IsConnectedToXeroProps {}
+export interface GetXeroEmployeesProps extends IsConnectedToXeroProps {}
 
-export interface GetXeroEmployeesProp extends IsConnectedToXeroProps {}
+export interface GetXeroCustomersProps extends IsConnectedToXeroProps {}
 
-export interface SyncXeroEmployees extends IsConnectedToXeroProps {}
+export interface GetXeroPayItemsProps extends IsConnectedToXeroProps {}
+
+export interface SyncXeroEmployeesProps extends IsConnectedToXeroProps {}
+
+export interface SyncXeroCustomersProps extends IsConnectedToXeroProps {}
+
+export interface SyncXeroPayItemsProps extends IsConnectedToXeroProps {}
 
 export interface ExportInvoicesToXeroProps {
   company: Company["id"];

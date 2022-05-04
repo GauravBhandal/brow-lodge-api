@@ -25,12 +25,8 @@ export interface CreateOrUpdateIntegrationExternalDataProps {
   integration: IntegrationExternalData["integration"];
 }
 
-export interface DeleteIntegrationExternalDataProps {
-  data: IntegrationExternalData["data"];
+export interface GetIntegrationExternalDataProps {
   type: IntegrationExternalData["type"];
   company: IntegrationExternalData["company"];
   integration: IntegrationExternalData["integration"];
 }
-
-export interface GetIntegrationExternalDataProps
-  extends DeleteIntegrationExternalDataProps {}
