@@ -10,8 +10,10 @@ import {
   GetXeroCustomersProp,
   GetXeroEmployeesProp,
   ExportInvoicesToXeroProps,
+  SyncXeroEmployees,
 } from "./xero.types";
 import config from "../../config/environment";
+import integrationExternalDataService from "../integration/integrationExternalData/integrationExternalData.service";
 
 const XERO_INTEGRATION_KEY = "xero";
 
@@ -21,10 +23,12 @@ class XeroService {
     const { company } = props;
 
     // Get the tokenSet for Xero integration from the integrations table
-    const xeroTokenSet = await integrationService.getIntegrationByKey({
-      company,
-      key: XERO_INTEGRATION_KEY,
-    });
+    const { meta: xeroTokenSet } = await integrationService.getIntegrationByKey(
+      {
+        company,
+        key: XERO_INTEGRATION_KEY,
+      }
+    );
 
     // Set the token on xero instance
     await xero.setTokenSet(xeroTokenSet);
@@ -49,6 +53,38 @@ class XeroService {
   async connectXero() {
     const consentUrl = await xero.buildConsentUrl();
     return consentUrl;
+  }
+
+  async syncXeroEmployees(props: SyncXeroEmployees) {
+    const { company } = props;
+
+    await this.refreshXeroInstance(props);
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
+
+    const xeroTenantId = xero.tenants[0].tenantId;
+
+    try {
+      //Get all the employees from xero
+      const response = await xero.payrollAUApi.getEmployees(xeroTenantId);
+
+      // Get the id for Xero integration from the integrations table
+      const { id: integration } = await integrationService.getIntegrationByKey({
+        company,
+        key: XERO_INTEGRATION_KEY,
+      });
+
+      const integrationExternalData =
+        await integrationExternalDataService.createOrUpdateIntegrationExternalData(
+          { data: response.body, type: "", company, integration }
+        );
+
+      return response.body;
+    } catch (err: any) {
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return {};
+    }
+    return { success: "hii" };
   }
 
   async isConnectedToXero(props: IsConnectedToXeroProps) {

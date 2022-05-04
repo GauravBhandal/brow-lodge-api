@@ -10,6 +10,16 @@ class XeroController {
     res.status(200).json(xero);
   }
 
+  async syncXeroEmployees(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+    };
+
+    const xero = await xeroService.syncXeroEmployees(props);
+
+    res.status(200).json(xero);
+  }
+
   async isConnectedToXero(req: Request, res: Response) {
     const props = {
       company: req.auth.companyId,

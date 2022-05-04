@@ -13,6 +13,12 @@ router.post(
   catchWrap(controller.connectXero)
 );
 
+router.post(
+  "/sync/employees",
+  canDo("read", "integration"),
+  catchWrap(controller.syncXeroEmployees)
+);
+
 router.delete(
   "/disconnect",
   canDo("update", "integration"),

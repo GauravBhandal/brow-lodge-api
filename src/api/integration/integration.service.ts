@@ -144,7 +144,7 @@ class IntegrationService {
     const bytes = crypto.AES.decrypt(integration.meta, config.TOKEN_KEY);
     const meta = JSON.parse(bytes.toString(crypto.enc.Utf8));
 
-    return meta;
+    return { meta, id: integration.id };
   }
 
   async getIntegrations(props: GetIntegrationsProps) {
