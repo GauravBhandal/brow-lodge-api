@@ -133,6 +133,19 @@ CREATE TABLE IF NOT EXISTS "integrations" (
 );
 ALTER TABLE "integrations" ENABLE ROW LEVEL SECURITY;
 
+CREATE TABLE IF NOT EXISTS "integrations_external_data" (
+  "id" UUID NOT NULL,
+  "type" VARCHAR NOT NULL,
+  "data" JSONB NOT NULL,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "integration" UUID NOT NULL REFERENCES "integrations" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "integrations_external_data" ENABLE ROW LEVEL SECURITY;
+
 CREATE TABLE IF NOT EXISTS "staff_profiles_pay_levels" (
   "id" UUID NOT NULL,
   "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -165,6 +178,9 @@ DROP TABLE IF EXISTS "services_pay_levels";
 
 ALTER TABLE "staff_profiles_pay_levels" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "staff_profiles_pay_levels";
+
+ALTER TABLE "integrations_external_data" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "integrations_external_data";
 
 ALTER TABLE "integrations" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "integrations";
