@@ -11,12 +11,13 @@ import {
   GetXeroEmployeesProps,
   GetXeroPayItemsProps,
   ExportInvoicesToXeroProps,
+  ExportTimesheetsToXeroProps,
   SyncXeroEmployeesProps,
   SyncXeroCustomersProps,
   SyncXeroPayItemsProps,
 } from "./xero.types";
 import config from "../../config/environment";
-import integrationExternalDataService from "../integration/integrationExternalData/integrationExternalData.service";
+import { integrationExternalDataService } from "../integration/integrationExternalData";
 
 const XERO_INTEGRATION_KEY = "xero";
 enum XERO_EXTERNAL_DATA_TYPE {
@@ -302,6 +303,28 @@ class XeroService {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
       return;
+    }
+  }
+
+  async exportTimesheetToXero(props: ExportTimesheetsToXeroProps) {
+    const { company, timesheets } = props;
+
+    await this.refreshXeroInstance({ company });
+
+    // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
+    const xeroTenantId = xero.tenants[0].tenantId;
+    console.log("timesheets", timesheets);
+    try {
+      const response = await xero.payrollAUApi.createTimesheet(
+        xeroTenantId,
+        timesheets
+      );
+      console.log("Response", response.body);
+      return response.body;
+    } catch (err: any) {
+      const error = JSON.stringify(err.response?.body, null, 2);
+      console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
+      return {};
     }
   }
 }

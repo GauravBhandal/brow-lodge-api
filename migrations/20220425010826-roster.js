@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS "timesheets" (
   "id" UUID NOT NULL,
   "start_date_time" TIMESTAMP WITH TIME ZONE NOT NULL,
   "end_date_time" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "last_exported_on" TIMESTAMP WITH TIME ZONE,
   "status" VARCHAR NOT NULL,
   "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "shift" UUID NOT NULL REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,

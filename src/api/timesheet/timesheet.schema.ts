@@ -31,6 +31,7 @@ const editTimesheetSchema = wrapSchema({
 const updateTimesheetStatusSchema = wrapSchema({
   body: Joi.object().keys({
     status: Joi.string().required(),
+    lastExportedOn: Joi.date().allow(null),
     ids: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });

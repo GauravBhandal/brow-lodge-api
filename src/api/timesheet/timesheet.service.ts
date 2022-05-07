@@ -1,6 +1,5 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
-import config from "../../config/environment";
 
 import TimesheetModel from "./timesheet.model";
 import {
@@ -17,15 +16,16 @@ import { CustomError } from "../../components/errors";
 import TimesheetErrorCode from "./timesheet.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { CompanyModel, companyService } from "../company";
+import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
-import { CreditNote, Invoice, Invoices, LineItem } from "xero-node";
-import xero from "../../components/xero";
 import { getMinutesDiff } from "../../utils/shiftGenerator";
+import { xeroService } from "../xero";
+import { PayLevelModel } from "../payLevel";
+import moment from "moment";
 
 class TimesheetService {
   async createTimesheetInBulk(props: CreateTimesheetProps) {
@@ -63,8 +63,8 @@ class TimesheetService {
 
   async updateTimesheetStatus(props: UpdateTimesheetStatusProps) {
     // Props
-    const { ids, company, status } = props;
-    const updateProps = { status };
+    const { ids, company, status, lastExportedOn } = props;
+    const updateProps = { status, lastExportedOn };
 
     // Finally, update the timesheet
     const [, [updatedTimesheet]] = await TimesheetModel.update(updateProps, {
@@ -100,6 +100,12 @@ class TimesheetService {
               attributes: [],
             },
             as: "Staff",
+            include: [
+              {
+                model: PayLevelModel,
+                as: "Paylevel",
+              },
+            ],
           },
           {
             model: ClientProfileModel,
@@ -113,6 +119,14 @@ class TimesheetService {
             through: {
               attributes: ["start_time"], //TODO: We need to do some cleanup here
             },
+            include: [
+              {
+                model: PayLevelModel,
+                through: {
+                  attributes: ["payitem"], //TODO: We need to do some cleanup here
+                },
+              },
+            ],
           },
         ],
       },
@@ -123,77 +137,75 @@ class TimesheetService {
     });
     let result: any = {};
     timesheets.forEach((timesheet: any) => {
-      timesheet.Shift.Client.forEach((client: any) => {
+      timesheet.Shift.Staff.forEach((staff: any) => {
+        const paylevelId = staff.Paylevel[0].id;
         const services = timesheet.Shift.Services;
-        if (!result[client.accountingCode]) {
-          result[client.accountingCode] = {};
+        const payItem = services[0].PayLevels.find(
+          (level: any) => level.id === paylevelId
+        );
+        if (!payItem) {
+          //errror
         }
-        result[client.accountingCode][services[0]?.code] =
-          (result[client.accountingCode][services[0]?.code] || 0) +
-          getMinutesDiff(timesheet.startDateTime, timesheet.endDateTime) / 60;
+        const payItemId = payItem.services_pay_levels.dataValues.payitem; //TODO: Please remove data values
+        if (!result[staff.accountingCode]) {
+          result[staff.accountingCode] = {};
+        }
+        if (!result[staff.accountingCode][payItemId]) {
+          result[staff.accountingCode][payItemId] = [];
+        }
+        result[staff.accountingCode][payItemId].push({
+          units:
+            getMinutesDiff(timesheet.startDateTime, timesheet.endDateTime) / 60,
+          startDate: timesheet.startDateTime,
+        });
 
         if (services.length === 2) {
-          result[client.accountingCode][services[1]?.code] =
-            (result[client.accountingCode][services[1]?.code] || 0) +
-            getMinutesDiff(services[1]?.start_time, timesheet.endDateTime) / 60;
+          result[staff.accountingCode][payItemId].push({
+            units:
+              getMinutesDiff(services[1]?.start_time, timesheet.endDateTime) /
+              60,
+            startDate: services[1]?.start_time,
+          });
         }
       });
     });
-    console.log("result", result);
-    // const companyData = await companyService.getCompanyById({ company });
-    // await xero.setTokenSet(companyData.xeroTokenSet);
-    // const validTokenSet = await xero.refreshWithRefreshToken(
-    //   config.XERO_CLIENT_ID,
-    //   config.XERO_CLIENT_SECRET,
-    //   companyData.xeroTokenSet.refresh_token
-    // ); // save the new tokenset
-    // await xero.updateTenants();
 
-    const xeroTenantId = xero.tenants[0].tenantId; //a0f444ba-d500-4e24-9a5e-c5c767f9a222
-    const summarizeErrors = true;
-    const unitdp = 4;
-    const dateValue = "2020-10-10";
-    const dueDateValue = "2020-10-28";
-
-    const getLineItems = (services: any) => {
-      const finalLineItems = Object.keys(services).map((service) => ({
-        description: "This is for testing",
-        quantity: services[service],
-        itemCode: service,
-      }));
-      return finalLineItems;
-    };
-
-    const invoiceData: any = [];
-    Object.keys(result).forEach((clientId) => {
-      const invoice: Invoice = {
-        type: Invoice.TypeEnum.ACCREC,
-        contact: {
-          contactID: clientId,
-        },
-        date: dateValue,
-        dueDate: dueDateValue,
-        lineItems: getLineItems(result[clientId]),
-        reference: "Website Design",
-        status: Invoice.StatusEnum.DRAFT,
+    const timesheetData: any = [];
+    Object.keys(result).forEach((staffId) => {
+      const timesheet: any = {
+        employeeID: staffId,
+        startDate: "2022-04-15", //TODO: Fix the dates
+        endDate: "2022-04-28", //TODO: Fix the dates
+        status: "DRAFT",
+        timesheetLines: Object.keys(result[staffId]).map((payItem) => {
+          const units = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          result[staffId][payItem].forEach((item: any) => {
+            units[moment(item.startDate).isoWeekday()] = item.units;
+          });
+          return {
+            earningsRateID: payItem,
+            numberOfUnits: units,
+          };
+        }),
       };
-      invoiceData.push(invoice);
+      timesheetData.push(timesheet);
     });
-    const invoices: Invoices = {
-      invoices: invoiceData,
-    };
+
     try {
-      const response = await xero.accountingApi.updateOrCreateInvoices(
-        xeroTenantId,
-        invoices,
-        summarizeErrors,
-        unitdp
-      );
-      console.log(response.body || response.response.statusCode);
+      await xeroService.exportTimesheetToXero({
+        company,
+        timesheets: timesheetData,
+      });
+
+      await this.updateTimesheetStatus({
+        company,
+        ids,
+        status: "Approved",
+        lastExportedOn: new Date(),
+      });
     } catch (err: any) {
-      const error = JSON.stringify(err.response.body, null, 2);
-      console.log(`Status Code: ${err.response.statusCode} => ${error}`);
-      throw new CustomError(404, TimesheetErrorCode.INVOICE_NOT_CREATED);
+      console.log(`Error${err}`);
+      throw new CustomError(404, TimesheetErrorCode.FAILED_TO_GENERATE_INVOICE);
     }
     return {};
   }

@@ -5,6 +5,7 @@ import { QueryParams } from "../../common/types";
 import { ShiftRecord } from "../shiftRecord";
 
 export interface Timesheet extends DefaultSchemaConfig {
+  lastExportedOn: Date;
   startDateTime: Date;
   endDateTime: Date;
   status: string;
@@ -38,6 +39,7 @@ export interface UpdateTimesheetStatusProps {
   ids: Timesheet["id"][];
   status: Timesheet["status"];
   company: Timesheet["company"];
+  lastExportedOn: Timesheet["lastExportedOn"];
 }
 
 export interface GenerateInvoicesProps {
