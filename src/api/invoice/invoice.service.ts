@@ -131,14 +131,24 @@ class InvoiceService {
         if (!result[client.accountingCode]) {
           result[client.accountingCode] = {};
         }
-        result[client.accountingCode][services[0]?.code] =
-          (result[client.accountingCode][services[0]?.code] || 0) +
-          getMinutesDiff(invoice.startDateTime, invoice.endDateTime) / 60;
+        if (services[0].rateType === "Fixed") {
+          result[client.accountingCode][services[0]?.code] =
+            (result[client.accountingCode][services[0]?.code] || 0) + 1;
 
-        if (services.length === 2) {
-          result[client.accountingCode][services[1]?.code] =
-            (result[client.accountingCode][services[1]?.code] || 0) +
-            getMinutesDiff(services[1]?.start_time, invoice.endDateTime) / 60;
+          if (services.length === 2) {
+            result[client.accountingCode][services[1]?.code] =
+              (result[client.accountingCode][services[1]?.code] || 0) + 1;
+          }
+        } else {
+          result[client.accountingCode][services[0]?.code] =
+            (result[client.accountingCode][services[0]?.code] || 0) +
+            getMinutesDiff(invoice.startDateTime, invoice.endDateTime) / 60;
+
+          if (services.length === 2) {
+            result[client.accountingCode][services[1]?.code] =
+              (result[client.accountingCode][services[1]?.code] || 0) +
+              getMinutesDiff(services[1]?.start_time, invoice.endDateTime) / 60;
+          }
         }
       });
     });

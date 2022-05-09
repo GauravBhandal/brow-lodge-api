@@ -5,14 +5,18 @@ import { QueryParams } from "../../common/types";
 export interface Service extends DefaultSchemaConfig {
   code: string;
   name: string;
+  rateType: string;
   effectiveDate?: Date;
   company: Company["id"];
   Company?: Company;
+  archived?: boolean;
 }
 
 export interface CreateServiceProps {
   code: Service["code"];
   name: Service["name"];
+  archived?: boolean;
+  rateType: Service["rateType"];
   effectiveDate?: Service["effectiveDate"];
   company: Service["company"];
 }
