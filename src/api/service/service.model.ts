@@ -15,6 +15,8 @@ class ServiceModel<
 {
   code!: Service["code"];
   name!: Service["name"];
+  rateType!: Service["rateType"];
+  archived: Service["archived"];
   effectiveDate!: Service["effectiveDate"];
   company!: Service["company"];
   Company: Service["Company"];
@@ -32,8 +34,15 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    rateType: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     effectiveDate: {
       type: Sequelize.DATE,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
