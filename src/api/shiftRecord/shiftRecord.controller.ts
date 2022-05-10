@@ -59,6 +59,23 @@ class ShiftRecordController {
     res.status(200).json(shiftRecord);
   }
 
+  async getMyShiftRecords(req: Request, res: Response) {
+    const queryParams = _pick(req.query, [
+      "page",
+      "pageSize",
+      "sort",
+      "where",
+    ]) as any;
+    const props = {
+      company: req.auth.companyId,
+      user: req.auth.userId,
+      ...queryParams,
+    };
+
+    const shiftRecords = await shiftRecordService.getMyShiftRecords(props);
+
+    res.status(200).json(shiftRecords);
+  }
   async getShiftRecords(req: Request, res: Response) {
     const queryParams = _pick(req.query, [
       "page",

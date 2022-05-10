@@ -64,10 +64,20 @@ const getShiftRecordSchema = wrapSchema({
   }),
 });
 
+const getMyShiftRecordSchema = wrapSchema({
+  query: Joi.object().keys({
+    page: Joi.number().min(1),
+    pageSize: Joi.number().min(1),
+    sort: Joi.string(),
+    where: Joi.any(), //TODO use regular operation for applying schema for where props
+  }),
+});
+
 export default {
   createShiftRecord: joiMiddleware(createShiftRecordSchema),
   editShiftRecord: joiMiddleware(editShiftRecordSchema),
   deleteShiftRecord: joiMiddleware(deleteShiftRecordSchema),
   getShiftRecordById: joiMiddleware(getShiftRecordByIdSchema),
   getShiftRecords: joiMiddleware(getShiftRecordSchema),
+  getMyShiftRecords: joiMiddleware(getMyShiftRecordSchema),
 };

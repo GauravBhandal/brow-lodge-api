@@ -9,6 +9,7 @@ import {
   DeleteShiftRecordProps,
   GetShiftRecordByIdProps,
   GetShiftRecordsProps,
+  GetMyShiftRecordsProps,
 } from "./shiftRecord.types";
 import { CustomError } from "../../components/errors";
 import ShiftRecordErrorCode from "./shiftRecord.error";
@@ -315,6 +316,80 @@ class ShiftRecordService {
     return shiftRecord;
   }
 
+  async getMyShiftRecords(props: GetMyShiftRecordsProps) {
+    // Props
+    const { page, pageSize, sort, where, company, user } = props;
+
+    const staffProfile = await StaffProfileModel.findOne({
+      where: { user, company },
+    });
+
+    if (!staffProfile) {
+      throw new CustomError(404, ShiftRecordErrorCode.SHIFT_RECORD_NOT_FOUND);
+    }
+
+    const { offset, limit } = getPagingParams(page, pageSize);
+    const order = getSortingParams(sort);
+    const filters = getFilters(where);
+    console.log("filters", filters);
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        through: {
+          attributes: [],
+        },
+        where: {
+          ...filters["Staff"],
+        },
+        as: "Staff",
+        duplicating: true,
+        required: false,
+      },
+      {
+        model: ClientProfileModel,
+        through: {
+          attributes: [],
+        },
+        where: {
+          ...filters["Client"],
+        },
+        as: "Client",
+        duplicating: true,
+        required: false,
+      },
+    ];
+    console.log("staffProfile", staffProfile.id);
+    // Count total shiftRecords in the given company
+    const count = await ShiftRecordModel.count({
+      where: {
+        company,
+        ...filters["primaryFilters"],
+        Staff: { id: { [Op.eq]: staffProfile.id } },
+      },
+      distinct: true,
+      include,
+    });
+
+    // Find all shiftRecords for matching props and company
+    const data = await ShiftRecordModel.findAll({
+      offset,
+      limit,
+      order,
+      where: {
+        company,
+        ...filters["primaryFilters"],
+        Staff: { id: { [Op.eq]: staffProfile.id } },
+      },
+      include,
+    });
+
+    const response = getPagingData({ count, rows: data }, page, limit);
+
+    return response;
+  }
   async getShiftRecords(props: GetShiftRecordsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
