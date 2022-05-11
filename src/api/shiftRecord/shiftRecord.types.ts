@@ -44,6 +44,7 @@ export interface CreateShiftRecordInBulkProps {
 
 export interface UpdateShiftRecordProps extends CreateShiftRecordProps {
   id: ShiftRecord["id"];
+  updateRecurring?: Boolean;
 }
 
 export interface DeleteShiftRecordProps {

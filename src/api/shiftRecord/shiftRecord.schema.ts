@@ -34,6 +34,7 @@ const createShiftRecordSchema = wrapSchema({
 const editShiftRecordSchema = wrapSchema({
   params: Joi.object().keys({ shiftRecordId: requiredUUIDSchema() }),
   body: Joi.object().keys({
+    updateRecurring: Joi.boolean().required(),
     startDateTime: Joi.date().required(),
     endDateTime: Joi.date().required(),
     break: Joi.number().allow("", null),

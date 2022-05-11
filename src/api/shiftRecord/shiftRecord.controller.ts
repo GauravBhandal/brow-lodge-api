@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import { staffProfileService } from "../staffProfile";
 
 import shiftRecordService from "./shiftRecord.service";
 
@@ -66,13 +67,24 @@ class ShiftRecordController {
       "sort",
       "where",
     ]) as any;
-    const props = {
+    const staffProps = {
       company: req.auth.companyId,
       user: req.auth.userId,
-      ...queryParams,
     };
 
-    const shiftRecords = await shiftRecordService.getMyShiftRecords(props);
+    const staffProfile = await staffProfileService.getStaffProfileByUser(
+      staffProps
+    );
+
+    const shiftProps = {
+      company: req.auth.companyId,
+      ...queryParams,
+      where: {
+        "Staff.id_eq": staffProfile.id,
+        ...queryParams["where"],
+      },
+    };
+    const shiftRecords = await shiftRecordService.getShiftRecords(shiftProps);
 
     res.status(200).json(shiftRecords);
   }

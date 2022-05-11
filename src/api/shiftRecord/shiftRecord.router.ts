@@ -8,7 +8,7 @@ import { canDo } from "../../components/ability/canDo";
 const router = express.Router();
 
 router.get(
-  "/myshifts/",
+  "/myshifts",
   shiftRecordSchemas.getMyShiftRecords,
   catchWrap(controller.getMyShiftRecords)
 );
