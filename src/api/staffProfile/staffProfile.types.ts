@@ -25,12 +25,13 @@ export interface StaffProfile extends DefaultSchemaConfig {
   employmentType?: string;
   manager?: StaffProfile["id"];
   archived?: boolean;
+  paylevel?: PayLevel["id"];
+  PayLevel?: PayLevel;
   user?: User["id"];
   User?: User;
   company: Company["id"];
   Company?: Company;
   attachment?: Attachment["id"];
-  Paylevel?: PayLevel[];
 }
 
 export interface CreateStaffProfileProps {
@@ -55,7 +56,7 @@ export interface CreateStaffProfileProps {
   user: StaffProfile["user"];
   company: StaffProfile["company"];
   attachment?: StaffProfile["attachment"];
-  paylevel?: PayLevel["id"][];
+  paylevel?: StaffProfile["paylevel"];
 }
 
 export interface UpdateStaffProfileProps extends CreateStaffProfileProps {

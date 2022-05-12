@@ -148,17 +148,6 @@ CREATE TABLE IF NOT EXISTS "integrations_external_data" (
 );
 ALTER TABLE "integrations_external_data" ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE IF NOT EXISTS "staff_profiles_pay_levels" (
-  "id" UUID NOT NULL,
-  "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "paylevel" UUID NOT NULL REFERENCES "pay_levels" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "deleted" TIMESTAMP WITH TIME ZONE,
-  PRIMARY KEY ("id")
-);
-ALTER TABLE "staff_profiles_pay_levels" ENABLE ROW LEVEL SECURITY;
-
 CREATE TABLE IF NOT EXISTS "services_pay_levels" (
   "id" UUID NOT NULL,
   "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -172,14 +161,14 @@ CREATE TABLE IF NOT EXISTS "services_pay_levels" (
 );
 ALTER TABLE "services_pay_levels" ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE "staff_profiles" ADD COLUMN "paylevel" UUID REFERENCES "pay_levels" ("id") ON DELETE SET NULL ON UPDATE CASCADE;
 `;
 
 const queryDown = `
+ALTER TABLE "staff_profiles" DROP COLUMN "paylevel";
+
 ALTER TABLE "services_pay_levels" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "services_pay_levels";
-
-ALTER TABLE "staff_profiles_pay_levels" DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS "staff_profiles_pay_levels";
 
 ALTER TABLE "integrations_external_data" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "integrations_external_data";

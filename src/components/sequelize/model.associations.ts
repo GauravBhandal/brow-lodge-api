@@ -154,10 +154,8 @@ function initializeStaffProfileModelAssociations() {
     },
     as: "Manager",
   });
-  StaffProfileModel.belongsToMany(PayLevelModel, {
-    through: "staff_profiles_pay_levels",
-    foreignKey: "staff",
-    otherKey: "paylevel",
+  StaffProfileModel.belongsTo(PayLevelModel, {
+    foreignKey: { name: "paylevel" },
     as: "Paylevel",
   });
 }
