@@ -17,21 +17,11 @@ import { getSortingParams } from "../../components/sorting";
 import { getFilters } from "../../components/filters";
 import { CompanyModel } from "../company";
 import { UserModel } from "../user";
-import { staffProfilePayLevelService } from "./staffProfilePayLevel";
 import { PayLevelModel } from "../payLevel";
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
     const staffProfile = await StaffProfileModel.create(props);
-
-    // Assign pay levels
-    if (props.paylevel && props.paylevel.length) {
-      await staffProfilePayLevelService.createBulkStaffProfilePayLevel({
-        staff: staffProfile.id,
-        paylevel: props.paylevel,
-      });
-    }
-
     return staffProfile;
   }
 
@@ -58,14 +48,6 @@ class StaffProfileService {
         returning: true,
       }
     );
-
-    // Update pay levels
-    if (props.paylevel) {
-      await staffProfilePayLevelService.updateBulkStaffProfilePayLevel({
-        staff: staffProfile.id,
-        paylevel: props.paylevel,
-      });
-    }
 
     return updatedStaffProfile;
   }
@@ -105,9 +87,7 @@ class StaffProfileService {
         { model: StaffProfileModel, as: "Manager" },
         {
           model: PayLevelModel,
-          through: {
-            attributes: [],
-          },
+          required: false,
           as: "Paylevel",
         },
       ],
@@ -139,9 +119,7 @@ class StaffProfileService {
         { model: StaffProfileModel, as: "Manager" },
         {
           model: PayLevelModel,
-          through: {
-            attributes: [],
-          },
+          required: false,
           as: "Paylevel",
         },
       ],
@@ -192,15 +170,11 @@ class StaffProfileService {
       { model: StaffProfileModel, as: "Manager" },
       {
         model: PayLevelModel,
-        through: {
-          attributes: [],
-        },
         where: {
           ...filters["Paylevel"],
         },
-        as: "Paylevel",
-        duplicating: true,
         required: false,
+        as: "Paylevel",
       },
     ];
 
