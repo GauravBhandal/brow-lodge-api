@@ -67,6 +67,11 @@ export interface DeleteStaffProfileProps {
   company: StaffProfile["company"];
 }
 
+export interface GetStaffProfileByUserProps {
+  user: StaffProfile["user"];
+  company: StaffProfile["company"];
+}
+
 export interface GetStaffProfileByIdProps extends DeleteStaffProfileProps {}
 
 export interface GetStaffProfilesProps extends QueryParams {

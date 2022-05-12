@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  canDo("create", "service"),
+  canDo("update", "rosterSetting"),
   serviceSchemas.createService,
   catchWrap(controller.createService)
 );
@@ -17,48 +17,48 @@ router.post(
 // Level it here (Before the next route)
 router.put(
   "/pay-items",
-  canDo("update", "service"), // TODO
+  canDo("update", "rosterSetting"), // TODO
   serviceSchemas.updatePayItems,
   catchWrap(controller.updatePayItems)
 );
 
 router.put(
   "/:serviceId",
-  canDo("update", "service"),
+  canDo("update", "rosterSetting"),
   serviceSchemas.editService,
   catchWrap(controller.updateService)
 );
 
 router.delete(
   "/:serviceId",
-  canDo("delete", "service"),
+  canDo("update", "rosterSetting"),
   serviceSchemas.deleteService,
   catchWrap(controller.deleteService)
 );
 
 router.get(
   "/pay-items",
-  canDo("read", "service"), // TODO
+  canDo("read", "rosterSetting"), // TODO
   catchWrap(controller.getPayItems)
 );
 
 router.get(
   "/effective",
-  canDo("read", "service"),
+  canDo("read", "rosterSetting"),
   serviceSchemas.getServices,
   catchWrap(controller.getEffectiveService)
 );
 
 router.get(
   "/:serviceId",
-  canDo("read", "service"),
+  canDo("read", "rosterSetting"),
   serviceSchemas.getServiceById,
   catchWrap(controller.getserviceById)
 );
 
 router.get(
   "/",
-  canDo("read", "service"),
+  // canDo("read", "rosterSetting"), // TODO : Services in create shift
   serviceSchemas.getServices,
   catchWrap(controller.getServices)
 );

@@ -9,35 +9,35 @@ const router = express.Router();
 
 router.post(
   "/",
-  canDo("create", "payLevel"),
+  canDo("update", "rosterSetting"),
   payLevelSchemas.createPayLevel,
   catchWrap(controller.createPayLevel)
 );
 
 router.put(
   "/:payLevelId",
-  canDo("update", "payLevel"),
+  canDo("update", "rosterSetting"),
   payLevelSchemas.editPayLevel,
   catchWrap(controller.updatePayLevel)
 );
 
 router.delete(
   "/:payLevelId",
-  canDo("delete", "payLevel"),
+  canDo("update", "rosterSetting"),
   payLevelSchemas.deletePayLevel,
   catchWrap(controller.deletePayLevel)
 );
 
 router.get(
   "/:payLevelId",
-  canDo("read", "payLevel"),
+  canDo("read", "rosterSetting"),
   payLevelSchemas.getPayLevelById,
   catchWrap(controller.getpayLevelById)
 );
 
 router.get(
   "/",
-  canDo("read", "payLevel"),
+  canDo("read", "rosterSetting"),
   payLevelSchemas.getPayLevels,
   catchWrap(controller.getPayLevels)
 );

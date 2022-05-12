@@ -8,6 +8,7 @@ import {
   DeleteStaffProfileProps,
   GetStaffProfileByIdProps,
   GetStaffProfilesProps,
+  GetStaffProfileByUserProps,
 } from "./staffProfile.types";
 import { CustomError } from "../../components/errors";
 import StaffProfileErrorCode from "./staffProfile.error";
@@ -93,6 +94,40 @@ class StaffProfileService {
     // Find the staffProfile by id and company
     const staffProfile = await StaffProfileModel.findOne({
       where: { id, company },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: UserModel,
+          as: "User",
+        },
+        { model: StaffProfileModel, as: "Manager" },
+        {
+          model: PayLevelModel,
+          through: {
+            attributes: [],
+          },
+          as: "Paylevel",
+        },
+      ],
+    });
+
+    // If no staffProfile has been found, then throw an error
+    if (!staffProfile) {
+      throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
+    }
+
+    return staffProfile;
+  }
+
+  async getStaffProfileByUser(props: GetStaffProfileByUserProps) {
+    // Props
+    const { user, company } = props;
+
+    // Find the staffProfile by id and company
+    const staffProfile = await StaffProfileModel.findOne({
+      where: { user, company },
       include: [
         {
           model: CompanyModel,

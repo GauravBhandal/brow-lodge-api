@@ -9,6 +9,7 @@ import {
   DeleteShiftRecordProps,
   GetShiftRecordByIdProps,
   GetShiftRecordsProps,
+  GetMyShiftRecordsProps,
 } from "./shiftRecord.types";
 import { CustomError } from "../../components/errors";
 import ShiftRecordErrorCode from "./shiftRecord.error";
@@ -137,7 +138,7 @@ class ShiftRecordService {
 
   async updateShiftRecord(props: UpdateShiftRecordProps) {
     // Props
-    const { id, company } = props;
+    const { id, company, updateRecurring } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find all timesheets
@@ -188,14 +189,33 @@ class ShiftRecordService {
       throw new CustomError(404, ShiftRecordErrorCode.SHIFT_RECORD_NOT_FOUND);
     }
 
-    // Update the shiftRecord
-    const [, [updatedShiftRecord]] = await ShiftRecordModel.update(
-      updateProps,
-      {
-        where: { id, company },
-        returning: true,
-      }
-    );
+    let result = {};
+
+    if (updateRecurring && shiftRecord.repeat) {
+      // Update the repeat shiftRecords
+      const [, [updatedShiftRecords]] = await ShiftRecordModel.update(
+        updateProps,
+        {
+          where: {
+            company,
+            repeat: shiftRecord.repeat,
+            startDateTime: { [Op.gte]: shiftRecord.startDateTime },
+          },
+          returning: true,
+        }
+      );
+      result = updatedShiftRecords;
+    } else {
+      // Update the single shiftRecord
+      const [, [updatedShiftRecord]] = await ShiftRecordModel.update(
+        updateProps,
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+      result = updatedShiftRecord;
+    }
 
     // Update services
     if (props.services && props.services.length) {
@@ -239,7 +259,7 @@ class ShiftRecordService {
       company: props.company,
     });
 
-    return updatedShiftRecord;
+    return result;
   }
 
   async deleteShiftRecord(props: DeleteShiftRecordProps) {
