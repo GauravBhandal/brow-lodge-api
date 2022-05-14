@@ -14,10 +14,10 @@ router.post(
   catchWrap(controller.createService)
 );
 
-// Level it here (Before the next route)
+// Leave it here (Before the next route)
 router.put(
   "/pay-items",
-  canDo("update", "rosterSetting"), // TODO
+  canDo("update", "rosterSetting"),
   serviceSchemas.updatePayItems,
   catchWrap(controller.updatePayItems)
 );
@@ -38,10 +38,11 @@ router.delete(
 
 router.get(
   "/pay-items",
-  canDo("read", "rosterSetting"), // TODO
+  canDo("read", "rosterSetting"),
   catchWrap(controller.getPayItems)
 );
 
+// TODO: Delete this endpoint
 router.get(
   "/effective",
   canDo("read", "rosterSetting"),

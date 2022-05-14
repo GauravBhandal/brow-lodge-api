@@ -9,13 +9,13 @@ export interface Service extends DefaultSchemaConfig {
   effectiveDate?: Date;
   company: Company["id"];
   Company?: Company;
-  archived?: boolean;
+  archived: boolean;
 }
 
 export interface CreateServiceProps {
   code: Service["code"];
   name: Service["name"];
-  archived?: boolean;
+  archived: Service["archived"];
   rateType: Service["rateType"];
   effectiveDate?: Service["effectiveDate"];
   company: Service["company"];
