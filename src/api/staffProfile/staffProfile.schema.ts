@@ -3,6 +3,7 @@ import Joi from "joi";
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
+// TODO: There are lots of fields which have no use
 const createStaffProfileSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
