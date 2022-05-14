@@ -23,7 +23,11 @@ import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
 import { Invoice, Invoices } from "xero-node";
-import { getMinutesDiff } from "../../utils/shiftGenerator";
+import {
+  addTimeToDate,
+  formatDateToString,
+  getMinutesDiff,
+} from "../../utils/shiftGenerator";
 import { xeroService } from "../xero";
 
 class InvoiceService {
@@ -135,7 +139,7 @@ class InvoiceService {
         services.forEach((service: any, index: any) => {
           result[client.accountingCode][service?.code] =
             (result[client.accountingCode][service?.code] || 0) +
-            (service.rateType === "Fixed")
+            (service.rateType === "Fixed"
               ? 1
               : getMinutesDiff(
                   service.shift_records_services.dataValues.start_time,
@@ -143,14 +147,18 @@ class InvoiceService {
                     ? invoice.endDateTime
                     : services[index + 1].shift_records_services.dataValues
                         .start_time
-                ) / 60;
+                ) / 60);
         });
       });
     });
 
+    console.log("result", result);
+
     // TODO: Fix these dates
-    const dateValue = "2020-10-10"; // Should be today's date
-    const dueDateValue = "2020-10-28"; // Should be today's date + 14 days
+    const dateValue = formatDateToString(new Date()); // Should be today's date
+    const dueDateValue = formatDateToString(
+      addTimeToDate(new Date(), 13, "days")
+    ); // Should be today's date + 14 days
 
     const getLineItems = (services: any) => {
       const finalLineItems = Object.keys(services).map((service) => ({

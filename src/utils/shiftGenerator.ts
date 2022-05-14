@@ -12,6 +12,14 @@ const daysOfWeek = [
   "saturday",
 ];
 
+export const addTimeToDate = (date: any, number: any, type: any) => {
+  const newDate = moment(date).add(number, type);
+  return newDate;
+};
+
+export const formatDateToString = (date: any) =>
+  moment(date).format("YYYY-MM-DD");
+
 const convertDateToMoment = (date: string) => moment(date).format();
 
 const addDaysInDate = (date: string | Date, number: number, type: any) =>

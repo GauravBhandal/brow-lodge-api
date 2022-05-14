@@ -18,7 +18,11 @@ import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
-import { createShifts } from "../../utils/shiftGenerator";
+import {
+  addTimeToDate,
+  createShifts,
+  formatDateToString,
+} from "../../utils/shiftGenerator";
 import { shiftRepeatService } from "../shiftRepeat";
 import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
 import { shiftRecordClientProfileService } from "./shiftRecordClientProfile";
@@ -30,18 +34,12 @@ import moment from "moment";
 
 const getTimeForSelect = (date: any) =>
   date ? moment(date).format("HH:mm") : null;
-const formatDateToString = (date: any) => moment(date).format("YYYY-MM-DD");
 
 const getStartDate = (date: any, time: any) => {
   return moment(
     `${formatDateToString(date)}
   ${getTimeForSelect(time)}`
   ).format();
-};
-
-const addTimeToDate = (date: any, number: any, type: any) => {
-  const newDate = moment(date).add(number, type);
-  return newDate;
 };
 
 const getDateDiff = (startDate: any, endDate: any) => {
