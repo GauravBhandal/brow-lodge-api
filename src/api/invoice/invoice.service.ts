@@ -131,25 +131,20 @@ class InvoiceService {
         if (!result[client.accountingCode]) {
           result[client.accountingCode] = {};
         }
-        if (services[0].rateType === "Fixed") {
-          result[client.accountingCode][services[0]?.code] =
-            (result[client.accountingCode][services[0]?.code] || 0) + 1;
 
-          if (services.length === 2) {
-            result[client.accountingCode][services[1]?.code] =
-              (result[client.accountingCode][services[1]?.code] || 0) + 1;
-          }
-        } else {
-          result[client.accountingCode][services[0]?.code] =
-            (result[client.accountingCode][services[0]?.code] || 0) +
-            getMinutesDiff(invoice.startDateTime, invoice.endDateTime) / 60;
-
-          if (services.length === 2) {
-            result[client.accountingCode][services[1]?.code] =
-              (result[client.accountingCode][services[1]?.code] || 0) +
-              getMinutesDiff(services[1]?.start_time, invoice.endDateTime) / 60;
-          }
-        }
+        services.forEach((service: any, index: any) => {
+          result[client.accountingCode][service?.code] =
+            (result[client.accountingCode][service?.code] || 0) +
+            (service.rateType === "Fixed")
+              ? 1
+              : getMinutesDiff(
+                  service.shift_records_services.dataValues.start_time,
+                  index === services.length - 1
+                    ? invoice.endDateTime
+                    : services[index + 1].shift_records_services.dataValues
+                        .start_time
+                ) / 60;
+        });
       });
     });
 
