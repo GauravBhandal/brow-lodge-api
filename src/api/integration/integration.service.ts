@@ -7,15 +7,10 @@ import {
   UpdateIntegrationProps,
   GetIntegrationStatusByKeyProps,
   GetIntegrationBykeyProps,
-  GetIntegrationsProps,
   DeleteIntegrationBykeyProps,
 } from "./integration.types";
 import { CustomError } from "../../components/errors";
 import IntegrationErrorCode from "./integration.error";
-import { getPagingParams, getPagingData } from "../../components/paging";
-import { getSortingParams } from "../../components/sorting";
-import { CompanyModel } from "../company";
-import { getFilters } from "../../components/filters";
 import config from "../../config/environment";
 
 class IntegrationService {
@@ -23,7 +18,7 @@ class IntegrationService {
     // Props
     const { company, key } = props;
 
-    // Check if integration with same name already exists
+    // Check if integration with same key already exists
     const existingIntegration = await IntegrationModel.findOne({
       where: {
         company,
@@ -145,47 +140,6 @@ class IntegrationService {
     const meta = JSON.parse(bytes.toString(crypto.enc.Utf8));
 
     return { meta, id: integration.id };
-  }
-
-  async getIntegrations(props: GetIntegrationsProps) {
-    // Props
-    const { page, pageSize, sort, where, company } = props;
-
-    const { offset, limit } = getPagingParams(page, pageSize);
-    const order = getSortingParams(sort);
-    const filters = getFilters(where);
-
-    const include = [
-      {
-        model: CompanyModel,
-      },
-    ];
-
-    // Count total integrations in the given company
-    const count = await IntegrationModel.count({
-      where: {
-        company,
-        ...filters["primaryFilters"],
-      },
-      distinct: true,
-      include,
-    });
-
-    // Find all integrations for matching props and company
-    const data = await IntegrationModel.findAll({
-      offset,
-      limit,
-      order,
-      where: {
-        company,
-        ...filters["primaryFilters"],
-      },
-      include,
-    });
-
-    const response = getPagingData({ count, rows: data }, page, limit);
-
-    return response;
   }
 }
 

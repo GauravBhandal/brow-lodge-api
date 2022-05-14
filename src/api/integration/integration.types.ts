@@ -1,6 +1,5 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
-import { QueryParams } from "../../common/types";
 
 export interface Integration extends DefaultSchemaConfig {
   name: string;
@@ -23,11 +22,6 @@ export interface UpdateIntegrationProps {
   company: Integration["company"];
 }
 
-export interface DeleteIntegrationProps {
-  id: Integration["id"];
-  company: Integration["company"];
-}
-
 export interface GetIntegrationBykeyProps {
   key: Integration["key"];
   company: Integration["company"];
@@ -37,7 +31,3 @@ export interface GetIntegrationStatusByKeyProps
   extends GetIntegrationBykeyProps {}
 
 export interface DeleteIntegrationBykeyProps extends GetIntegrationBykeyProps {}
-
-export interface GetIntegrationsProps extends QueryParams {
-  company: Integration["company"];
-}

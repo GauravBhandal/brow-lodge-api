@@ -1,5 +1,11 @@
 import { Company } from "../company";
 
+export enum XERO_EXTERNAL_DATA_TYPE {
+  Employees = "xero-employees",
+  Customers = "xero-customers",
+  Payitems = "xero-payitems",
+}
+
 export interface XeroCallbackProps {
   url: string;
   company: Company["id"];
@@ -32,4 +38,9 @@ export interface ExportInvoicesToXeroProps {
 export interface ExportTimesheetsToXeroProps {
   company: Company["id"];
   timesheets: any;
+}
+
+export interface GetXeroIntegrationDataProps {
+  company: Company["id"];
+  type: XERO_EXTERNAL_DATA_TYPE;
 }
