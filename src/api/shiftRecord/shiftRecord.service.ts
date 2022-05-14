@@ -9,7 +9,6 @@ import {
   DeleteShiftRecordProps,
   GetShiftRecordByIdProps,
   GetShiftRecordsProps,
-  GetMyShiftRecordsProps,
 } from "./shiftRecord.types";
 import { CustomError } from "../../components/errors";
 import ShiftRecordErrorCode from "./shiftRecord.error";
@@ -27,7 +26,27 @@ import { shiftRecordServiceService } from "./shiftRecordService";
 import { ServiceModel } from "../service";
 import { TimesheetModel, timesheetService } from "../timesheet";
 import { InvoiceModel, invoiceService } from "../invoice";
+import moment from "moment";
 
+const getTimeForSelect = (date: any) =>
+  date ? moment(date).format("HH:mm") : null;
+const formatDateToString = (date: any) => moment(date).format("YYYY-MM-DD");
+
+const getStartDate = (date: any, time: any) => {
+  return moment(
+    `${formatDateToString(date)}
+  ${getTimeForSelect(time)}`
+  ).format();
+};
+
+const addTimeToDate = (date: any, number: any, type: any) => {
+  const newDate = moment(date).add(number, type);
+  return newDate;
+};
+
+const getDateDiff = (startDate: any, endDate: any) => {
+  return moment.duration(moment(endDate).diff(moment(startDate))).asMinutes();
+};
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
     const createProps = createShifts(props);
@@ -193,18 +212,88 @@ class ShiftRecordService {
 
     if (updateRecurring && shiftRecord.repeat) {
       // Update the repeat shiftRecords
-      const [, [updatedShiftRecords]] = await ShiftRecordModel.update(
-        updateProps,
-        {
-          where: {
-            company,
-            repeat: shiftRecord.repeat,
-            startDateTime: { [Op.gte]: shiftRecord.startDateTime },
-          },
-          returning: true,
-        }
-      );
-      result = updatedShiftRecords;
+      const shiftRecords = await ShiftRecordModel.findAll({
+        where: {
+          company,
+          repeat: shiftRecord.repeat,
+          startDateTime: { [Op.gte]: shiftRecord.startDateTime },
+        },
+      });
+
+      if (shiftRecords.length > 0) {
+        const dateDiff = getDateDiff(
+          updateProps.startDateTime,
+          updateProps.endDateTime
+        );
+        shiftRecords.forEach(async (shift) => {
+          const getStartTime = getStartDate(
+            shift.id === id ? updateProps.startDateTime : shift.startDateTime,
+            updateProps.startDateTime
+          );
+          const getEndTime = getStartDate(
+            addTimeToDate(
+              shift.id === id ? updateProps.startDateTime : shift.startDateTime,
+              dateDiff,
+              "minutes"
+            ),
+            updateProps.endDateTime
+          );
+          const newProps = {
+            ...updateProps,
+            startDateTime: getStartTime,
+            endDateTime: getEndTime,
+          };
+          await ShiftRecordModel.update(newProps, {
+            where: { id: shift.id, company: shift.company },
+            returning: true,
+          });
+          // Update services
+          if (props.services && props.services.length) {
+            await shiftRecordServiceService.updateBulkShiftRecordService({
+              shift: shift.id,
+              services: props.services,
+            });
+          }
+
+          // Assign staff profiles
+          if (props.staff) {
+            await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile(
+              {
+                shift: shift.id,
+                staff: props.staff,
+              }
+            );
+          }
+
+          // Assign client profiles
+          if (props.client) {
+            await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile(
+              {
+                shift: shift.id,
+                client: props.client,
+              }
+            );
+          }
+
+          // Update timesheets
+          await timesheetService.updateTimesheetOnShiftUpdate({
+            startDateTime: getStartTime as any,
+            endDateTime: getEndTime as any,
+            shift: shift.id,
+            staff: props.staff,
+            company: props.company,
+          });
+
+          // Update invoices
+          await invoiceService.updateInvoiceOnShiftUpdate({
+            startDateTime: getStartTime as any,
+            endDateTime: getEndTime as any,
+            shift: shift.id,
+            client: props.client,
+            company: props.company,
+          });
+        });
+      }
     } else {
       // Update the single shiftRecord
       const [, [updatedShiftRecord]] = await ShiftRecordModel.update(
