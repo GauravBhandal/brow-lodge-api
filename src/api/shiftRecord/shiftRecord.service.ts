@@ -22,6 +22,7 @@ import {
   addTimeToDate,
   createShifts,
   formatDateToString,
+  generateShiftServices,
 } from "../../utils/shiftGenerator";
 import { shiftRepeatService } from "../shiftRepeat";
 import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
@@ -64,9 +65,11 @@ class ShiftRecordService {
     for (let index = 0; index < shiftRecords.length; index++) {
       const shiftRecord = shiftRecords[index];
 
+      const shiftServices = generateShiftServices(shiftRecord, props);
+
       await shiftRecordServiceService.createBulkShiftRecordService({
         shift: shiftRecord.id,
-        services: props.services,
+        services: shiftServices,
       });
 
       await shiftRecordStaffProfileService.createBulkShiftRecordStaffProfile({
@@ -245,11 +248,12 @@ class ShiftRecordService {
             where: { id: shift.id, company: shift.company },
             returning: true,
           });
+          const shiftServices = generateShiftServices(shift, props);
           // Update services
           if (props.services && props.services.length) {
             await shiftRecordServiceService.updateBulkShiftRecordService({
               shift: shift.id,
-              services: props.services,
+              services: shiftServices,
             });
           }
 

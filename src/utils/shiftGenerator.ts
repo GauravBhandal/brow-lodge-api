@@ -57,6 +57,18 @@ const isDaySelected = (data: any, value: any) => {
   return isDayPresent;
 };
 
+export const generateShiftServices = (shiftRecord: any, props: any) => {
+  const dayDifference = daysDifference(
+    props.startDateTime,
+    shiftRecord.startDateTime
+  );
+  const services = props.services.map((singleService: any) => ({
+    startTime: addTimeToDate(singleService.startTime, dayDifference, "days"),
+    service: singleService.service,
+  }));
+  return services;
+};
+
 export const createShifts = (
   data: CreateShiftRecordInBulkProps
 ): CreateShiftRecordInBulkProps[] => {

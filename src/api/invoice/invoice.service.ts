@@ -1,5 +1,6 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
+import { orderBy as _orderBy } from "lodash";
 
 import InvoiceModel from "./invoice.model";
 import {
@@ -131,11 +132,21 @@ class InvoiceService {
     let result: any = {};
     allInvoices.forEach((invoice: any) => {
       invoice.Shift.Client.forEach((client: any) => {
-        const services = invoice.Shift.Services;
+        const services = _orderBy(
+          invoice.Shift.Services,
+          ["shift_records_services.start_time"],
+          ["asc"]
+        );
         if (!result[client.accountingCode]) {
           result[client.accountingCode] = {};
         }
-
+        const getEndTime = (index: any, length: any, services: any) => {
+          if (index === length - 1) {
+            return invoice.endDateTime;
+          }
+          return services[index + 1].shift_records_services.dataValues
+            .start_time;
+        };
         services.forEach((service: any, index: any) => {
           result[client.accountingCode][service?.code] =
             (result[client.accountingCode][service?.code] || 0) +
@@ -143,16 +154,11 @@ class InvoiceService {
               ? 1
               : getMinutesDiff(
                   service.shift_records_services.dataValues.start_time,
-                  index === services.length - 1
-                    ? invoice.endDateTime
-                    : services[index + 1].shift_records_services.dataValues
-                        .start_time
+                  getEndTime(index, services.length, services)
                 ) / 60);
         });
       });
     });
-
-    console.log("result", result);
 
     // TODO: Fix these dates
     const dateValue = formatDateToString(new Date()); // Should be today's date
