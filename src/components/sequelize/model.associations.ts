@@ -848,12 +848,6 @@ function initializePolicyReviewModelAssociations() {
     foreignKey: "relation",
     otherKey: "attachment",
   });
-  ShiftRecordModel.belongsTo(ShiftRepeatModel, {
-    foreignKey: {
-      name: "repeat",
-    },
-    as: "Repeat",
-  });
 }
 
 function initializeTimesheetModelAssociations() {

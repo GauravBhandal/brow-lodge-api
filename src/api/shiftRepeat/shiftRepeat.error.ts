@@ -1,6 +1,0 @@
-enum ShiftRepeatErrorCode {
-  SHIFT_REPEAT_NOT_FOUND = "SHIFT_REPEAT_NOT_FOUND",
-  SHIFT_REPEAT_ALREADY_EXISTS = "SHIFT_REPEAT_ALREADY_EXISTS",
-}
-
-export default ShiftRepeatErrorCode;
