@@ -37,7 +37,7 @@ router.get(
 
 router.get(
   "/",
-  canDo("read", "rosterSetting"),
+  // canDo("read", "rosterSetting"), // TODO: User with update staffProfile permission can assign paylevel to a staff
   payLevelSchemas.getPayLevels,
   catchWrap(controller.getPayLevels)
 );

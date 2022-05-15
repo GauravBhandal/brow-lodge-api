@@ -16,7 +16,7 @@ class ServiceModel<
   code!: Service["code"];
   name!: Service["name"];
   rateType!: Service["rateType"];
-  archived: Service["archived"];
+  archived!: Service["archived"];
   effectiveDate!: Service["effectiveDate"];
   company!: Service["company"];
   Company: Service["Company"];
@@ -43,6 +43,7 @@ modelManager.init(
     },
     archived: {
       type: Sequelize.BOOLEAN,
+      allowNull: false,
     },
   },
   {

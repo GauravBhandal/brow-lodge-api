@@ -15,17 +15,13 @@ import {
   SyncXeroEmployeesProps,
   SyncXeroCustomersProps,
   SyncXeroPayItemsProps,
+  GetXeroIntegrationDataProps,
+  XERO_EXTERNAL_DATA_TYPE,
 } from "./xero.types";
 import config from "../../config/environment";
 import { integrationExternalDataService } from "../integration/integrationExternalData";
 
 const XERO_INTEGRATION_KEY = "xero";
-enum XERO_EXTERNAL_DATA_TYPE {
-  Employees = "xero-employees",
-  Customers = "xero-customers",
-  Payitems = "xero-payitems",
-}
-
 class XeroService {
   async refreshXeroInstance(props: RefreshXeroInstanceProps) {
     // Props
@@ -97,7 +93,7 @@ class XeroService {
 
     const payload = {
       name: "Xero",
-      key: "xero",
+      key: XERO_INTEGRATION_KEY,
       meta: tokenSet,
       company,
     };
@@ -108,10 +104,10 @@ class XeroService {
     return {};
   }
 
-  async getXeroEmployees(props: GetXeroEmployeesProps) {
+  async _getXeroIntegrationData(props: GetXeroIntegrationDataProps) {
     // We are wrapping these calls to try catch because we want to send empty list in case of INTEGRATION_EXTERNAL_DATA_NOT_FOUND
     try {
-      const { company } = props;
+      const { company, type } = props;
 
       // Get the id for Xero integration from the integrations table
       const { id: integration } = await integrationService.getIntegrationByKey({
@@ -121,7 +117,7 @@ class XeroService {
 
       const response =
         await integrationExternalDataService.getIntegrationExternalData({
-          type: XERO_EXTERNAL_DATA_TYPE.Employees,
+          type,
           company,
           integration,
         });
@@ -129,52 +125,33 @@ class XeroService {
     } catch (err: any) {
       return [];
     }
+  }
+
+  async getXeroEmployees(props: GetXeroEmployeesProps) {
+    const employees = await this._getXeroIntegrationData({
+      company: props.company,
+      type: XERO_EXTERNAL_DATA_TYPE.Employees,
+    });
+
+    return employees;
   }
 
   async getXeroCustomers(props: GetXeroCustomersProps) {
-    // We are wrapping these calls to try catch because we want to send empty list in case of INTEGRATION_EXTERNAL_DATA_NOT_FOUND
-    try {
-      const { company } = props;
+    const customers = await this._getXeroIntegrationData({
+      company: props.company,
+      type: XERO_EXTERNAL_DATA_TYPE.Customers,
+    });
 
-      // Get the id for Xero integration from the integrations table
-      const { id: integration } = await integrationService.getIntegrationByKey({
-        company,
-        key: XERO_INTEGRATION_KEY,
-      });
-
-      const response =
-        await integrationExternalDataService.getIntegrationExternalData({
-          type: XERO_EXTERNAL_DATA_TYPE.Customers,
-          company,
-          integration,
-        });
-      return response?.data;
-    } catch (err: any) {
-      return [];
-    }
+    return customers;
   }
 
   async getPayItems(props: GetXeroPayItemsProps) {
-    // We are wrapping these calls to try catch because we want to send empty list in case of INTEGRATION_EXTERNAL_DATA_NOT_FOUND
-    try {
-      const { company } = props;
+    const payItems = await this._getXeroIntegrationData({
+      company: props.company,
+      type: XERO_EXTERNAL_DATA_TYPE.Payitems,
+    });
 
-      // Get the id for Xero integration from the integrations table
-      const { id: integration } = await integrationService.getIntegrationByKey({
-        company,
-        key: XERO_INTEGRATION_KEY,
-      });
-
-      const response =
-        await integrationExternalDataService.getIntegrationExternalData({
-          type: XERO_EXTERNAL_DATA_TYPE.Payitems,
-          company,
-          integration,
-        });
-      return response?.data;
-    } catch (err: any) {
-      return [];
-    }
+    return payItems;
   }
 
   async exportInvoicesToXero(props: ExportInvoicesToXeroProps) {
@@ -313,13 +290,12 @@ class XeroService {
 
     // XeroClient is sorting tenants behind the scenes so that most recent / active connection is at index 0
     const xeroTenantId = xero.tenants[0].tenantId;
-    console.log("timesheets", timesheets);
+
     try {
       const response = await xero.payrollAUApi.createTimesheet(
         xeroTenantId,
         timesheets
       );
-      console.log("Response", response.body);
       return response.body;
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);

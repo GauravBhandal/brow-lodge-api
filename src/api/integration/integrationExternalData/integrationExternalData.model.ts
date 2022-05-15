@@ -44,7 +44,7 @@ modelManager.init(
       },
     },
     underscored: true,
-    paranoid: true,
+    paranoid: false, // This is intentional, we don't need to soft delete integrations_external_data
     tableName: "integrations_external_data",
   }
 );

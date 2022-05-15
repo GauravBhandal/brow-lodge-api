@@ -21,7 +21,7 @@ router.delete(
 
 router.get(
   "/is-connected",
-  canDo("read", "integration"),
+  // canDo("read", "integration"), // We need to call this on different pages
   catchWrap(controller.isConnectedToXero)
 );
 
@@ -34,37 +34,37 @@ router.put(
 
 router.get(
   "/customers",
-  canDo("read", "integration"), // TODO: Fix permissions in this file
+  canDo("read", "clientProfile"),
   catchWrap(controller.getXeroCustomers)
 );
 
 router.get(
   "/employees",
-  canDo("read", "integration"),
+  canDo("read", "staffProfile"),
   catchWrap(controller.getXeroEmployees)
 );
 
 router.get(
   "/pay-items",
-  canDo("read", "integration"),
+  canDo("read", "rosterSetting"),
   catchWrap(controller.getPayItems)
 );
 
 router.post(
   "/sync/employees",
-  canDo("read", "integration"),
+  canDo("update", "staffProfile"),
   catchWrap(controller.syncXeroEmployees)
 );
 
 router.post(
   "/sync/customers",
-  canDo("read", "integration"),
+  canDo("update", "clientProfile"),
   catchWrap(controller.syncXeroCustomers)
 );
 
 router.post(
   "/sync/pay-items",
-  canDo("read", "integration"),
+  canDo("update", "rosterSetting"),
   catchWrap(controller.syncXeroPayItems)
 );
 

@@ -34,7 +34,7 @@ modelManager.init(
       },
     },
     underscored: true,
-    paranoid: true,
+    paranoid: false, // This is intentional, we don't need to soft delete pay levels
     tableName: "pay_levels",
   }
 );
