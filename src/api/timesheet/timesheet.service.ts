@@ -138,35 +138,38 @@ class TimesheetService {
     let result: any = {};
     timesheets.forEach((timesheet: any) => {
       timesheet.Shift.Staff.forEach((staff: any) => {
-        const paylevelId = staff.Paylevel[0].id;
+        const paylevelId = staff.Paylevel.id;
         const services = timesheet.Shift.Services;
-        const payItem = services[0].PayLevels.find(
-          (level: any) => level.id === paylevelId
-        );
-        if (!payItem) {
-          //errror
-        }
-        const payItemId = payItem.services_pay_levels.dataValues.payitem; //TODO: Please remove data values
-        if (!result[staff.accountingCode]) {
-          result[staff.accountingCode] = {};
-        }
-        if (!result[staff.accountingCode][payItemId]) {
-          result[staff.accountingCode][payItemId] = [];
-        }
-        result[staff.accountingCode][payItemId].push({
-          units:
-            getMinutesDiff(timesheet.startDateTime, timesheet.endDateTime) / 60,
-          startDate: timesheet.startDateTime,
-        });
 
-        if (services.length === 2) {
+        services.forEach((service: any, index: any) => {
+          const payItem = services[0].PayLevels.find(
+            (level: any) => level.id === paylevelId
+          );
+          if (!payItem) {
+            //errror
+            throw new CustomError(404, TimesheetErrorCode.PAYITEM_NOT_ASSIGNED);
+          }
+          const payItemId = payItem.services_pay_levels.dataValues.payitem; //TODO: Please remove data values
+          if (!result[staff.accountingCode]) {
+            result[staff.accountingCode] = {};
+          }
+          if (!result[staff.accountingCode][payItemId]) {
+            result[staff.accountingCode][payItemId] = [];
+          }
           result[staff.accountingCode][payItemId].push({
             units:
-              getMinutesDiff(services[1]?.start_time, timesheet.endDateTime) /
-              60,
-            startDate: services[1]?.start_time,
+              service.rateType === "Fixed"
+                ? 1
+                : getMinutesDiff(
+                    service.shift_records_services.dataValues.start_time,
+                    index === services.length - 1
+                      ? timesheet.endDateTime
+                      : services[index + 1].shift_records_services.dataValues
+                          .start_time
+                  ) / 60,
+            startDate: timesheet.startDateTime,
           });
-        }
+        });
       });
     });
 

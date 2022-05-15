@@ -12,6 +12,14 @@ const daysOfWeek = [
   "saturday",
 ];
 
+export const addTimeToDate = (date: any, number: any, type: any) => {
+  const newDate = moment(date).add(number, type);
+  return newDate;
+};
+
+export const formatDateToString = (date: any) =>
+  moment(date).format("YYYY-MM-DD");
+
 const convertDateToMoment = (date: string) => moment(date).format();
 
 const addDaysInDate = (date: string | Date, number: number, type: any) =>
@@ -47,6 +55,18 @@ const getOccurrenceswithEndDate = (
 const isDaySelected = (data: any, value: any) => {
   const isDayPresent = data.repeat.days.find((day: any) => day === value);
   return isDayPresent;
+};
+
+export const generateShiftServices = (shiftRecord: any, props: any) => {
+  const dayDifference = daysDifference(
+    props.startDateTime,
+    shiftRecord.startDateTime
+  );
+  const services = props.services.map((singleService: any) => ({
+    startTime: addTimeToDate(singleService.startTime, dayDifference, "days"),
+    service: singleService.service,
+  }));
+  return services;
 };
 
 export const createShifts = (

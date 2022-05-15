@@ -1,5 +1,6 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
+import { orderBy as _orderBy } from "lodash";
 
 import InvoiceModel from "./invoice.model";
 import {
@@ -23,7 +24,11 @@ import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
 import { Invoice, Invoices } from "xero-node";
-import { getMinutesDiff } from "../../utils/shiftGenerator";
+import {
+  addTimeToDate,
+  formatDateToString,
+  getMinutesDiff,
+} from "../../utils/shiftGenerator";
 import { xeroService } from "../xero";
 
 class InvoiceService {
@@ -127,30 +132,39 @@ class InvoiceService {
     let result: any = {};
     allInvoices.forEach((invoice: any) => {
       invoice.Shift.Client.forEach((client: any) => {
-        const services = invoice.Shift.Services;
+        const services = _orderBy(
+          invoice.Shift.Services,
+          ["shift_records_services.start_time"],
+          ["asc"]
+        );
         if (!result[client.accountingCode]) {
           result[client.accountingCode] = {};
         }
-
+        const getEndTime = (index: any, length: any, services: any) => {
+          if (index === length - 1) {
+            return invoice.endDateTime;
+          }
+          return services[index + 1].shift_records_services.dataValues
+            .start_time;
+        };
         services.forEach((service: any, index: any) => {
           result[client.accountingCode][service?.code] =
             (result[client.accountingCode][service?.code] || 0) +
-            (service.rateType === "Fixed")
+            (service.rateType === "Fixed"
               ? 1
               : getMinutesDiff(
                   service.shift_records_services.dataValues.start_time,
-                  index === services.length - 1
-                    ? invoice.endDateTime
-                    : services[index + 1].shift_records_services.dataValues
-                        .start_time
-                ) / 60;
+                  getEndTime(index, services.length, services)
+                ) / 60);
         });
       });
     });
 
     // TODO: Fix these dates
-    const dateValue = "2020-10-10"; // Should be today's date
-    const dueDateValue = "2020-10-28"; // Should be today's date + 14 days
+    const dateValue = formatDateToString(new Date()); // Should be today's date
+    const dueDateValue = formatDateToString(
+      addTimeToDate(new Date(), 13, "days")
+    ); // Should be today's date + 14 days
 
     const getLineItems = (services: any) => {
       const finalLineItems = Object.keys(services).map((service) => ({
