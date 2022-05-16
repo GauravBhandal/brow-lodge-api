@@ -50,6 +50,9 @@ import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
 import { CompanyExpenseModel } from "../../api/companyExpense";
 import { PolicyReviewModel } from "../../api/policyReview";
+import { LegislationRegisterModel } from "../../api/legislationRegister";
+import { TemplateModel } from "../../api/template";
+import { InternalRegisterModel } from "../../api/internalRegister";
 
 export default {
   initialize() {
@@ -104,6 +107,9 @@ export default {
     initializeCompanyExpenseModelAssociations();
     initializeProgressReportModelAssociations();
     initializePolicyReviewModelAssociations();
+    initializeLegislationRegisterModelAssociations();
+    initializeTemplateModelAssociations();
+    initializeInternalRegisterModelAssociations();
   },
 };
 
@@ -825,6 +831,34 @@ function initializePolicyReviewModelAssociations() {
   });
   PolicyReviewModel.belongsToMany(AttachmentModel, {
     through: "policy_reviews_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeLegislationRegisterModelAssociations() {
+  LegislationRegisterModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeTemplateModelAssociations() {
+  TemplateModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TemplateModel.belongsToMany(AttachmentModel, {
+    through: "templates_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeInternalRegisterModelAssociations() {
+  InternalRegisterModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  InternalRegisterModel.belongsToMany(AttachmentModel, {
+    through: "internal_registers_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
