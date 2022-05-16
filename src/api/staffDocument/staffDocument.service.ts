@@ -28,7 +28,7 @@ class StaffDocumentService {
 
     // Check if document already exists
     const existingDocument = await StaffDocumentModel.findOne({
-      where: { category, type, staff, company },
+      where: { category, type, staff, company, archived: false },
     });
 
     // If already exists, throw an error
@@ -54,7 +54,7 @@ class StaffDocumentService {
 
   async updateStaffDocument(props: UpdateStaffDocumentProps) {
     // Props
-    const { category, type, staff, company, id } = props;
+    const { category, type, staff, company, id, archived } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find staffDocument by id and company
@@ -74,11 +74,12 @@ class StaffDocumentService {
       staffDocument.category != category ||
       staffDocument.type != type ||
       staffDocument.staff != staff ||
-      staffDocument.company != company
+      staffDocument.company != company ||
+      !archived
     ) {
       // Check if document already exists
       const existingDocument = await StaffDocumentModel.findOne({
-        where: { category, type, staff, company },
+        where: { category, type, staff, company, archived: false },
       });
 
       // If already exists, throw an error
@@ -243,6 +244,12 @@ class StaffDocumentService {
         as: "Category",
         where: {
           ...filters["Category"],
+        },
+      },
+      {
+        model: AttachmentModel,
+        through: {
+          attributes: [],
         },
       },
     ];

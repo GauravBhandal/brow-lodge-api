@@ -26,6 +26,7 @@ const editClientDocumentSchema = wrapSchema({
     client: requiredUUIDSchema(),
     category: requiredUUIDSchema(),
     type: requiredUUIDSchema(),
+    archived: Joi.boolean(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .required(),

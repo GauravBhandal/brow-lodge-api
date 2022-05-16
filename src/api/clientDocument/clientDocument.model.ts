@@ -28,6 +28,7 @@ class ClientDocumentModel<
   company!: ClientDocument["company"];
   Company: ClientDocument["Company"];
   Attachments: ClientDocument["Attachments"];
+  archived: ClientDocument["archived"];
 }
 
 modelManager.init(
@@ -43,6 +44,9 @@ modelManager.init(
     },
     expiryDate: {
       type: Sequelize.DATE,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

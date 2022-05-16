@@ -19,6 +19,7 @@ export interface StaffDocument extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Attachments?: Attachment[];
+  archived?: boolean;
 }
 
 export interface CreateStaffDocumentProps {
@@ -34,6 +35,7 @@ export interface CreateStaffDocumentProps {
 
 export interface UpdateStaffDocumentProps extends CreateStaffDocumentProps {
   id: StaffDocument["id"];
+  archived?: StaffDocument["archived"];
 }
 
 export interface DeleteStaffDocumentProps {
