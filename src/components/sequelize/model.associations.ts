@@ -585,6 +585,11 @@ function initializeFeedbackModelAssociations() {
     foreignKey: { name: "staff" },
     as: "Staff",
   });
+  FeedbackModel.belongsToMany(AttachmentModel, {
+    through: "feedbacks_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeClientDocumentCategoryModelAssociations() {

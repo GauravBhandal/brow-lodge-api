@@ -2,6 +2,7 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface Feedback extends DefaultSchemaConfig {
   dateReported: Date;
@@ -20,6 +21,7 @@ export interface Feedback extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateFeedbackProps {
@@ -37,6 +39,7 @@ export interface CreateFeedbackProps {
   status?: Feedback["status"];
   staff: Feedback["staff"];
   company: Feedback["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateFeedbackProps extends CreateFeedbackProps {
