@@ -61,6 +61,14 @@ export const permissions = {
       update: true,
     },
   },
+  template: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   weightLog: {
     actions: {
       read: true,
@@ -294,6 +302,14 @@ export const permissions = {
       update: true,
     },
   },
+  internalRegister: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   staffDocumentType: {
     actions: {
       read: true,
@@ -319,6 +335,14 @@ export const permissions = {
     },
   },
   leaseAndUtilityLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  legislationRegister: {
     actions: {
       read: true,
       create: true,
