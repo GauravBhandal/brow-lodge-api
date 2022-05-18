@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS "meeting_logs_attachments" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "meeting_logs_attachments" ENABLE ROW LEVEL SECURITY;
-
 `;
 
 const queryDown = `
