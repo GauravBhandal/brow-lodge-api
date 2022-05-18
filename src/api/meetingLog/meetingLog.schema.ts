@@ -22,6 +22,9 @@ const createMeetingLogSchema = wrapSchema({
     action: Joi.string().required(),
     staff: requiredUUIDSchema(),
     client: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -41,6 +44,9 @@ const editMeetingLogSchema = wrapSchema({
     action: Joi.string().required(),
     staff: requiredUUIDSchema(),
     client: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

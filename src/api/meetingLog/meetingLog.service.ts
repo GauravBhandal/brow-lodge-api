@@ -16,10 +16,20 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
+import { AttachmentModel } from "../attachment";
+import { meetingLogAttachmentService } from "./meetingLogAttachment";
 
 class MeetingLogService {
   async createMeetingLog(props: CreateMeetingLogProps) {
     const meetingLog = await MeetingLogModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await meetingLogAttachmentService.createBulkMeetingLogAttachment({
+        relation: meetingLog.id,
+        attachments: props.attachments,
+      });
+    }
     return meetingLog;
   }
 
@@ -43,6 +53,14 @@ class MeetingLogService {
       where: { id, company },
       returning: true,
     });
+
+    // Update attachments
+    if (props.attachments) {
+      await meetingLogAttachmentService.updateBulkMeetingLogAttachment({
+        relation: meetingLog.id,
+        attachments: props.attachments,
+      });
+    }
     return updatedMeetingLog;
   }
 
@@ -82,6 +100,12 @@ class MeetingLogService {
           model: ClientProfileModel,
           as: "Client",
           required: false,
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });
