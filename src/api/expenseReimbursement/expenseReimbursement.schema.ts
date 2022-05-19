@@ -22,6 +22,7 @@ const editExpenseReimbursementSchema = wrapSchema({
     totalCost: Joi.number().required(),
     description: Joi.string().required(),
     comments: Joi.string().required().allow(""),
+    paymentStatus: Joi.string().required().allow("", null),
     status: Joi.string().valid("Approved", "Pending", "Rejected").required(),
     staff: requiredUUIDSchema(),
     attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),

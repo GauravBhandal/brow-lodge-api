@@ -8,6 +8,7 @@ export interface ExpenseReimbursement extends DefaultSchemaConfig {
   date: Date;
   totalCost: Number;
   description: string;
+  paymentStatus?: string;
   comments?: string;
   status: "approved" | "pending" | "rejected";
   staff: StaffProfile["id"];
@@ -22,6 +23,7 @@ export interface CreateExpenseReimbursementProps {
   totalCost: ExpenseReimbursement["totalCost"];
   description: ExpenseReimbursement["description"];
   comments: ExpenseReimbursement["comments"];
+  paymentStatus: ExpenseReimbursement["paymentStatus"];
   status: ExpenseReimbursement["status"];
   staff: ExpenseReimbursement["staff"];
   company: ExpenseReimbursement["company"];

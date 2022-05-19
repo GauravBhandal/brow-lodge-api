@@ -20,6 +20,7 @@ class ExpenseReimbursementModel<
   totalCost!: ExpenseReimbursement["totalCost"];
   description!: ExpenseReimbursement["description"];
   comments: ExpenseReimbursement["comments"];
+  paymentStatus: ExpenseReimbursement["paymentStatus"];
   status!: ExpenseReimbursement["status"];
   staff!: ExpenseReimbursement["staff"];
   Staff: ExpenseReimbursement["Staff"];
@@ -45,6 +46,9 @@ modelManager.init(
       allowNull: false,
     },
     comments: {
+      type: Sequelize.STRING,
+    },
+    paymentStatus: {
       type: Sequelize.STRING,
     },
     status: {
