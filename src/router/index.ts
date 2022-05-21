@@ -58,6 +58,9 @@ import { timesheetRoutes } from "../api/timesheet";
 import { payLevelRoutes } from "../api/payLevel";
 import { xeroRoutes } from "../api/xero";
 import { invoiceRoutes } from "../api/invoice";
+import { legislationRegisterRoutes } from "../api/legislationRegister";
+import { templateRoutes } from "../api/template";
+import { internalRegisterRoutes } from "../api/internalRegister";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -119,5 +122,8 @@ router.use("/timesheet", timesheetRoutes);
 router.use("/pay-level", payLevelRoutes);
 router.use("/xero", xeroRoutes);
 router.use("/invoice", invoiceRoutes);
+router.use("/legislation-register", legislationRegisterRoutes);
+router.use("/template", templateRoutes);
+router.use("/internal-register", internalRegisterRoutes);
 
 export default router;

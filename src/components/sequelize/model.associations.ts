@@ -56,6 +56,9 @@ import { PayLevelModel } from "../../api/payLevel";
 import { InvoiceModel } from "../../api/invoice";
 import { IntegrationModel } from "../../api/integration";
 import IntegrationExternalDataModel from "../../api/integration/integrationExternalData/integrationExternalData.model";
+import { LegislationRegisterModel } from "../../api/legislationRegister";
+import { TemplateModel } from "../../api/template";
+import { InternalRegisterModel } from "../../api/internalRegister";
 
 export default {
   initialize() {
@@ -116,6 +119,9 @@ export default {
     initializeInvoiceModelAssociations();
     initializeIntegrationModelAssociations();
     initializeIntegrationExternalDataModelAssociations();
+    initializeLegislationRegisterModelAssociations();
+    initializeTemplateModelAssociations();
+    initializeInternalRegisterModelAssociations();
   },
 };
 
@@ -911,5 +917,33 @@ function initializeIntegrationExternalDataModelAssociations() {
   });
   IntegrationExternalDataModel.belongsTo(IntegrationModel, {
     foreignKey: { name: "integration", allowNull: false },
+  });
+}
+
+function initializeLegislationRegisterModelAssociations() {
+  LegislationRegisterModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeTemplateModelAssociations() {
+  TemplateModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TemplateModel.belongsToMany(AttachmentModel, {
+    through: "templates_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeInternalRegisterModelAssociations() {
+  InternalRegisterModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  InternalRegisterModel.belongsToMany(AttachmentModel, {
+    through: "internal_registers_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
