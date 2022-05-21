@@ -177,8 +177,8 @@ class TimesheetService {
     Object.keys(result).forEach((staffId) => {
       const timesheet: any = {
         employeeID: staffId,
-        startDate: "2022-04-15", //TODO: Fix the dates
-        endDate: "2022-04-28", //TODO: Fix the dates
+        startDate: "2022-05-09", //TODO: Fix the dates
+        endDate: "2022-05-22", //TODO: Fix the dates
         status: "DRAFT",
         timesheetLines: Object.keys(result[staffId]).map((payItem) => {
           const units = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -194,12 +194,12 @@ class TimesheetService {
       timesheetData.push(timesheet);
     });
 
+    console.log("timesheetData", timesheetData);
     try {
       await xeroService.exportTimesheetToXero({
         company,
         timesheets: timesheetData,
       });
-
       await this.updateTimesheetStatus({
         company,
         ids,
