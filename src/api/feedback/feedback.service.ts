@@ -16,10 +16,19 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 
 import { getFilters } from "../../components/filters";
+import { feedbackAttachmentService } from "./feedbackAttachment";
+import { AttachmentModel } from "../attachment";
 
 class FeedbackService {
   async createFeedback(props: CreateFeedbackProps) {
     const feedback = await FeedbackModel.create(props);
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await feedbackAttachmentService.createBulkFeedbackAttachment({
+        relation: feedback.id,
+        attachments: props.attachments,
+      });
+    }
     return feedback;
   }
 
@@ -43,6 +52,13 @@ class FeedbackService {
       where: { id, company },
       returning: true,
     });
+    // Update attachments
+    if (props.attachments) {
+      await feedbackAttachmentService.updateBulkFeedbackAttachment({
+        relation: feedback.id,
+        attachments: props.attachments,
+      });
+    }
     return updatedFeedback;
   }
 
@@ -78,6 +94,12 @@ class FeedbackService {
           model: StaffProfileModel,
           as: "Staff",
           required: false,
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });
