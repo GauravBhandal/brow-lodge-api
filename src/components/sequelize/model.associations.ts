@@ -53,6 +53,7 @@ import { PolicyReviewModel } from "../../api/policyReview";
 import { LegislationRegisterModel } from "../../api/legislationRegister";
 import { TemplateModel } from "../../api/template";
 import { InternalRegisterModel } from "../../api/internalRegister";
+import { RestrictivePracticeRegisterModel } from "../../api/restrictivePracticeRegister";
 
 export default {
   initialize() {
@@ -110,6 +111,7 @@ export default {
     initializeLegislationRegisterModelAssociations();
     initializeTemplateModelAssociations();
     initializeInternalRegisterModelAssociations();
+    initializeRestrictivePracticeRegisterModelAssociations();
   },
 };
 
@@ -494,6 +496,11 @@ function initializeMeetingLogModelAssociations() {
     foreignKey: { name: "client", allowNull: true },
     as: "Client",
   });
+  MeetingLogModel.belongsToMany(AttachmentModel, {
+    through: "meeting_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeClientRiskModelAssociations() {
@@ -584,6 +591,11 @@ function initializeFeedbackModelAssociations() {
   FeedbackModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff" },
     as: "Staff",
+  });
+  FeedbackModel.belongsToMany(AttachmentModel, {
+    through: "feedbacks_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
 
@@ -861,5 +873,15 @@ function initializeInternalRegisterModelAssociations() {
     through: "internal_registers_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
+  });
+}
+
+function initializeRestrictivePracticeRegisterModelAssociations() {
+  RestrictivePracticeRegisterModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  RestrictivePracticeRegisterModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: true },
+    as: "Client",
   });
 }

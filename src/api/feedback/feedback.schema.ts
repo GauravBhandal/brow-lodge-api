@@ -18,6 +18,9 @@ const createFeedbackSchema = wrapSchema({
     dateClosed: Joi.date().allow(null),
     status: Joi.string().allow("", null),
     staff: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -37,6 +40,9 @@ const editFeedbackSchema = wrapSchema({
     dateClosed: Joi.date().allow(null),
     status: Joi.string().allow("", null),
     staff: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

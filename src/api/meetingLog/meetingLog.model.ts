@@ -30,6 +30,7 @@ class MeetingLogModel<
   Client: MeetingLog["Client"];
   company!: MeetingLog["company"];
   Company: MeetingLog["Company"];
+  Attachments: MeetingLog["Attachments"];
 }
 
 modelManager.init(
