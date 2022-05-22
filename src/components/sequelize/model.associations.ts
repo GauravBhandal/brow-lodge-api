@@ -53,6 +53,7 @@ import { PolicyReviewModel } from "../../api/policyReview";
 import { LegislationRegisterModel } from "../../api/legislationRegister";
 import { TemplateModel } from "../../api/template";
 import { InternalRegisterModel } from "../../api/internalRegister";
+import { RestrictivePracticeRegisterModel } from "../../api/restrictivePracticeRegister";
 
 export default {
   initialize() {
@@ -110,6 +111,7 @@ export default {
     initializeLegislationRegisterModelAssociations();
     initializeTemplateModelAssociations();
     initializeInternalRegisterModelAssociations();
+    initializeRestrictivePracticeRegisterModelAssociations();
   },
 };
 
@@ -861,5 +863,15 @@ function initializeInternalRegisterModelAssociations() {
     through: "internal_registers_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
+  });
+}
+
+function initializeRestrictivePracticeRegisterModelAssociations() {
+  RestrictivePracticeRegisterModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  RestrictivePracticeRegisterModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: true },
+    as: "Client",
   });
 }
