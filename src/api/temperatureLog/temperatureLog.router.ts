@@ -23,7 +23,7 @@ router.put(
 
 router.delete(
   "/:temperatureLogId",
-  canDo("update", "temperatureLog"),
+  canDo("delete", "temperatureLog"),
   temperatureLogSchems.deleteTemperatureLog,
   catchWrap(controller.deleteTemperatureLog)
 );
