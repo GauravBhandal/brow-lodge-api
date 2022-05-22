@@ -43,7 +43,7 @@ class RestrictivePracticeRegisterService {
     if (!restrictivePracticeRegister) {
       throw new CustomError(
         404,
-        RestrictivePracticeRegisterErrorCode.RESTRICTIVE_PRACTICE_REGISTER
+        RestrictivePracticeRegisterErrorCode.RESTRICTIVE_PRACTICE_REGISTER_NOT_FOUND
       );
     }
 
@@ -72,7 +72,7 @@ class RestrictivePracticeRegisterService {
     if (!restrictivePracticeRegister) {
       throw new CustomError(
         404,
-        RestrictivePracticeRegisterErrorCode.RESTRICTIVE_PRACTICE_REGISTER
+        RestrictivePracticeRegisterErrorCode.RESTRICTIVE_PRACTICE_REGISTER_NOT_FOUND
       );
     }
 
@@ -104,7 +104,7 @@ class RestrictivePracticeRegisterService {
     if (!restrictivePracticeRegister) {
       throw new CustomError(
         404,
-        RestrictivePracticeRegisterErrorCode.RESTRICTIVE_PRACTICE_REGISTER
+        RestrictivePracticeRegisterErrorCode.RESTRICTIVE_PRACTICE_REGISTER_NOT_FOUND
       );
     }
 
