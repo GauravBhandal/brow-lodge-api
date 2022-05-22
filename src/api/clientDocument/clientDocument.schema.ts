@@ -29,7 +29,7 @@ const editClientDocumentSchema = wrapSchema({
     archived: Joi.boolean(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
-      .required(),
+      .allow(null),
   }),
 });
 

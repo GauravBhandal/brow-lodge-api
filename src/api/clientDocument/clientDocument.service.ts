@@ -249,12 +249,6 @@ class ClientDocumentService {
           ...filters["Category"],
         },
       },
-      {
-        model: AttachmentModel,
-        through: {
-          attributes: [],
-        },
-      },
     ];
 
     // Count total clientDocuments in the given company

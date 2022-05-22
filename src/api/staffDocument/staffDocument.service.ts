@@ -83,7 +83,7 @@ class StaffDocumentService {
       });
 
       // If already exists, throw an error
-      if (existingDocument) {
+      if (existingDocument && existingDocument.id !== id) {
         throw new CustomError(
           409,
           StaffDocumentErrorCode.STAFF_DOCUMENT_ALREADY_EXISTS
@@ -244,12 +244,6 @@ class StaffDocumentService {
         as: "Category",
         where: {
           ...filters["Category"],
-        },
-      },
-      {
-        model: AttachmentModel,
-        through: {
-          attributes: [],
         },
       },
     ];
