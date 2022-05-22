@@ -2,19 +2,19 @@
 
 const queryUp = `
 CREATE TABLE IF NOT EXISTS "restrictive_practice_register" (
+  "id" UUID NOT NULL,
   "start_date" TIMESTAMP WITH TIME ZONE NOT NULL,
   "end_date" TIMESTAMP WITH TIME ZONE,
   "start_time" TIME WITHOUT TIME ZONE NOT NULL,
   "end_time" TIME WITHOUT TIME ZONE,
   "type_of_restrictive_practice" VARCHAR (255) NOT NULL,
-  "description" VARCHAR (255) NOT NULL,
+  "description" VARCHAR NOT NULL,
   "administration_type" VARCHAR (255) NOT NULL,
-  "behaviour_of_concerns" VARCHAR (255) NOT NULL,
+  "behaviour_of_concerns" VARCHAR NOT NULL,
   "is_authorised" VARCHAR (255) NOT NULL,
   "reporting_frequency" VARCHAR (255) NOT NULL,
   "next_review_date" TIMESTAMP WITH TIME ZONE,
   "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "id" UUID NOT NULL,
   "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
   "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
