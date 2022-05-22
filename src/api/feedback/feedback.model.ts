@@ -29,6 +29,7 @@ class FeedbackModel<
   Staff: Feedback["Staff"];
   company!: Feedback["company"];
   Company: Feedback["Company"];
+  Attachments: Feedback["Attachments"];
 }
 
 modelManager.init(

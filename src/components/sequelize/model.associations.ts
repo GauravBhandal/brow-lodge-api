@@ -496,6 +496,11 @@ function initializeMeetingLogModelAssociations() {
     foreignKey: { name: "client", allowNull: true },
     as: "Client",
   });
+  MeetingLogModel.belongsToMany(AttachmentModel, {
+    through: "meeting_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeClientRiskModelAssociations() {
@@ -586,6 +591,11 @@ function initializeFeedbackModelAssociations() {
   FeedbackModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff" },
     as: "Staff",
+  });
+  FeedbackModel.belongsToMany(AttachmentModel, {
+    through: "feedbacks_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
 
