@@ -65,6 +65,10 @@ class ClientDocumentCategoryController {
     const props = {
       company: req.auth.companyId,
       ...queryParams,
+      showConfidential: req.ability.can(
+        "read",
+        "participantConfidentialDocument"
+      ),
     };
 
     const clientDocumentCategorys =

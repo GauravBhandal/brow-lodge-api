@@ -198,7 +198,7 @@ class ClientDocumentService {
 
   async getClientDocuments(props: GetClientDocumentsProps, userId: string) {
     // Props
-    const { page, pageSize, sort, where, company } = props;
+    const { page, pageSize, sort, where, company, showConfidential } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
@@ -221,6 +221,10 @@ class ClientDocumentService {
         },
       };
     }
+
+    const checkIsConfidential = () => {
+      return !showConfidential ? { isConfidential: { [Op.ne]: "true" } } : {};
+    };
 
     const include = [
       {
@@ -246,6 +250,7 @@ class ClientDocumentService {
         as: "Category",
         where: {
           ...filters["Category"],
+          ...checkIsConfidential(),
         },
       },
     ];

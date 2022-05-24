@@ -192,7 +192,7 @@ class ClientDocumentCategoryService {
 
   async getClientDocumentCategorys(props: GetClientDocumentCategorysProps) {
     // Props
-    const { page, pageSize, sort, where, company } = props;
+    const { page, pageSize, sort, where, company, showConfidential } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
@@ -208,11 +208,16 @@ class ClientDocumentCategoryService {
       },
     ];
 
+    const checkIsConfidential = () => {
+      return !showConfidential ? { isConfidential: { [Op.ne]: "true" } } : {};
+    };
+
     // Count total clientDocumentCategorys in the given company
     const count = await ClientDocumentCategoryModel.count({
       where: {
         company,
         ...filters["primaryFilters"],
+        ...checkIsConfidential(),
       },
       distinct: true,
       include,
@@ -226,6 +231,7 @@ class ClientDocumentCategoryService {
       where: {
         company,
         ...filters["primaryFilters"],
+        ...checkIsConfidential(),
       },
       include,
     });
