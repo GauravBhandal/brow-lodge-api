@@ -63,6 +63,7 @@ type Subject =
   | "legislationRegister"
   | "template"
   | "internalRegister"
+  | "restrictivePracticeRegister"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {

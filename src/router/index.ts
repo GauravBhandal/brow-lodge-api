@@ -61,6 +61,7 @@ import { invoiceRoutes } from "../api/invoice";
 import { legislationRegisterRoutes } from "../api/legislationRegister";
 import { templateRoutes } from "../api/template";
 import { internalRegisterRoutes } from "../api/internalRegister";
+import { restrictivePracticeRegisterRoutes } from "../api/restrictivePracticeRegister";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -125,5 +126,6 @@ router.use("/invoice", invoiceRoutes);
 router.use("/legislation-register", legislationRegisterRoutes);
 router.use("/template", templateRoutes);
 router.use("/internal-register", internalRegisterRoutes);
+router.use("/restrictive-practice-register", restrictivePracticeRegisterRoutes);
 
 export default router;
