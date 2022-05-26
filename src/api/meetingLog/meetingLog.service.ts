@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import MeetingLogModel from "./meetingLog.model";
 import {
@@ -120,7 +121,14 @@ class MeetingLogService {
 
   async getMeetingLogs(props: GetMeetingLogsProps, userId: string) {
     // Props
-    const { page, pageSize, sort, where, company } = props;
+    const {
+      page,
+      pageSize,
+      sort,
+      where,
+      company,
+      canAccessLeadershipMeetings,
+    } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
@@ -156,11 +164,23 @@ class MeetingLogService {
       },
     ];
 
+    const hasAccessForLeadershipMeetings = !canAccessLeadershipMeetings && {
+      meetingType: filters["primaryFilters"]
+        ? {
+            [Op.and]: {
+              ...filters["primaryFilters"]["meetingType"],
+              [Op.ne]: "Leadership Meeting",
+            },
+          }
+        : { [Op.ne]: "Leadership Meeting" },
+    };
+
     // Count total meetingLogs in the given company
     const count = await MeetingLogModel.count({
       where: {
         company,
         ...filters["primaryFilters"],
+        ...hasAccessForLeadershipMeetings,
       },
       distinct: true,
       include,
@@ -174,6 +194,7 @@ class MeetingLogService {
       where: {
         company,
         ...filters["primaryFilters"],
+        ...hasAccessForLeadershipMeetings,
       },
       include,
     });
