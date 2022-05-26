@@ -19,6 +19,7 @@ export interface ClientDocument extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Attachments?: Attachment[];
+  archived?: boolean;
 }
 
 export interface CreateClientDocumentProps {
@@ -34,6 +35,7 @@ export interface CreateClientDocumentProps {
 
 export interface UpdateClientDocumentProps extends CreateClientDocumentProps {
   id: ClientDocument["id"];
+  archived?: ClientDocument["archived"];
 }
 
 export interface DeleteClientDocumentProps {

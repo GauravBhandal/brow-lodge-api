@@ -28,7 +28,7 @@ class ClientDocumentService {
 
     // Check if document already exists
     const existingDocument = await ClientDocumentModel.findOne({
-      where: { category, type, client, company },
+      where: { category, type, client, company, archived: false },
     });
 
     // If already exists, throw an error
@@ -54,7 +54,7 @@ class ClientDocumentService {
 
   async updateClientDocument(props: UpdateClientDocumentProps) {
     // Props
-    const { category, type, client, company, id } = props;
+    const { category, type, client, company, id, archived } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find clientDocument by id and company
@@ -74,15 +74,16 @@ class ClientDocumentService {
       clientDocument.category != category ||
       clientDocument.type != type ||
       clientDocument.client != client ||
-      clientDocument.company != company
+      clientDocument.company != company ||
+      !archived
     ) {
       // Check if document already exists
       const existingDocument = await ClientDocumentModel.findOne({
-        where: { category, type, client, company },
+        where: { category, type, client, company, archived: false },
       });
 
       // If already exists, throw an error
-      if (existingDocument) {
+      if (existingDocument && existingDocument.id !== id) {
         throw new CustomError(
           409,
           ClientDocumentErrorCode.CLIENT_DOCUMENT_ALREADY_EXISTS
