@@ -222,8 +222,8 @@ class ClientDocumentService {
       };
     }
 
-    const checkIsConfidential = () => {
-      return !showConfidential ? { isConfidential: { [Op.ne]: "true" } } : {};
+    const checkIsConfidential = !showConfidential && {
+      isConfidential: { [Op.ne]: "true" },
     };
 
     const include = [
@@ -250,7 +250,7 @@ class ClientDocumentService {
         as: "Category",
         where: {
           ...filters["Category"],
-          ...checkIsConfidential(),
+          ...checkIsConfidential,
         },
       },
     ];

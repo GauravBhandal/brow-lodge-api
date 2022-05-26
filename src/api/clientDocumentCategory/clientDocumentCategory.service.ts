@@ -208,8 +208,8 @@ class ClientDocumentCategoryService {
       },
     ];
 
-    const checkIsConfidential = () => {
-      return !showConfidential ? { isConfidential: { [Op.ne]: "true" } } : {};
+    const checkIsConfidential = !showConfidential && {
+      isConfidential: { [Op.ne]: "true" },
     };
 
     // Count total clientDocumentCategorys in the given company
@@ -217,7 +217,7 @@ class ClientDocumentCategoryService {
       where: {
         company,
         ...filters["primaryFilters"],
-        ...checkIsConfidential(),
+        ...checkIsConfidential,
       },
       distinct: true,
       include,
@@ -231,7 +231,7 @@ class ClientDocumentCategoryService {
       where: {
         company,
         ...filters["primaryFilters"],
-        ...checkIsConfidential(),
+        ...checkIsConfidential,
       },
       include,
     });
