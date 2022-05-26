@@ -121,8 +121,14 @@ class MeetingLogService {
 
   async getMeetingLogs(props: GetMeetingLogsProps, userId: string) {
     // Props
-    const { page, pageSize, sort, where, company, canAccessAdminMeetings } =
-      props;
+    const {
+      page,
+      pageSize,
+      sort,
+      where,
+      company,
+      canAccessLeadershipMeetings,
+    } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
@@ -158,7 +164,7 @@ class MeetingLogService {
       },
     ];
 
-    const hasAdminAccess = !canAccessAdminMeetings && {
+    const hasAccessForLeadershipMeetings = !canAccessLeadershipMeetings && {
       meetingType: filters["primaryFilters"]
         ? {
             [Op.and]: {
@@ -174,7 +180,7 @@ class MeetingLogService {
       where: {
         company,
         ...filters["primaryFilters"],
-        ...hasAdminAccess,
+        ...hasAccessForLeadershipMeetings,
       },
       distinct: true,
       include,
@@ -188,7 +194,7 @@ class MeetingLogService {
       where: {
         company,
         ...filters["primaryFilters"],
-        ...hasAdminAccess,
+        ...hasAccessForLeadershipMeetings,
       },
       include,
     });

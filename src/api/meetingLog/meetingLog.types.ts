@@ -57,5 +57,5 @@ export interface GetMeetingLogByIdProps extends DeleteMeetingLogProps {}
 
 export interface GetMeetingLogsProps extends QueryParams {
   company: MeetingLog["company"];
-  canAccessAdminMeetings: boolean;
+  canAccessLeadershipMeetings: boolean;
 }
