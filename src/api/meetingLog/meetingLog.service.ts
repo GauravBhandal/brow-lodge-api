@@ -121,7 +121,8 @@ class MeetingLogService {
 
   async getMeetingLogs(props: GetMeetingLogsProps, userId: string) {
     // Props
-    const { page, pageSize, sort, where, company, adminMeeting } = props;
+    const { page, pageSize, sort, where, company, canAccessAdminMeetings } =
+      props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
@@ -157,21 +158,15 @@ class MeetingLogService {
       },
     ];
 
-    console.log('filters["primaryFilters"]', filters["primaryFilters"]);
-
-    const hasAdminAccess = () => {
-      return adminMeeting
-        ? {}
-        : {
-            meetingType: filters["primaryFilters"]
-              ? {
-                  [Op.and]: {
-                    ...filters["primaryFilters"]["meetingType"],
-                    [Op.ne]: "Admin Meeting",
-                  },
-                }
-              : { [Op.ne]: "Admin Meeting" },
-          };
+    const hasAdminAccess = !canAccessAdminMeetings && {
+      meetingType: filters["primaryFilters"]
+        ? {
+            [Op.and]: {
+              ...filters["primaryFilters"]["meetingType"],
+              [Op.ne]: "Admin Meeting",
+            },
+          }
+        : { [Op.ne]: "Admin Meeting" },
     };
 
     // Count total meetingLogs in the given company
@@ -179,7 +174,7 @@ class MeetingLogService {
       where: {
         company,
         ...filters["primaryFilters"],
-        ...hasAdminAccess(),
+        ...hasAdminAccess,
       },
       distinct: true,
       include,
@@ -193,7 +188,7 @@ class MeetingLogService {
       where: {
         company,
         ...filters["primaryFilters"],
-        ...hasAdminAccess(),
+        ...hasAdminAccess,
       },
       include,
     });
