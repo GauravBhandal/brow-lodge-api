@@ -54,6 +54,7 @@ import { LegislationRegisterModel } from "../../api/legislationRegister";
 import { TemplateModel } from "../../api/template";
 import { InternalRegisterModel } from "../../api/internalRegister";
 import { RestrictivePracticeRegisterModel } from "../../api/restrictivePracticeRegister";
+import { ClientContactModel } from "../../api/clientProfile/clientContact";
 
 export default {
   initialize() {
@@ -121,6 +122,9 @@ function initializeClientProfileModelAssociations() {
   });
   ClientProfileModel.belongsTo(AttachmentModel, {
     foreignKey: "attachment",
+  });
+  ClientProfileModel.belongsTo(ClientContactModel, {
+    foreignKey: "client",
   });
 }
 

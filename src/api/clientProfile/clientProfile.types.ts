@@ -2,6 +2,8 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
+import { ClientContact } from "./clientContact";
+import { CreateClientContactProps } from "./clientContact/clientContact.types";
 
 export interface ClientProfile extends DefaultSchemaConfig {
   firstName: string;
@@ -26,6 +28,7 @@ export interface ClientProfile extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   attachment?: Attachment["id"];
+  Contacts?: ClientContact[];
 }
 
 export interface CreateClientProfileProps {
@@ -53,6 +56,7 @@ export interface CreateClientProfileProps {
 
 export interface UpdateClientProfileProps extends CreateClientProfileProps {
   id: ClientProfile["id"];
+  contacts?: Omit<CreateClientContactProps, "client" | "company">[];
 }
 
 export interface DeleteClientProfileProps {
