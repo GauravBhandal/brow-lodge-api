@@ -14,8 +14,7 @@ import ClientProfileErrorCode from "./clientProfile.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
-import { clientContactService } from "./clientContact";
-import { CreateClientContactProps } from "./clientContact/clientContact.types";
+import { ClientContactModel, clientContactService } from "./clientContact";
 
 class ClientProfileService {
   async createClientProfile(props: CreateClientProfileProps) {
@@ -98,6 +97,12 @@ class ClientProfileService {
     // Find  the clientProfile by id and company
     const clientProfile = await ClientProfileModel.findOne({
       where: { id, company },
+      include: [
+        {
+          model: ClientContactModel,
+          as: "Contacts",
+        },
+      ],
     });
 
     // If no clientProfile has been found, then throw an error
