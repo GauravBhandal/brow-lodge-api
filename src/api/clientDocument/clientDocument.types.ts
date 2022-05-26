@@ -55,4 +55,5 @@ export interface GetClientDocumentByCategoryProps {
 
 export interface GetClientDocumentsProps extends QueryParams {
   company: ClientDocument["company"];
+  showConfidential: boolean;
 }

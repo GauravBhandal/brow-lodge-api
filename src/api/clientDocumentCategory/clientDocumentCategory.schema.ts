@@ -7,6 +7,7 @@ const createClientDocumentCategorySchema = wrapSchema({
   body: Joi.object().keys({
     name: Joi.string().required().trim(),
     types: Joi.array().items(Joi.string().trim()).required(),
+    isConfidential: Joi.boolean().allow(null),
   }),
 });
 
@@ -14,6 +15,7 @@ const editClientDocumentCategorySchema = wrapSchema({
   params: Joi.object().keys({ clientDocumentCategoryId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     name: Joi.string().required().trim(),
+    isConfidential: Joi.boolean().allow(null),
   }),
 });
 
