@@ -163,10 +163,10 @@ class MeetingLogService {
         ? {
             [Op.and]: {
               ...filters["primaryFilters"]["meetingType"],
-              [Op.ne]: "Admin Meeting",
+              [Op.ne]: "Leadership Meeting",
             },
           }
-        : { [Op.ne]: "Admin Meeting" },
+        : { [Op.ne]: "Leadership Meeting" },
     };
 
     // Count total meetingLogs in the given company
