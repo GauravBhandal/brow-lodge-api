@@ -13,6 +13,7 @@ export interface ClientProfile extends DefaultSchemaConfig {
   gender?: "male" | "female" | "other";
   dateOfBirth?: Date;
   address?: string;
+  contactNumber?: string;
   emergencyContactName?: string;
   emergencyContactPhone?: string;
   emergencyContactRelation?: string;
@@ -39,6 +40,7 @@ export interface CreateClientProfileProps {
   gender: ClientProfile["gender"];
   dateOfBirth: ClientProfile["dateOfBirth"];
   address: ClientProfile["address"];
+  contactNumber: ClientProfile["contactNumber"];
   emergencyContactName: ClientProfile["emergencyContactName"];
   emergencyContactPhone: ClientProfile["emergencyContactPhone"];
   emergencyContactRelation: ClientProfile["emergencyContactRelation"];
