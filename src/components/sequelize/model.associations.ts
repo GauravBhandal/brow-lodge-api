@@ -60,6 +60,7 @@ import { LegislationRegisterModel } from "../../api/legislationRegister";
 import { TemplateModel } from "../../api/template";
 import { InternalRegisterModel } from "../../api/internalRegister";
 import { RestrictivePracticeRegisterModel } from "../../api/restrictivePracticeRegister";
+import { RosterSettingModel } from "../../api/rosterSetting";
 
 export default {
   initialize() {
@@ -124,6 +125,7 @@ export default {
     initializeTemplateModelAssociations();
     initializeInternalRegisterModelAssociations();
     initializeRestrictivePracticeRegisterModelAssociations();
+    initializeRosterSettingModelAssociations();
   },
 };
 
@@ -967,5 +969,11 @@ function initializeRestrictivePracticeRegisterModelAssociations() {
   RestrictivePracticeRegisterModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: true },
     as: "Client",
+  });
+}
+
+function initializeRosterSettingModelAssociations() {
+  RosterSettingModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }
