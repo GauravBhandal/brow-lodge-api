@@ -6,9 +6,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE "client_documents" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "client_document_categories" 
+ADD COLUMN "is_confidential" BOOLEAN DEFAULT FALSE;
 `;
 
 const queryDown = `
+ALTER TABLE "client_document_categories"
+DROP COLUMN "is_confidential";
+
 ALTER TABLE "client_documents"
 DROP COLUMN "archived";
 
