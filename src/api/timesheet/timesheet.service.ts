@@ -11,6 +11,8 @@ import {
   UpdateTimesheetOnShiftUpdateProps,
   UpdateTimesheetStatusProps,
   GenerateTimesheetsProps,
+  GetTimesheetByIdsProps,
+  Timesheet,
 } from "./timesheet.types";
 import { CustomError } from "../../components/errors";
 import TimesheetErrorCode from "./timesheet.error";
@@ -79,7 +81,130 @@ class TimesheetService {
     return updatedTimesheet;
   }
 
-  async generateTimesheets(props: GenerateTimesheetsProps) {
+  async updateTimesheetOnShiftUpdate(props: UpdateTimesheetOnShiftUpdateProps) {
+    // Props
+    const { shift, company, startDateTime, endDateTime, staff } = props;
+
+    // Find timesheets by shift id and company
+    const timesheets = await TimesheetModel.findAll({
+      where: { shift, company },
+    });
+    // Delete all the existing timesheets for this shift
+    if (timesheets.length > 0) {
+      await this.deleteTimesheet({ shift, company });
+    }
+
+    // Create new timesheets on shift update
+    const newTimesheets = await this.createTimesheetInBulk({
+      startDateTime,
+      endDateTime,
+      status: "Pending",
+      shift,
+      staff,
+      company,
+    });
+    return newTimesheets;
+  }
+
+  async deleteTimesheet(props: DeleteTimesheetProps) {
+    // Props
+    const { shift, company } = props;
+
+    // Find and delete the timesheet by id and company
+    const timesheet = await TimesheetModel.destroy({
+      where: { shift, company },
+    });
+
+    // if timesheet has been deleted, throw an error
+    if (!timesheet) {
+      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
+    }
+
+    return timesheet;
+  }
+
+  async getTimesheets(props: GetTimesheetsProps) {
+    // Props
+    const { page, pageSize, sort, where, company } = props;
+
+    const { offset, limit } = getPagingParams(page, pageSize);
+    const order = getSortingParams(sort);
+    const filters = getFilters(where);
+
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
+      },
+      {
+        model: ShiftRecordModel,
+        as: "Shift",
+        where: {
+          ...filters["Shift"],
+        },
+      },
+    ];
+
+    // Count total timesheets in the given company
+    const count = await TimesheetModel.count({
+      where: {
+        company,
+        ...filters["primaryFilters"],
+      },
+      distinct: true,
+      include,
+    });
+
+    // Find all timesheets for matching props and company
+    const data = await TimesheetModel.findAll({
+      offset,
+      limit,
+      order,
+      where: {
+        company,
+        ...filters["primaryFilters"],
+      },
+      include,
+    });
+
+    const response = getPagingData({ count, rows: data }, page, limit);
+
+    return response;
+  }
+
+  async getTimesheetById(props: GetTimesheetByIdProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find  the timesheet by id and company
+    const timesheet = await TimesheetModel.findOne({
+      where: { id, company },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: StaffProfileModel,
+          as: "Staff",
+        },
+      ],
+    });
+
+    // If no timesheet has been found, then throw an error
+    if (!timesheet) {
+      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
+    }
+
+    return timesheet;
+  }
+
+  async _getTimesheetByIds(props: GetTimesheetByIdsProps) {
     // Props
     const { ids, company } = props;
 
@@ -131,11 +256,29 @@ class TimesheetService {
         ],
       },
     ];
+
     const timesheets = await TimesheetModel.findAll({
       where: { id: ids, company },
       include,
     });
+
+    return timesheets;
+  }
+
+  // Helper function to convert the given timesheets to the format supported by Xero
+  _getFormattedTimesheetsForXero(timesheets: Timesheet[]) {
+    /*
+     Creating an empty object to store the staff and payitem details e.g.
+     result = {
+       accountingCode: {
+         payItemId1: [Total Units for each day],
+        payItemId2: [Total Units for each day],
+       }
+     } 
+    */
+
     let result: any = {};
+
     timesheets.forEach((timesheet: any) => {
       timesheet.Shift.Staff.forEach((staff: any) => {
         const paylevelId = staff.Paylevel.id;
@@ -194,146 +337,34 @@ class TimesheetService {
       timesheetData.push(timesheet);
     });
 
-    console.log("timesheetData", timesheetData);
-    try {
-      await xeroService.exportTimesheetToXero({
-        company,
-        timesheets: timesheetData,
-      });
-      await this.updateTimesheetStatus({
-        company,
-        ids,
-        status: "Approved",
-        lastExportedOn: new Date(),
-      });
-    } catch (err: any) {
-      console.log(`Error${err}`);
-      throw new CustomError(404, TimesheetErrorCode.FAILED_TO_GENERATE_INVOICE);
-    }
-    return {};
+    return timesheetData;
   }
 
-  async updateTimesheetOnShiftUpdate(props: UpdateTimesheetOnShiftUpdateProps) {
+  async generateTimesheets(props: GenerateTimesheetsProps) {
     // Props
-    const { shift, company, startDateTime, endDateTime, staff } = props;
+    const { ids, company } = props;
 
-    // Find timesheets by shift id and company
-    const timesheets = await TimesheetModel.findAll({
-      where: { shift, company },
-    });
-    // Delete all the existing timesheets for this shift
-    if (timesheets.length > 0) {
-      await this.deleteTimesheet({ shift, company });
-    }
+    // Find all the timesheets for given company and ids
+    const timesheets = await this._getTimesheetByIds({ ids, company });
 
-    // Create new timesheets on shift update
-    const newTimesheets = await this.createTimesheetInBulk({
-      startDateTime,
-      endDateTime,
-      status: "Pending",
-      shift,
-      staff,
+    // Convert the timesheets to the format supported by Xero
+    const formatedTimesheets = this._getFormattedTimesheetsForXero(timesheets);
+
+    console.log("formatedTimesheets", formatedTimesheets);
+
+    await xeroService.exportTimesheetToXero({
       company,
-    });
-    return newTimesheets;
-  }
-
-  async deleteTimesheet(props: DeleteTimesheetProps) {
-    // Props
-    const { shift, company } = props;
-
-    // Find and delete the timesheet by id and company
-    const timesheet = await TimesheetModel.destroy({
-      where: { shift, company },
+      timesheets: formatedTimesheets,
     });
 
-    // if timesheet has been deleted, throw an error
-    if (!timesheet) {
-      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
-    }
-
-    return timesheet;
-  }
-
-  async getTimesheetById(props: GetTimesheetByIdProps) {
-    // Props
-    const { id, company } = props;
-
-    // Find  the timesheet by id and company
-    const timesheet = await TimesheetModel.findOne({
-      where: { id, company },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
-      ],
+    await this.updateTimesheetStatus({
+      company,
+      ids,
+      status: "Approved",
+      lastExportedOn: new Date(),
     });
 
-    // If no timesheet has been found, then throw an error
-    if (!timesheet) {
-      throw new CustomError(404, TimesheetErrorCode.TIMESHEET_NOT_FOUND);
-    }
-
-    return timesheet;
-  }
-
-  async getTimesheets(props: GetTimesheetsProps, userId: string) {
-    // Props
-    const { page, pageSize, sort, where, company } = props;
-
-    const { offset, limit } = getPagingParams(page, pageSize);
-    const order = getSortingParams(sort);
-    const filters = getFilters(where);
-
-    const include = [
-      {
-        model: CompanyModel,
-      },
-      {
-        model: StaffProfileModel,
-        as: "Staff",
-        where: {
-          ...filters["Staff"],
-        },
-      },
-      {
-        model: ShiftRecordModel,
-        as: "Shift",
-        where: {
-          ...filters["Shift"],
-        },
-      },
-    ];
-
-    // Count total timesheets in the given company
-    const count = await TimesheetModel.count({
-      where: {
-        company,
-        ...filters["primaryFilters"],
-      },
-      distinct: true,
-      include,
-    });
-
-    // Find all timesheets for matching props and company
-    const data = await TimesheetModel.findAll({
-      offset,
-      limit,
-      order,
-      where: {
-        company,
-        ...filters["primaryFilters"],
-      },
-      include,
-    });
-
-    const response = getPagingData({ count, rows: data }, page, limit);
-
-    return response;
+    return {};
   }
 }
 

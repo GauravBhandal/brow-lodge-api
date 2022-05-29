@@ -266,7 +266,7 @@ class InvoiceService {
   }
 
   // Helper function to convert the given invoices to the format supported by Xero
-  _getFormatedInvoicesForXero(allInvoices: InvoiceType[]) {
+  _getFormattedInvoicesForXero(allInvoices: InvoiceType[]) {
     /*
      Creating an empty object to store the customers and service details e.g.
      result = {
@@ -368,7 +368,7 @@ class InvoiceService {
     const allInvoices = await this._getInvoiceByIds({ ids, company });
 
     // Convert the invoices to the format supported by Xero
-    const formatedInvoices = this._getFormatedInvoicesForXero(allInvoices);
+    const formatedInvoices = this._getFormattedInvoicesForXero(allInvoices);
     const invoices: Invoices = {
       invoices: formatedInvoices,
     };

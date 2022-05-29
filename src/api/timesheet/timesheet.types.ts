@@ -46,6 +46,11 @@ export interface GenerateTimesheetsProps {
   ids: Timesheet["id"][];
   company: Timesheet["company"];
 }
+
+export interface GenerateTimesheetsProps {
+  ids: Timesheet["id"][];
+  company: Timesheet["company"];
+}
 export interface UpdateTimesheetOnShiftUpdateProps {
   startDateTime: Timesheet["startDateTime"];
   endDateTime: Timesheet["endDateTime"];
@@ -63,6 +68,8 @@ export interface GetTimesheetByIdProps {
   id: Timesheet["id"];
   company: Timesheet["company"];
 }
+
+export interface GetTimesheetByIdsProps extends GenerateTimesheetsProps {}
 
 export interface GetTimesheetsProps extends QueryParams {
   company: Timesheet["company"];
