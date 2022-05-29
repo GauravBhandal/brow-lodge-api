@@ -114,12 +114,12 @@ class StaffDocumentService {
     // Props
     const { id, company } = props;
 
-    // Find and delete the staffDocument by id and company
-    const staffDocument = await StaffDocumentModel.destroy({
+    // Find staffDocument by id and company
+    const staffDocument = await StaffDocumentModel.findOne({
       where: { id, company },
     });
 
-    // if staffDocument has been deleted, throw an error
+    // if staffDocument not found, throw an error
     if (!staffDocument) {
       throw new CustomError(
         404,
@@ -127,7 +127,16 @@ class StaffDocumentService {
       );
     }
 
-    return staffDocument;
+    // Finally, update the staffDocument update the Archive state
+    const [, [updatedStaffDocument]] = await StaffDocumentModel.update(
+      { archived: !staffDocument.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedStaffDocument;
   }
 
   async getStaffDocumentById(props: GetStaffDocumentByIdProps) {

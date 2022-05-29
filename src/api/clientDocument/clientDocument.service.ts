@@ -114,12 +114,12 @@ class ClientDocumentService {
     // Props
     const { id, company } = props;
 
-    // Find and delete the clientDocument by id and company
-    const clientDocument = await ClientDocumentModel.destroy({
+    // Find clientDocument by id and company
+    const clientDocument = await ClientDocumentModel.findOne({
       where: { id, company },
     });
 
-    // if clientDocument has been deleted, throw an error
+    // if clientDocument not found, throw an error
     if (!clientDocument) {
       throw new CustomError(
         404,
@@ -127,7 +127,16 @@ class ClientDocumentService {
       );
     }
 
-    return clientDocument;
+    // Finally, update the clientDocument update the Archive state
+    const [, [updatedClientDocument]] = await ClientDocumentModel.update(
+      { archived: !clientDocument.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedClientDocument;
   }
 
   async getClientDocumentById(props: GetClientDocumentByIdProps) {
