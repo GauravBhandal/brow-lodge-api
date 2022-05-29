@@ -6,8 +6,6 @@ import {
   GetRosterSettingByIdProps,
   CreateRosterSettingProps,
 } from "./rosterSetting.types";
-import { CustomError } from "../../components/errors";
-import RosterSettingErrorCode from "./rosterSetting.error";
 import { CompanyModel } from "../company";
 
 class RosterSettingService {
@@ -16,17 +14,18 @@ class RosterSettingService {
 
     return rosterSetting;
   }
+
   async updateRosterSetting(props: UpdateRosterSettingProps) {
     // Props
     const { company } = props;
     const updateProps = _omit(props, ["company"]);
 
-    // Find rosterSetting by id and company
+    // Find rosterSetting by company
     const rosterSetting = await RosterSettingModel.findOne({
       where: { company },
     });
 
-    // if rosterSetting not found, throw an error
+    // if rosterSetting not found, create a new one
     if (!rosterSetting) {
       const createdRosterSetting = await this.createRosterSetting({
         settings: updateProps.settings,
@@ -35,7 +34,7 @@ class RosterSettingService {
       return createdRosterSetting;
     }
 
-    // Finally, update the rosterSetting
+    // If found, update the rosterSetting
     const [, [updatedRosterSetting]] = await RosterSettingModel.update(
       updateProps,
       {
@@ -50,7 +49,7 @@ class RosterSettingService {
     // Props
     const { company } = props;
 
-    // Find  the rosterSetting by id and company
+    // Find  the rosterSetting by company
     const rosterSetting = await RosterSettingModel.findOne({
       where: { company },
       include: [
@@ -60,7 +59,7 @@ class RosterSettingService {
       ],
     });
 
-    // If no rosterSetting has been found, then throw an error
+    // If no rosterSetting has been found, then create a new one
     if (!rosterSetting) {
       const createdRosterSetting = await this.createRosterSetting({
         settings: {},
