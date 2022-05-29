@@ -345,6 +345,64 @@ class TimesheetService {
     return formattedTimesheets;
   }
 
+  async _getErrorMessages(timesheets: Timesheet[], company) {
+    const getAllAccountCodes = await xeroService.getXeroEmployees({ company });
+    const payItemsList = await xeroService.getPayItems({ company });
+    const staffWithNoAcctCode: any = [];
+    timesheets.forEach((timesheet: any) => {
+      if (timesheet?.Shift?.Staff) {
+        // For every staff in the Shift, add total hours per pay item
+        timesheet.Shift.Staff.forEach((staff: StaffProfile) => {
+          if (!staff.accountingCode) {
+            staffWithNoAcctCode.push(
+              `${staff.preferredName} has no accouting code`
+            );
+          } else {
+            const IsAccountingCodeValid = getAllAccountCodes?.employees.filter(
+              (employee: any) => employee.employeeID === staff.accountingCode
+            );
+            if (IsAccountingCodeValid.length === 0) {
+              staffWithNoAcctCode.push(
+                `${staff.preferredName} accounting code doesn't matched`
+              );
+            }
+          }
+          const paylevelId = staff.Paylevel;
+          if (!paylevelId) {
+            staffWithNoAcctCode.push(`${staff.preferredName} has no paylevel`);
+          }
+          if (staff?.Paylevel?.id && timesheet?.Shift?.Services) {
+            const paylevelId = staff.Paylevel.id;
+            const services = timesheet.Shift.Services;
+
+            // For every service in the Shift
+            services.forEach((service: any, index: any) => {
+              const payItem = service.PayLevels.filter(
+                (level: any) => level.id === paylevelId
+              );
+              if (!payItem) {
+                staffWithNoAcctCode.push(
+                  `${staff.preferredName} has no payitem`
+                );
+              } else {
+                const payItemExists =
+                  payItemsList?.payItems?.earningsRates.filter(
+                    (item: any) => item.earningsRateID === payItem
+                  );
+                if (payItemExists.length === 0) {
+                  staffWithNoAcctCode.push(
+                    `${staff.preferredName} payitem doesn't matched`
+                  );
+                }
+              }
+            });
+          }
+        });
+      }
+    });
+    return staffWithNoAcctCode;
+  }
+
   async generateTimesheets(props: GenerateTimesheetsProps) {
     // Props
     const { ids, company } = props;
@@ -356,6 +414,8 @@ class TimesheetService {
 
     // Convert the timesheets to the format supported by Xero
     const formatedTimesheets = this._getFormattedTimesheetsForXero(timesheets);
+
+    const getErrorMessages = this._getErrorMessages(timesheets, company);
 
     await xeroService.exportTimesheetToXero({
       company,
