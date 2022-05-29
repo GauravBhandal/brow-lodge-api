@@ -35,7 +35,6 @@ export interface CreateStaffDocumentProps {
 
 export interface UpdateStaffDocumentProps extends CreateStaffDocumentProps {
   id: StaffDocument["id"];
-  archived?: StaffDocument["archived"];
 }
 
 export interface DeleteStaffDocumentProps {
