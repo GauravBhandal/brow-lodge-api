@@ -64,6 +64,11 @@ export interface GetInvoiceByIdProps {
   company: Invoice["company"];
 }
 
+export interface GetInvoiceByIdsProps {
+  ids: Invoice["id"][];
+  company: Invoice["company"];
+}
+
 export interface GetInvoicesProps extends QueryParams {
   company: Invoice["company"];
 }

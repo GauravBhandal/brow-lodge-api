@@ -63,7 +63,7 @@ class InvoiceController {
       ...queryParams,
     };
 
-    const invoices = await invoiceService.getInvoices(props, req.auth.userId);
+    const invoices = await invoiceService.getInvoices(props);
 
     res.status(200).json(invoices);
   }

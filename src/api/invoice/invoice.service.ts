@@ -4,6 +4,7 @@ import { orderBy as _orderBy } from "lodash";
 
 import InvoiceModel from "./invoice.model";
 import {
+  Invoice as InvoiceType,
   CreateInvoiceProps,
   UpdateInvoiceProps,
   DeleteInvoiceProps,
@@ -12,6 +13,7 @@ import {
   UpdateInvoiceOnShiftUpdateProps,
   UpdateInvoiceStatusProps,
   GenerateInvoicesProps,
+  GetInvoiceByIdsProps,
 } from "./invoice.types";
 import { CustomError } from "../../components/errors";
 import InvoiceErrorCode from "./invoice.error";
@@ -21,8 +23,8 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
-import { ClientProfileModel } from "../clientProfile";
-import { ServiceModel } from "../service";
+import { ClientProfileModel, ClientProfile } from "../clientProfile";
+import { Service, ServiceModel } from "../service";
 import { Invoice, Invoices } from "xero-node";
 import {
   addTimeToDate,
@@ -83,134 +85,6 @@ class InvoiceService {
     return updatedInvoice;
   }
 
-  async generateInvoices(props: GenerateInvoicesProps) {
-    // Props
-    const { ids, company } = props;
-
-    const include = [
-      {
-        model: CompanyModel,
-      },
-      {
-        model: ShiftRecordModel,
-        as: "Shift",
-        include: [
-          {
-            model: CompanyModel,
-          },
-          {
-            model: StaffProfileModel,
-            through: {
-              attributes: [],
-            },
-            as: "Staff",
-          },
-          {
-            model: ClientProfileModel,
-            through: {
-              attributes: [],
-            },
-            as: "Client",
-          },
-          {
-            model: ServiceModel,
-            through: {
-              attributes: ["start_time"], //TODO: We need to do some cleanup here
-            },
-          },
-        ],
-      },
-    ];
-
-    // Find all the invoices for given company and ids
-    const allInvoices = await InvoiceModel.findAll({
-      where: { id: ids, company },
-      include,
-    });
-
-    // Map the total hours per service per client
-    let result: any = {};
-    allInvoices.forEach((invoice: any) => {
-      invoice.Shift.Client.forEach((client: any) => {
-        const services = _orderBy(
-          invoice.Shift.Services,
-          ["shift_records_services.start_time"],
-          ["asc"]
-        );
-        if (!result[client.accountingCode]) {
-          result[client.accountingCode] = {};
-        }
-        const getEndTime = (index: any, length: any, services: any) => {
-          if (index === length - 1) {
-            return invoice.endDateTime;
-          }
-          return services[index + 1].shift_records_services.dataValues
-            .start_time;
-        };
-        services.forEach((service: any, index: any) => {
-          result[client.accountingCode][service?.code] =
-            (result[client.accountingCode][service?.code] || 0) +
-            (service.rateType === "Fixed"
-              ? 1
-              : getMinutesDiff(
-                  service.shift_records_services.dataValues.start_time,
-                  getEndTime(index, services.length, services)
-                ) / 60);
-        });
-      });
-    });
-
-    // TODO: Fix these dates
-    const dateValue = formatDateToString(new Date()); // Should be today's date
-    const dueDateValue = formatDateToString(
-      addTimeToDate(new Date(), 13, "days")
-    ); // Should be today's date + 14 days
-
-    const getLineItems = (services: any) => {
-      const finalLineItems = Object.keys(services).map((service) => ({
-        quantity: services[service],
-        itemCode: service,
-      }));
-      return finalLineItems;
-    };
-
-    const invoiceData: any = [];
-    Object.keys(result).forEach((clientId) => {
-      const invoice: Invoice = {
-        type: Invoice.TypeEnum.ACCREC,
-        contact: {
-          contactID: clientId,
-        },
-        date: dateValue,
-        dueDate: dueDateValue,
-        lineItems: getLineItems(result[clientId]),
-        status: Invoice.StatusEnum.DRAFT,
-      };
-      invoiceData.push(invoice);
-    });
-    const invoices: Invoices = {
-      invoices: invoiceData,
-    };
-
-    try {
-      await xeroService.exportInvoicesToXero({
-        company,
-        invoices,
-      });
-
-      await this.updateInvoiceStatus({
-        company,
-        ids,
-        status: "Approved",
-        lastExportedOn: new Date(),
-      });
-    } catch (err: any) {
-      console.log(`Error${err}`);
-      throw new CustomError(404, InvoiceErrorCode.FAILED_TO_GENERATE_INVOICE);
-    }
-    return {};
-  }
-
   async updateInvoiceOnShiftUpdate(props: UpdateInvoiceOnShiftUpdateProps) {
     // Props
     const { shift, company, startDateTime, endDateTime, client } = props;
@@ -254,33 +128,7 @@ class InvoiceService {
     return invoice;
   }
 
-  async getInvoiceById(props: GetInvoiceByIdProps) {
-    // Props
-    const { id, company } = props;
-
-    // Find  the invoice by id and company
-    const invoice = await InvoiceModel.findOne({
-      where: { id, company },
-      include: [
-        {
-          model: CompanyModel,
-        },
-        {
-          model: ClientProfileModel,
-          as: "Client",
-        },
-      ],
-    });
-
-    // If no invoice has been found, then throw an error
-    if (!invoice) {
-      throw new CustomError(404, InvoiceErrorCode.INVOICE_NOT_FOUND);
-    }
-
-    return invoice;
-  }
-
-  async getInvoices(props: GetInvoicesProps, userId: string) {
+  async getInvoices(props: GetInvoicesProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
@@ -341,6 +189,205 @@ class InvoiceService {
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;
+  }
+
+  async getInvoiceById(props: GetInvoiceByIdProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find  the invoice by id and company
+    const invoice = await InvoiceModel.findOne({
+      where: { id, company },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: ClientProfileModel,
+          as: "Client",
+        },
+      ],
+    });
+
+    // If no invoice has been found, then throw an error
+    if (!invoice) {
+      throw new CustomError(404, InvoiceErrorCode.INVOICE_NOT_FOUND);
+    }
+
+    return invoice;
+  }
+
+  async _getInvoiceByIds(props: GetInvoiceByIdsProps) {
+    // Props
+    const { ids, company } = props;
+
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: ShiftRecordModel,
+        as: "Shift",
+        include: [
+          {
+            model: CompanyModel,
+          },
+          {
+            model: StaffProfileModel,
+            through: {
+              attributes: [],
+            },
+            as: "Staff",
+          },
+          {
+            model: ClientProfileModel,
+            through: {
+              attributes: [],
+            },
+            as: "Client",
+          },
+          {
+            model: ServiceModel,
+            through: {
+              attributes: ["start_time"], //TODO: We need to do some cleanup here
+            },
+          },
+        ],
+      },
+    ];
+
+    // Find all the invoices for given company and ids
+    const invoices = await InvoiceModel.findAll({
+      where: { id: ids, company },
+      include,
+    });
+
+    return invoices;
+  }
+
+  // Helper function to convert the given invoices to the format supported by Xero
+  _getFormatedInvoicesForXero(allInvoices: InvoiceType[]) {
+    /*
+     Creating an empty object to store the customers and service details e.g.
+     result = {
+       accountingCode: {
+         service1: Total Units,
+        service2: Total Units
+       }
+     } 
+    */
+    let result: any = {};
+
+    // Helper fn. to return the endTime of given service
+    const getEndTime = (
+      index: any,
+      length: any,
+      services: any,
+      invoice: any
+    ) => {
+      if (index === length - 1) {
+        return invoice.endDateTime;
+      }
+      return services[index + 1].shift_records_services.dataValues.start_time;
+    };
+
+    // Map the total hours per service per client
+    allInvoices.forEach((invoice: InvoiceType) => {
+      if (invoice?.Shift?.Client) {
+        // Sort all the services for every invoice by start Time
+        const services = _orderBy(
+          invoice.Shift.Services,
+          ["shift_records_services.start_time"],
+          ["asc"]
+        );
+
+        // For every Client, calculate hours for every service and add it to result object
+        invoice.Shift.Client.forEach((client: ClientProfile) => {
+          // Create a new key in result object for every client
+          if (client.accountingCode && !result[client.accountingCode]) {
+            result[client.accountingCode] = {};
+          }
+
+          // Calculate hours for every service and add it to result object
+          services.forEach((service: any, index: Number) => {
+            if (client.accountingCode) {
+              result[client.accountingCode][service.code] =
+                (result[client.accountingCode][service.code] || 0) +
+                (service.rateType === "Fixed"
+                  ? 1
+                  : getMinutesDiff(
+                      service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                      getEndTime(index, services.length, services, invoice)
+                    ) / 60);
+            }
+          });
+        });
+      }
+    });
+
+    // Invoice dates
+    const invoiceDate = formatDateToString(new Date());
+    const invoiceDueDate = formatDateToString(
+      addTimeToDate(new Date(), 13, "days")
+    );
+
+    // Helper fn. to result invoice line item as per Xero format
+    const getLineItems = (services: any) => {
+      const finalLineItems = Object.keys(services).map((service) => ({
+        quantity: services[service],
+        itemCode: service,
+      }));
+      return finalLineItems;
+    };
+
+    const formattedInvoices: any = [];
+    Object.keys(result).forEach((clientId) => {
+      const invoice: Invoice = {
+        type: Invoice.TypeEnum.ACCREC,
+        contact: {
+          contactID: clientId,
+        },
+        date: invoiceDate,
+        dueDate: invoiceDueDate,
+        lineItems: getLineItems(result[clientId]),
+        status: Invoice.StatusEnum.DRAFT,
+      };
+      formattedInvoices.push(invoice);
+    });
+
+    return formattedInvoices;
+  }
+
+  async generateInvoices(props: GenerateInvoicesProps) {
+    // Props
+    const { ids, company } = props;
+
+    // TODO: Create and call a helper fn to check the accounting code and service code used in every invoice
+
+    // Find all the invoices for given company and ids
+    const allInvoices = await this._getInvoiceByIds({ ids, company });
+
+    // Convert the invoices to the format supported by Xero
+    const formatedInvoices = this._getFormatedInvoicesForXero(allInvoices);
+    const invoices: Invoices = {
+      invoices: formatedInvoices,
+    };
+
+    // Send invoices to Xero
+    await xeroService.exportInvoicesToXero({
+      company,
+      invoices,
+    });
+
+    // Finally update the status of invoices
+    await this.updateInvoiceStatus({
+      company,
+      ids,
+      status: "Approved",
+      lastExportedOn: new Date(),
+    });
+
+    return {};
   }
 }
 
