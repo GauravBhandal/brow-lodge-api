@@ -10,8 +10,8 @@ const router = express.Router();
 router.post(
   "/",
   canDo("update", "timesheet"),
-  timesheetSchems.generateInvoices,
-  catchWrap(controller.generateInvoices)
+  timesheetSchems.generateTimesheets,
+  catchWrap(controller.generateTimesheets)
 );
 
 router.put(

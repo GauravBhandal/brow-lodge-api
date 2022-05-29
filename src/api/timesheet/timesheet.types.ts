@@ -42,7 +42,7 @@ export interface UpdateTimesheetStatusProps {
   lastExportedOn: Timesheet["lastExportedOn"];
 }
 
-export interface GenerateInvoicesProps {
+export interface GenerateTimesheetsProps {
   ids: Timesheet["id"][];
   company: Timesheet["company"];
 }

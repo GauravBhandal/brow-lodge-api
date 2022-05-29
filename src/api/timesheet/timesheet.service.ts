@@ -10,7 +10,7 @@ import {
   GetTimesheetsProps,
   UpdateTimesheetOnShiftUpdateProps,
   UpdateTimesheetStatusProps,
-  GenerateInvoicesProps,
+  GenerateTimesheetsProps,
 } from "./timesheet.types";
 import { CustomError } from "../../components/errors";
 import TimesheetErrorCode from "./timesheet.error";
@@ -79,7 +79,7 @@ class TimesheetService {
     return updatedTimesheet;
   }
 
-  async generateInvoices(props: GenerateInvoicesProps) {
+  async generateTimesheets(props: GenerateTimesheetsProps) {
     // Props
     const { ids, company } = props;
 
