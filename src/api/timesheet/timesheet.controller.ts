@@ -63,10 +63,7 @@ class TimesheetController {
       ...queryParams,
     };
 
-    const timesheets = await timesheetService.getTimesheets(
-      props,
-      req.auth.userId
-    );
+    const timesheets = await timesheetService.getTimesheets(props);
 
     res.status(200).json(timesheets);
   }

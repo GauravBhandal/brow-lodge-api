@@ -26,7 +26,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   manager?: StaffProfile["id"];
   archived?: boolean;
   paylevel?: PayLevel["id"];
-  PayLevel?: PayLevel;
+  Paylevel?: PayLevel;
   user?: User["id"];
   User?: User;
   company: Company["id"];

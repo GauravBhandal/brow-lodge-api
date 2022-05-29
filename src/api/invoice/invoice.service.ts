@@ -24,7 +24,7 @@ import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel, ClientProfile } from "../clientProfile";
-import { Service, ServiceModel } from "../service";
+import { ServiceModel } from "../service";
 import { Invoice, Invoices } from "xero-node";
 import {
   addTimeToDate,

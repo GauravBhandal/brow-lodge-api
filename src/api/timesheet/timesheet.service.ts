@@ -19,7 +19,7 @@ import TimesheetErrorCode from "./timesheet.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
-import { StaffProfileModel } from "../staffProfile";
+import { StaffProfile, StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
@@ -276,47 +276,52 @@ class TimesheetService {
        }
      } 
     */
-
     let result: any = {};
 
+    // Map the total hours for per staff per pay item
     timesheets.forEach((timesheet: any) => {
-      timesheet.Shift.Staff.forEach((staff: any) => {
-        const paylevelId = staff.Paylevel.id;
-        const services = timesheet.Shift.Services;
+      if (timesheet?.Shift?.Staff) {
+        // For every staff in the Shift, add total hours per pay item
+        timesheet.Shift.Staff.forEach((staff: StaffProfile) => {
+          if (staff?.Paylevel?.id && timesheet?.Shift?.Services) {
+            const paylevelId = staff.Paylevel.id;
+            const services = timesheet.Shift.Services;
 
-        services.forEach((service: any, index: any) => {
-          const payItem = services[0].PayLevels.find(
-            (level: any) => level.id === paylevelId
-          );
-          if (!payItem) {
-            //errror
-            throw new CustomError(404, TimesheetErrorCode.PAYITEM_NOT_ASSIGNED);
+            // For every service in the Shift
+            services.forEach((service: any, index: any) => {
+              const payLevel = service.PayLevels.find(
+                (level: any) => level.id === paylevelId
+              );
+              const payItem = payLevel.services_pay_levels.dataValues.payitem; //TODO: Please remove data values
+
+              if (staff.accountingCode) {
+                if (!result[staff.accountingCode]) {
+                  result[staff.accountingCode] = {};
+                }
+                if (!result[staff.accountingCode][payItem]) {
+                  result[staff.accountingCode][payItem] = [];
+                }
+                result[staff.accountingCode][payItem].push({
+                  units:
+                    service.rateType === "Fixed"
+                      ? 1
+                      : getMinutesDiff(
+                          service.shift_records_services.dataValues.start_time,
+                          index === services.length - 1
+                            ? timesheet.endDateTime
+                            : services[index + 1].shift_records_services
+                                .dataValues.start_time
+                        ) / 60,
+                  startDate: timesheet.startDateTime,
+                });
+              }
+            });
           }
-          const payItemId = payItem.services_pay_levels.dataValues.payitem; //TODO: Please remove data values
-          if (!result[staff.accountingCode]) {
-            result[staff.accountingCode] = {};
-          }
-          if (!result[staff.accountingCode][payItemId]) {
-            result[staff.accountingCode][payItemId] = [];
-          }
-          result[staff.accountingCode][payItemId].push({
-            units:
-              service.rateType === "Fixed"
-                ? 1
-                : getMinutesDiff(
-                    service.shift_records_services.dataValues.start_time,
-                    index === services.length - 1
-                      ? timesheet.endDateTime
-                      : services[index + 1].shift_records_services.dataValues
-                          .start_time
-                  ) / 60,
-            startDate: timesheet.startDateTime,
-          });
         });
-      });
+      }
     });
 
-    const timesheetData: any = [];
+    const formattedTimesheets: any = [];
     Object.keys(result).forEach((staffId) => {
       const timesheet: any = {
         employeeID: staffId,
@@ -334,10 +339,10 @@ class TimesheetService {
           };
         }),
       };
-      timesheetData.push(timesheet);
+      formattedTimesheets.push(timesheet);
     });
 
-    return timesheetData;
+    return formattedTimesheets;
   }
 
   async generateTimesheets(props: GenerateTimesheetsProps) {
@@ -347,10 +352,10 @@ class TimesheetService {
     // Find all the timesheets for given company and ids
     const timesheets = await this._getTimesheetByIds({ ids, company });
 
+    // TODO: Create and call a helper fn to check the accounting code, pay level and pay item used in every timesheet
+
     // Convert the timesheets to the format supported by Xero
     const formatedTimesheets = this._getFormattedTimesheetsForXero(timesheets);
-
-    console.log("formatedTimesheets", formatedTimesheets);
 
     await xeroService.exportTimesheetToXero({
       company,
