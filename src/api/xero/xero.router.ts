@@ -9,25 +9,25 @@ const router = express.Router();
 
 router.post(
   "/connect",
-  canDo("update", "integration"),
+  canDo("update", "rosterSetting"),
   catchWrap(controller.connectXero)
 );
 
 router.delete(
   "/disconnect",
-  canDo("update", "integration"),
+  canDo("update", "rosterSetting"),
   catchWrap(controller.disconnectXero)
 );
 
 router.get(
   "/is-connected",
-  // canDo("read", "integration"), // We need to call this on different pages
+  // canDo("read", "rosterSetting"), // We need to call this on different pages
   catchWrap(controller.isConnectedToXero)
 );
 
 router.put(
   "/callback",
-  canDo("update", "integration"),
+  canDo("update", "rosterSetting"),
   xeroSchemas.callbackXero,
   catchWrap(controller.callbackXero)
 );
