@@ -15,7 +15,7 @@ class RosterSettingController {
     res.status(200).json(rosterSetting);
   }
 
-  async getrosterSettingById(req: Request, res: Response) {
+  async getRosterSetting(req: Request, res: Response) {
     const props = {
       company: req.auth.companyId,
     };

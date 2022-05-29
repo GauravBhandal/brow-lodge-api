@@ -17,7 +17,7 @@ router.put(
 router.get(
   "/",
   canDo("read", "rosterSetting"),
-  catchWrap(controller.getrosterSettingById)
+  catchWrap(controller.getRosterSetting)
 );
 
 export default router;
