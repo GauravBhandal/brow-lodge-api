@@ -39,6 +39,8 @@ const updateTimesheetStatusSchema = wrapSchema({
 const generateTimesheetsSchema = wrapSchema({
   body: Joi.object().keys({
     ids: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
+    startDate: Joi.date().required(),
+    endDate: Joi.date().required(),
   }),
 });
 

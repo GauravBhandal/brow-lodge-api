@@ -42,15 +42,6 @@ export interface UpdateTimesheetStatusProps {
   lastExportedOn: Timesheet["lastExportedOn"];
 }
 
-export interface GenerateTimesheetsProps {
-  ids: Timesheet["id"][];
-  company: Timesheet["company"];
-}
-
-export interface GenerateTimesheetsProps {
-  ids: Timesheet["id"][];
-  company: Timesheet["company"];
-}
 export interface UpdateTimesheetOnShiftUpdateProps {
   startDateTime: Timesheet["startDateTime"];
   endDateTime: Timesheet["endDateTime"];
@@ -69,7 +60,15 @@ export interface GetTimesheetByIdProps {
   company: Timesheet["company"];
 }
 
-export interface GetTimesheetByIdsProps extends GenerateTimesheetsProps {}
+export interface GetTimesheetByIdsProps {
+  ids: Timesheet["id"][];
+  company: Timesheet["company"];
+}
+
+export interface GenerateTimesheetsProps extends GetTimesheetByIdsProps {
+  startDate: Date;
+  endDate: Date;
+}
 
 export interface GetTimesheetsProps extends QueryParams {
   company: Timesheet["company"];

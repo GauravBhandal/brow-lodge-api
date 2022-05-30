@@ -19,7 +19,7 @@ import { CustomError } from "../../components/errors";
 import InvoiceErrorCode from "./invoice.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { CompanyModel } from "../company";
+import { Company, CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
@@ -265,6 +265,54 @@ class InvoiceService {
     return invoices;
   }
 
+  // Helper fn to check the accounting code in every invoice
+  async _getErrorMessages(allInvoices: InvoiceType[], company: Company["id"]) {
+    // Details of all the error messages
+    const errorMessageDetails: any = [];
+
+    // All the accounting codes list of xero
+    const getAllAccountCodes = await xeroService.getXeroCustomers({ company });
+
+    allInvoices.forEach((invoice: InvoiceType) => {
+      if (invoice?.Shift?.Client) {
+        // Sort all the services for every invoice by start Time
+        const services = _orderBy(
+          invoice.Shift.Services,
+          ["shift_records_services.start_time"],
+          ["asc"]
+        );
+
+        // For every Client, calculate hours for every service and add it to result object
+        invoice.Shift.Client.forEach((client: ClientProfile) => {
+          // To check if accounting code exists or not
+          if (!client.accountingCode) {
+            errorMessageDetails.push(
+              `${client.preferredName} has no accouting code`
+            );
+          } else {
+            if (
+              getAllAccountCodes?.contacts &&
+              getAllAccountCodes?.contacts.length
+            ) {
+              // If accounting code present in xero also or not
+              const IsAccountingCodeValid = getAllAccountCodes?.contacts.filter(
+                (customer: any) => customer.contactID === client.accountingCode
+              );
+              if (IsAccountingCodeValid.length === 0) {
+                errorMessageDetails.push(
+                  `${client.preferredName} accounting code doesn't matched`
+                );
+              }
+            } else {
+              errorMessageDetails.push(`Please sync with xero`);
+            }
+          }
+        });
+      }
+    });
+    return errorMessageDetails;
+  }
+
   // Helper function to convert the given invoices to the format supported by Xero
   _getFormattedInvoicesForXero(allInvoices: InvoiceType[]) {
     /*
@@ -366,6 +414,9 @@ class InvoiceService {
 
     // Find all the invoices for given company and ids
     const allInvoices = await this._getInvoiceByIds({ ids, company });
+
+    // Called a helper fn to check the accounting code in every invoice
+    const getErrorMessages = await this._getErrorMessages(allInvoices, company);
 
     // Convert the invoices to the format supported by Xero
     const formatedInvoices = this._getFormattedInvoicesForXero(allInvoices);

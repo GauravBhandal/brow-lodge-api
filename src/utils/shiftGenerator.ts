@@ -28,7 +28,7 @@ const addDaysInDate = (date: string | Date, number: number, type: any) =>
 const specificDay = (date: string, numberOfWeeks: number, day: number) =>
   moment(date).add(numberOfWeeks, "weeks").isoWeekday(day).format();
 
-const daysDifference = (repeatStartDate: any, repeatEndDate: any) =>
+export const daysDifference = (repeatStartDate: any, repeatEndDate: any) =>
   moment(repeatEndDate).diff(moment(repeatStartDate), "days");
 
 export const getMinutesDiff = (startDate: any, endDate: any) => {
