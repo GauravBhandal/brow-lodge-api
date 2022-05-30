@@ -54,7 +54,7 @@ class StaffDocumentService {
 
   async updateStaffDocument(props: UpdateStaffDocumentProps) {
     // Props
-    const { category, type, staff, company, id, archived } = props;
+    const { category, type, staff, company, id } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find staffDocument by id and company
@@ -74,8 +74,7 @@ class StaffDocumentService {
       staffDocument.category != category ||
       staffDocument.type != type ||
       staffDocument.staff != staff ||
-      staffDocument.company != company ||
-      !archived
+      staffDocument.company != company
     ) {
       // Check if document already exists
       const existingDocument = await StaffDocumentModel.findOne({
@@ -125,6 +124,26 @@ class StaffDocumentService {
         404,
         StaffDocumentErrorCode.STAFF_DOCUMENT_NOT_FOUND
       );
+    }
+
+    if (staffDocument.archived) {
+      const existingDocuments = await StaffDocumentModel.findAll({
+        where: {
+          category: staffDocument.category,
+          type: staffDocument.type,
+          staff: staffDocument.staff,
+          company: staffDocument.company,
+          archived: false,
+        },
+      });
+
+      // If already exists, throw an error
+      if (existingDocuments.length > 0) {
+        throw new CustomError(
+          409,
+          StaffDocumentErrorCode.STAFF_DOCUMENT_ALREADY_EXISTS
+        );
+      }
     }
 
     // Finally, update the staffDocument update the Archive state

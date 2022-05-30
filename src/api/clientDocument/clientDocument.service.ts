@@ -54,7 +54,7 @@ class ClientDocumentService {
 
   async updateClientDocument(props: UpdateClientDocumentProps) {
     // Props
-    const { category, type, client, company, id, archived } = props;
+    const { category, type, client, company, id } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find clientDocument by id and company
@@ -74,8 +74,7 @@ class ClientDocumentService {
       clientDocument.category != category ||
       clientDocument.type != type ||
       clientDocument.client != client ||
-      clientDocument.company != company ||
-      !archived
+      clientDocument.company != company
     ) {
       // Check if document already exists
       const existingDocument = await ClientDocumentModel.findOne({
@@ -125,6 +124,26 @@ class ClientDocumentService {
         404,
         ClientDocumentErrorCode.CLIENT_DOCUMENT_NOT_FOUND
       );
+    }
+
+    if (clientDocument.archived) {
+      // Check if document already exists
+      const existingDocument = await ClientDocumentModel.findAll({
+        where: {
+          category: clientDocument.category,
+          type: clientDocument.type,
+          client: clientDocument.client,
+          company: clientDocument.company,
+          archived: false,
+        },
+      });
+
+      if (existingDocument.length > 0) {
+        throw new CustomError(
+          409,
+          ClientDocumentErrorCode.CLIENT_DOCUMENT_ALREADY_EXISTS
+        );
+      }
     }
 
     // Finally, update the clientDocument update the Archive state

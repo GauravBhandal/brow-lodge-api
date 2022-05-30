@@ -35,7 +35,6 @@ export interface CreateClientDocumentProps {
 
 export interface UpdateClientDocumentProps extends CreateClientDocumentProps {
   id: ClientDocument["id"];
-  archived?: ClientDocument["archived"];
 }
 
 export interface DeleteClientDocumentProps {
