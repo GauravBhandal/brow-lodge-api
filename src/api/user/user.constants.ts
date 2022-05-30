@@ -310,6 +310,11 @@ export const permissions = {
       update: true,
     },
   },
+  leadershipMeeting: {
+    actions: {
+      read: true,
+    },
+  },
   staffDocumentType: {
     actions: {
       read: true,
@@ -396,6 +401,19 @@ export const permissions = {
       create: true,
       delete: true,
       update: true,
+    },
+  },
+  restrictivePracticeRegister: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  participantConfidentialDocument: {
+    actions: {
+      read: true,
     },
   },
 };

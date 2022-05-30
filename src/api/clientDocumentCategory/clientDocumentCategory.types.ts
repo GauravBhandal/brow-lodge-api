@@ -7,12 +7,14 @@ export interface ClientDocumentCategory extends DefaultSchemaConfig {
   name: string;
   company: Company["id"];
   Company?: Company;
+  isConfidential?: boolean;
 }
 
 export interface CreateClientDocumentCategoryProps {
   name: ClientDocumentCategory["name"];
   types: ClientDocumentType["name"][];
   company: ClientDocumentCategory["company"];
+  isConfidential: ClientDocumentCategory["isConfidential"];
 }
 
 export interface UpdateClientDocumentCategoryProps
@@ -30,4 +32,5 @@ export interface GetClientDocumentCategoryByIdProps
 
 export interface GetClientDocumentCategorysProps extends QueryParams {
   company: ClientDocumentCategory["company"];
+  showConfidential: boolean;
 }

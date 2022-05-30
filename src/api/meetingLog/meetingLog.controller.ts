@@ -59,9 +59,11 @@ class MeetingLogController {
       "sort",
       "where",
     ]) as any;
+
     const props = {
       company: req.auth.companyId,
       ...queryParams,
+      canAccessLeadershipMeetings: req.ability.can("read", "leadershipMeeting"),
     };
 
     const meetingLogs = await meetingLogService.getMeetingLogs(

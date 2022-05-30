@@ -26,9 +26,10 @@ const editStaffDocumentSchema = wrapSchema({
     staff: requiredUUIDSchema(),
     category: requiredUUIDSchema(),
     type: requiredUUIDSchema(),
+    archived: Joi.boolean(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
-      .required(),
+      .allow(null),
   }),
 });
 
