@@ -415,6 +415,11 @@ function initializeDoctorVisitModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  DoctorVisitModel.belongsToMany(AttachmentModel, {
+    through: "doctor_visit_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeClientAssetModelAssociations() {
