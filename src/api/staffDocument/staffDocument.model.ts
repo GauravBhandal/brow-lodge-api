@@ -25,6 +25,7 @@ class StaffDocumentModel<
   company!: StaffDocument["company"];
   Company: StaffDocument["Company"];
   Attachments: StaffDocument["Attachments"];
+  archived: StaffDocument["archived"];
 }
 
 modelManager.init(
@@ -40,6 +41,9 @@ modelManager.init(
     },
     expiryDate: {
       type: Sequelize.DATE,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

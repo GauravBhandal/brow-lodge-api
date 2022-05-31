@@ -17,6 +17,7 @@ class ClientDocumentCategoryModel<
   implements ClientDocumentCategory
 {
   name!: ClientDocumentCategory["name"];
+  isConfidential: ClientDocumentCategory["isConfidential"];
   company!: ClientDocumentCategory["company"];
   Company: ClientDocumentCategory["Company"];
 }
@@ -28,6 +29,9 @@ modelManager.init(
     name: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    isConfidential: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

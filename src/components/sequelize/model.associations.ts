@@ -60,6 +60,7 @@ import { LegislationRegisterModel } from "../../api/legislationRegister";
 import { TemplateModel } from "../../api/template";
 import { InternalRegisterModel } from "../../api/internalRegister";
 import { RestrictivePracticeRegisterModel } from "../../api/restrictivePracticeRegister";
+import { ClientContactModel } from "../../api/clientProfile/clientContact";
 import { RosterSettingModel } from "../../api/rosterSetting";
 
 export default {
@@ -125,6 +126,7 @@ export default {
     initializeTemplateModelAssociations();
     initializeInternalRegisterModelAssociations();
     initializeRestrictivePracticeRegisterModelAssociations();
+    initializeClientContactModelAssociations();
     initializeRosterSettingModelAssociations();
   },
 };
@@ -135,6 +137,11 @@ function initializeClientProfileModelAssociations() {
   });
   ClientProfileModel.belongsTo(AttachmentModel, {
     foreignKey: "attachment",
+  });
+  ClientProfileModel.hasMany(ClientContactModel, {
+    foreignKey: "client",
+    sourceKey: "id",
+    as: "Contacts",
   });
 }
 
@@ -968,6 +975,16 @@ function initializeRestrictivePracticeRegisterModelAssociations() {
   });
   RestrictivePracticeRegisterModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: true },
+    as: "Client",
+  });
+}
+
+function initializeClientContactModelAssociations() {
+  ClientContactModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ClientContactModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
 }

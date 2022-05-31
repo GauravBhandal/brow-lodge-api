@@ -13,6 +13,7 @@ const createClientProfileSchema = wrapSchema({
     gender: Joi.string().valid("Male", "Female", "Other").allow(null),
     dateOfBirth: Joi.date().allow(null),
     address: Joi.string().allow("", null),
+    contactNumber: Joi.string().allow("", null),
     emergencyContactName: Joi.string().allow("", null),
     emergencyContactPhone: Joi.string().allow("", null),
     emergencyContactRelation: Joi.string().allow("", null),
@@ -43,6 +44,7 @@ const editClientProfileSchema = wrapSchema({
     gender: Joi.string().valid("Male", "Female", "Other").allow(null),
     dateOfBirth: Joi.date().allow(null),
     address: Joi.string().allow("", null),
+    contactNumber: Joi.string().allow("", null),
     emergencyContactName: Joi.string().allow("", null),
     emergencyContactPhone: Joi.string().allow("", null),
     emergencyContactRelation: Joi.string().allow("", null),
@@ -58,6 +60,17 @@ const editClientProfileSchema = wrapSchema({
     serviceEndDate: Joi.date().allow(null),
     archived: Joi.boolean(),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    contacts: Joi.array()
+      .items(
+        Joi.object().keys({
+          type: Joi.string().required().trim(),
+          name: Joi.string().required().trim(),
+          address: Joi.string().allow("", null),
+          email: Joi.string().allow("", null),
+          phone: Joi.string().allow("", null),
+        })
+      )
+      .allow(null),
   }),
 });
 

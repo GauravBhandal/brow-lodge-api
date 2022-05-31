@@ -28,7 +28,7 @@ class ClientDocumentService {
 
     // Check if document already exists
     const existingDocument = await ClientDocumentModel.findOne({
-      where: { category, type, client, company },
+      where: { category, type, client, company, archived: false },
     });
 
     // If already exists, throw an error
@@ -78,11 +78,11 @@ class ClientDocumentService {
     ) {
       // Check if document already exists
       const existingDocument = await ClientDocumentModel.findOne({
-        where: { category, type, client, company },
+        where: { category, type, client, company, archived: false },
       });
 
       // If already exists, throw an error
-      if (existingDocument) {
+      if (existingDocument && existingDocument.id !== id) {
         throw new CustomError(
           409,
           ClientDocumentErrorCode.CLIENT_DOCUMENT_ALREADY_EXISTS
@@ -113,12 +113,12 @@ class ClientDocumentService {
     // Props
     const { id, company } = props;
 
-    // Find and delete the clientDocument by id and company
-    const clientDocument = await ClientDocumentModel.destroy({
+    // Find clientDocument by id and company
+    const clientDocument = await ClientDocumentModel.findOne({
       where: { id, company },
     });
 
-    // if clientDocument has been deleted, throw an error
+    // if clientDocument not found, throw an error
     if (!clientDocument) {
       throw new CustomError(
         404,
@@ -126,7 +126,36 @@ class ClientDocumentService {
       );
     }
 
-    return clientDocument;
+    if (clientDocument.archived) {
+      // Check if document already exists
+      const existingDocument = await ClientDocumentModel.findAll({
+        where: {
+          category: clientDocument.category,
+          type: clientDocument.type,
+          client: clientDocument.client,
+          company: clientDocument.company,
+          archived: false,
+        },
+      });
+
+      if (existingDocument.length > 0) {
+        throw new CustomError(
+          409,
+          ClientDocumentErrorCode.CLIENT_DOCUMENT_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the clientDocument update the Archive state
+    const [, [updatedClientDocument]] = await ClientDocumentModel.update(
+      { archived: !clientDocument.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedClientDocument;
   }
 
   async getClientDocumentById(props: GetClientDocumentByIdProps) {
@@ -198,7 +227,7 @@ class ClientDocumentService {
 
   async getClientDocuments(props: GetClientDocumentsProps, userId: string) {
     // Props
-    const { page, pageSize, sort, where, company } = props;
+    const { page, pageSize, sort, where, company, showConfidential } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
@@ -221,6 +250,10 @@ class ClientDocumentService {
         },
       };
     }
+
+    const checkIsConfidential = !showConfidential && {
+      isConfidential: { [Op.ne]: "true" },
+    };
 
     const include = [
       {
@@ -246,6 +279,7 @@ class ClientDocumentService {
         as: "Category",
         where: {
           ...filters["Category"],
+          ...checkIsConfidential,
         },
       },
     ];
