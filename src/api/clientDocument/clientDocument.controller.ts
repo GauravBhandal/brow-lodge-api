@@ -68,6 +68,10 @@ class ClientDocumentController {
     const props = {
       company: req.auth.companyId,
       ...queryParams,
+      showConfidential: req.ability.can(
+        "read",
+        "participantConfidentialDocument"
+      ),
     };
 
     const clientDocuments = await clientDocumentService.getClientDocuments(

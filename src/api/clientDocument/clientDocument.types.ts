@@ -19,6 +19,7 @@ export interface ClientDocument extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Attachments?: Attachment[];
+  archived?: boolean;
 }
 
 export interface CreateClientDocumentProps {
@@ -55,4 +56,5 @@ export interface GetClientDocumentByCategoryProps {
 
 export interface GetClientDocumentsProps extends QueryParams {
   company: ClientDocument["company"];
+  showConfidential: boolean;
 }

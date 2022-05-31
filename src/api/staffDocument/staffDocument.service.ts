@@ -28,7 +28,7 @@ class StaffDocumentService {
 
     // Check if document already exists
     const existingDocument = await StaffDocumentModel.findOne({
-      where: { category, type, staff, company },
+      where: { category, type, staff, company, archived: false },
     });
 
     // If already exists, throw an error
@@ -78,11 +78,11 @@ class StaffDocumentService {
     ) {
       // Check if document already exists
       const existingDocument = await StaffDocumentModel.findOne({
-        where: { category, type, staff, company },
+        where: { category, type, staff, company, archived: false },
       });
 
       // If already exists, throw an error
-      if (existingDocument) {
+      if (existingDocument && existingDocument.id !== id) {
         throw new CustomError(
           409,
           StaffDocumentErrorCode.STAFF_DOCUMENT_ALREADY_EXISTS
@@ -113,12 +113,12 @@ class StaffDocumentService {
     // Props
     const { id, company } = props;
 
-    // Find and delete the staffDocument by id and company
-    const staffDocument = await StaffDocumentModel.destroy({
+    // Find staffDocument by id and company
+    const staffDocument = await StaffDocumentModel.findOne({
       where: { id, company },
     });
 
-    // if staffDocument has been deleted, throw an error
+    // if staffDocument not found, throw an error
     if (!staffDocument) {
       throw new CustomError(
         404,
@@ -126,7 +126,36 @@ class StaffDocumentService {
       );
     }
 
-    return staffDocument;
+    if (staffDocument.archived) {
+      const existingDocuments = await StaffDocumentModel.findAll({
+        where: {
+          category: staffDocument.category,
+          type: staffDocument.type,
+          staff: staffDocument.staff,
+          company: staffDocument.company,
+          archived: false,
+        },
+      });
+
+      // If already exists, throw an error
+      if (existingDocuments.length > 0) {
+        throw new CustomError(
+          409,
+          StaffDocumentErrorCode.STAFF_DOCUMENT_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the staffDocument update the Archive state
+    const [, [updatedStaffDocument]] = await StaffDocumentModel.update(
+      { archived: !staffDocument.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedStaffDocument;
   }
 
   async getStaffDocumentById(props: GetStaffDocumentByIdProps) {

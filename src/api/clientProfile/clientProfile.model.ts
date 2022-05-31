@@ -21,6 +21,7 @@ class ClientProfileModel<
   accountingCode: ClientProfile["accountingCode"];
   dateOfBirth: ClientProfile["dateOfBirth"];
   address: ClientProfile["address"];
+  contactNumber: ClientProfile["contactNumber"];
   emergencyContactName: ClientProfile["emergencyContactName"];
   emergencyContactPhone: ClientProfile["emergencyContactPhone"];
   emergencyContactRelation: ClientProfile["emergencyContactRelation"];
@@ -67,6 +68,9 @@ modelManager.init(
       type: Sequelize.DATEONLY,
     },
     address: {
+      type: Sequelize.STRING,
+    },
+    contactNumber: {
       type: Sequelize.STRING,
     },
     emergencyContactName: {
