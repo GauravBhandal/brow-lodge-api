@@ -527,6 +527,11 @@ function initializeClientRiskModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  ClientRiskModel.belongsToMany(AttachmentModel, {
+    through: "client_risk_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeStaffSleepDisturbanceModelAssociations() {
