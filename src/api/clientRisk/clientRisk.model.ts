@@ -20,12 +20,14 @@ class ClientRiskModel<
   riskDescription!: ClientRisk["riskDescription"];
   mitigationStrategy!: ClientRisk["mitigationStrategy"];
   monitoringStrategy!: ClientRisk["monitoringStrategy"];
+  assessmentType: ClientRisk["assessmentType"];
   staff!: ClientRisk["staff"];
   Staff: ClientRisk["Staff"];
   client!: ClientRisk["client"];
   Client: ClientRisk["Client"];
   company!: ClientRisk["company"];
   Company: ClientRisk["Company"];
+  Attachments: ClientRisk["Attachments"];
 }
 
 modelManager.init(
@@ -59,6 +61,9 @@ modelManager.init(
     monitoringStrategy: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    assessmentType: {
+      type: Sequelize.STRING,
     },
   },
   {

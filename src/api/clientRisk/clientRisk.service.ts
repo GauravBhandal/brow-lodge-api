@@ -17,10 +17,21 @@ import { ClientProfileModel } from "../clientProfile";
 import { StaffProfileModel } from "../staffProfile";
 
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
+import { clientRiskAttachmentService } from "./clientRiskAttachment";
+import { AttachmentModel } from "../attachment";
 
 class ClientRiskService {
   async createClientRisk(props: CreateClientRiskProps) {
     const clientRisk = await ClientRiskModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await clientRiskAttachmentService.createBulkClientRiskAttachment({
+        relation: clientRisk.id,
+        attachments: props.attachments,
+      });
+    }
+
     return clientRisk;
   }
 
@@ -44,6 +55,15 @@ class ClientRiskService {
       where: { id, company },
       returning: true,
     });
+
+    // Update attachments
+    if (props.attachments) {
+      await clientRiskAttachmentService.updateBulkClientRiskAttachment({
+        relation: clientRisk.id,
+        attachments: props.attachments,
+      });
+    }
+
     return updatedClientRisk;
   }
 
@@ -82,6 +102,12 @@ class ClientRiskService {
         {
           model: ClientProfileModel,
           as: "Client",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });
