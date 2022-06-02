@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface DoctorVisit extends DefaultSchemaConfig {
   date: Date;
@@ -20,6 +21,7 @@ export interface DoctorVisit extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateDoctorVisitProps {
@@ -35,6 +37,7 @@ export interface CreateDoctorVisitProps {
   staff: DoctorVisit["staff"];
   client: DoctorVisit["client"];
   company: DoctorVisit["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateDoctorVisitProps extends CreateDoctorVisitProps {
