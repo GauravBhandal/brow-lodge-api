@@ -276,11 +276,6 @@ class InvoiceService {
     allInvoices.forEach((invoice: InvoiceType) => {
       if (invoice?.Shift?.Client) {
         // Sort all the services for every invoice by start Time
-        const services = _orderBy(
-          invoice.Shift.Services,
-          ["shift_records_services.start_time"],
-          ["asc"]
-        );
 
         // For every Client, calculate hours for every service and add it to result object
         invoice.Shift.Client.forEach((client: ClientProfile) => {
@@ -310,7 +305,8 @@ class InvoiceService {
         });
       }
     });
-    return errorMessageDetails;
+    const updatedErrorMessages = [...new Set(errorMessageDetails)];
+    return updatedErrorMessages;
   }
 
   // Helper function to convert the given invoices to the format supported by Xero
@@ -417,6 +413,10 @@ class InvoiceService {
 
     // Called a helper fn to check the accounting code in every invoice
     const getErrorMessages = await this._getErrorMessages(allInvoices, company);
+
+    if (getErrorMessages.length > 0) {
+      throw new CustomError(404, getErrorMessages.toString());
+    }
 
     // Convert the invoices to the format supported by Xero
     const formatedInvoices = this._getFormattedInvoicesForXero(allInvoices);
