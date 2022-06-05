@@ -56,6 +56,7 @@ import { legislationRegisterRoutes } from "../api/legislationRegister";
 import { templateRoutes } from "../api/template";
 import { internalRegisterRoutes } from "../api/internalRegister";
 import { restrictivePracticeRegisterRoutes } from "../api/restrictivePracticeRegister";
+import { onCallLogRoutes } from "../api/onCallLogs";
 
 // import { shiftTypeRoutes } from "../api/shiftType";
 // import { shiftRecordRoutes } from "../api/shiftRecord";
@@ -118,6 +119,7 @@ router.use("/legislation-register", legislationRegisterRoutes);
 router.use("/template", templateRoutes);
 router.use("/internal-register", internalRegisterRoutes);
 router.use("/restrictive-practice-register", restrictivePracticeRegisterRoutes);
+router.use("/on-call-log", onCallLogRoutes);
 // router.use("/shift-type", shiftTypeRoutes);
 // router.use("/shift-record", shiftRecordRoutes);
 

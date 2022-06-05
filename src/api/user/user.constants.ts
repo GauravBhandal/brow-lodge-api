@@ -69,6 +69,14 @@ export const permissions = {
       update: true,
     },
   },
+  onCallLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   weightLog: {
     actions: {
       read: true,

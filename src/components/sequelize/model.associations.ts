@@ -55,6 +55,7 @@ import { TemplateModel } from "../../api/template";
 import { InternalRegisterModel } from "../../api/internalRegister";
 import { RestrictivePracticeRegisterModel } from "../../api/restrictivePracticeRegister";
 import { ClientContactModel } from "../../api/clientProfile/clientContact";
+import { OnCallLogModel } from "../../api/onCallLogs";
 
 export default {
   initialize() {
@@ -114,6 +115,7 @@ export default {
     initializeInternalRegisterModelAssociations();
     initializeRestrictivePracticeRegisterModelAssociations();
     initializeClientContactModelAssociations();
+    initializeOnCallLogModelAssociations();
   },
 };
 
@@ -415,6 +417,11 @@ function initializeDoctorVisitModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  DoctorVisitModel.belongsToMany(AttachmentModel, {
+    through: "doctor_visit_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeClientAssetModelAssociations() {
@@ -521,6 +528,11 @@ function initializeClientRiskModelAssociations() {
   ClientRiskModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+  ClientRiskModel.belongsToMany(AttachmentModel, {
+    through: "client_risk_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
 
@@ -899,6 +911,20 @@ function initializeClientContactModelAssociations() {
   });
   ClientContactModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+}
+
+function initializeOnCallLogModelAssociations() {
+  OnCallLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  OnCallLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  OnCallLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client" },
     as: "Client",
   });
 }

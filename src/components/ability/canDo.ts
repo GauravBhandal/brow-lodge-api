@@ -61,6 +61,7 @@ type Subject =
   | "template"
   | "internalRegister"
   | "restrictivePracticeRegister"
+  | "onCallLog"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {
