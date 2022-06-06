@@ -476,8 +476,8 @@ class ShiftRecordService {
 
     // Find all shiftRecords for matching props and company
     const data = await ShiftRecordModel.findAll({
-      offset,
-      limit,
+      // offset, We don't need pagination for this endpoint
+      // limit,
       order,
       where: {
         company,
