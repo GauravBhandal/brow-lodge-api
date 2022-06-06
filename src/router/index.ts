@@ -63,6 +63,10 @@ import { templateRoutes } from "../api/template";
 import { internalRegisterRoutes } from "../api/internalRegister";
 import { restrictivePracticeRegisterRoutes } from "../api/restrictivePracticeRegister";
 import { rosterSettingRoutes } from "../api/rosterSetting";
+import { onCallLogRoutes } from "../api/onCallLogs";
+
+// import { shiftTypeRoutes } from "../api/shiftType";
+// import { shiftRecordRoutes } from "../api/shiftRecord";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -129,5 +133,8 @@ router.use("/template", templateRoutes);
 router.use("/internal-register", internalRegisterRoutes);
 router.use("/restrictive-practice-register", restrictivePracticeRegisterRoutes);
 router.use("/roster-setting", rosterSettingRoutes);
+router.use("/on-call-log", onCallLogRoutes);
+// router.use("/shift-type", shiftTypeRoutes);
+// router.use("/shift-record", shiftRecordRoutes);
 
 export default router;

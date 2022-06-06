@@ -28,6 +28,7 @@ class DoctorVisitModel<
   Client: DoctorVisit["Client"];
   company!: DoctorVisit["company"];
   Company: DoctorVisit["Company"];
+  Attachments: DoctorVisit["Attachments"];
 }
 
 modelManager.init(
