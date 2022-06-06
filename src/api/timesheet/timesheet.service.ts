@@ -18,13 +18,17 @@ import { CustomError } from "../../components/errors";
 import TimesheetErrorCode from "./timesheet.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { CompanyModel } from "../company";
+import { Company, CompanyModel } from "../company";
 import { StaffProfile, StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
-import { getMinutesDiff } from "../../utils/shiftGenerator";
+import {
+  getMinutesDiff,
+  daysDifference,
+  formatDateToString,
+} from "../../utils/shiftGenerator";
 import { xeroService } from "../xero";
 import { PayLevelModel } from "../payLevel";
 import moment from "moment";
@@ -266,7 +270,11 @@ class TimesheetService {
   }
 
   // Helper function to convert the given timesheets to the format supported by Xero
-  _getFormattedTimesheetsForXero(timesheets: Timesheet[]) {
+  _getFormattedTimesheetsForXero(
+    timesheets: Timesheet[],
+    startDate: Date,
+    endDate: Date
+  ) {
     /*
      Creating an empty object to store the staff and payitem details e.g.
      result = {
@@ -322,16 +330,21 @@ class TimesheetService {
     });
 
     const formattedTimesheets: any = [];
+    const totalDaysOfShift = daysDifference(startDate, endDate);
+    const defaultUnits: number[] = [];
+    for (let i = 0; i <= totalDaysOfShift; i++) {
+      defaultUnits.push(0);
+    }
     Object.keys(result).forEach((staffId) => {
       const timesheet: any = {
         employeeID: staffId,
-        startDate: "2022-05-09", //TODO: Fix the dates
-        endDate: "2022-05-22", //TODO: Fix the dates
+        startDate: formatDateToString(startDate),
+        endDate: formatDateToString(endDate),
         status: "DRAFT",
         timesheetLines: Object.keys(result[staffId]).map((payItem) => {
-          const units = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          const units = defaultUnits;
           result[staffId][payItem].forEach((item: any) => {
-            units[moment(item.startDate).isoWeekday()] = item.units;
+            units[daysDifference(startDate, item.startDate)] = item.units;
           });
           return {
             earningsRateID: payItem,
@@ -345,17 +358,109 @@ class TimesheetService {
     return formattedTimesheets;
   }
 
+  // Helper fn to check the accounting code, pay level and pay item used in every timesheet
+  async _getErrorMessages(timesheets: Timesheet[], company: Company["id"]) {
+    // List of accounting codes
+    const getAllAccountCodes = await xeroService.getXeroEmployees({ company });
+
+    // Payitems list stored in xero
+    const payItemsList = await xeroService.getPayItems({ company });
+
+    // Details of all the error messages
+    const errorMessageDetails: any = [];
+
+    timesheets.forEach((timesheet: any) => {
+      if (timesheet?.Shift?.Staff) {
+        // For every staff in the Shift, add total hours per pay item
+        timesheet.Shift.Staff.forEach((staff: StaffProfile) => {
+          // To check if accounting code exists or not
+          if (!staff.accountingCode) {
+            errorMessageDetails.push(
+              `${staff.preferredName} has no accouting code`
+            );
+          } else {
+            if (
+              getAllAccountCodes?.employees &&
+              getAllAccountCodes?.employees.length
+            ) {
+              // If accounting code present in xero also or not
+              const IsAccountingCodeValid =
+                getAllAccountCodes?.employees.filter(
+                  (employee: any) =>
+                    employee.employeeID === staff.accountingCode
+                );
+              if (IsAccountingCodeValid.length === 0) {
+                errorMessageDetails.push(
+                  `${staff.preferredName} accounting code doesn't matched`
+                );
+              }
+            } else {
+              errorMessageDetails.push("Please sync with xero");
+            }
+          }
+          const paylevelId = staff.Paylevel;
+          // Checking if paylevel is assigned to staff
+          if (!paylevelId) {
+            errorMessageDetails.push(`${staff.preferredName} has no paylevel`);
+          }
+          if (staff?.Paylevel?.id && timesheet?.Shift?.Services) {
+            const paylevelId = staff.Paylevel.id;
+            const services = timesheet.Shift.Services;
+
+            // For every service in the Shift
+            services.forEach((service: any, index: any) => {
+              const payItem = service.PayLevels.filter(
+                (level: any) => level.id === paylevelId
+              );
+              // Check that payitem exists
+              if (!payItem) {
+                errorMessageDetails.push(
+                  `${staff.preferredName} has no payitem`
+                );
+              } else {
+                if (
+                  payItemsList?.payItems?.earningsRates &&
+                  payItemsList?.payItems?.earningsRates.length
+                ) {
+                  const payItemExists =
+                    payItemsList?.payItems?.earningsRates.filter(
+                      (item: any) => item.earningsRateID === payItem
+                    );
+
+                  // Check that payitem matches with xero
+                  if (payItemExists?.length === 0) {
+                    errorMessageDetails.push(
+                      `${staff.preferredName} payitem doesn't matched`
+                    );
+                  }
+                } else {
+                  errorMessageDetails.push(`Please sync with xero`);
+                }
+              }
+            });
+          }
+        });
+      }
+    });
+    return errorMessageDetails;
+  }
+
   async generateTimesheets(props: GenerateTimesheetsProps) {
     // Props
-    const { ids, company } = props;
+    const { ids, company, startDate, endDate } = props;
 
     // Find all the timesheets for given company and ids
     const timesheets = await this._getTimesheetByIds({ ids, company });
 
-    // TODO: Create and call a helper fn to check the accounting code, pay level and pay item used in every timesheet
+    // Called a helper fn to check the accounting code, pay level and pay item used in every timesheet
+    const getErrorMessages = await this._getErrorMessages(timesheets, company);
 
     // Convert the timesheets to the format supported by Xero
-    const formatedTimesheets = this._getFormattedTimesheetsForXero(timesheets);
+    const formatedTimesheets = this._getFormattedTimesheetsForXero(
+      timesheets,
+      startDate,
+      endDate
+    );
 
     await xeroService.exportTimesheetToXero({
       company,
