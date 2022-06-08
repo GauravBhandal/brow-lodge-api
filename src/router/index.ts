@@ -58,6 +58,7 @@ import { internalRegisterRoutes } from "../api/internalRegister";
 import { restrictivePracticeRegisterRoutes } from "../api/restrictivePracticeRegister";
 import { onCallLogRoutes } from "../api/onCallLogs";
 import { participantCommunicationLogRoutes } from "../api/participantCommunicationLog";
+import { staffSupervisionLogRoutes } from "../api/staffSupervisionLog";
 
 // import { shiftTypeRoutes } from "../api/shiftType";
 // import { shiftRecordRoutes } from "../api/shiftRecord";
@@ -122,6 +123,7 @@ router.use("/internal-register", internalRegisterRoutes);
 router.use("/restrictive-practice-register", restrictivePracticeRegisterRoutes);
 router.use("/on-call-log", onCallLogRoutes);
 router.use("/participant-communication-log", participantCommunicationLogRoutes);
+router.use("/staff-supervision-log", staffSupervisionLogRoutes);
 // router.use("/shift-type", shiftTypeRoutes);
 // router.use("/shift-record", shiftRecordRoutes);
 
