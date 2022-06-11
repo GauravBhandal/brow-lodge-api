@@ -64,6 +64,7 @@ type Subject =
   | "onCallLog"
   | "participantCommunicationLog"
   | "staffSupervisionLog"
+  | "participantMedicationChart"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {

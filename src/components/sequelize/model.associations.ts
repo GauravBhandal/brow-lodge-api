@@ -58,6 +58,7 @@ import { ClientContactModel } from "../../api/clientProfile/clientContact";
 import { OnCallLogModel } from "../../api/onCallLogs";
 import { ParticipantCommunicationLogModel } from "../../api/participantCommunicationLog";
 import { StaffSupervisionLogModel } from "../../api/staffSupervisionLog";
+import { ParticipantMedicationChartModel } from "../../api/participantMedicationChart";
 
 export default {
   initialize() {
@@ -120,6 +121,7 @@ export default {
     initializeOnCallLogModelAssociations();
     initializeParticipantCommunicationLogModelAssociations();
     initializeStaffSupervisionLogModelAssociations();
+    initializeParticipantMedicationChartModelAssociations();
   },
 };
 
@@ -962,6 +964,25 @@ function initializeStaffSupervisionLogModelAssociations() {
   });
   StaffSupervisionLogModel.belongsToMany(AttachmentModel, {
     through: "staff_supervision_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeParticipantMedicationChartModelAssociations() {
+  ParticipantMedicationChartModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ParticipantMedicationChartModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ParticipantMedicationChartModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  ParticipantMedicationChartModel.belongsToMany(AttachmentModel, {
+    through: "participant_medication_charts_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
