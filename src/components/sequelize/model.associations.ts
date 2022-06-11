@@ -57,6 +57,7 @@ import { RestrictivePracticeRegisterModel } from "../../api/restrictivePracticeR
 import { ClientContactModel } from "../../api/clientProfile/clientContact";
 import { OnCallLogModel } from "../../api/onCallLogs";
 import { ParticipantCommunicationLogModel } from "../../api/participantCommunicationLog";
+import { StaffSupervisionLogModel } from "../../api/staffSupervisionLog";
 
 export default {
   initialize() {
@@ -118,6 +119,7 @@ export default {
     initializeClientContactModelAssociations();
     initializeOnCallLogModelAssociations();
     initializeParticipantCommunicationLogModelAssociations();
+    initializeStaffSupervisionLogModelAssociations();
   },
 };
 
@@ -945,6 +947,21 @@ function initializeParticipantCommunicationLogModelAssociations() {
   });
   ParticipantCommunicationLogModel.belongsToMany(AttachmentModel, {
     through: "participant_communication_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeStaffSupervisionLogModelAssociations() {
+  StaffSupervisionLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  StaffSupervisionLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  StaffSupervisionLogModel.belongsToMany(AttachmentModel, {
+    through: "staff_supervision_logs_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
