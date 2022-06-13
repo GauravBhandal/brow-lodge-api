@@ -62,6 +62,9 @@ import { InternalRegisterModel } from "../../api/internalRegister";
 import { RestrictivePracticeRegisterModel } from "../../api/restrictivePracticeRegister";
 import { ClientContactModel } from "../../api/clientProfile/clientContact";
 import { OnCallLogModel } from "../../api/onCallLogs";
+import { ParticipantCommunicationLogModel } from "../../api/participantCommunicationLog";
+import { StaffSupervisionLogModel } from "../../api/staffSupervisionLog";
+import { ParticipantMedicationChartModel } from "../../api/participantMedicationChart";
 import { RosterSettingModel } from "../../api/rosterSetting";
 
 export default {
@@ -129,6 +132,9 @@ export default {
     initializeRestrictivePracticeRegisterModelAssociations();
     initializeClientContactModelAssociations();
     initializeOnCallLogModelAssociations();
+    initializeParticipantCommunicationLogModelAssociations();
+    initializeStaffSupervisionLogModelAssociations();
+    initializeParticipantMedicationChartModelAssociations();
     initializeRosterSettingModelAssociations();
   },
 };
@@ -1012,6 +1018,59 @@ function initializeOnCallLogModelAssociations() {
   OnCallLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client" },
     as: "Client",
+  });
+}
+
+function initializeParticipantCommunicationLogModelAssociations() {
+  ParticipantCommunicationLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ParticipantCommunicationLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ParticipantCommunicationLogModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  ParticipantCommunicationLogModel.belongsToMany(AttachmentModel, {
+    through: "participant_communication_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeStaffSupervisionLogModelAssociations() {
+  StaffSupervisionLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  StaffSupervisionLogModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  StaffSupervisionLogModel.belongsToMany(AttachmentModel, {
+    through: "staff_supervision_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeParticipantMedicationChartModelAssociations() {
+  ParticipantMedicationChartModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ParticipantMedicationChartModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ParticipantMedicationChartModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  ParticipantMedicationChartModel.belongsToMany(AttachmentModel, {
+    through: "participant_medication_charts_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
 
