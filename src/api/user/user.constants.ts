@@ -371,6 +371,14 @@ export const permissions = {
       update: true,
     },
   },
+  staffSupervisionLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   expenseReimbursement: {
     actions: {
       read: true,
@@ -404,6 +412,22 @@ export const permissions = {
     },
   },
   restrictivePracticeLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  participantMedicationChart: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  participantCommunicationLog: {
     actions: {
       read: true,
       create: true,
