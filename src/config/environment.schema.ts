@@ -24,6 +24,7 @@ const environmentSchema = Joi.object().keys({
 
   XERO_CLIENT_ID: Joi.string().required(),
   XERO_CLIENT_SECRET: Joi.string().required(),
+  XERO_REDIRECT_URI: Joi.string().required(),
 });
 
 export default environmentSchema;

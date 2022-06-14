@@ -22,4 +22,5 @@ export interface ProcessDotEnv {
 
   XERO_CLIENT_ID: string;
   XERO_CLIENT_SECRET: string;
+  XERO_REDIRECT_URI: string;
 }

@@ -7,7 +7,7 @@ const scopes =
 const xero = new XeroClient({
   clientId: config.XERO_CLIENT_ID,
   clientSecret: config.XERO_CLIENT_SECRET,
-  redirectUris: ["http://localhost:3000/roster/settings"],
+  redirectUris: [config.XERO_REDIRECT_URI],
   scopes: scopes.split(" "),
 });
 
