@@ -828,6 +828,12 @@ function initializeShiftRecordModelAssociations() {
     foreignKey: "shift",
     otherKey: "service",
   });
+  ShiftRecordModel.belongsTo(ShiftRepeatModel, {
+    foreignKey: {
+      name: "repeat",
+    },
+    as: "Repeat",
+  });
 }
 
 function initializeShiftRepeatModelAssociations() {
