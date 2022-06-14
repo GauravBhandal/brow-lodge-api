@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS "pay_levels" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_pay_levels_company ON pay_levels(company);
 ALTER TABLE "pay_levels" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "services" (
@@ -25,6 +26,7 @@ CREATE TABLE IF NOT EXISTS "services" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_services_company ON services(company);
 ALTER TABLE "services" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "shift_repeats" (
@@ -36,6 +38,7 @@ CREATE TABLE IF NOT EXISTS "shift_repeats" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_shift_repeats_company ON shift_repeats(company);
 ALTER TABLE "shift_repeats" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "shift_records" (
@@ -50,6 +53,7 @@ CREATE TABLE IF NOT EXISTS "shift_records" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_shift_records_company ON shift_records(company);
 ALTER TABLE "shift_records" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "shift_records_services" (
@@ -100,6 +104,7 @@ CREATE TABLE IF NOT EXISTS "timesheets" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_timesheets_company ON timesheets(company);
 ALTER TABLE "timesheets" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "invoices" (
@@ -116,6 +121,7 @@ CREATE TABLE IF NOT EXISTS "invoices" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_invoices_company ON invoices(company);
 ALTER TABLE "invoices" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "client_profiles" ADD COLUMN "accounting_code" VARCHAR;
@@ -133,6 +139,7 @@ CREATE TABLE IF NOT EXISTS "integrations" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_integrations_company ON integrations(company);
 ALTER TABLE "integrations" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "integrations_external_data" (
@@ -146,6 +153,7 @@ CREATE TABLE IF NOT EXISTS "integrations_external_data" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_integrations_external_data_company ON integrations_external_data(company);
 ALTER TABLE "integrations_external_data" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "services_pay_levels" (
@@ -159,6 +167,7 @@ CREATE TABLE IF NOT EXISTS "services_pay_levels" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_services_pay_levels_company ON services_pay_levels(company);
 ALTER TABLE "services_pay_levels" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "staff_profiles" ADD COLUMN "paylevel" UUID REFERENCES "pay_levels" ("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -172,6 +181,7 @@ CREATE TABLE IF NOT EXISTS "roster_setting" (
   "deleted" TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY ("id")
 );
+CREATE INDEX idx_roster_setting_company ON roster_setting(company);
 ALTER TABLE "roster_setting" ENABLE ROW LEVEL SECURITY;
 `;
 
