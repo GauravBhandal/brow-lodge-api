@@ -455,6 +455,10 @@ class TimesheetService {
     // Called a helper fn to check the accounting code, pay level and pay item used in every timesheet
     const getErrorMessages = await this._getErrorMessages(timesheets, company);
 
+    if (getErrorMessages.length > 0) {
+      throw new CustomError(404, getErrorMessages.toString());
+    }
+
     // Convert the timesheets to the format supported by Xero
     const formatedTimesheets = this._getFormattedTimesheetsForXero(
       timesheets,
