@@ -1,6 +1,8 @@
 import { omit as _omit } from "lodash";
 import { Op } from "sequelize";
+import moment from "moment";
 
+import makeMoment from "../../components/moment";
 import ShiftRecordModel from "./shiftRecord.model";
 import {
   CreateShiftRecordInBulkProps,
@@ -31,20 +33,21 @@ import { shiftRecordServiceService } from "./shiftRecordService";
 import { ServiceModel } from "../service";
 import { TimesheetModel, timesheetService } from "../timesheet";
 import { InvoiceModel, invoiceService } from "../invoice";
-import moment from "moment";
 
 const getTimeForSelect = (date: any) =>
-  date ? moment(date).format("HH:mm") : null;
+  date ? makeMoment(date).format("HH:mm") : null;
 
 const getStartDate = (date: any, time: any) => {
-  return moment(
+  return makeMoment(
     `${formatDateToString(date)}
   ${getTimeForSelect(time)}`
   ).format();
 };
 
 const getDateDiff = (startDate: any, endDate: any) => {
-  return moment.duration(moment(endDate).diff(moment(startDate))).asMinutes();
+  return moment
+    .duration(makeMoment(endDate).diff(makeMoment(startDate)))
+    .asMinutes();
 };
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {

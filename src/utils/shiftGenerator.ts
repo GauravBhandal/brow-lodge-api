@@ -1,6 +1,7 @@
-import moment, { Moment } from "moment";
+import moment from "moment";
 
-import { CreateShiftRecordInBulkProps, ShiftRecord } from "../api/shiftRecord";
+import makeMoment from "../components/moment";
+import { CreateShiftRecordInBulkProps } from "../api/shiftRecord";
 
 const daysOfWeek = [
   "sunday",
@@ -13,27 +14,27 @@ const daysOfWeek = [
 ];
 
 export const addTimeToDate = (date: any, number: any, type: any) => {
-  const newDate = moment(date).add(number, type);
+  const newDate = makeMoment(date).add(number, type);
   return newDate;
 };
 
 export const formatDateToString = (date: any) =>
-  moment(date).format("YYYY-MM-DD");
+  makeMoment(date).format("YYYY-MM-DD");
 
-const convertDateToMoment = (date: string) => moment(date).format();
+const convertDateToMoment = (date: string) => makeMoment(date).format();
 
 const addDaysInDate = (date: string | Date, number: number, type: any) =>
-  moment(date).add(number, type).format();
+  makeMoment(date).add(number, type).format();
 
 const specificDay = (date: string, numberOfWeeks: number, day: number) =>
-  moment(date).add(numberOfWeeks, "weeks").isoWeekday(day).format();
+  makeMoment(date).add(numberOfWeeks, "weeks").isoWeekday(day).format();
 
 export const daysDifference = (repeatStartDate: any, repeatEndDate: any) =>
-  moment(repeatEndDate).diff(moment(repeatStartDate), "days");
+  makeMoment(repeatEndDate).diff(makeMoment(repeatStartDate), "days");
 
 export const getMinutesDiff = (startDate: any, endDate: any) => {
-  const start = moment(startDate);
-  const end = moment(endDate);
+  const start = makeMoment(startDate);
+  const end = makeMoment(endDate);
   return moment.duration(end.diff(start)).asMinutes();
 };
 
@@ -43,7 +44,7 @@ const getOccurrenceswithEndDate = (
   every: any,
   frequency: any
 ) => {
-  repeatStartDate = moment(repeatStartDate).startOf("day");
+  repeatStartDate = makeMoment(repeatStartDate).startOf("day");
   let days = daysDifference(repeatStartDate, repeatEndDate);
   if (frequency === "weekly") {
     days = Math.floor(days / 7);
