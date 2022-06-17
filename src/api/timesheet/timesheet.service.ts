@@ -31,7 +31,6 @@ import {
 } from "../../utils/shiftGenerator";
 import { xeroService } from "../xero";
 import { PayLevelModel } from "../payLevel";
-import moment from "moment";
 
 class TimesheetService {
   async createTimesheetInBulk(props: CreateTimesheetProps) {

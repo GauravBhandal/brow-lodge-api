@@ -15,7 +15,7 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
-import moment from "moment";
+import makeMoment from "../../components/moment";
 
 class ServiceService {
   async createService(props: CreateServiceProps) {
@@ -198,7 +198,7 @@ class ServiceService {
         ...filters["primaryFilters"],
         effectiveDate: {
           [Op.or]: {
-            [Op.lte]: moment().startOf("day").format(),
+            [Op.lte]: makeMoment().startOf("day").format(),
             [Op.eq]: null,
           },
         },
