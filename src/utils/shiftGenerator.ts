@@ -26,8 +26,17 @@ const convertDateToMoment = (date: string) => makeMoment(date).format();
 const addDaysInDate = (date: string | Date, number: number, type: any) =>
   makeMoment(date).add(number, type).format();
 
-const specificDay = (date: string, numberOfWeeks: number, day: number) =>
-  makeMoment(date).add(numberOfWeeks, "weeks").isoWeekday(day).format();
+const specificDay = (date: string, numberOfWeeks: number, day: string) => {
+  const dayOfDate = makeMoment(date).isoWeekday() === 7;
+  let finalDate: any = date;
+  if (dayOfDate && day !== "sunday") {
+    finalDate = makeMoment(date).add(1, "weeks");
+  }
+  return makeMoment(finalDate)
+    .add(numberOfWeeks, "weeks")
+    .isoWeekday(day)
+    .format();
+};
 
 export const daysDifference = (repeatStartDate: any, repeatEndDate: any) =>
   makeMoment(repeatEndDate).diff(makeMoment(repeatStartDate), "days");
@@ -45,12 +54,12 @@ const getOccurrenceswithEndDate = (
   frequency: any
 ) => {
   repeatStartDate = makeMoment(repeatStartDate).startOf("day");
-  let days = daysDifference(repeatStartDate, repeatEndDate);
+  let days = daysDifference(repeatStartDate, repeatEndDate) + 1;
   if (frequency === "weekly") {
-    days = Math.floor(days / 7);
+    days = Math.floor((days - 1) / 7) + 1;
   }
-  days = Math.floor(days / every);
-  return days + 1;
+  days = Math.floor((days - 1) / every) + 1;
+  return days;
 };
 
 const isDaySelected = (data: any, value: any) => {
@@ -97,15 +106,29 @@ export const createShifts = (
         getMinutes,
         "minutes"
       );
-      finalResult.push({
-        company,
-        client,
-        staff,
-        break: data.break,
-        startDateTime: shiftStartDateTime,
-        endDateTime: shiftEndDateTime,
-        repeat,
-      });
+      if (repeatEndDate) {
+        if (daysDifference(shiftStartDateTime, repeatEndDate) >= 0) {
+          finalResult.push({
+            company,
+            client,
+            staff,
+            break: data.break,
+            startDateTime: shiftStartDateTime,
+            endDateTime: shiftEndDateTime,
+            repeat,
+          });
+        }
+      } else {
+        finalResult.push({
+          company,
+          client,
+          staff,
+          break: data.break,
+          startDateTime: shiftStartDateTime,
+          endDateTime: shiftEndDateTime,
+          repeat,
+        });
+      }
     }
   } else {
     for (let day = 0; day < 7; day++) {
@@ -116,7 +139,7 @@ export const createShifts = (
           const shiftStartDateTime = specificDay(
             repeatStartDate,
             i * every,
-            day
+            daysOfWeek[day]
           );
 
           const shiftEndDateTime = addDaysInDate(
@@ -124,7 +147,22 @@ export const createShifts = (
             getMinutes,
             "minutes"
           );
-          if (daysDifference(repeatStartDate, shiftStartDateTime) >= 0) {
+          if (repeatEndDate) {
+            if (
+              daysDifference(repeatStartDate, shiftStartDateTime) >= 0 &&
+              daysDifference(shiftStartDateTime, repeatEndDate) >= 0
+            ) {
+              finalResult.push({
+                company,
+                client,
+                staff,
+                break: data.break,
+                startDateTime: shiftStartDateTime,
+                endDateTime: shiftEndDateTime,
+                repeat,
+              });
+            }
+          } else if (daysDifference(repeatStartDate, shiftStartDateTime) >= 0) {
             finalResult.push({
               company,
               client,
