@@ -31,6 +31,8 @@ const specificDay = (date: string, numberOfWeeks: number, day: string) => {
   let finalDate: any = date;
   if (dayOfDate && day !== "sunday") {
     finalDate = makeMoment(date).add(1, "weeks");
+  } else if (day === "sunday") {
+    finalDate = makeMoment(date).add(-1, "weeks");
   }
   return makeMoment(finalDate)
     .add(numberOfWeeks, "weeks")
