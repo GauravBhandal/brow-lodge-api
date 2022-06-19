@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface ClientAsset extends DefaultSchemaConfig {
   date: Date;
@@ -15,6 +16,7 @@ export interface ClientAsset extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateClientAssetProps {
@@ -25,6 +27,7 @@ export interface CreateClientAssetProps {
   staff: ClientAsset["staff"];
   client: ClientAsset["client"];
   company: ClientAsset["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateClientAssetProps extends CreateClientAssetProps {

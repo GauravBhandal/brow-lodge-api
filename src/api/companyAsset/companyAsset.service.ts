@@ -15,10 +15,20 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
+import { companyAssetAttachmentService } from "./companyAssetAttachment";
+import { AttachmentModel } from "../attachment";
 
 class CompanyAssetService {
   async createCompanyAsset(props: CreateCompanyAssetProps) {
     const companyAsset = await CompanyAssetModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await companyAssetAttachmentService.createBulkCompanyAssetAttachment({
+        relation: companyAsset.id,
+        attachments: props.attachments,
+      });
+    }
     return companyAsset;
   }
 
@@ -45,6 +55,14 @@ class CompanyAssetService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments) {
+      await companyAssetAttachmentService.updateBulkCompanyAssetAttachment({
+        relation: companyAsset.id,
+        attachments: props.attachments,
+      });
+    }
     return updatedCompanyAsset;
   }
 
@@ -79,6 +97,12 @@ class CompanyAssetService {
         {
           model: StaffProfileModel,
           as: "Staff",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });

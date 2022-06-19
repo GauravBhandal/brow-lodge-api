@@ -16,10 +16,22 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 
 import { getFilters } from "../../components/filters";
+import { conflictOfInterestAttachmentService } from "./conflictOfInterestAttachment";
+import { AttachmentModel } from "../attachment";
 
 class ConflictOfInterestService {
   async createConflictOfInterest(props: CreateConflictOfInterestProps) {
     const conflictOfInterest = await ConflictOfInterestModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await conflictOfInterestAttachmentService.createBulkConflictOfInterestAttachment(
+        {
+          relation: conflictOfInterest.id,
+          attachments: props.attachments,
+        }
+      );
+    }
     return conflictOfInterest;
   }
 
@@ -47,6 +59,16 @@ class ConflictOfInterestService {
         where: { id, company },
         returning: true,
       });
+
+    // Update attachments
+    if (props.attachments) {
+      await conflictOfInterestAttachmentService.updateBulkConflictOfInterestAttachment(
+        {
+          relation: conflictOfInterest.id,
+          attachments: props.attachments,
+        }
+      );
+    }
     return updatedConflictOfInterest;
   }
 
@@ -84,6 +106,12 @@ class ConflictOfInterestService {
         {
           model: StaffProfileModel,
           as: "Staff",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });

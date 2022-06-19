@@ -18,6 +18,7 @@ class InternalRegisterModel<
 {
   notes: InternalRegister["notes"];
   name!: InternalRegister["name"];
+  nextReviewDate: InternalRegister["nextReviewDate"];
   version!: InternalRegister["version"];
   company!: InternalRegister["company"];
   Company: InternalRegister["Company"];
@@ -31,6 +32,7 @@ modelManager.init(
     notes: {
       type: Sequelize.STRING,
     },
+    nextReviewDate: { type: Sequelize.DATE },
     name: {
       type: Sequelize.STRING,
       allowNull: false,
