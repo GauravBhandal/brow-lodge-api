@@ -411,6 +411,7 @@ class TimesheetService {
               const payItem = service.PayLevels.filter(
                 (level: any) => level.id === paylevelId
               );
+
               // Check that payitem exists
               if (!payItem) {
                 errorMessageDetails.push(
@@ -423,7 +424,9 @@ class TimesheetService {
                 ) {
                   const payItemExists =
                     payItemsList?.payItems?.earningsRates.filter(
-                      (item: any) => item.earningsRateID === payItem
+                      (item: any) =>
+                        item.earningsRateID ===
+                        payItem[0].services_pay_levels?.dataValues?.payitem
                     );
 
                   // Check that payitem matches with xero
