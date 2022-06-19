@@ -8,6 +8,7 @@ import {
   DeleteStaffProfileProps,
   GetStaffProfileByIdProps,
   GetStaffProfilesProps,
+  GetStaffProfileByUserProps,
 } from "./staffProfile.types";
 import { CustomError } from "../../components/errors";
 import StaffProfileErrorCode from "./staffProfile.error";
@@ -16,6 +17,7 @@ import { getSortingParams } from "../../components/sorting";
 import { getFilters } from "../../components/filters";
 import { CompanyModel } from "../company";
 import { UserModel } from "../user";
+import { PayLevelModel } from "../payLevel";
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
@@ -83,6 +85,43 @@ class StaffProfileService {
           as: "User",
         },
         { model: StaffProfileModel, as: "Manager" },
+        {
+          model: PayLevelModel,
+          required: false,
+          as: "Paylevel",
+        },
+      ],
+    });
+
+    // If no staffProfile has been found, then throw an error
+    if (!staffProfile) {
+      throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
+    }
+
+    return staffProfile;
+  }
+
+  async getStaffProfileByUser(props: GetStaffProfileByUserProps) {
+    // Props
+    const { user, company } = props;
+
+    // Find the staffProfile by id and company
+    const staffProfile = await StaffProfileModel.findOne({
+      where: { user, company },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: UserModel,
+          as: "User",
+        },
+        { model: StaffProfileModel, as: "Manager" },
+        {
+          model: PayLevelModel,
+          required: false,
+          as: "Paylevel",
+        },
       ],
     });
 
@@ -129,6 +168,14 @@ class StaffProfileService {
         },
       },
       { model: StaffProfileModel, as: "Manager" },
+      {
+        model: PayLevelModel,
+        where: {
+          ...filters["Paylevel"],
+        },
+        required: false,
+        as: "Paylevel",
+      },
     ];
 
     // Count total staffProfiles in the given company

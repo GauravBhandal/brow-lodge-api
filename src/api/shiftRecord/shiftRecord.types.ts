@@ -3,43 +3,62 @@ import { Company } from "../company";
 import { QueryParams } from "../../common/types";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
-import { ShiftType } from "../shiftType";
+import { ShiftRepeat } from "../shiftRepeat";
+import { Service } from "../service";
+import { ServiceProp } from "./shiftRecordService";
+import { User } from "../user";
 
 export interface ShiftRecord extends DefaultSchemaConfig {
   startDateTime: Date;
   endDateTime: Date;
-  staff?: StaffProfile["id"];
-  client?: ClientProfile["id"];
+  break: Number;
+  Staff?: StaffProfile[];
+  Client?: ClientProfile[];
+  user: User["id"];
   company: Company["id"];
   Company?: Company;
-  Types?: ShiftType[];
-}
-
-interface TypeProp {
-  type: ShiftType["id"];
-  startTime: Date;
+  Services?: Service[];
+  repeat?: ShiftRepeat["id"];
 }
 
 export interface CreateShiftRecordProps {
   startDateTime: ShiftRecord["startDateTime"];
   endDateTime: ShiftRecord["endDateTime"];
-  staff: ShiftRecord["staff"];
-  client: ShiftRecord["client"];
+  break: ShiftRecord["break"];
+  staff: StaffProfile["id"][];
+  client: ClientProfile["id"][];
   company: ShiftRecord["company"];
-  types: TypeProp[];
+  services: ServiceProp[];
+}
+
+export interface CreateShiftRecordInBulkProps {
+  startDateTime: ShiftRecord["startDateTime"];
+  endDateTime: ShiftRecord["endDateTime"];
+  break: ShiftRecord["break"];
+  staff: StaffProfile["id"][];
+  client: ClientProfile["id"][];
+  company: ShiftRecord["company"];
+  services: ServiceProp[];
+  repeat: any; // TODO: Remove any
 }
 
 export interface UpdateShiftRecordProps extends CreateShiftRecordProps {
   id: ShiftRecord["id"];
+  updateRecurring?: Boolean;
 }
 
 export interface DeleteShiftRecordProps {
   id: ShiftRecord["id"];
   company: ShiftRecord["company"];
+  deleteRecurring?: Boolean;
 }
 
 export interface GetShiftRecordByIdProps extends DeleteShiftRecordProps {}
 
 export interface GetShiftRecordsProps extends QueryParams {
   company: ShiftRecord["company"];
+}
+export interface GetMyShiftRecordsProps extends QueryParams {
+  company: ShiftRecord["company"];
+  user: ShiftRecord["id"];
 }

@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import { staffProfileService } from "../staffProfile";
 
 import shiftRecordService from "./shiftRecord.service";
 
@@ -10,9 +11,15 @@ class ShiftRecordController {
       ...req.body,
     };
 
-    const shiftRecord = await shiftRecordService.createShiftRecord(props);
-
-    res.status(200).json(shiftRecord);
+    if (req.body.repeat) {
+      const shiftRecords = await shiftRecordService.createShiftRecordInBulk(
+        props
+      );
+      res.status(200).json(shiftRecords);
+    } else {
+      const shiftRecord = await shiftRecordService.createShiftRecord(props);
+      res.status(200).json(shiftRecord);
+    }
   }
 
   async updateShiftRecord(req: Request, res: Response) {
@@ -33,6 +40,7 @@ class ShiftRecordController {
     const props = {
       id: shiftRecordId,
       company: req.auth.companyId,
+      ...req.body,
     };
 
     await shiftRecordService.deleteShiftRecord(props);
@@ -52,6 +60,34 @@ class ShiftRecordController {
     res.status(200).json(shiftRecord);
   }
 
+  async getMyShiftRecords(req: Request, res: Response) {
+    const queryParams = _pick(req.query, [
+      "page",
+      "pageSize",
+      "sort",
+      "where",
+    ]) as any;
+    const staffProps = {
+      company: req.auth.companyId,
+      user: req.auth.userId,
+    };
+
+    const staffProfile = await staffProfileService.getStaffProfileByUser(
+      staffProps
+    );
+
+    const shiftProps = {
+      company: req.auth.companyId,
+      ...queryParams,
+      where: {
+        "Staff.id_eq": staffProfile.id,
+        ...queryParams["where"],
+      },
+    };
+    const shiftRecords = await shiftRecordService.getShiftRecords(shiftProps);
+
+    res.status(200).json(shiftRecords);
+  }
   async getShiftRecords(req: Request, res: Response) {
     const queryParams = _pick(req.query, [
       "page",

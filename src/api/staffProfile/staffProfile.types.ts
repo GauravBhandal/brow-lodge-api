@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { User } from "../user";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
+import { PayLevel } from "../payLevel";
 
 export interface StaffProfile extends DefaultSchemaConfig {
   firstName: string;
@@ -11,6 +12,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   email: string;
   gender?: "male" | "female" | "other";
   dateOfBirth?: Date;
+  accountingCode?: string;
   personalContactNumber?: string;
   workContactNumber?: string;
   address?: string;
@@ -23,6 +25,8 @@ export interface StaffProfile extends DefaultSchemaConfig {
   employmentType?: string;
   manager?: StaffProfile["id"];
   archived?: boolean;
+  paylevel?: PayLevel["id"];
+  Paylevel?: PayLevel;
   user?: User["id"];
   User?: User;
   company: Company["id"];
@@ -36,6 +40,7 @@ export interface CreateStaffProfileProps {
   preferredName: StaffProfile["preferredName"];
   email: StaffProfile["email"];
   gender?: StaffProfile["gender"];
+  accountingCode?: StaffProfile["accountingCode"];
   dateOfBirth?: StaffProfile["dateOfBirth"];
   personalContactNumber?: StaffProfile["personalContactNumber"];
   workContactNumber?: StaffProfile["workContactNumber"];
@@ -51,6 +56,7 @@ export interface CreateStaffProfileProps {
   user: StaffProfile["user"];
   company: StaffProfile["company"];
   attachment?: StaffProfile["attachment"];
+  paylevel?: StaffProfile["paylevel"];
 }
 
 export interface UpdateStaffProfileProps extends CreateStaffProfileProps {
@@ -59,6 +65,11 @@ export interface UpdateStaffProfileProps extends CreateStaffProfileProps {
 
 export interface DeleteStaffProfileProps {
   id: StaffProfile["id"];
+  company: StaffProfile["company"];
+}
+
+export interface GetStaffProfileByUserProps {
+  user: StaffProfile["user"];
   company: StaffProfile["company"];
 }
 
