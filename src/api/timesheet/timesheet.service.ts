@@ -1,4 +1,5 @@
-import { omit as _omit } from "lodash";
+import { omit as _omit, orderBy as _orderBy } from "lodash";
+
 import { Op } from "sequelize";
 
 import TimesheetModel from "./timesheet.model";
@@ -292,7 +293,11 @@ class TimesheetService {
         timesheet.Shift.Staff.forEach((staff: StaffProfile) => {
           if (staff?.Paylevel?.id && timesheet?.Shift?.Services) {
             const paylevelId = staff.Paylevel.id;
-            const services = timesheet.Shift.Services;
+            const services = _orderBy(
+              timesheet.Shift.Services,
+              ["shift_records_services.dataValues.start_time"],
+              ["asc"]
+            );
 
             // For every service in the Shift
             services.forEach((service: any, index: any) => {
@@ -347,7 +352,7 @@ class TimesheetService {
           });
           return {
             earningsRateID: payItem,
-            numberOfUnits: units,
+            numberOfUnits: [...units],
           };
         }),
       };
@@ -444,7 +449,8 @@ class TimesheetService {
         });
       }
     });
-    return errorMessageDetails;
+    const updatedErrorMessages = [...new Set(errorMessageDetails)];
+    return updatedErrorMessages;
   }
 
   async generateTimesheets(props: GenerateTimesheetsProps) {
