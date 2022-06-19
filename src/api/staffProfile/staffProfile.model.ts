@@ -32,6 +32,8 @@ class StaffProfileModel<
   employmentType: StaffProfile["employmentType"];
   manager: StaffProfile["manager"];
   archived: StaffProfile["archived"];
+  paylevel: StaffProfile["paylevel"];
+  Paylevel: StaffProfile["Paylevel"];
   user: StaffProfile["user"];
   User: StaffProfile["User"];
   company!: StaffProfile["company"];
