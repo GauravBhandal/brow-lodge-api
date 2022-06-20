@@ -335,6 +335,17 @@ class UserService {
       throw new CustomError(404, UserErrorCode.USER_NOT_FOUND);
     }
 
+    const lowerCaseEmail = props.email.toLowerCase();
+    // Check if user already exist
+    const existingUser = await UserModel.findOne({
+      where: { email: lowerCaseEmail },
+    });
+
+    // if the user exists, throw an error
+    if (existingUser) {
+      throw new CustomError(409, UserErrorCode.USER_ALREADY_EXISTS);
+    }
+
     // If the password is provided, then encrypt  it
     if (password) {
       updateProps.password = await bcrypt.hash(password, 10);
