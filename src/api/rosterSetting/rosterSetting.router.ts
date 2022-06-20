@@ -16,7 +16,7 @@ router.put(
 
 router.get(
   "/",
-  canDo("read", "rosterSetting"),
+  // canDo("read", "rosterSetting"), // TODO: We want every user to view their shifts by roster (We need roster settings to know the roster date)
   catchWrap(controller.getRosterSetting)
 );
 
