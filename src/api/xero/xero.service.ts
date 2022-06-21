@@ -20,6 +20,7 @@ import {
 } from "./xero.types";
 import config from "../../config/environment";
 import { integrationExternalDataService } from "../integration/integrationExternalData";
+import { CustomError } from "../../components/errors";
 
 const XERO_INTEGRATION_KEY = "xero";
 class XeroService {
@@ -171,7 +172,7 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return {};
+      throw new CustomError(404, "Issue in Xero");
     }
   }
 
@@ -207,7 +208,7 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return;
+      throw new CustomError(404, "Issue in Xero");
     }
   }
 
@@ -243,7 +244,7 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return;
+      throw new CustomError(404, "Issue in Xero");
     }
   }
 
@@ -279,7 +280,7 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return;
+      throw new CustomError(404, "Error in sync with xero");
     }
   }
 
@@ -300,7 +301,7 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return {};
+      throw new CustomError(404, "Creating timesheet error in xero");
     }
   }
 }
