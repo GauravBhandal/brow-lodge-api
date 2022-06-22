@@ -309,49 +309,51 @@ class ShiftRecordService {
         }
       );
       result = updatedShiftRecord;
-    }
 
-    // Update services
-    if (props.services && props.services.length) {
-      await shiftRecordServiceService.updateBulkShiftRecordService({
-        shift: shiftRecord.id,
-        services: props.services,
-      });
-    }
+      // Update services
+      if (props.services && props.services.length) {
+        await shiftRecordServiceService.updateBulkShiftRecordService({
+          shift: shiftRecord.id,
+          services: props.services,
+        });
+      }
 
-    // Assign staff profiles
-    if (props.staff) {
-      await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile({
-        shift: shiftRecord.id,
+      // Assign staff profiles
+      if (props.staff) {
+        await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile({
+          shift: shiftRecord.id,
+          staff: props.staff,
+        });
+      }
+
+      // Assign client profiles
+      if (props.client) {
+        await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile(
+          {
+            shift: shiftRecord.id,
+            client: props.client,
+          }
+        );
+      }
+
+      // Update timesheets
+      await timesheetService.updateTimesheetOnShiftUpdate({
+        startDateTime: props.startDateTime,
+        endDateTime: props.endDateTime,
+        shift: id,
         staff: props.staff,
+        company: props.company,
       });
-    }
 
-    // Assign client profiles
-    if (props.client) {
-      await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile({
-        shift: shiftRecord.id,
+      // Update invoices
+      await invoiceService.updateInvoiceOnShiftUpdate({
+        startDateTime: props.startDateTime,
+        endDateTime: props.endDateTime,
+        shift: id,
         client: props.client,
+        company: props.company,
       });
     }
-
-    // Update timesheets
-    await timesheetService.updateTimesheetOnShiftUpdate({
-      startDateTime: props.startDateTime,
-      endDateTime: props.endDateTime,
-      shift: id,
-      staff: props.staff,
-      company: props.company,
-    });
-
-    // Update invoices
-    await invoiceService.updateInvoiceOnShiftUpdate({
-      startDateTime: props.startDateTime,
-      endDateTime: props.endDateTime,
-      shift: id,
-      client: props.client,
-      company: props.company,
-    });
 
     return result;
   }
