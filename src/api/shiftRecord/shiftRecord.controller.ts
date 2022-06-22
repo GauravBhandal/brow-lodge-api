@@ -76,11 +76,6 @@ class ShiftRecordController {
       staffProps
     );
 
-    if (!staffProfile) {
-      res.status(200).json({ data: [], total: 0, page: 1, pageCount: 0 });
-      return;
-    }
-
     const shiftProps = {
       company: req.auth.companyId,
       ...queryParams,

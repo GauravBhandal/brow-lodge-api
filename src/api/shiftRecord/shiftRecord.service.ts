@@ -35,7 +35,7 @@ import { TimesheetModel, timesheetService } from "../timesheet";
 import { InvoiceModel, invoiceService } from "../invoice";
 
 const getTimeForSelect = (date: any) =>
-  date ? moment(date).format("HH:mm") : null;
+  date ? makeMoment(date).format("HH:mm") : null;
 
 const getStartDate = (date: any, time: any) => {
   return makeMoment(
