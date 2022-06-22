@@ -9,6 +9,9 @@ const createConflictOfInterestSchema = wrapSchema({
     conflictDescription: Joi.string().required(),
     mitigationStrategy: Joi.string().required(),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -19,6 +22,9 @@ const editConflictOfInterestSchema = wrapSchema({
     conflictDescription: Joi.string().required(),
     mitigationStrategy: Joi.string().required(),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

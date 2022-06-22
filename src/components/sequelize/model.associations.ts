@@ -460,6 +460,11 @@ function initializeClientAssetModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  ClientAssetModel.belongsToMany(AttachmentModel, {
+    through: "client_assets_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeCompanyAssetModelAssociations() {
@@ -469,6 +474,11 @@ function initializeCompanyAssetModelAssociations() {
   CompanyAssetModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
+  });
+  CompanyAssetModel.belongsToMany(AttachmentModel, {
+    through: "company_assets_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
 
@@ -494,6 +504,11 @@ function initializeConflictOfInterestModelAssociations() {
   ConflictOfInterestModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
+  });
+  ConflictOfInterestModel.belongsToMany(AttachmentModel, {
+    through: "conflict_of_interests_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
 

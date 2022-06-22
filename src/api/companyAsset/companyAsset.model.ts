@@ -21,6 +21,7 @@ class CompanyAssetModel<
   Staff: CompanyAsset["Staff"];
   company!: CompanyAsset["company"];
   Company: CompanyAsset["Company"];
+  Attachments: CompanyAsset["Attachments"];
 }
 
 modelManager.init(

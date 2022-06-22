@@ -23,6 +23,7 @@ class ClientAssetModel<
   Client: ClientAsset["Client"];
   company!: ClientAsset["company"];
   Company: ClientAsset["Company"];
+  Attachments: ClientAsset["Attachments"];
 }
 
 modelManager.init(

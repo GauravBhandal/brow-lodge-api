@@ -23,6 +23,7 @@ class ConflictOfInterestModel<
   Staff: ConflictOfInterest["Staff"];
   company!: ConflictOfInterest["company"];
   Company: ConflictOfInterest["Company"];
+  Attachments: ConflictOfInterest["Attachments"];
 }
 
 modelManager.init(

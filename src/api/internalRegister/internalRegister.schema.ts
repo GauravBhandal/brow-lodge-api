@@ -6,6 +6,7 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createInternalRegisterSchema = wrapSchema({
   body: Joi.object().keys({
     notes: Joi.string().allow("", null),
+    nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
@@ -19,6 +20,7 @@ const editInternalRegisterSchema = wrapSchema({
   body: Joi.object().keys({
     notes: Joi.string().allow("", null),
     name: Joi.string().required(),
+    nextReviewDate: Joi.date().allow(null),
     version: Joi.string().required(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
