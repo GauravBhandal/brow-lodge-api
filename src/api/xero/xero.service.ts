@@ -172,7 +172,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      throw new CustomError(404, "Issue in Xero");
+      throw new CustomError(
+        500,
+        "An internal error has occurred while exporting data to Xero"
+      );
     }
   }
 
@@ -208,7 +211,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      throw new CustomError(404, "Issue in Xero");
+      throw new CustomError(
+        500,
+        "An internal error has occurred while syncing data with Xero"
+      );
     }
   }
 
@@ -244,7 +250,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      throw new CustomError(404, "Issue in Xero");
+      throw new CustomError(
+        500,
+        "An internal error has occurred while syncing data with Xero"
+      );
     }
   }
 
@@ -280,7 +289,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      throw new CustomError(404, "Error in sync with xero");
+      throw new CustomError(
+        500,
+        "An internal error has occurred while syncing data with Xero"
+      );
     }
   }
 
@@ -301,7 +313,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      throw new CustomError(404, "Creating timesheet error in xero");
+      throw new CustomError(
+        500,
+        "An internal error has occurred while exporting data to Xero"
+      );
     }
   }
 }
