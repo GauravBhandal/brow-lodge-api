@@ -16,10 +16,20 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
+import { doctorVisitAttachmentService } from "./doctorVisitAttachment";
+import { AttachmentModel } from "../attachment";
 
 class DoctorVisitService {
   async createDoctorVisit(props: CreateDoctorVisitProps) {
     const doctorVisit = await DoctorVisitModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await doctorVisitAttachmentService.createBulkDoctorVisitAttachment({
+        relation: doctorVisit.id,
+        attachments: props.attachments,
+      });
+    }
     return doctorVisit;
   }
 
@@ -46,6 +56,15 @@ class DoctorVisitService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments) {
+      await doctorVisitAttachmentService.updateBulkDoctorVisitAttachment({
+        relation: doctorVisit.id,
+        attachments: props.attachments,
+      });
+    }
+
     return updatedDoctorVisit;
   }
 
@@ -84,6 +103,12 @@ class DoctorVisitService {
         {
           model: ClientProfileModel,
           as: "Client",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });

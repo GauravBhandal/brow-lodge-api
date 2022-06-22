@@ -1,7 +1,7 @@
 import shiftRecordRoutes from "./shiftRecord.router";
 import ShiftRecordErrorCode from "./shiftRecord.error";
 import ShiftRecordModel from "./shiftRecord.model";
-import { ShiftRecord } from "./shiftRecord.types";
+import { ShiftRecord, CreateShiftRecordInBulkProps } from "./shiftRecord.types";
 import shiftRecordService from "./shiftRecord.service";
 
 export {
@@ -9,5 +9,6 @@ export {
   ShiftRecordErrorCode,
   ShiftRecordModel,
   ShiftRecord,
+  CreateShiftRecordInBulkProps,
   shiftRecordService,
 };

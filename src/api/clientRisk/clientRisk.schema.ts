@@ -12,8 +12,12 @@ const createClientRiskSchema = wrapSchema({
     riskDescription: Joi.string().required(),
     mitigationStrategy: Joi.string().required(),
     monitoringStrategy: Joi.string().required(),
+    assessmentType: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -27,8 +31,12 @@ const editClientRiskSchema = wrapSchema({
     riskDescription: Joi.string().required(),
     mitigationStrategy: Joi.string().required(),
     monitoringStrategy: Joi.string().required(),
+    assessmentType: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

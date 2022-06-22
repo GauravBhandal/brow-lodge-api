@@ -63,6 +63,22 @@ const permissions = {
       update: true,
     },
   },
+  template: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  onCallLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   weightLog: {
     actions: {
       read: true,
@@ -296,6 +312,19 @@ const permissions = {
       update: true,
     },
   },
+  internalRegister: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  leadershipMeeting: {
+    actions: {
+      read: true,
+    },
+  },
   staffDocumentType: {
     actions: {
       read: true,
@@ -328,7 +357,23 @@ const permissions = {
       update: true,
     },
   },
+  legislationRegister: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   oxygenSaturationLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  staffSupervisionLog: {
     actions: {
       read: true,
       create: true,
@@ -374,6 +419,35 @@ const permissions = {
       create: true,
       delete: true,
       update: true,
+    },
+  },
+  participantMedicationChart: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  participantCommunicationLog: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  restrictivePracticeRegister: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  participantConfidentialDocument: {
+    actions: {
+      read: true,
     },
   },
 };

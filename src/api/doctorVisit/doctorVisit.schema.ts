@@ -20,6 +20,9 @@ const createDoctorVisitSchema = wrapSchema({
     nextAppointmentDate: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -37,6 +40,9 @@ const editDoctorVisitSchema = wrapSchema({
     nextAppointmentDate: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

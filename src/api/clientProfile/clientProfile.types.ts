@@ -11,6 +11,7 @@ export interface ClientProfile extends DefaultSchemaConfig {
   preferredName: string;
   email?: string;
   gender?: "male" | "female" | "other";
+  accountingCode?: string;
   dateOfBirth?: Date;
   address?: string;
   contactNumber?: string;
@@ -38,6 +39,7 @@ export interface CreateClientProfileProps {
   preferredName: ClientProfile["preferredName"];
   email: ClientProfile["email"];
   gender: ClientProfile["gender"];
+  accountingCode: ClientProfile["accountingCode"];
   dateOfBirth: ClientProfile["dateOfBirth"];
   address: ClientProfile["address"];
   contactNumber: ClientProfile["contactNumber"];

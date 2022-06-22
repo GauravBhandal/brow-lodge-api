@@ -1,0 +1,6 @@
+enum IntegrationErrorCode {
+  INTEGRATION_NOT_FOUND = "INTEGRATION_NOT_FOUND",
+  INTEGRATION_ALREADY_EXISTS = "INTEGRATION_ALREADY_EXISTS",
+}
+
+export default IntegrationErrorCode;

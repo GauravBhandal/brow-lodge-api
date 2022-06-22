@@ -19,6 +19,7 @@ class StaffProfileModel<
   email!: StaffProfile["email"];
   dateOfBirth: StaffProfile["dateOfBirth"];
   gender: StaffProfile["gender"];
+  accountingCode: StaffProfile["accountingCode"];
   personalContactNumber: StaffProfile["personalContactNumber"];
   workContactNumber: StaffProfile["workContactNumber"];
   address: StaffProfile["address"];
@@ -31,6 +32,8 @@ class StaffProfileModel<
   employmentType: StaffProfile["employmentType"];
   manager: StaffProfile["manager"];
   archived: StaffProfile["archived"];
+  paylevel: StaffProfile["paylevel"];
+  Paylevel: StaffProfile["Paylevel"];
   user: StaffProfile["user"];
   User: StaffProfile["User"];
   company!: StaffProfile["company"];
@@ -57,6 +60,9 @@ modelManager.init(
     email: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    accountingCode: {
+      type: Sequelize.STRING,
     },
     dateOfBirth: {
       type: Sequelize.DATE,

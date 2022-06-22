@@ -3,6 +3,7 @@ import Joi from "joi";
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
+// TODO: There are lots of fields which have no use
 const createStaffProfileSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
@@ -11,6 +12,7 @@ const createStaffProfileSchema = wrapSchema({
     email: Joi.string().required(),
     dateOfBirth: Joi.date().allow(null),
     gender: Joi.string().valid("Male", "Female", "Other").allow(null),
+    accountingCode: Joi.string().allow("", null),
     personalContactNumber: Joi.string().allow("", null),
     workContactNumber: Joi.string().allow("", null),
     address: Joi.string().allow("", null),
@@ -24,6 +26,7 @@ const createStaffProfileSchema = wrapSchema({
     manager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     user: requiredUUIDSchema(),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    paylevel: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 
@@ -37,6 +40,7 @@ const editStaffProfileSchema = wrapSchema({
     preferredName: Joi.string().required(),
     email: Joi.string().required(),
     dateOfBirth: Joi.date().allow(null),
+    accountingCode: Joi.string().allow("", null),
     gender: Joi.string().valid("Male", "Female", "Other").allow(null),
     personalContactNumber: Joi.string().allow("", null),
     workContactNumber: Joi.string().allow("", null),
@@ -52,6 +56,7 @@ const editStaffProfileSchema = wrapSchema({
     archived: Joi.boolean(),
     user: requiredUUIDSchema(),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    paylevel: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 

@@ -1,7 +1,11 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
+import moment from "moment";
 
+import makeMoment from "../../components/moment";
 import ShiftRecordModel from "./shiftRecord.model";
 import {
+  CreateShiftRecordInBulkProps,
   CreateShiftRecordProps,
   UpdateShiftRecordProps,
   DeleteShiftRecordProps,
@@ -16,29 +20,187 @@ import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
-import { shiftRecordShiftTypeService } from "./shiftRecordShiftType";
-import { ShiftTypeModel } from "../shiftType";
+import {
+  addTimeToDate,
+  createShifts,
+  formatDateToString,
+  generateShiftServices,
+} from "../../utils/shiftGenerator";
+import { shiftRepeatService } from "../shiftRepeat";
+import { shiftRecordStaffProfileService } from "./shiftRecordStaffProfile";
+import { shiftRecordClientProfileService } from "./shiftRecordClientProfile";
+import { shiftRecordServiceService } from "./shiftRecordService";
+import { ServiceModel } from "../service";
+import { TimesheetModel, timesheetService } from "../timesheet";
+import { InvoiceModel, invoiceService } from "../invoice";
 
+const getTimeForSelect = (date: any) =>
+  date ? makeMoment(date).format("HH:mm") : null;
+
+const getStartDate = (date: any, time: any) => {
+  return makeMoment(
+    `${formatDateToString(date)}
+  ${getTimeForSelect(time)}`
+  ).format();
+};
+
+const getDateDiff = (startDate: any, endDate: any) => {
+  return moment
+    .duration(makeMoment(endDate).diff(makeMoment(startDate)))
+    .asMinutes();
+};
 class ShiftRecordService {
+  async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
+    const createProps = createShifts(props);
+
+    const shiftRepeat = await shiftRepeatService.createShiftRepeat({
+      meta: props.repeat,
+      company: props.company,
+    });
+
+    const bulkCreateProps = createProps.map((shift) => {
+      return { ...shift, repeat: shiftRepeat.id };
+    });
+
+    // Create a shiftRecords in bulk
+    const shiftRecords = await ShiftRecordModel.bulkCreate(bulkCreateProps);
+
+    for (let index = 0; index < shiftRecords.length; index++) {
+      const shiftRecord = shiftRecords[index];
+
+      const shiftServices = generateShiftServices(shiftRecord, props);
+
+      await shiftRecordServiceService.createBulkShiftRecordService({
+        shift: shiftRecord.id,
+        services: shiftServices,
+      });
+
+      await shiftRecordStaffProfileService.createBulkShiftRecordStaffProfile({
+        shift: shiftRecord.id,
+        staff: props.staff,
+      });
+      await shiftRecordClientProfileService.createBulkShiftRecordClientProfile({
+        shift: shiftRecord.id,
+        client: props.client,
+      });
+
+      // Create timesheet
+      await timesheetService.createTimesheetInBulk({
+        startDateTime: shiftRecord.startDateTime,
+        endDateTime: shiftRecord.endDateTime,
+        status: "Pending",
+        shift: shiftRecord.id,
+        staff: props.staff,
+        company: props.company,
+      });
+
+      // Create invoices
+      await invoiceService.createInvoiceInBulk({
+        startDateTime: shiftRecord.startDateTime,
+        endDateTime: shiftRecord.endDateTime,
+        status: "Pending",
+        shift: shiftRecord.id,
+        client: props.client,
+        company: props.company,
+      });
+    }
+
+    return shiftRecords;
+  }
+
   async createShiftRecord(props: CreateShiftRecordProps) {
     // Create a new shiftRecord
     const shiftRecord = await ShiftRecordModel.create(props);
 
-    // Create types
-    if (props.types && props.types.length) {
-      await shiftRecordShiftTypeService.createBulkShiftRecordShiftType({
+    // Assign staff profiles
+    if (props.staff && props.staff.length) {
+      await shiftRecordStaffProfileService.createBulkShiftRecordStaffProfile({
         shift: shiftRecord.id,
-        types: props.types,
+        staff: props.staff,
       });
     }
+
+    // Assign client profiles
+    if (props.client && props.client.length) {
+      await shiftRecordClientProfileService.createBulkShiftRecordClientProfile({
+        shift: shiftRecord.id,
+        client: props.client,
+      });
+    }
+
+    // Create services
+    if (props.services && props.services.length) {
+      await shiftRecordServiceService.createBulkShiftRecordService({
+        shift: shiftRecord.id,
+        services: props.services,
+      });
+    }
+
+    // Create timesheet
+    await timesheetService.createTimesheetInBulk({
+      startDateTime: props.startDateTime,
+      endDateTime: props.endDateTime,
+      status: "Pending",
+      shift: shiftRecord.id,
+      staff: props.staff,
+      company: props.company,
+    });
+
+    // Create invoice
+    await invoiceService.createInvoiceInBulk({
+      startDateTime: props.startDateTime,
+      endDateTime: props.endDateTime,
+      status: "Pending",
+      shift: shiftRecord.id,
+      client: props.client,
+      company: props.company,
+    });
 
     return shiftRecord;
   }
 
   async updateShiftRecord(props: UpdateShiftRecordProps) {
     // Props
-    const { id, company } = props;
+    const { id, company, updateRecurring } = props;
     const updateProps = _omit(props, ["id", "company"]);
+
+    // Find all timesheets
+    const timesheets = await TimesheetModel.findAll({
+      where: { shift: id, company },
+    });
+
+    if (timesheets.length > 0) {
+      // Checking that if any timesheet is approved or not
+      const timesheetApproved = timesheets.some(
+        (timesheet) => timesheet.status === "Approved"
+      );
+
+      if (timesheetApproved) {
+        throw new CustomError(
+          404,
+          ShiftRecordErrorCode.TIMESHEET_ALREADY_APPROVED
+        );
+      }
+    }
+
+    // Find all invoices
+    const invoices = await InvoiceModel.findAll({
+      where: { shift: id, company },
+    });
+
+    if (invoices.length > 0) {
+      // Checking that if any invoice is approved or not
+      const invoiceApproved = invoices.some(
+        (invoice) => invoice.status === "Approved"
+      );
+
+      if (invoiceApproved) {
+        throw new CustomError(
+          404,
+          ShiftRecordErrorCode.INVOICE_ALREADY_APPROVED
+        );
+      }
+    }
 
     // Find shiftRecord by id and company
     const shiftRecord = await ShiftRecordModel.findOne({
@@ -50,41 +212,179 @@ class ShiftRecordService {
       throw new CustomError(404, ShiftRecordErrorCode.SHIFT_RECORD_NOT_FOUND);
     }
 
-    // Update the shiftRecord
-    const [, [updatedShiftRecord]] = await ShiftRecordModel.update(
-      updateProps,
-      {
-        where: { id, company },
-        returning: true,
-      }
-    );
+    let result = {};
 
-    // Update types
-    if (props.types && props.types.length) {
-      await shiftRecordShiftTypeService.updateBulkShiftRecordShiftType({
+    if (updateRecurring && shiftRecord.repeat) {
+      // Update the repeat shiftRecords
+      const shiftRecords = await ShiftRecordModel.findAll({
+        where: {
+          company,
+          repeat: shiftRecord.repeat,
+          startDateTime: { [Op.gte]: shiftRecord.startDateTime },
+        },
+      });
+
+      if (shiftRecords.length > 0) {
+        const dateDiff = getDateDiff(
+          updateProps.startDateTime,
+          updateProps.endDateTime
+        );
+        shiftRecords.forEach(async (shift) => {
+          const getStartTime = getStartDate(
+            shift.id === id ? updateProps.startDateTime : shift.startDateTime,
+            updateProps.startDateTime
+          );
+          const getEndTime = getStartDate(
+            addTimeToDate(
+              shift.id === id ? updateProps.startDateTime : shift.startDateTime,
+              dateDiff,
+              "minutes"
+            ),
+            updateProps.endDateTime
+          );
+          const newProps = {
+            ...updateProps,
+            startDateTime: getStartTime,
+            endDateTime: getEndTime,
+          };
+          await ShiftRecordModel.update(newProps, {
+            where: { id: shift.id, company: shift.company },
+            returning: true,
+          });
+          const shiftServices = generateShiftServices(shift, props);
+          // Update services
+          if (props.services && props.services.length) {
+            await shiftRecordServiceService.updateBulkShiftRecordService({
+              shift: shift.id,
+              services: shiftServices,
+            });
+          }
+
+          // Assign staff profiles
+          if (props.staff) {
+            await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile(
+              {
+                shift: shift.id,
+                staff: props.staff,
+              }
+            );
+          }
+
+          // Assign client profiles
+          if (props.client) {
+            await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile(
+              {
+                shift: shift.id,
+                client: props.client,
+              }
+            );
+          }
+
+          // Update timesheets
+          await timesheetService.updateTimesheetOnShiftUpdate({
+            startDateTime: getStartTime as any,
+            endDateTime: getEndTime as any,
+            shift: shift.id,
+            staff: props.staff,
+            company: props.company,
+          });
+
+          // Update invoices
+          await invoiceService.updateInvoiceOnShiftUpdate({
+            startDateTime: getStartTime as any,
+            endDateTime: getEndTime as any,
+            shift: shift.id,
+            client: props.client,
+            company: props.company,
+          });
+        });
+      }
+    } else {
+      // Update the single shiftRecord
+      const [, [updatedShiftRecord]] = await ShiftRecordModel.update(
+        updateProps,
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+      result = updatedShiftRecord;
+    }
+
+    // Update services
+    if (props.services && props.services.length) {
+      await shiftRecordServiceService.updateBulkShiftRecordService({
         shift: shiftRecord.id,
-        types: props.types,
+        services: props.services,
       });
     }
 
-    return updatedShiftRecord;
+    // Assign staff profiles
+    if (props.staff) {
+      await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile({
+        shift: shiftRecord.id,
+        staff: props.staff,
+      });
+    }
+
+    // Assign client profiles
+    if (props.client) {
+      await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile({
+        shift: shiftRecord.id,
+        client: props.client,
+      });
+    }
+
+    // Update timesheets
+    await timesheetService.updateTimesheetOnShiftUpdate({
+      startDateTime: props.startDateTime,
+      endDateTime: props.endDateTime,
+      shift: id,
+      staff: props.staff,
+      company: props.company,
+    });
+
+    // Update invoices
+    await invoiceService.updateInvoiceOnShiftUpdate({
+      startDateTime: props.startDateTime,
+      endDateTime: props.endDateTime,
+      shift: id,
+      client: props.client,
+      company: props.company,
+    });
+
+    return result;
   }
 
   async deleteShiftRecord(props: DeleteShiftRecordProps) {
     // Props
-    const { id, company } = props;
-
-    // Find and delete the shiftRecord by id and company
-    const shiftRecord = await ShiftRecordModel.destroy({
+    const { id, company, deleteRecurring } = props;
+    // Find  the shiftRecord by id and company
+    const shiftRecord = await ShiftRecordModel.findOne({
       where: { id, company },
     });
-
-    // if shiftRecord has been deleted, throw an error
+    // if shiftRecord has not been found, throw an error
     if (!shiftRecord) {
       throw new CustomError(404, ShiftRecordErrorCode.SHIFT_RECORD_NOT_FOUND);
     }
 
-    return shiftRecord;
+    if (deleteRecurring && shiftRecord.repeat) {
+      // Find and delete the shiftRecords by company, has repeat and date greater than equal to that shift
+      const shiftRecords = await ShiftRecordModel.destroy({
+        where: {
+          company,
+          repeat: shiftRecord.repeat,
+          startDateTime: { [Op.gte]: shiftRecord.startDateTime },
+        },
+      });
+      return shiftRecords;
+    } else {
+      // Find and delete the shiftRecord by id and company
+      const shiftRecord = await ShiftRecordModel.destroy({
+        where: { id, company },
+      });
+      return shiftRecord;
+    }
   }
 
   async getShiftRecordById(props: GetShiftRecordByIdProps) {
@@ -100,14 +400,20 @@ class ShiftRecordService {
         },
         {
           model: StaffProfileModel,
+          through: {
+            attributes: [],
+          },
           as: "Staff",
         },
         {
           model: ClientProfileModel,
+          through: {
+            attributes: [],
+          },
           as: "Client",
         },
         {
-          model: ShiftTypeModel,
+          model: ServiceModel,
           through: {
             attributes: ["start_time"], //TODO: We need to do some cleanup here
           },
@@ -137,17 +443,27 @@ class ShiftRecordService {
       },
       {
         model: StaffProfileModel,
-        as: "Staff",
+        through: {
+          attributes: [],
+        },
         where: {
           ...filters["Staff"],
         },
+        as: "Staff",
+        duplicating: true,
+        required: false,
       },
       {
         model: ClientProfileModel,
-        as: "Client",
+        through: {
+          attributes: [],
+        },
         where: {
           ...filters["Client"],
         },
+        as: "Client",
+        duplicating: true,
+        required: false,
       },
     ];
 
@@ -163,8 +479,8 @@ class ShiftRecordService {
 
     // Find all shiftRecords for matching props and company
     const data = await ShiftRecordModel.findAll({
-      offset,
-      limit,
+      // offset, We don't need pagination for this endpoint
+      // limit,
       order,
       where: {
         company,

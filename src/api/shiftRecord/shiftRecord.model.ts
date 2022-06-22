@@ -15,10 +15,11 @@ class ShiftRecordModel<
 {
   startDateTime!: ShiftRecord["startDateTime"];
   endDateTime!: ShiftRecord["endDateTime"];
-  staff: ShiftRecord["staff"];
-  client: ShiftRecord["client"];
+  break!: ShiftRecord["break"];
   company!: ShiftRecord["company"];
   Company: ShiftRecord["Company"];
+  repeat?: ShiftRecord["repeat"];
+  user!: ShiftRecord["user"];
 }
 
 modelManager.init(
@@ -32,6 +33,9 @@ modelManager.init(
     endDateTime: {
       type: Sequelize.DATE,
       allowNull: false,
+    },
+    break: {
+      type: Sequelize.NUMBER,
     },
   },
   {
