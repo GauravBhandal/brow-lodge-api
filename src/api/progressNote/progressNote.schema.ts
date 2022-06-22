@@ -15,6 +15,7 @@ const createProgressNoteSchema = wrapSchema({
     notes: Joi.string().required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 
@@ -27,6 +28,7 @@ const editProgressNoteSchema = wrapSchema({
     notes: Joi.string().required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
 });
 

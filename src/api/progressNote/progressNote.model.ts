@@ -23,6 +23,7 @@ class ProgressNoteModel<
   Client: ProgressNote["Client"];
   company!: ProgressNote["company"];
   Company: ProgressNote["Company"];
+  Attachments: ProgressNote["Attachments"];
 }
 
 modelManager.init(

@@ -225,6 +225,11 @@ function initializeProgressNoteModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  ProgressNoteModel.belongsToMany(AttachmentModel, {
+    through: "progress_notes_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeBloodGlucoseLogModelAssociations() {
