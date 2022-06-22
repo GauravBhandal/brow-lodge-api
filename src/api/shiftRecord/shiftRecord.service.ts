@@ -436,6 +436,12 @@ class ShiftRecordService {
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+    // Helper fn. to return shifts by staff when called by myshift endpoint's controller
+    const checkClientPermissions = () => {
+      if (filters["Staff"] && Object.keys(filters["Staff"]).length !== 0) {
+        return { right: true };
+      }
+    };
 
     const include = [
       {
@@ -452,6 +458,7 @@ class ShiftRecordService {
         as: "Staff",
         duplicating: true,
         required: false,
+        ...checkClientPermissions(),
       },
       {
         model: ClientProfileModel,
