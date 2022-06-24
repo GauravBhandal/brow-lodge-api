@@ -66,7 +66,7 @@ import { ParticipantCommunicationLogModel } from "../../api/participantCommunica
 import { StaffSupervisionLogModel } from "../../api/staffSupervisionLog";
 import { ParticipantMedicationChartModel } from "../../api/participantMedicationChart";
 import { RosterSettingModel } from "../../api/rosterSetting";
-import { ProgressNotesSettingModel } from "../../api/progressNotesSetting";
+import { ProgressNotesSettingModel } from "../../api/progressNoteSettings";
 
 export default {
   initialize() {

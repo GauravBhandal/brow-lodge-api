@@ -49,7 +49,7 @@ class RosterSettingService {
     // Props
     const { company } = props;
 
-    // Find  the rosterSetting by company
+    // Find the rosterSetting by company
     const rosterSetting = await RosterSettingModel.findOne({
       where: { company },
       include: [
