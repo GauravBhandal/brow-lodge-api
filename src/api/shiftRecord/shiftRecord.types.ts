@@ -19,6 +19,7 @@ export interface ShiftRecord extends DefaultSchemaConfig {
   Company?: Company;
   Services?: Service[];
   repeat?: ShiftRepeat["id"];
+  status?: String;
 }
 
 export interface CreateShiftRecordProps {
@@ -29,6 +30,7 @@ export interface CreateShiftRecordProps {
   client: ClientProfile["id"][];
   company: ShiftRecord["company"];
   services: ServiceProp[];
+  status: ShiftRecord["status"];
 }
 
 export interface CreateShiftRecordInBulkProps {
@@ -40,6 +42,7 @@ export interface CreateShiftRecordInBulkProps {
   company: ShiftRecord["company"];
   services: ServiceProp[];
   repeat: any; // TODO: Remove any
+  status: ShiftRecord["status"];
 }
 
 export interface UpdateShiftRecordProps extends CreateShiftRecordProps {

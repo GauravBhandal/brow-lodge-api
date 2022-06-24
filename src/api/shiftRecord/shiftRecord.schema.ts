@@ -28,6 +28,7 @@ const createShiftRecordSchema = wrapSchema({
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     services: Joi.array().items(serviceSchema).required(),
     repeat: shiftRepeatSchema,
+    status: Joi.string().valid("draft", "publish").required(),
   }),
 });
 
