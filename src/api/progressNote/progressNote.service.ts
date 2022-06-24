@@ -70,7 +70,6 @@ class ProgressNoteService {
     );
 
     // Update attachments
-
     if (props.attachments) {
       await progressNoteAttachmentService.updateBulkProgressNoteAttachment({
         relation: progressNote.id,

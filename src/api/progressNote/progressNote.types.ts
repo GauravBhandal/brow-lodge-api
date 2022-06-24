@@ -10,7 +10,7 @@ export interface ProgressNote extends DefaultSchemaConfig {
   shiftStartTime: Date;
   shiftEndTime: Date;
   notes: string;
-  customFields?: Object;
+  customFieldsData?: Object;
   staff: StaffProfile["id"];
   Staff?: StaffProfile[];
   client: ClientProfile["id"];
@@ -29,7 +29,7 @@ export interface CreateProgressNoteProps {
   client: ProgressNote["client"];
   company: ProgressNote["company"];
   attachments?: Attachment["id"][];
-  customFields?: ProgressNote["customFields"];
+  customFieldsData?: ProgressNote["customFieldsData"];
 }
 
 export interface UpdateProgressNoteProps extends CreateProgressNoteProps {
