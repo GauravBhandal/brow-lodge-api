@@ -104,6 +104,17 @@ class ShiftRecordController {
 
     res.status(200).json(shiftRecords);
   }
+
+  async publishShiftRecords(req: Request, res: Response) {
+    const props = {
+      ...req.body,
+      company: req.auth.companyId,
+    };
+
+    const shiftRecord = await shiftRecordService.publishShiftRecords(props);
+
+    res.status(200).json(shiftRecord);
+  }
 }
 
 export default new ShiftRecordController();

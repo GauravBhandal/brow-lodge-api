@@ -65,3 +65,8 @@ export interface GetMyShiftRecordsProps extends QueryParams {
   company: ShiftRecord["company"];
   user: ShiftRecord["id"];
 }
+
+export interface PublishShiftRecordsProps {
+  shiftIds: ShiftRecord["id"][];
+  company: ShiftRecord["company"];
+}

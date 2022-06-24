@@ -42,6 +42,7 @@ const editShiftRecordSchema = wrapSchema({
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     services: Joi.array().items(serviceSchema).required(),
+    status: Joi.string().valid("draft", "publish").required(),
   }),
 });
 
@@ -75,6 +76,15 @@ const getMyShiftRecordSchema = wrapSchema({
   }),
 });
 
+const publishShiftRecordSchema = wrapSchema({
+  body: Joi.object().keys({
+    shiftIds: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .min(1)
+      .required(),
+  }),
+});
+
 export default {
   createShiftRecord: joiMiddleware(createShiftRecordSchema),
   editShiftRecord: joiMiddleware(editShiftRecordSchema),
@@ -82,4 +92,5 @@ export default {
   getShiftRecordById: joiMiddleware(getShiftRecordByIdSchema),
   getShiftRecords: joiMiddleware(getShiftRecordSchema),
   getMyShiftRecords: joiMiddleware(getMyShiftRecordSchema),
+  publishShiftRecords: joiMiddleware(publishShiftRecordSchema),
 };
