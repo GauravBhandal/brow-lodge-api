@@ -5,7 +5,7 @@ ALTER TABLE "shift_records" ADD COLUMN "status" VARCHAR (255);
 `;
 
 const queryDown = `
-ALTER TABLE "shift_records" DROP COLUMN "status" VARCHAR (255);
+ALTER TABLE "shift_records" DROP COLUMN "status";
 `;
 
 module.exports = {
