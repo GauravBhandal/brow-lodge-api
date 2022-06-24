@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 
-import progressNoteSettingservice from "./progressNoteSettings.service";
+import progressNoteSettingsService from "./progressNoteSettings.service";
 
 class ProgressNoteSettingsController {
   async updateProgressNoteSettings(req: Request, res: Response) {
@@ -11,7 +11,7 @@ class ProgressNoteSettingsController {
     };
 
     const progressNoteSettings =
-      await progressNoteSettingservice.updateProgressNoteSettings(props);
+      await progressNoteSettingsService.updateProgressNoteSettings(props);
 
     res.status(200).json(progressNoteSettings);
   }
@@ -22,7 +22,7 @@ class ProgressNoteSettingsController {
     };
 
     const progressNoteSettings =
-      await progressNoteSettingservice.getProgressNoteSettings(props);
+      await progressNoteSettingsService.getProgressNoteSettings(props);
 
     res.status(200).json(progressNoteSettings);
   }

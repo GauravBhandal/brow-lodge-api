@@ -42,7 +42,7 @@ const queryDown = `
 ALTER TABLE "progress_notes_settings" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "progress_notes_settings";
 
-ALTER TABLE "progress_notes" DROP COLUMN "custom_fields";
+ALTER TABLE "progress_notes" DROP COLUMN "custom_fields_data";
 
 ALTER TABLE "progress_notes_staff_profiles" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "progress_notes_staff_profiles";

@@ -16,7 +16,7 @@ router.put(
 
 router.get(
   "/",
-  canDo("read", "progressNoteSettings"),
+  // canDo("read", "progressNoteSettings"), // TODO: We have to make it public
   catchWrap(controller.getProgressNoteSettings)
 );
 

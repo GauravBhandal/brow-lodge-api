@@ -66,7 +66,7 @@ import { ParticipantCommunicationLogModel } from "../../api/participantCommunica
 import { StaffSupervisionLogModel } from "../../api/staffSupervisionLog";
 import { ParticipantMedicationChartModel } from "../../api/participantMedicationChart";
 import { RosterSettingModel } from "../../api/rosterSetting";
-import { ProgressNotesSettingModel } from "../../api/progressNoteSettings";
+import { ProgressNoteSettingsModel } from "../../api/progressNoteSettings";
 
 export default {
   initialize() {
@@ -137,7 +137,7 @@ export default {
     initializeStaffSupervisionLogModelAssociations();
     initializeParticipantMedicationChartModelAssociations();
     initializeRosterSettingModelAssociations();
-    initializeProgressNotesSettingModelAssociations();
+    initializeProgressNoteSettingsModelAssociations();
   },
 };
 
@@ -1094,8 +1094,8 @@ function initializeRosterSettingModelAssociations() {
     foreignKey: { name: "company", allowNull: false },
   });
 }
-function initializeProgressNotesSettingModelAssociations() {
-  ProgressNotesSettingModel.belongsTo(CompanyModel, {
+function initializeProgressNoteSettingsModelAssociations() {
+  ProgressNoteSettingsModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
 }
