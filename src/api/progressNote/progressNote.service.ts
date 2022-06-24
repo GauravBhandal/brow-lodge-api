@@ -19,6 +19,7 @@ import { getFilters } from "../../components/filters";
 import { addCientFiltersByTeams } from "../../components/filters";
 import { progressNoteAttachmentService } from "./progressNoteAttachment";
 import { AttachmentModel } from "../attachment";
+import { progressNoteStaffProfileService } from "./progressNoteStaffProfile";
 
 class ProgressNoteService {
   async createProgressNote(props: CreateProgressNoteProps) {
@@ -32,6 +33,15 @@ class ProgressNoteService {
         attachments: props.attachments,
       });
     }
+
+    // Assign staff profiles
+    if (props.staff && props.staff.length) {
+      await progressNoteStaffProfileService.createBulkProgressNoteStaffProfile({
+        progressNote: progressNote.id,
+        staff: props.staff,
+      });
+    }
+
     return progressNote;
   }
 
@@ -69,6 +79,14 @@ class ProgressNoteService {
       });
     }
 
+    // Update staff profiles
+    if (props.staff && props.staff.length) {
+      await progressNoteStaffProfileService.updateBulkProgressNoteStaffProfile({
+        progressNote: progressNote.id,
+        staff: props.staff,
+      });
+    }
+
     return updatedProgressNote;
   }
 
@@ -100,10 +118,13 @@ class ProgressNoteService {
         {
           model: CompanyModel,
         },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
-        },
+        // {
+        //   model: StaffProfileModel,
+        //   as: "Staff",
+        //   through: {
+        //     attributes: [],
+        //   },
+        // },
         {
           model: ClientProfileModel,
           as: "Client",
@@ -139,13 +160,15 @@ class ProgressNoteService {
       {
         model: CompanyModel,
       },
-      {
-        model: StaffProfileModel,
-        as: "Staff",
-        where: {
-          ...filters["Staff"],
-        },
-      },
+      // {
+      //   model: StaffProfileModel,
+      //   as: "Staff",
+      //   where: {
+      //     ...filters["Staff"],
+      //     duplicating: true,
+      //     required: true,
+      //   },
+      // },
       {
         model: ClientProfileModel,
         as: "Client",

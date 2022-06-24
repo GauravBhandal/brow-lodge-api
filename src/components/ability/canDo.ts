@@ -68,6 +68,8 @@ type Subject =
   | "participantCommunicationLog"
   | "staffSupervisionLog"
   | "participantMedicationChart"
+  | "progressNotesCustomField"
+  | "progressNotesSetting"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {
