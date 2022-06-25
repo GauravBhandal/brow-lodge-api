@@ -24,12 +24,11 @@ import { progressNoteStaffProfileService } from "./progressNoteStaffProfile";
 class ProgressNoteService {
   async createProgressNote(props: CreateProgressNoteProps) {
     const progressNote = await ProgressNoteModel.create(props);
-    // Create attachments
 
+    // Create attachments
     if (props.attachments && props.attachments.length) {
       await progressNoteAttachmentService.createBulkProgressNoteAttachment({
         relation: progressNote.id,
-
         attachments: props.attachments,
       });
     }
@@ -73,7 +72,6 @@ class ProgressNoteService {
     if (props.attachments) {
       await progressNoteAttachmentService.updateBulkProgressNoteAttachment({
         relation: progressNote.id,
-
         attachments: props.attachments,
       });
     }
@@ -117,13 +115,13 @@ class ProgressNoteService {
         {
           model: CompanyModel,
         },
-        // {
-        //   model: StaffProfileModel,
-        //   as: "Staff",
-        //   through: {
-        //     attributes: [],
-        //   },
-        // },
+        {
+          model: StaffProfileModel,
+          as: "Staff",
+          through: {
+            attributes: [],
+          },
+        },
         {
           model: ClientProfileModel,
           as: "Client",
@@ -158,16 +156,9 @@ class ProgressNoteService {
     const include = [
       {
         model: CompanyModel,
+        duplicating: true,
+        required: true,
       },
-      // {
-      //   model: StaffProfileModel,
-      //   as: "Staff",
-      //   where: {
-      //     ...filters["Staff"],
-      //     duplicating: true,
-      //     required: true,
-      //   },
-      // },
       {
         model: ClientProfileModel,
         as: "Client",
@@ -175,6 +166,20 @@ class ProgressNoteService {
           ...filters["Client"],
           ...clientFilters,
         },
+        duplicating: true,
+        required: true,
+      },
+      {
+        model: StaffProfileModel,
+        through: {
+          attributes: [],
+        },
+        where: {
+          ...filters["Staff"],
+        },
+        as: "Staff",
+        duplicating: true,
+        required: true,
       },
     ];
 

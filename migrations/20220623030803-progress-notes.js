@@ -14,7 +14,7 @@ ALTER TABLE "progress_notes_attachments" ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS "progress_notes_staff_profiles" (
   "id" UUID NOT NULL,
-  "progressnote" UUID NOT NULL REFERENCES "progress_notes" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "progress_note" UUID NOT NULL REFERENCES "progress_notes" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
   "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -36,9 +36,20 @@ CREATE TABLE IF NOT EXISTS "progress_notes_settings" (
 );
 CREATE INDEX idx_progress_notes_settings_company ON progress_notes_settings(company);
 ALTER TABLE "progress_notes_settings" ENABLE ROW LEVEL SECURITY;
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+INSERT INTO progress_notes_staff_profiles(id, progress_note, staff, created, updated)
+SELECT uuid_generate_v4(), id, staff, NOW(), NOW() FROM progress_notes;
+
+ALTER TABLE "progress_notes" ALTER COLUMN staff DROP NOT NULL;
 `;
 
 const queryDown = `
+ALTER TABLE "progress_notes" ALTER COLUMN staff SET NOT NULL;
+
+DROP EXTENSION "uuid-ossp";
+
 ALTER TABLE "progress_notes_settings" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "progress_notes_settings";
 

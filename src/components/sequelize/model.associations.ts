@@ -219,12 +219,12 @@ function initializeProgressNoteModelAssociations() {
   ProgressNoteModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
-  // ProgressNoteModel.belongsToMany(StaffProfileModel, {
-  //   through: "progress_notes_staff_profiles",
-  //   foreignKey: "progressNote",
-  //   otherKey: "staff",
-  //   as: "Staff",
-  // });
+  ProgressNoteModel.belongsToMany(StaffProfileModel, {
+    through: "progress_notes_staff_profiles",
+    foreignKey: "progress_note",
+    otherKey: "staff",
+    as: "Staff",
+  });
   ProgressNoteModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",

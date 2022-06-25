@@ -17,8 +17,6 @@ class ProgressNoteModel<
   shiftStartTime!: ProgressNote["shiftStartTime"];
   shiftEndTime!: ProgressNote["shiftEndTime"];
   notes!: ProgressNote["notes"];
-  staff!: ProgressNote["staff"];
-  Staff: ProgressNote["Staff"];
   client!: ProgressNote["client"];
   Client: ProgressNote["Client"];
   company!: ProgressNote["company"];

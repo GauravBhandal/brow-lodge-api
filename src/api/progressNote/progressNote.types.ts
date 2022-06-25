@@ -11,7 +11,6 @@ export interface ProgressNote extends DefaultSchemaConfig {
   shiftEndTime: Date;
   notes: string;
   customFieldsData?: Object;
-  staff: StaffProfile["id"];
   Staff?: StaffProfile[];
   client: ClientProfile["id"];
   Client?: ClientProfile;
