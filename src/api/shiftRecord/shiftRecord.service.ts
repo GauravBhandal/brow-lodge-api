@@ -11,6 +11,7 @@ import {
   DeleteShiftRecordProps,
   GetShiftRecordByIdProps,
   GetShiftRecordsProps,
+  PublishShiftRecordsProps,
 } from "./shiftRecord.types";
 import { CustomError } from "../../components/errors";
 import ShiftRecordErrorCode from "./shiftRecord.error";
@@ -33,6 +34,7 @@ import { shiftRecordServiceService } from "./shiftRecordService";
 import { ServiceModel } from "../service";
 import { TimesheetModel, timesheetService } from "../timesheet";
 import { InvoiceModel, invoiceService } from "../invoice";
+import { ShiftRecordStatus } from "./shiftRecord.constant";
 
 const getTimeForSelect = (date: any) =>
   date ? makeMoment(date).format("HH:mm") : null;
@@ -501,6 +503,26 @@ class ShiftRecordService {
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;
+  }
+
+  async publishShiftRecords(props: PublishShiftRecordsProps) {
+    const { company, shiftIds } = props;
+    const [numberOfShifts, []] = await ShiftRecordModel.update(
+      { status: ShiftRecordStatus.PUBLISHED },
+      {
+        where: {
+          id: {
+            [Op.in]: shiftIds,
+          },
+          company,
+        },
+        returning: true,
+      }
+    );
+    return {
+      numberOfShifts,
+      status: ShiftRecordStatus.PUBLISHED,
+    };
   }
 }
 

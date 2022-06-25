@@ -84,7 +84,8 @@ export const generateShiftServices = (shiftRecord: any, props: any) => {
 export const createShifts = (
   data: CreateShiftRecordInBulkProps
 ): CreateShiftRecordInBulkProps[] => {
-  const { repeat, startDateTime, endDateTime, company, client, staff } = data;
+  const { repeat, startDateTime, endDateTime, company, client, staff, status } =
+    data;
   const { frequency, every } = repeat;
 
   const repeatStartDate = convertDateToMoment(startDateTime as any);
@@ -115,6 +116,7 @@ export const createShifts = (
             client,
             staff,
             break: data.break,
+            status,
             startDateTime: shiftStartDateTime,
             endDateTime: shiftEndDateTime,
             repeat,
@@ -126,6 +128,7 @@ export const createShifts = (
           client,
           staff,
           break: data.break,
+          status,
           startDateTime: shiftStartDateTime,
           endDateTime: shiftEndDateTime,
           repeat,
@@ -159,6 +162,7 @@ export const createShifts = (
                 client,
                 staff,
                 break: data.break,
+                status,
                 startDateTime: shiftStartDateTime,
                 endDateTime: shiftEndDateTime,
                 repeat,
@@ -170,6 +174,7 @@ export const createShifts = (
               client,
               staff,
               break: data.break,
+              status,
               startDateTime: shiftStartDateTime,
               endDateTime: shiftEndDateTime,
               repeat,
