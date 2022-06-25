@@ -1,7 +1,8 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
-import { staffProfileService } from "../staffProfile";
 
+import { staffProfileService } from "../staffProfile";
+import { ShiftRecordStatus } from "./shiftRecord.constant";
 import shiftRecordService from "./shiftRecord.service";
 
 class ShiftRecordController {
@@ -81,6 +82,7 @@ class ShiftRecordController {
       ...queryParams,
       where: {
         "Staff.id_eq": staffProfile.id,
+        status_eq: ShiftRecordStatus.PUBLISHED,
         ...queryParams["where"],
       },
     };

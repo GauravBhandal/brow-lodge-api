@@ -2,6 +2,7 @@ import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import { ShiftRecordStatus } from "./shiftRecord.constant";
 
 const serviceSchema = Joi.object().keys({
   startTime: Joi.date().required(),
@@ -28,7 +29,9 @@ const createShiftRecordSchema = wrapSchema({
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     services: Joi.array().items(serviceSchema).required(),
     repeat: shiftRepeatSchema,
-    status: Joi.string().valid("draft", "publish").required(),
+    status: Joi.string()
+      .valid(ShiftRecordStatus.DRAFT, ShiftRecordStatus.PUBLISHED)
+      .required(),
   }),
 });
 
@@ -42,7 +45,9 @@ const editShiftRecordSchema = wrapSchema({
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     services: Joi.array().items(serviceSchema).required(),
-    status: Joi.string().valid("draft", "publish").required(),
+    status: Joi.string()
+      .valid(ShiftRecordStatus.DRAFT, ShiftRecordStatus.PUBLISHED)
+      .required(),
   }),
 });
 

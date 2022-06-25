@@ -34,6 +34,7 @@ import { shiftRecordServiceService } from "./shiftRecordService";
 import { ServiceModel } from "../service";
 import { TimesheetModel, timesheetService } from "../timesheet";
 import { InvoiceModel, invoiceService } from "../invoice";
+import { ShiftRecordStatus } from "./shiftRecord.constant";
 
 const getTimeForSelect = (date: any) =>
   date ? makeMoment(date).format("HH:mm") : null;
@@ -507,7 +508,7 @@ class ShiftRecordService {
   async publishShiftRecords(props: PublishShiftRecordsProps) {
     const { company, shiftIds } = props;
     const [numberOfShifts, []] = await ShiftRecordModel.update(
-      { status: "approved" },
+      { status: ShiftRecordStatus.PUBLISHED },
       {
         where: {
           id: {
@@ -520,7 +521,7 @@ class ShiftRecordService {
     );
     return {
       numberOfShifts,
-      status: "Approved",
+      status: ShiftRecordStatus.PUBLISHED,
     };
   }
 }
