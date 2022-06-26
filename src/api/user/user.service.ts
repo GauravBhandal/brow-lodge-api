@@ -342,7 +342,7 @@ class UserService {
     });
 
     // if the user exists, throw an error
-    if (existingUser) {
+    if (existingUser && id !== existingUser.id) {
       throw new CustomError(409, UserErrorCode.USER_ALREADY_EXISTS);
     }
 
