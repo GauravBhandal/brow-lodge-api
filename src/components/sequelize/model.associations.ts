@@ -66,6 +66,7 @@ import { ParticipantCommunicationLogModel } from "../../api/participantCommunica
 import { StaffSupervisionLogModel } from "../../api/staffSupervisionLog";
 import { ParticipantMedicationChartModel } from "../../api/participantMedicationChart";
 import { RosterSettingModel } from "../../api/rosterSetting";
+import { ProgressNoteSettingsModel } from "../../api/progressNoteSettings";
 
 export default {
   initialize() {
@@ -136,6 +137,7 @@ export default {
     initializeStaffSupervisionLogModelAssociations();
     initializeParticipantMedicationChartModelAssociations();
     initializeRosterSettingModelAssociations();
+    initializeProgressNoteSettingsModelAssociations();
   },
 };
 
@@ -217,13 +219,20 @@ function initializeProgressNoteModelAssociations() {
   ProgressNoteModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
-  ProgressNoteModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
+  ProgressNoteModel.belongsToMany(StaffProfileModel, {
+    through: "progress_notes_staff_profiles",
+    foreignKey: "progress_note",
+    otherKey: "staff",
     as: "Staff",
   });
   ProgressNoteModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+  ProgressNoteModel.belongsToMany(AttachmentModel, {
+    through: "progress_notes_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
 
@@ -1097,6 +1106,11 @@ function initializeParticipantMedicationChartModelAssociations() {
 
 function initializeRosterSettingModelAssociations() {
   RosterSettingModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+function initializeProgressNoteSettingsModelAssociations() {
+  ProgressNoteSettingsModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
 }

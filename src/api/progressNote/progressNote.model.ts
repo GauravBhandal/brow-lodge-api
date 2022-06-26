@@ -17,12 +17,12 @@ class ProgressNoteModel<
   shiftStartTime!: ProgressNote["shiftStartTime"];
   shiftEndTime!: ProgressNote["shiftEndTime"];
   notes!: ProgressNote["notes"];
-  staff!: ProgressNote["staff"];
-  Staff: ProgressNote["Staff"];
   client!: ProgressNote["client"];
   Client: ProgressNote["Client"];
   company!: ProgressNote["company"];
   Company: ProgressNote["Company"];
+  Attachments: ProgressNote["Attachments"];
+  customFieldsData: ProgressNote["customFieldsData"];
 }
 
 modelManager.init(
@@ -44,6 +44,9 @@ modelManager.init(
     notes: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    customFieldsData: {
+      type: Sequelize.JSONB,
     },
   },
   {
