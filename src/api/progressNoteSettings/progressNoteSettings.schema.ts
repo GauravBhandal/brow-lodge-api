@@ -9,7 +9,7 @@ const editProgressNoteSettingsSchema = wrapSchema({
       .items(
         Joi.object().keys({
           label: Joi.string().required(),
-          isRequired: Joi.boolean().required(),
+          // isRequired: Joi.boolean().required(),
         })
       )
       .required(),
