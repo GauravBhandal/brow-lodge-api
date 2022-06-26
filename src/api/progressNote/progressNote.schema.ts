@@ -13,8 +13,10 @@ const createProgressNoteSchema = wrapSchema({
     shiftStartTime: requiredTimeSchema(),
     shiftEndTime: requiredTimeSchema(),
     notes: Joi.string().required(),
-    staff: requiredUUIDSchema(),
+    staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
+    customFieldsData: Joi.object().allow(null),
   }),
 });
 
@@ -25,8 +27,10 @@ const editProgressNoteSchema = wrapSchema({
     shiftStartTime: requiredTimeSchema(),
     shiftEndTime: requiredTimeSchema(),
     notes: Joi.string().required(),
-    staff: requiredUUIDSchema(),
+    staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: requiredUUIDSchema(),
+    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
+    customFieldsData: Joi.object().allow(null),
   }),
 });
 

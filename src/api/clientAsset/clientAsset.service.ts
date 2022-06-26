@@ -16,10 +16,19 @@ import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
+import { clientAssetAttachmentService } from "./clientAssetAttachment";
+import { AttachmentModel } from "../attachment";
 
 class ClientAssetService {
   async createClientAsset(props: CreateClientAssetProps) {
     const clientAsset = await ClientAssetModel.create(props);
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await clientAssetAttachmentService.createBulkClientAssetAttachment({
+        relation: clientAsset.id,
+        attachments: props.attachments,
+      });
+    }
     return clientAsset;
   }
 
@@ -46,6 +55,14 @@ class ClientAssetService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments) {
+      await clientAssetAttachmentService.updateBulkClientAssetAttachment({
+        relation: clientAsset.id,
+        attachments: props.attachments,
+      });
+    }
     return updatedClientAsset;
   }
 
@@ -84,6 +101,12 @@ class ClientAssetService {
         {
           model: ClientProfileModel,
           as: "Client",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });

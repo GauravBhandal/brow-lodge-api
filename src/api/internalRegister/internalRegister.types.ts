@@ -5,6 +5,7 @@ import { Attachment } from "../attachment";
 
 export interface InternalRegister extends DefaultSchemaConfig {
   notes?: string;
+  nextReviewDate?: Date;
   name: string;
   version: string;
   company: Company["id"];
@@ -14,6 +15,7 @@ export interface InternalRegister extends DefaultSchemaConfig {
 
 export interface CreateInternalRegisterProps {
   notes: InternalRegister["notes"];
+  nextReviewDate?: InternalRegister["nextReviewDate"];
   name: InternalRegister["name"];
   version: InternalRegister["version"];
   company: InternalRegister["company"];

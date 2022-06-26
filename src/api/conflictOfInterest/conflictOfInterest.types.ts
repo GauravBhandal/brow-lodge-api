@@ -2,6 +2,7 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface ConflictOfInterest extends DefaultSchemaConfig {
   date: Date;
@@ -11,6 +12,7 @@ export interface ConflictOfInterest extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateConflictOfInterestProps {
@@ -19,6 +21,7 @@ export interface CreateConflictOfInterestProps {
   mitigationStrategy: ConflictOfInterest["mitigationStrategy"];
   staff: ConflictOfInterest["staff"];
   company: ConflictOfInterest["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateConflictOfInterestProps

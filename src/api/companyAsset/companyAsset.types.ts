@@ -2,6 +2,7 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface CompanyAsset extends DefaultSchemaConfig {
   date: Date;
@@ -12,6 +13,7 @@ export interface CompanyAsset extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateCompanyAssetProps {
@@ -21,6 +23,7 @@ export interface CreateCompanyAssetProps {
   description: CompanyAsset["description"];
   staff: CompanyAsset["staff"];
   company: CompanyAsset["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateCompanyAssetProps extends CreateCompanyAssetProps {

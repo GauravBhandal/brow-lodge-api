@@ -10,6 +10,9 @@ const createCompanyAssetSchema = wrapSchema({
     location: Joi.string().required(),
     description: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -21,6 +24,9 @@ const editCompanyAssetSchema = wrapSchema({
     location: Joi.string().required(),
     description: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

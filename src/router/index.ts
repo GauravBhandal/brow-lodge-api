@@ -67,9 +67,7 @@ import { onCallLogRoutes } from "../api/onCallLogs";
 import { participantCommunicationLogRoutes } from "../api/participantCommunicationLog";
 import { staffSupervisionLogRoutes } from "../api/staffSupervisionLog";
 import { participantMedicationChartRoutes } from "../api/participantMedicationChart";
-
-// import { shiftTypeRoutes } from "../api/shiftType";
-// import { shiftRecordRoutes } from "../api/shiftRecord";
+import { progressNoteSettingsRoutes } from "../api/progressNoteSettings";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -140,7 +138,6 @@ router.use("/on-call-log", onCallLogRoutes);
 router.use("/participant-communication-log", participantCommunicationLogRoutes);
 router.use("/staff-supervision-log", staffSupervisionLogRoutes);
 router.use("/participant-medication-chart", participantMedicationChartRoutes);
-// router.use("/shift-type", shiftTypeRoutes);
-// router.use("/shift-record", shiftRecordRoutes);
+router.use("/progress-note-setting", progressNoteSettingsRoutes);
 
 export default router;

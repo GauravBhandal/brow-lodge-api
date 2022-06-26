@@ -3,18 +3,20 @@ import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface ProgressNote extends DefaultSchemaConfig {
   date: Date;
   shiftStartTime: Date;
   shiftEndTime: Date;
   notes: string;
-  staff: StaffProfile["id"];
-  Staff?: StaffProfile;
+  customFieldsData?: Object;
+  Staff?: StaffProfile[];
   client: ClientProfile["id"];
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateProgressNoteProps {
@@ -22,9 +24,11 @@ export interface CreateProgressNoteProps {
   shiftStartTime: ProgressNote["shiftStartTime"];
   shiftEndTime: ProgressNote["shiftEndTime"];
   notes: ProgressNote["notes"];
-  staff: ProgressNote["staff"];
+  staff: StaffProfile["id"][];
   client: ProgressNote["client"];
   company: ProgressNote["company"];
+  attachments?: Attachment["id"][];
+  customFieldsData?: ProgressNote["customFieldsData"];
 }
 
 export interface UpdateProgressNoteProps extends CreateProgressNoteProps {
