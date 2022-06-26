@@ -17,10 +17,30 @@ import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
 import { addCientFiltersByTeams } from "../../components/filters";
+import { progressNoteAttachmentService } from "./progressNoteAttachment";
+import { AttachmentModel } from "../attachment";
+import { progressNoteStaffProfileService } from "./progressNoteStaffProfile";
 
 class ProgressNoteService {
   async createProgressNote(props: CreateProgressNoteProps) {
     const progressNote = await ProgressNoteModel.create(props);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await progressNoteAttachmentService.createBulkProgressNoteAttachment({
+        relation: progressNote.id,
+        attachments: props.attachments,
+      });
+    }
+
+    // Assign staff profiles
+    if (props.staff && props.staff.length) {
+      await progressNoteStaffProfileService.createBulkProgressNoteStaffProfile({
+        progressNote: progressNote.id,
+        staff: props.staff,
+      });
+    }
+
     return progressNote;
   }
 
@@ -47,6 +67,23 @@ class ProgressNoteService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments) {
+      await progressNoteAttachmentService.updateBulkProgressNoteAttachment({
+        relation: progressNote.id,
+        attachments: props.attachments,
+      });
+    }
+
+    // Update staff profiles
+    if (props.staff && props.staff.length) {
+      await progressNoteStaffProfileService.updateBulkProgressNoteStaffProfile({
+        progressNote: progressNote.id,
+        staff: props.staff,
+      });
+    }
+
     return updatedProgressNote;
   }
 
@@ -81,10 +118,19 @@ class ProgressNoteService {
         {
           model: StaffProfileModel,
           as: "Staff",
+          through: {
+            attributes: [],
+          },
         },
         {
           model: ClientProfileModel,
           as: "Client",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });
@@ -110,13 +156,8 @@ class ProgressNoteService {
     const include = [
       {
         model: CompanyModel,
-      },
-      {
-        model: StaffProfileModel,
-        as: "Staff",
-        where: {
-          ...filters["Staff"],
-        },
+        duplicating: true,
+        required: true,
       },
       {
         model: ClientProfileModel,
@@ -125,6 +166,20 @@ class ProgressNoteService {
           ...filters["Client"],
           ...clientFilters,
         },
+        duplicating: true,
+        required: true,
+      },
+      {
+        model: StaffProfileModel,
+        through: {
+          attributes: [],
+        },
+        where: {
+          ...filters["Staff"],
+        },
+        as: "Staff",
+        duplicating: true,
+        required: true,
       },
     ];
 
