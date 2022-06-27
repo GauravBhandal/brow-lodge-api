@@ -39,11 +39,11 @@ import { ShiftRecordStatus } from "./shiftRecord.constant";
 const getTimeForSelect = (date: any) =>
   date ? makeMoment(date).format("HH:mm") : null;
 
-const getStartDate = (date: any, time: any) => {
-  return makeMoment(
-    `${formatDateToString(date)}
-  ${getTimeForSelect(time)}`
-  ).format();
+const getStartDate = (existingDateTime: any, newDateTime: any) => {
+  const formatedDate = formatDateToString(existingDateTime);
+  const formatedTime = getTimeForSelect(newDateTime);
+  const finalDateTime = formatedDate + " " + formatedTime;
+  return makeMoment(finalDateTime);
 };
 
 const getDateDiff = (startDate: any, endDate: any) => {
