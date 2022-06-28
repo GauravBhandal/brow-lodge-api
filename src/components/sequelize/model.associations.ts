@@ -68,6 +68,7 @@ import { ParticipantMedicationChartModel } from "../../api/participantMedication
 import { RosterSettingModel } from "../../api/rosterSetting";
 import { ProgressNoteSettingsModel } from "../../api/progressNoteSettings";
 import { ProcessModel } from "../../api/process";
+import { PracticeGuideModel } from "../../api/practiceGuide";
 
 export default {
   initialize() {
@@ -140,6 +141,7 @@ export default {
     initializeRosterSettingModelAssociations();
     initializeProgressNoteSettingsModelAssociations();
     initializeProcessModelAssociations();
+    initializePracticeGuideModelAssociations();
   },
 };
 
@@ -1014,6 +1016,17 @@ function initializeProcessModelAssociations() {
   });
   ProcessModel.belongsToMany(AttachmentModel, {
     through: "processes_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializePracticeGuideModelAssociations() {
+  PracticeGuideModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PracticeGuideModel.belongsToMany(AttachmentModel, {
+    through: "practice_guides_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
