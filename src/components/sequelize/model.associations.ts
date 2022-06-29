@@ -68,6 +68,7 @@ import { ParticipantMedicationChartModel } from "../../api/participantMedication
 import { RosterSettingModel } from "../../api/rosterSetting";
 import { ProgressNoteSettingsModel } from "../../api/progressNoteSettings";
 import { ProcessModel } from "../../api/process";
+import { RpdhsResourceModel } from "../../api/rpdhsResources";
 
 export default {
   initialize() {
@@ -140,6 +141,7 @@ export default {
     initializeRosterSettingModelAssociations();
     initializeProgressNoteSettingsModelAssociations();
     initializeProcessModelAssociations();
+    initializeRpdhsResourceModelAssociations();
   },
 };
 
@@ -1014,6 +1016,17 @@ function initializeProcessModelAssociations() {
   });
   ProcessModel.belongsToMany(AttachmentModel, {
     through: "processes_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeRpdhsResourceModelAssociations() {
+  RpdhsResourceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  RpdhsResourceModel.belongsToMany(AttachmentModel, {
+    through: "rpdhs_resources_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
