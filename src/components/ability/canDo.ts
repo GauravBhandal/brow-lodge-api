@@ -71,6 +71,7 @@ type Subject =
   | "progressNotesCustomField"
   | "progressNoteSettings"
   | "process"
+  | "practiceGuide"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {
