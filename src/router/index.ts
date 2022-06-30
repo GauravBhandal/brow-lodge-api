@@ -70,6 +70,7 @@ import { participantMedicationChartRoutes } from "../api/participantMedicationCh
 import { progressNoteSettingsRoutes } from "../api/progressNoteSettings";
 import { processRoutes } from "../api/process";
 import { rpdhsResourceRoutes } from "../api/rpdhsResources";
+import { practiceGuideRoutes } from "../api/practiceGuide";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -143,5 +144,6 @@ router.use("/participant-medication-chart", participantMedicationChartRoutes);
 router.use("/progress-note-setting", progressNoteSettingsRoutes);
 router.use("/process", processRoutes);
 router.use("/rpdhs-resource", rpdhsResourceRoutes);
+router.use("/practice-guide", practiceGuideRoutes);
 
 export default router;

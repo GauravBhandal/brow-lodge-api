@@ -72,6 +72,7 @@ type Subject =
   | "progressNoteSettings"
   | "process"
   | "rpdhsResource"
+  | "practiceGuide"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {

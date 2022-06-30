@@ -69,6 +69,7 @@ import { RosterSettingModel } from "../../api/rosterSetting";
 import { ProgressNoteSettingsModel } from "../../api/progressNoteSettings";
 import { ProcessModel } from "../../api/process";
 import { RpdhsResourceModel } from "../../api/rpdhsResources";
+import { PracticeGuideModel } from "../../api/practiceGuide";
 
 export default {
   initialize() {
@@ -142,6 +143,7 @@ export default {
     initializeProgressNoteSettingsModelAssociations();
     initializeProcessModelAssociations();
     initializeRpdhsResourceModelAssociations();
+    initializePracticeGuideModelAssociations();
   },
 };
 
@@ -1027,6 +1029,17 @@ function initializeRpdhsResourceModelAssociations() {
   });
   RpdhsResourceModel.belongsToMany(AttachmentModel, {
     through: "rpdhs_resources_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializePracticeGuideModelAssociations() {
+  PracticeGuideModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PracticeGuideModel.belongsToMany(AttachmentModel, {
+    through: "practice_guides_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
