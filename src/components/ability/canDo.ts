@@ -71,6 +71,7 @@ type Subject =
   | "progressNotesCustomField"
   | "progressNoteSettings"
   | "process"
+  | "rpdhsResource"
   | "practiceGuide"
   | "policy";
 
