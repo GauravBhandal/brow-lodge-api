@@ -198,7 +198,7 @@ class ServiceService {
         ...filters["primaryFilters"],
         effectiveDate: {
           [Op.or]: {
-            [Op.lte]: makeMoment().startOf("day").format(),
+            [Op.lte]: makeMoment().endOf("day").format(),
             [Op.eq]: null,
           },
         },
