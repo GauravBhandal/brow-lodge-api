@@ -67,6 +67,7 @@ import { StaffSupervisionLogModel } from "../../api/staffSupervisionLog";
 import { ParticipantMedicationChartModel } from "../../api/participantMedicationChart";
 import { RosterSettingModel } from "../../api/rosterSetting";
 import { ProgressNoteSettingsModel } from "../../api/progressNoteSettings";
+import { ProcessModel } from "../../api/process";
 
 export default {
   initialize() {
@@ -138,6 +139,7 @@ export default {
     initializeParticipantMedicationChartModelAssociations();
     initializeRosterSettingModelAssociations();
     initializeProgressNoteSettingsModelAssociations();
+    initializeProcessModelAssociations();
   },
 };
 
@@ -1001,6 +1003,17 @@ function initializeTemplateModelAssociations() {
   });
   TemplateModel.belongsToMany(AttachmentModel, {
     through: "templates_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeProcessModelAssociations() {
+  ProcessModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ProcessModel.belongsToMany(AttachmentModel, {
+    through: "processes_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
