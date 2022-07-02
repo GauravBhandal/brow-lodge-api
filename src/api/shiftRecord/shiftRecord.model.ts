@@ -20,6 +20,7 @@ class ShiftRecordModel<
   Company: ShiftRecord["Company"];
   repeat?: ShiftRecord["repeat"];
   user!: ShiftRecord["user"];
+  status?: ShiftRecord["status"];
 }
 
 modelManager.init(
@@ -36,6 +37,9 @@ modelManager.init(
     },
     break: {
       type: Sequelize.NUMBER,
+    },
+    status: {
+      type: Sequelize.STRING,
     },
   },
   {

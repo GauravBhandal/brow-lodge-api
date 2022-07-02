@@ -1,7 +1,8 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
-import { staffProfileService } from "../staffProfile";
 
+import { staffProfileService } from "../staffProfile";
+import { ShiftRecordStatus } from "./shiftRecord.constant";
 import shiftRecordService from "./shiftRecord.service";
 
 class ShiftRecordController {
@@ -81,6 +82,7 @@ class ShiftRecordController {
       ...queryParams,
       where: {
         "Staff.id_eq": staffProfile.id,
+        status_eq: ShiftRecordStatus.PUBLISHED,
         ...queryParams["where"],
       },
     };
@@ -103,6 +105,17 @@ class ShiftRecordController {
     const shiftRecords = await shiftRecordService.getShiftRecords(props);
 
     res.status(200).json(shiftRecords);
+  }
+
+  async publishShiftRecords(req: Request, res: Response) {
+    const props = {
+      ...req.body,
+      company: req.auth.companyId,
+    };
+
+    const shiftRecord = await shiftRecordService.publishShiftRecords(props);
+
+    res.status(200).json(shiftRecord);
   }
 }
 

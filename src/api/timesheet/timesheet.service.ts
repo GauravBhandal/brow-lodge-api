@@ -217,6 +217,10 @@ class TimesheetService {
         model: CompanyModel,
       },
       {
+        model: StaffProfileModel,
+        as: "Staff",
+      },
+      {
         model: ShiftRecordModel,
         as: "Shift",
         include: [
@@ -288,48 +292,47 @@ class TimesheetService {
 
     // Map the total hours for per staff per pay item
     timesheets.forEach((timesheet: any) => {
-      if (timesheet?.Shift?.Staff) {
+      if (timesheet?.Staff && timesheet?.Shift?.Services) {
         // For every staff in the Shift, add total hours per pay item
-        timesheet.Shift.Staff.forEach((staff: StaffProfile) => {
-          if (staff?.Paylevel?.id && timesheet?.Shift?.Services) {
-            const paylevelId = staff.Paylevel.id;
-            const services = _orderBy(
-              timesheet.Shift.Services,
-              ["shift_records_services.dataValues.start_time"],
-              ["asc"]
+        const staff = timesheet.Staff;
+        if (staff.paylevel && timesheet.Shift.Services) {
+          const paylevelId = staff.paylevel;
+          const services = _orderBy(
+            timesheet.Shift.Services,
+            ["shift_records_services.dataValues.start_time"],
+            ["asc"]
+          );
+
+          // For every service in the Shift
+          services.forEach((service: any, index: any) => {
+            const payLevel = service.PayLevels.find(
+              (level: any) => level.id === paylevelId
             );
+            const payItem = payLevel.services_pay_levels.dataValues.payitem; //TODO: Please remove data values
 
-            // For every service in the Shift
-            services.forEach((service: any, index: any) => {
-              const payLevel = service.PayLevels.find(
-                (level: any) => level.id === paylevelId
-              );
-              const payItem = payLevel.services_pay_levels.dataValues.payitem; //TODO: Please remove data values
-
-              if (staff.accountingCode) {
-                if (!result[staff.accountingCode]) {
-                  result[staff.accountingCode] = {};
-                }
-                if (!result[staff.accountingCode][payItem]) {
-                  result[staff.accountingCode][payItem] = [];
-                }
-                result[staff.accountingCode][payItem].push({
-                  units:
-                    service.rateType === "Fixed"
-                      ? 1
-                      : getMinutesDiff(
-                          service.shift_records_services.dataValues.start_time,
-                          index === services.length - 1
-                            ? timesheet.endDateTime
-                            : services[index + 1].shift_records_services
-                                .dataValues.start_time
-                        ) / 60,
-                  startDate: timesheet.startDateTime,
-                });
+            if (staff.accountingCode) {
+              if (!result[staff.accountingCode]) {
+                result[staff.accountingCode] = {};
               }
-            });
-          }
-        });
+              if (!result[staff.accountingCode][payItem]) {
+                result[staff.accountingCode][payItem] = [];
+              }
+              result[staff.accountingCode][payItem].push({
+                units:
+                  service.rateType === "Fixed"
+                    ? 1
+                    : getMinutesDiff(
+                        service.shift_records_services.dataValues.start_time,
+                        index === services.length - 1
+                          ? timesheet.endDateTime
+                          : services[index + 1].shift_records_services
+                              .dataValues.start_time
+                      ) / 60,
+                startDate: timesheet.startDateTime,
+              });
+            }
+          });
+        }
       }
     });
 
@@ -346,9 +349,9 @@ class TimesheetService {
         endDate: formatDateToString(endDate),
         status: "DRAFT",
         timesheetLines: Object.keys(result[staffId]).map((payItem) => {
-          const units = defaultUnits;
+          const units = [...defaultUnits];
           result[staffId][payItem].forEach((item: any) => {
-            units[daysDifference(startDate, item.startDate)] = item.units;
+            units[daysDifference(startDate, item.startDate)] += item.units;
           });
           return {
             earningsRateID: payItem,
@@ -374,79 +377,74 @@ class TimesheetService {
     const errorMessageDetails: any = [];
 
     timesheets.forEach((timesheet: any) => {
-      if (timesheet?.Shift?.Staff) {
+      if (timesheet?.Staff) {
         // For every staff in the Shift, add total hours per pay item
-        timesheet.Shift.Staff.forEach((staff: StaffProfile) => {
-          // To check if accounting code exists or not
-          if (!staff.accountingCode) {
-            errorMessageDetails.push(
-              `${staff.preferredName} has no accouting code`
+        const staff = timesheet.Staff;
+        // To check if accounting code exists or not
+        if (!staff.accountingCode) {
+          errorMessageDetails.push(
+            `${staff.preferredName} has no accouting code`
+          );
+        } else {
+          if (
+            getAllAccountCodes?.employees &&
+            getAllAccountCodes?.employees.length
+          ) {
+            // If accounting code present in xero also or not
+            const IsAccountingCodeValid = getAllAccountCodes?.employees.filter(
+              (employee: any) => employee.employeeID === staff.accountingCode
             );
-          } else {
-            if (
-              getAllAccountCodes?.employees &&
-              getAllAccountCodes?.employees.length
-            ) {
-              // If accounting code present in xero also or not
-              const IsAccountingCodeValid =
-                getAllAccountCodes?.employees.filter(
-                  (employee: any) =>
-                    employee.employeeID === staff.accountingCode
-                );
-              if (IsAccountingCodeValid.length === 0) {
-                errorMessageDetails.push(
-                  `${staff.preferredName} accounting code doesn't matched`
-                );
-              }
-            } else {
-              errorMessageDetails.push("Please sync with xero");
-            }
-          }
-          const paylevelId = staff.Paylevel;
-          // Checking if paylevel is assigned to staff
-          if (!paylevelId) {
-            errorMessageDetails.push(`${staff.preferredName} has no paylevel`);
-          }
-          if (staff?.Paylevel?.id && timesheet?.Shift?.Services) {
-            const paylevelId = staff.Paylevel.id;
-            const services = timesheet.Shift.Services;
-
-            // For every service in the Shift
-            services.forEach((service: any, index: any) => {
-              const payItem = service.PayLevels.filter(
-                (level: any) => level.id === paylevelId
+            if (IsAccountingCodeValid.length === 0) {
+              errorMessageDetails.push(
+                `${staff.preferredName} accounting code doesn't matched`
               );
-
-              // Check that payitem exists
-              if (!payItem) {
-                errorMessageDetails.push(
-                  `${staff.preferredName} has no payitem`
-                );
-              } else {
-                if (
-                  payItemsList?.payItems?.earningsRates &&
-                  payItemsList?.payItems?.earningsRates.length
-                ) {
-                  const payItemExists =
-                    payItemsList?.payItems?.earningsRates.filter(
-                      (item: any) =>
-                        item.earningsRateID ===
-                        payItem[0].services_pay_levels?.dataValues?.payitem
-                    );
-
-                  // Check that payitem matches with xero
-                  if (payItemExists?.length === 0) {
-                    errorMessageDetails.push(
-                      `${staff.preferredName} payitem doesn't matched`
-                    );
-                  }
-                } else {
-                  errorMessageDetails.push(`Please sync with xero`);
-                }
-              }
-            });
+            }
+          } else {
+            errorMessageDetails.push("Please sync with xero");
           }
-        });
+        }
+        const paylevelId = staff.paylevel;
+        // Checking if paylevel is assigned to staff
+        if (!paylevelId) {
+          errorMessageDetails.push(`${staff.preferredName} has no paylevel`);
+        }
+        if (staff?.paylevel && timesheet?.Shift?.Services) {
+          const paylevelId = staff.paylevel;
+          const services = timesheet.Shift.Services;
+
+          // For every service in the Shift
+          services.forEach((service: any, index: any) => {
+            const payItem = service.PayLevels.filter(
+              (level: any) => level.id === paylevelId
+            );
+
+            // Check that payitem exists
+            if (!payItem) {
+              errorMessageDetails.push(`${staff.preferredName} has no payitem`);
+            } else {
+              if (
+                payItemsList?.payItems?.earningsRates &&
+                payItemsList?.payItems?.earningsRates.length
+              ) {
+                const payItemExists =
+                  payItemsList?.payItems?.earningsRates.filter(
+                    (item: any) =>
+                      item.earningsRateID ===
+                      payItem[0].services_pay_levels?.dataValues?.payitem
+                  );
+
+                // Check that payitem matches with xero
+                if (payItemExists?.length === 0) {
+                  errorMessageDetails.push(
+                    `${staff.preferredName} payitem doesn't matched`
+                  );
+                }
+              } else {
+                errorMessageDetails.push(`Please sync with xero`);
+              }
+            }
+          });
+        }
       }
     });
     const updatedErrorMessages = [...new Set(errorMessageDetails)];

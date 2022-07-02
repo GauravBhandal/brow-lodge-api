@@ -20,6 +20,7 @@ import {
 } from "./xero.types";
 import config from "../../config/environment";
 import { integrationExternalDataService } from "../integration/integrationExternalData";
+import { CustomError } from "../../components/errors";
 
 const XERO_INTEGRATION_KEY = "xero";
 class XeroService {
@@ -171,7 +172,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return {};
+      throw new CustomError(
+        500,
+        "An internal error has occurred while exporting data to Xero"
+      );
     }
   }
 
@@ -207,7 +211,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return;
+      throw new CustomError(
+        500,
+        "An internal error has occurred while syncing data with Xero"
+      );
     }
   }
 
@@ -243,7 +250,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return;
+      throw new CustomError(
+        500,
+        "An internal error has occurred while syncing data with Xero"
+      );
     }
   }
 
@@ -279,7 +289,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return;
+      throw new CustomError(
+        500,
+        "An internal error has occurred while syncing data with Xero"
+      );
     }
   }
 
@@ -300,7 +313,10 @@ class XeroService {
     } catch (err: any) {
       const error = JSON.stringify(err.response?.body, null, 2);
       console.log(`Status Code: ${err.response?.statusCode} => ${error}`);
-      return {};
+      throw new CustomError(
+        500,
+        "An internal error has occurred while exporting data to Xero"
+      );
     }
   }
 }

@@ -14,6 +14,13 @@ router.get(
 );
 
 router.post(
+  "/publish",
+  canDo("update", "roster"),
+  shiftRecordSchemas.publishShiftRecords,
+  catchWrap(controller.publishShiftRecords)
+);
+
+router.post(
   "/",
   canDo("create", "roster"),
   shiftRecordSchemas.createShiftRecord,
