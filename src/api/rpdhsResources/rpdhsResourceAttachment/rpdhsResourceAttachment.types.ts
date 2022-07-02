@@ -1,5 +1,5 @@
 import { DefaultSchemaConfig } from "../../../components/sequelize/manager";
-import { RpdhsResource } from "../../rpdhsResource";
+import { RpdhsResource } from "../../rpdhsResources";
 import { Attachment } from "../../attachment";
 
 export interface RpdhsResourceAttachment extends DefaultSchemaConfig {
