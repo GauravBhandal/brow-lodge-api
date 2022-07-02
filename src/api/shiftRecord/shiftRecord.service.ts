@@ -11,6 +11,7 @@ import {
   DeleteShiftRecordProps,
   GetShiftRecordByIdProps,
   GetShiftRecordsProps,
+  PublishShiftRecordsProps,
 } from "./shiftRecord.types";
 import { CustomError } from "../../components/errors";
 import ShiftRecordErrorCode from "./shiftRecord.error";
@@ -33,15 +34,16 @@ import { shiftRecordServiceService } from "./shiftRecordService";
 import { ServiceModel } from "../service";
 import { TimesheetModel, timesheetService } from "../timesheet";
 import { InvoiceModel, invoiceService } from "../invoice";
+import { ShiftRecordStatus } from "./shiftRecord.constant";
 
 const getTimeForSelect = (date: any) =>
   date ? makeMoment(date).format("HH:mm") : null;
 
-const getStartDate = (date: any, time: any) => {
-  return makeMoment(
-    `${formatDateToString(date)}
-  ${getTimeForSelect(time)}`
-  ).format();
+const getStartDate = (existingDateTime: any, newDateTime: any) => {
+  const formatedDate = formatDateToString(existingDateTime);
+  const formatedTime = getTimeForSelect(newDateTime);
+  const finalDateTime = formatedDate + " " + formatedTime;
+  return makeMoment(finalDateTime);
 };
 
 const getDateDiff = (startDate: any, endDate: any) => {
@@ -309,49 +311,51 @@ class ShiftRecordService {
         }
       );
       result = updatedShiftRecord;
-    }
 
-    // Update services
-    if (props.services && props.services.length) {
-      await shiftRecordServiceService.updateBulkShiftRecordService({
-        shift: shiftRecord.id,
-        services: props.services,
-      });
-    }
+      // Update services
+      if (props.services && props.services.length) {
+        await shiftRecordServiceService.updateBulkShiftRecordService({
+          shift: shiftRecord.id,
+          services: props.services,
+        });
+      }
 
-    // Assign staff profiles
-    if (props.staff) {
-      await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile({
-        shift: shiftRecord.id,
+      // Assign staff profiles
+      if (props.staff) {
+        await shiftRecordStaffProfileService.updateBulkShiftRecordStaffProfile({
+          shift: shiftRecord.id,
+          staff: props.staff,
+        });
+      }
+
+      // Assign client profiles
+      if (props.client) {
+        await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile(
+          {
+            shift: shiftRecord.id,
+            client: props.client,
+          }
+        );
+      }
+
+      // Update timesheets
+      await timesheetService.updateTimesheetOnShiftUpdate({
+        startDateTime: props.startDateTime,
+        endDateTime: props.endDateTime,
+        shift: id,
         staff: props.staff,
+        company: props.company,
       });
-    }
 
-    // Assign client profiles
-    if (props.client) {
-      await shiftRecordClientProfileService.updateBulkShiftRecordClientProfile({
-        shift: shiftRecord.id,
+      // Update invoices
+      await invoiceService.updateInvoiceOnShiftUpdate({
+        startDateTime: props.startDateTime,
+        endDateTime: props.endDateTime,
+        shift: id,
         client: props.client,
+        company: props.company,
       });
     }
-
-    // Update timesheets
-    await timesheetService.updateTimesheetOnShiftUpdate({
-      startDateTime: props.startDateTime,
-      endDateTime: props.endDateTime,
-      shift: id,
-      staff: props.staff,
-      company: props.company,
-    });
-
-    // Update invoices
-    await invoiceService.updateInvoiceOnShiftUpdate({
-      startDateTime: props.startDateTime,
-      endDateTime: props.endDateTime,
-      shift: id,
-      client: props.client,
-      company: props.company,
-    });
 
     return result;
   }
@@ -436,6 +440,12 @@ class ShiftRecordService {
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+    // Helper fn. to return shifts by staff when called by myshift endpoint's controller
+    const checkClientPermissions = () => {
+      if (filters["Staff"] && Object.keys(filters["Staff"]).length !== 0) {
+        return { right: true };
+      }
+    };
 
     const include = [
       {
@@ -452,6 +462,7 @@ class ShiftRecordService {
         as: "Staff",
         duplicating: true,
         required: false,
+        ...checkClientPermissions(),
       },
       {
         model: ClientProfileModel,
@@ -492,6 +503,26 @@ class ShiftRecordService {
     const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;
+  }
+
+  async publishShiftRecords(props: PublishShiftRecordsProps) {
+    const { company, shiftIds } = props;
+    const [numberOfShifts, []] = await ShiftRecordModel.update(
+      { status: ShiftRecordStatus.PUBLISHED },
+      {
+        where: {
+          id: {
+            [Op.in]: shiftIds,
+          },
+          company,
+        },
+        returning: true,
+      }
+    );
+    return {
+      numberOfShifts,
+      status: ShiftRecordStatus.PUBLISHED,
+    };
   }
 }
 

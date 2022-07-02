@@ -226,6 +226,10 @@ class InvoiceService {
         model: CompanyModel,
       },
       {
+        model: ClientProfileModel,
+        as: "Client",
+      },
+      {
         model: ShiftRecordModel,
         as: "Shift",
         include: [
@@ -274,35 +278,32 @@ class InvoiceService {
     const getAllAccountCodes = await xeroService.getXeroCustomers({ company });
 
     allInvoices.forEach((invoice: InvoiceType) => {
-      if (invoice?.Shift?.Client) {
-        // Sort all the services for every invoice by start Time
-
+      if (invoice?.Client) {
         // For every Client, calculate hours for every service and add it to result object
-        invoice.Shift.Client.forEach((client: ClientProfile) => {
-          // To check if accounting code exists or not
-          if (!client.accountingCode) {
-            errorMessageDetails.push(
-              `${client.preferredName} has no accouting code`
+        const client = invoice.Client;
+        // To check if accounting code exists or not
+        if (!client.accountingCode) {
+          errorMessageDetails.push(
+            `${client.preferredName} has no accouting code`
+          );
+        } else {
+          if (
+            getAllAccountCodes?.contacts &&
+            getAllAccountCodes?.contacts.length
+          ) {
+            // If accounting code present in xero also or not
+            const IsAccountingCodeValid = getAllAccountCodes?.contacts.filter(
+              (customer: any) => customer.contactID === client.accountingCode
             );
-          } else {
-            if (
-              getAllAccountCodes?.contacts &&
-              getAllAccountCodes?.contacts.length
-            ) {
-              // If accounting code present in xero also or not
-              const IsAccountingCodeValid = getAllAccountCodes?.contacts.filter(
-                (customer: any) => customer.contactID === client.accountingCode
+            if (IsAccountingCodeValid.length === 0) {
+              errorMessageDetails.push(
+                `${client.preferredName} accounting code doesn't matched`
               );
-              if (IsAccountingCodeValid.length === 0) {
-                errorMessageDetails.push(
-                  `${client.preferredName} accounting code doesn't matched`
-                );
-              }
-            } else {
-              errorMessageDetails.push(`Please sync with xero`);
             }
+          } else {
+            errorMessageDetails.push(`Please sync with xero`);
           }
-        });
+        }
       }
     });
     const updatedErrorMessages = [...new Set(errorMessageDetails)];
@@ -337,34 +338,33 @@ class InvoiceService {
 
     // Map the total hours per service per client
     allInvoices.forEach((invoice: InvoiceType) => {
-      if (invoice?.Shift?.Client) {
+      if (invoice?.Shift?.Services && invoice?.Client) {
         // Sort all the services for every invoice by start Time
         const services = _orderBy(
           invoice.Shift.Services,
-          ["shift_records_services.start_time"],
+          ["shift_records_services.dataValues.start_time"],
           ["asc"]
         );
 
         // For every Client, calculate hours for every service and add it to result object
-        invoice.Shift.Client.forEach((client: ClientProfile) => {
-          // Create a new key in result object for every client
-          if (client.accountingCode && !result[client.accountingCode]) {
-            result[client.accountingCode] = {};
-          }
+        const client = invoice.Client;
+        // Create a new key in result object for every client
+        if (client.accountingCode && !result[client.accountingCode]) {
+          result[client.accountingCode] = {};
+        }
 
-          // Calculate hours for every service and add it to result object
-          services.forEach((service: any, index: Number) => {
-            if (client.accountingCode) {
-              result[client.accountingCode][service.code] =
-                (result[client.accountingCode][service.code] || 0) +
-                (service.rateType === "Fixed"
-                  ? 1
-                  : getMinutesDiff(
-                      service.shift_records_services.dataValues.start_time, // TODO: This is messy
-                      getEndTime(index, services.length, services, invoice)
-                    ) / 60);
-            }
-          });
+        // Calculate hours for every service and add it to result object
+        services.forEach((service: any, index: Number) => {
+          if (client.accountingCode) {
+            result[client.accountingCode][service.code] =
+              (result[client.accountingCode][service.code] || 0) +
+              (service.rateType === "Fixed"
+                ? 1
+                : getMinutesDiff(
+                    service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                    getEndTime(index, services.length, services, invoice)
+                  ) / 60);
+          }
         });
       }
     });
