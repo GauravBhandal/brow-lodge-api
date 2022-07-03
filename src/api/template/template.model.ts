@@ -15,6 +15,8 @@ class TemplateModel<
 {
   notes: Template["notes"];
   name!: Template["name"];
+  type: Template["type"];
+  category: Template["category"];
   version!: Template["version"];
   company!: Template["company"];
   Company: Template["Company"];
@@ -31,6 +33,12 @@ modelManager.init(
     name: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    type: {
+      type: Sequelize.STRING,
+    },
+    category: {
+      type: Sequelize.STRING,
     },
     version: {
       type: Sequelize.STRING,

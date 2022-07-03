@@ -70,6 +70,9 @@ type Subject =
   | "participantMedicationChart"
   | "progressNotesCustomField"
   | "progressNoteSettings"
+  | "process"
+  | "rpdhsResource"
+  | "practiceGuide"
   | "policy";
 
 export const canDo = (action: Action, subject: Subject) => {

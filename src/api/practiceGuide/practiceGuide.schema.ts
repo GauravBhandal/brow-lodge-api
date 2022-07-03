@@ -3,12 +3,10 @@ import Joi from "joi";
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
-const createTemplateSchema = wrapSchema({
+const createPracticeGuideSchema = wrapSchema({
   body: Joi.object().keys({
-    notes: Joi.string().allow("", null),
+    nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
-    type: Joi.string().required(),
-    category: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
@@ -16,13 +14,11 @@ const createTemplateSchema = wrapSchema({
   }),
 });
 
-const editTemplateSchema = wrapSchema({
-  params: Joi.object().keys({ templateId: requiredUUIDSchema() }),
+const editPracticeGuideSchema = wrapSchema({
+  params: Joi.object().keys({ practiceGuideId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    notes: Joi.string().allow("", null),
+    nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
-    type: Joi.string().required(),
-    category: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
@@ -30,19 +26,19 @@ const editTemplateSchema = wrapSchema({
   }),
 });
 
-const deleteTemplateSchema = wrapSchema({
+const deletePracticeGuideSchema = wrapSchema({
   params: Joi.object().keys({
-    templateId: requiredUUIDSchema(),
+    practiceGuideId: requiredUUIDSchema(),
   }),
 });
 
-const getTemplateByIdSchema = wrapSchema({
+const getPracticeGuideByIdSchema = wrapSchema({
   params: Joi.object().keys({
-    templateId: requiredUUIDSchema(),
+    practiceGuideId: requiredUUIDSchema(),
   }),
 });
 
-const getTemplateSchema = wrapSchema({
+const getPracticeGuideSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
@@ -52,9 +48,9 @@ const getTemplateSchema = wrapSchema({
 });
 
 export default {
-  createTemplate: joiMiddleware(createTemplateSchema),
-  editTemplate: joiMiddleware(editTemplateSchema),
-  deleteTemplate: joiMiddleware(deleteTemplateSchema),
-  getTemplateById: joiMiddleware(getTemplateByIdSchema),
-  getTemplates: joiMiddleware(getTemplateSchema),
+  createPracticeGuide: joiMiddleware(createPracticeGuideSchema),
+  editPracticeGuide: joiMiddleware(editPracticeGuideSchema),
+  deletePracticeGuide: joiMiddleware(deletePracticeGuideSchema),
+  getPracticeGuideById: joiMiddleware(getPracticeGuideByIdSchema),
+  getPracticeGuides: joiMiddleware(getPracticeGuideSchema),
 };

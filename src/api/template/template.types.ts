@@ -6,6 +6,8 @@ import { Attachment } from "../attachment";
 export interface Template extends DefaultSchemaConfig {
   notes?: string;
   name: string;
+  type?: string;
+  category?: string;
   version: string;
   company: Company["id"];
   Company?: Company;
@@ -15,6 +17,8 @@ export interface Template extends DefaultSchemaConfig {
 export interface CreateTemplateProps {
   notes: Template["notes"];
   name: Template["name"];
+  type: Template["type"];
+  category: Template["category"];
   version: Template["version"];
   company: Template["company"];
   attachments?: Attachment["id"][];

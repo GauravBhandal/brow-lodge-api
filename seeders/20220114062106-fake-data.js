@@ -25,9 +25,31 @@ const permissions = {
       update: true,
     },
   },
+  roster: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   company: {
     actions: {
       read: true,
+      update: true,
+    },
+  },
+  invoice: {
+    actions: {
+      read: true,
+      update: true,
+    },
+  },
+  process: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
       update: true,
     },
   },
@@ -76,6 +98,12 @@ const permissions = {
       read: true,
       create: true,
       delete: true,
+      update: true,
+    },
+  },
+  timesheet: {
+    actions: {
+      read: true,
       update: true,
     },
   },
@@ -204,6 +232,14 @@ const permissions = {
       update: true,
     },
   },
+  practiceGuide: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   prnBalanceLog: {
     actions: {
       read: true,
@@ -213,6 +249,20 @@ const permissions = {
     },
   },
   repairRequest: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  rosterSetting: {
+    actions: {
+      read: true,
+      update: true,
+    },
+  },
+  rpdhsResource: {
     actions: {
       read: true,
       create: true,
@@ -386,6 +436,12 @@ const permissions = {
       read: true,
       create: true,
       delete: true,
+      update: true,
+    },
+  },
+  progressNoteSettings: {
+    actions: {
+      read: true,
       update: true,
     },
   },

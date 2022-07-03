@@ -67,6 +67,9 @@ import { StaffSupervisionLogModel } from "../../api/staffSupervisionLog";
 import { ParticipantMedicationChartModel } from "../../api/participantMedicationChart";
 import { RosterSettingModel } from "../../api/rosterSetting";
 import { ProgressNoteSettingsModel } from "../../api/progressNoteSettings";
+import { ProcessModel } from "../../api/process";
+import { RpdhsResourceModel } from "../../api/rpdhsResources";
+import { PracticeGuideModel } from "../../api/practiceGuide";
 
 export default {
   initialize() {
@@ -138,6 +141,9 @@ export default {
     initializeParticipantMedicationChartModelAssociations();
     initializeRosterSettingModelAssociations();
     initializeProgressNoteSettingsModelAssociations();
+    initializeProcessModelAssociations();
+    initializeRpdhsResourceModelAssociations();
+    initializePracticeGuideModelAssociations();
   },
 };
 
@@ -1001,6 +1007,39 @@ function initializeTemplateModelAssociations() {
   });
   TemplateModel.belongsToMany(AttachmentModel, {
     through: "templates_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeProcessModelAssociations() {
+  ProcessModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ProcessModel.belongsToMany(AttachmentModel, {
+    through: "processes_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeRpdhsResourceModelAssociations() {
+  RpdhsResourceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  RpdhsResourceModel.belongsToMany(AttachmentModel, {
+    through: "rpdhs_resources_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializePracticeGuideModelAssociations() {
+  PracticeGuideModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  PracticeGuideModel.belongsToMany(AttachmentModel, {
+    through: "practice_guides_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });

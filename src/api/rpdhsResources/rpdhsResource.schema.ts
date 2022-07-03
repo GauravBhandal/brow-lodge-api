@@ -3,12 +3,10 @@ import Joi from "joi";
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
-const createTemplateSchema = wrapSchema({
+const createRpdhsResourceSchema = wrapSchema({
   body: Joi.object().keys({
-    notes: Joi.string().allow("", null),
+    nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
-    type: Joi.string().required(),
-    category: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
@@ -16,13 +14,11 @@ const createTemplateSchema = wrapSchema({
   }),
 });
 
-const editTemplateSchema = wrapSchema({
-  params: Joi.object().keys({ templateId: requiredUUIDSchema() }),
+const editRpdhsResourceSchema = wrapSchema({
+  params: Joi.object().keys({ rpdhsResourceId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    notes: Joi.string().allow("", null),
+    nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
-    type: Joi.string().required(),
-    category: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
@@ -30,19 +26,19 @@ const editTemplateSchema = wrapSchema({
   }),
 });
 
-const deleteTemplateSchema = wrapSchema({
+const deleteRpdhsResourceSchema = wrapSchema({
   params: Joi.object().keys({
-    templateId: requiredUUIDSchema(),
+    rpdhsResourceId: requiredUUIDSchema(),
   }),
 });
 
-const getTemplateByIdSchema = wrapSchema({
+const getRpdhsResourceByIdSchema = wrapSchema({
   params: Joi.object().keys({
-    templateId: requiredUUIDSchema(),
+    rpdhsResourceId: requiredUUIDSchema(),
   }),
 });
 
-const getTemplateSchema = wrapSchema({
+const getRpdhsResourceSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
@@ -52,9 +48,9 @@ const getTemplateSchema = wrapSchema({
 });
 
 export default {
-  createTemplate: joiMiddleware(createTemplateSchema),
-  editTemplate: joiMiddleware(editTemplateSchema),
-  deleteTemplate: joiMiddleware(deleteTemplateSchema),
-  getTemplateById: joiMiddleware(getTemplateByIdSchema),
-  getTemplates: joiMiddleware(getTemplateSchema),
+  createRpdhsResource: joiMiddleware(createRpdhsResourceSchema),
+  editRpdhsResource: joiMiddleware(editRpdhsResourceSchema),
+  deleteRpdhsResource: joiMiddleware(deleteRpdhsResourceSchema),
+  getRpdhsResourceById: joiMiddleware(getRpdhsResourceByIdSchema),
+  getRpdhsResources: joiMiddleware(getRpdhsResourceSchema),
 };
