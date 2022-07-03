@@ -7,6 +7,8 @@ const createTemplateSchema = wrapSchema({
   body: Joi.object().keys({
     notes: Joi.string().allow("", null),
     name: Joi.string().required(),
+    type: Joi.string().required(),
+    category: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
@@ -19,6 +21,8 @@ const editTemplateSchema = wrapSchema({
   body: Joi.object().keys({
     notes: Joi.string().allow("", null),
     name: Joi.string().required(),
+    type: Joi.string().required(),
+    category: Joi.string().required(),
     version: Joi.string().required(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))

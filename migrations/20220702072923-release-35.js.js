@@ -72,9 +72,13 @@ CREATE TABLE IF NOT EXISTS "rpdhs_resources_attachments" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "rpdhs_resources_attachments" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "templates" ADD COLUMN "type" VARCHAR, ADD COLUMN "category" VARCHAR;
 `;
 
 const queryDown = `
+ALTER TABLE "templates" DROP COLUMN "type", DROP COLUMN "category";
+
 ALTER TABLE "rpdhs_resources_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "rpdhs_resources_attachments";
 
