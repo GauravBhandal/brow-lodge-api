@@ -20,22 +20,42 @@ import makeMoment from "../../components/moment";
 class ServiceService {
   async createService(props: CreateServiceProps) {
     // Props
-    const { company, code } = props;
-
-    // Check if service with same code already exists
+    const { company, code, name } = props;
+  
+    // Check if service with same code  already exists
     const existingService = await ServiceModel.findOne({
       where: {
         company,
         code: {
           [Op.iLike]: `${code}`,
+          
         },
       },
     });
+
+   
 
     // If exists, then throw an error
     if (existingService) {
       throw new CustomError(409, ServiceErrorCode.SERVICE_ALREADY_EXISTS);
     }
+
+    //Check if service with name  already exists
+   const existingService1 = await ServiceModel.findOne({
+    where: {
+      company,
+      name: {
+        [Op.iLike]: `${name}`
+      },
+    },
+  }); 
+
+
+// If exists, then throw an error
+     if (existingService1) {
+        throw new CustomError(409, ServiceErrorCode.SERVICE_ALREADY_EXISTS);
+    }
+
 
     // Otherwise, create a new service
     const service = await ServiceModel.create(props);
@@ -53,16 +73,18 @@ class ServiceService {
       where: { id, company },
     });
 
+   
     // if service not found, throw an error
     if (!service) {
       throw new CustomError(404, ServiceErrorCode.SERVICE_NOT_FOUND);
     }
 
-    if (service.code.toLowerCase() !== props.code.toLowerCase()) {
+    if (service.code.toLowerCase() !== props.code.toLowerCase()){
       // Check if service with same code already exists
       const existingService = await ServiceModel.findOne({
         where: {
-          code: {
+          code: 
+          {
             [Op.iLike]: `${props.code}`,
           },
           company,
@@ -75,6 +97,26 @@ class ServiceService {
       }
     }
 
+if (service.name.toLowerCase() !== props.name.toLowerCase()){
+  // Check if service with same name already exists
+    const existingService1 = await ServiceModel.findOne({
+      where:{
+        name:
+        {
+          [Op.like]: `${props.name}`,
+        },
+        company,
+      },
+        });
+     
+
+        // If exists, then throw an error
+    if (existingService1) {
+           throw new CustomError(409, ServiceErrorCode.SERVICE_ALREADY_EXISTS);
+      }
+       }
+
+
     // Finally, update the service
     const [, [updatedService]] = await ServiceModel.update(updateProps, {
       where: { id, company },
@@ -82,7 +124,7 @@ class ServiceService {
     });
 
     return updatedService;
-  }
+  };
 
   async deleteService(props: DeleteServiceProps) {
     // Props
