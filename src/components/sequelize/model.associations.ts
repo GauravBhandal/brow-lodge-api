@@ -24,6 +24,7 @@ import { CompanyAssetModel } from "../../api/companyAsset";
 import { RepairRequestModel } from "../../api/repairRequest";
 import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
 import { CorporateRiskModel } from "../../api/corporateRisk";
+import { ParticipantExpenseModel } from "../../api/participantExpense";
 // import { WhsLogModel } from "../../api/whsLog";
 import { MeetingLogModel } from "../../api/meetingLog";
 import { ClientRiskModel } from "../../api/clientRisk";
@@ -144,6 +145,7 @@ export default {
     initializeProcessModelAssociations();
     initializeRpdhsResourceModelAssociations();
     initializePracticeGuideModelAssociations();
+    initializeParticipantExpenseModelAssociations();
   },
 };
 
@@ -1151,5 +1153,24 @@ function initializeRosterSettingModelAssociations() {
 function initializeProgressNoteSettingsModelAssociations() {
   ProgressNoteSettingsModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeParticipantExpenseModelAssociations() {
+  ParticipantExpenseModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ParticipantExpenseModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ParticipantExpenseModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  ParticipantExpenseModel.belongsToMany(AttachmentModel, {
+    through: "participant_expenses_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
