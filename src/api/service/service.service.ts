@@ -20,15 +20,24 @@ import makeMoment from "../../components/moment";
 class ServiceService {
   async createService(props: CreateServiceProps) {
     // Props
-    const { company, code } = props;
+    const { company, code, name } = props;
 
-    // Check if service with same code already exists
+    // Check if service with same code  already exists
     const existingService = await ServiceModel.findOne({
       where: {
         company,
-        code: {
-          [Op.iLike]: `${code}`,
-        },
+        [Op.or]: [
+          {
+            code: {
+              [Op.iLike]: `${code}`,
+            },
+          },
+          {
+            name: {
+              [Op.iLike]: `${name}`,
+            },
+          },
+        ],
       },
     });
 
@@ -45,7 +54,7 @@ class ServiceService {
 
   async updateService(props: UpdateServiceProps) {
     // Props
-    const { id, company } = props;
+    const { id, company, code, name } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find service by id and company
@@ -58,14 +67,26 @@ class ServiceService {
       throw new CustomError(404, ServiceErrorCode.SERVICE_NOT_FOUND);
     }
 
-    if (service.code.toLowerCase() !== props.code.toLowerCase()) {
+    if (
+      service.code.toLowerCase() !== props.code.toLowerCase() ||
+      service.name.toLowerCase() !== props.name.toLowerCase()
+    ) {
       // Check if service with same code already exists
       const existingService = await ServiceModel.findOne({
         where: {
-          code: {
-            [Op.iLike]: `${props.code}`,
-          },
           company,
+          [Op.or]: [
+            {
+              code: {
+                [Op.iLike]: `${code}`,
+              },
+            },
+            {
+              name: {
+                [Op.iLike]: `${name}`,
+              },
+            },
+          ],
         },
       });
 
