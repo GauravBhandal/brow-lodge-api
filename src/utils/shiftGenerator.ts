@@ -4,13 +4,13 @@ import makeMoment from "../components/moment";
 import { CreateShiftRecordInBulkProps } from "../api/shiftRecord";
 
 const daysOfWeek = [
-  "sunday",
   "monday",
   "tuesday",
   "wednesday",
   "thursday",
   "friday",
   "saturday",
+  "sunday",
 ];
 
 /**
@@ -39,10 +39,8 @@ const addDaysInDate = (date: string | Date, number: number, type: any) =>
 const specificDay = (date: string, numberOfWeeks: number, day: string) => {
   const dayOfDate = makeMoment(date).isoWeekday() === 7;
   let finalDate: any = date;
-  if (dayOfDate && day !== "sunday") {
+  if (dayOfDate) {
     finalDate = makeMoment(date).add(1, "weeks");
-  } else if (day === "sunday") {
-    finalDate = makeMoment(date).add(-1, "weeks");
   }
   return makeMoment(finalDate)
     .add(numberOfWeeks, "weeks")
