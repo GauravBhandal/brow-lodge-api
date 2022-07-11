@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS "participant_expenses" (
   "description" VARCHAR,
   "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  "total_expense" VARCHAR NOT NULL,
+  "total_expense" DOUBLE PRECISION NOT NULL,
   "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
   "updated" TIMESTAMP WITH TIME ZONE NOT NULL,

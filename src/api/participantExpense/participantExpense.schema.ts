@@ -1,11 +1,7 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import {
-  requiredUUIDSchema,
-  wrapSchema,
-  requiredTimeSchema,
-} from "../../common/joiSchemas";
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createParticipantExpenseSchema = wrapSchema({
   body: Joi.object().keys({
