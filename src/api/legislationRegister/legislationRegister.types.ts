@@ -1,6 +1,7 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface LegislationRegister extends DefaultSchemaConfig {
   reviewedOn: Date;
@@ -11,6 +12,8 @@ export interface LegislationRegister extends DefaultSchemaConfig {
   monitoringMechanism: string;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
+ 
 }
 
 export interface CreateLegislationRegisterProps {
@@ -21,6 +24,7 @@ export interface CreateLegislationRegisterProps {
   documentReference: LegislationRegister["documentReference"];
   monitoringMechanism: LegislationRegister["monitoringMechanism"];
   company: LegislationRegister["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateLegislationRegisterProps

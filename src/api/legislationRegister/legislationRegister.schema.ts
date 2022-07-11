@@ -11,6 +11,9 @@ const createLegislationRegisterSchema = wrapSchema({
     legislativeReference: Joi.string().required(),
     documentReference: Joi.string().required(),
     monitoringMechanism: Joi.string().required(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -23,6 +26,9 @@ const editLegislationRegisterSchema = wrapSchema({
     legislativeReference: Joi.string().required(),
     documentReference: Joi.string().required(),
     monitoringMechanism: Joi.string().required(),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

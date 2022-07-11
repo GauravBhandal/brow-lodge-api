@@ -15,11 +15,23 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
+import { legislationRegisterAttachmetService } from "./legislationRegisterAttachment";
+import { AttachmentModel } from "../attachment";
+
 
 class LegislationRegisterService {
   async createLegislationRegister(props: CreateLegislationRegisterProps) {
     // Otherwise, create a new legislationRegister
     const legislationRegister = await LegislationRegisterModel.create(props);
+// Create attachments
+if (props.attachments && props.attachments.length) {
+  await legislationRegisterAttachmetService.createBulkLegislationRegisterAttachment(
+    {
+      relation: legislationRegister.id,
+      attachments: props.attachments,
+    }
+  );
+}
 
     return legislationRegister;
   }
@@ -48,6 +60,15 @@ class LegislationRegisterService {
         where: { id, company },
         returning: true,
       });
+      // Update attachments
+    if (props.attachments) {
+      await legislationRegisterAttachmetService.updateBulkLegislationRegisterAttachment(
+        {
+          relation: legislationRegister.id,
+          attachments: props.attachments,
+        }
+      );
+    }
 
     return updatedLegislationRegister;
   }
