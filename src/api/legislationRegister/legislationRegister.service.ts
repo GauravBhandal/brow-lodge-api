@@ -18,20 +18,20 @@ import { getFilters } from "../../components/filters";
 import { legislationRegisterAttachmetService } from "./legislationRegisterAttachment";
 import { AttachmentModel } from "../attachment";
 
-
 class LegislationRegisterService {
   async createLegislationRegister(props: CreateLegislationRegisterProps) {
     // Otherwise, create a new legislationRegister
     const legislationRegister = await LegislationRegisterModel.create(props);
-// Create attachments
-if (props.attachments && props.attachments.length) {
-  await legislationRegisterAttachmetService.createBulkLegislationRegisterAttachment(
-    {
-      relation: legislationRegister.id,
-      attachments: props.attachments,
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await legislationRegisterAttachmetService.createBulkLegislationRegisterAttachment(
+        {
+          relation: legislationRegister.id,
+          attachments: props.attachments,
+        }
+      );
     }
-  );
-}
 
     return legislationRegister;
   }
@@ -60,7 +60,7 @@ if (props.attachments && props.attachments.length) {
         where: { id, company },
         returning: true,
       });
-      // Update attachments
+    // Update attachments
     if (props.attachments) {
       await legislationRegisterAttachmetService.updateBulkLegislationRegisterAttachment(
         {
