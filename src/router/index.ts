@@ -28,7 +28,6 @@ import { companyAssetRoutes } from "../api/companyAsset";
 import { repairRequestRoutes } from "../api/repairRequest";
 import { conflictOfInterestRoutes } from "../api/conflictOfInterest";
 import { corporateRiskRoutes } from "../api/corporateRisk";
-import { participantExpenseRoutes } from "../api/participantExpense";
 // import { whsLogRoutes } from "../api/whsLog";
 import { meetingLogRoutes } from "../api/meetingLog";
 import { clientRiskRoutes } from "../api/clientRisk";
@@ -72,6 +71,7 @@ import { progressNoteSettingsRoutes } from "../api/progressNoteSettings";
 import { processRoutes } from "../api/process";
 import { rpdhsResourceRoutes } from "../api/rpdhsResources";
 import { practiceGuideRoutes } from "../api/practiceGuide";
+import { participantExpenseRoutes } from "../api/participantExpense";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -103,7 +103,6 @@ router.use("/company-asset", companyAssetRoutes);
 router.use("/repair-request", repairRequestRoutes);
 router.use("/conflict-of-interest", conflictOfInterestRoutes);
 router.use("/corporate-risk", corporateRiskRoutes);
-router.use("/participantExpense", participantExpenseRoutes);
 // router.use("/whs-log", whsLogRoutes);
 router.use("/meeting-log", meetingLogRoutes);
 router.use("/client-risk", clientRiskRoutes);
@@ -147,5 +146,6 @@ router.use("/progress-note-setting", progressNoteSettingsRoutes);
 router.use("/process", processRoutes);
 router.use("/rpdhs-resource", rpdhsResourceRoutes);
 router.use("/practice-guide", practiceGuideRoutes);
+router.use("/participant-expense", participantExpenseRoutes);
 
 export default router;

@@ -217,12 +217,12 @@ class UserService {
     Hi ${updatedUser.firstName}!
     <br>  
     <br>  
-    We are sending you this email because you requested a password reset. Click on the following link to create a new password.
+    We are sending you this email because you requested a password reset. <a href=${passwordResetUrl} target="_blank">Click Here</a>  to reset the password or copy and paste the following link into your browser.
     <br>
-    <br>  
+    <br>
     ${passwordResetUrl}
     <br>
-    <br>    
+    <br>   
     If you didn't request a password reset, you can ignore this email. Your password will not be changed.  
     <br>  
     <br>  
@@ -232,7 +232,9 @@ class UserService {
       `;
     await sendEmail(updatedUser.email, emailBody);
 
-    return { Status: "ok" };
+    return 
+    { Status: "ok" };
+    
   }
 
   async resetPassword(props: ResetPasswordProps) {
