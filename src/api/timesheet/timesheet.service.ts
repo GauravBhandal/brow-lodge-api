@@ -19,7 +19,7 @@ import { CustomError } from "../../components/errors";
 import TimesheetErrorCode from "./timesheet.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { Company, CompanyModel } from "../company";
+import { Company, CompanyModel, companyService } from "../company";
 import { StaffProfile, StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
@@ -277,7 +277,8 @@ class TimesheetService {
   _getFormattedTimesheetsForXero(
     timesheets: Timesheet[],
     startDate: Date,
-    endDate: Date
+    endDate: Date,
+    timezone: any
   ) {
     /*
      Creating an empty object to store the staff and payitem details e.g.
@@ -326,7 +327,8 @@ class TimesheetService {
                         index === services.length - 1
                           ? timesheet.endDateTime
                           : services[index + 1].shift_records_services
-                              .dataValues.start_time
+                              .dataValues.start_time,
+                        timezone
                       ) / 60,
                 startDate: timesheet.startDateTime,
               });
@@ -337,7 +339,7 @@ class TimesheetService {
     });
 
     const formattedTimesheets: any = [];
-    const totalDaysOfShift = daysDifference(startDate, endDate);
+    const totalDaysOfShift = daysDifference(startDate, endDate, timezone);
     const defaultUnits: number[] = [];
     for (let i = 0; i <= totalDaysOfShift; i++) {
       defaultUnits.push(0);
@@ -345,13 +347,14 @@ class TimesheetService {
     Object.keys(result).forEach((staffId) => {
       const timesheet: any = {
         employeeID: staffId,
-        startDate: formatDateToString(startDate),
-        endDate: formatDateToString(endDate),
+        startDate: formatDateToString(startDate, timezone),
+        endDate: formatDateToString(endDate, timezone),
         status: "DRAFT",
         timesheetLines: Object.keys(result[staffId]).map((payItem) => {
           const units = [...defaultUnits];
           result[staffId][payItem].forEach((item: any) => {
-            units[daysDifference(startDate, item.startDate)] += item.units;
+            units[daysDifference(startDate, item.startDate, timezone)] +=
+              item.units;
           });
           return {
             earningsRateID: payItem,
@@ -452,6 +455,10 @@ class TimesheetService {
   }
 
   async generateTimesheets(props: GenerateTimesheetsProps) {
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+
     // Props
     const { ids, company, startDate, endDate } = props;
 
@@ -469,7 +476,8 @@ class TimesheetService {
     const formatedTimesheets = this._getFormattedTimesheetsForXero(
       timesheets,
       startDate,
-      endDate
+      endDate,
+      companyData.timezone
     );
 
     await xeroService.exportTimesheetToXero({

@@ -33,6 +33,19 @@ export interface CreateShiftRecordProps {
   status: ShiftRecord["status"];
 }
 
+export interface CreateShiftRecordInBulkHelperProps {
+  startDateTime: ShiftRecord["startDateTime"];
+  endDateTime: ShiftRecord["endDateTime"];
+  break: ShiftRecord["break"];
+  staff: StaffProfile["id"][];
+  client: ClientProfile["id"][];
+  company: ShiftRecord["company"];
+  services: ServiceProp[];
+  repeat: any; // TODO: Remove any
+  status: ShiftRecord["status"];
+  timezone?: string;
+}
+
 export interface CreateShiftRecordInBulkProps {
   startDateTime: ShiftRecord["startDateTime"];
   endDateTime: ShiftRecord["endDateTime"];
