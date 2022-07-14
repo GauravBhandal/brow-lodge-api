@@ -55,12 +55,7 @@ const specificDay = (
   day: string,
   timezone: any
 ) => {
-  const dayOfDate = makeMoment(date, timezone).isoWeekday() === 7;
-  let finalDate: any = date;
-  if (dayOfDate) {
-    finalDate = makeMoment(date, timezone).add(1, "weeks");
-  }
-  return makeMoment(finalDate, timezone)
+  return makeMoment(date, timezone)
     .add(numberOfWeeks, "weeks")
     .isoWeekday(day)
     .format();
@@ -89,13 +84,21 @@ const getOccurrenceswithEndDate = (
   frequency: any,
   timezone: any
 ) => {
-  repeatStartDate = makeMoment(repeatStartDate, timezone).startOf("day");
-  let days = daysDifference(repeatStartDate, repeatEndDate, timezone) + 1;
   if (frequency === "weekly") {
-    days = Math.floor((days - 1) / 7) + 1;
+    const startDate = makeMoment(repeatStartDate, timezone).startOf("day");
+    const endDate = makeMoment(repeatEndDate, timezone).endOf("day");
+
+    const weekStartDate = startDate.startOf("isoWeek");
+    const weekEndDate = endDate.endOf("isoWeek");
+    let days = (daysDifference(weekStartDate, weekEndDate, timezone) + 1) / 7;
+
+    return days;
+  } else {
+    repeatStartDate = makeMoment(repeatStartDate, timezone).startOf("day");
+    let days = daysDifference(repeatStartDate, repeatEndDate, timezone) + 1;
+    days = Math.floor((days - 1) / every) + 1;
+    return days;
   }
-  days = Math.floor((days - 1) / every) + 1;
-  return days;
 };
 
 // Function, is that day present in repeat shift
