@@ -1,5 +1,5 @@
 enum ParticipantMedicationChartErrorCode {
-  INJURY_REPORT = "INJURY_REPORT",
+  INJURY_REPORT = "Injury report!",
 }
 
 export default ParticipantMedicationChartErrorCode;

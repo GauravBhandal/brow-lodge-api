@@ -1,6 +1,6 @@
 enum RoleErrorCode {
-  ROLE_NOT_FOUND = "ROLE_NOT_FOUND",
-  ROLE_ALREADY_EXISTS = "ROLE_ALREADY_EXISTS",
+  ROLE_NOT_FOUND = "Role not found!",
+  ROLE_ALREADY_EXISTS = "Role already exists!",
 }
 
 export default RoleErrorCode;
