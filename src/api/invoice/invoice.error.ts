@@ -1,6 +1,6 @@
 enum InvoiceErrorCode {
-  INVOICE_NOT_FOUND = "INVOICE_NOT_FOUND",
-  FAILED_TO_GENERATE_INVOICE = "FAILED_TO_GENERATE_INVOICE",
+  INVOICE_NOT_FOUND = "Invoice not found!",
+  FAILED_TO_GENERATE_INVOICE = "Failed to generate invoice!",
 }
 
 export default InvoiceErrorCode;
