@@ -14,6 +14,8 @@ const createServiceDeliverySchema = wrapSchema({
     endTime: requiredTimeSchema(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    service: requiredUUIDSchema(),
+    notes: Joi.string().required(),
   }),
 });
 
@@ -25,6 +27,8 @@ const editServiceDeliverySchema = wrapSchema({
     endTime: requiredTimeSchema(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
+    service: requiredUUIDSchema(),
+    notes: Joi.string().required(),
   }),
 });
 

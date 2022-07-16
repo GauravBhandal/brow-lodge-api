@@ -1194,4 +1194,8 @@ function initializeServiceDeliveryModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  ServiceDeliveryModel.belongsTo(ServiceModel, {
+    foreignKey: { name: "service", allowNull: false },
+    as: "Service",
+  });
 }

@@ -15,6 +15,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
+import { ServiceModel } from "../service";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class ServiceDeliveryService {
@@ -91,6 +92,10 @@ class ServiceDeliveryService {
           model: ClientProfileModel,
           as: "Client",
         },
+        {
+          model: ServiceModel,
+          as: "Service",
+        },
       ],
     });
 
@@ -120,6 +125,13 @@ class ServiceDeliveryService {
         model: CompanyModel,
       },
       {
+        model: ServiceModel,
+        as: "Service",
+        where: {
+          ...filters["Service"],
+        },
+      },
+      {
         model: StaffProfileModel,
         as: "Staff",
         where: {
@@ -135,6 +147,7 @@ class ServiceDeliveryService {
         },
       },
     ];
+
     // Count total serviceDeliveries in the given company
     const count = await ServiceDeliveryModel.count({
       where: {

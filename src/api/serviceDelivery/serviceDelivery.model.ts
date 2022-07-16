@@ -19,6 +19,9 @@ class ServiceDeliveryModel<
   date!: ServiceDelivery["date"];
   startTime!: ServiceDelivery["startTime"];
   endTime!: ServiceDelivery["endTime"];
+  notes!: ServiceDelivery["notes"];
+  service!: ServiceDelivery["service"];
+  Service: ServiceDelivery["Service"];
   staff!: ServiceDelivery["staff"];
   Staff: ServiceDelivery["Staff"];
   client!: ServiceDelivery["client"];
@@ -41,6 +44,10 @@ modelManager.init(
     },
     endTime: {
       type: Sequelize.TIME,
+      allowNull: false,
+    },
+    notes: {
+      type: Sequelize.STRING,
       allowNull: false,
     },
   },
