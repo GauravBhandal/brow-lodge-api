@@ -19,7 +19,7 @@ import { CustomError } from "../../components/errors";
 import InvoiceErrorCode from "./invoice.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { Company, CompanyModel } from "../company";
+import { Company, CompanyModel, companyService } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
@@ -311,7 +311,7 @@ class InvoiceService {
   }
 
   // Helper function to convert the given invoices to the format supported by Xero
-  _getFormattedInvoicesForXero(allInvoices: InvoiceType[]) {
+  _getFormattedInvoicesForXero(allInvoices: InvoiceType[], timezone: any) {
     /*
      Creating an empty object to store the customers and service details e.g.
      result = {
@@ -362,7 +362,8 @@ class InvoiceService {
                 ? 1
                 : getMinutesDiff(
                     service.shift_records_services.dataValues.start_time, // TODO: This is messy
-                    getEndTime(index, services.length, services, invoice)
+                    getEndTime(index, services.length, services, invoice),
+                    timezone
                   ) / 60);
           }
         });
@@ -370,9 +371,10 @@ class InvoiceService {
     });
 
     // Invoice dates
-    const invoiceDate = formatDateToString(new Date());
+    const invoiceDate = formatDateToString(new Date(), timezone);
     const invoiceDueDate = formatDateToString(
-      addTimeToDate(new Date(), 13, "days")
+      addTimeToDate(new Date(), 13, "days", timezone),
+      timezone
     );
 
     // Helper fn. to result invoice line item as per Xero format
@@ -403,6 +405,10 @@ class InvoiceService {
   }
 
   async generateInvoices(props: GenerateInvoicesProps) {
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+
     // Props
     const { ids, company } = props;
 
@@ -419,7 +425,10 @@ class InvoiceService {
     }
 
     // Convert the invoices to the format supported by Xero
-    const formatedInvoices = this._getFormattedInvoicesForXero(allInvoices);
+    const formatedInvoices = this._getFormattedInvoicesForXero(
+      allInvoices,
+      companyData.timezone
+    );
     const invoices: Invoices = {
       invoices: formatedInvoices,
     };
