@@ -4,7 +4,10 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { ServiceDelivery, CreateServiceDeliveryProps } from "./serviceDelivery.types";
+import {
+  ServiceDelivery,
+  CreateServiceDeliveryProps,
+} from "./serviceDelivery.types";
 
 class ServiceDeliveryModel<
     ModelAttributes = ServiceDelivery,
@@ -40,7 +43,6 @@ modelManager.init(
       type: Sequelize.TIME,
       allowNull: false,
     },
-    
   },
   {
     defaultScope: {

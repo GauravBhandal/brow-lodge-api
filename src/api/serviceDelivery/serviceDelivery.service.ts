@@ -35,14 +35,20 @@ class ServiceDeliveryService {
 
     // if serviceDelivery not found, throw an error
     if (!serviceDelivery) {
-      throw new CustomError(404, ServiceDeliveryErrorCode.SERVICE_DELIVERY_NOT_FOUND);
+      throw new CustomError(
+        404,
+        ServiceDeliveryErrorCode.SERVICE_DELIVERY_NOT_FOUND
+      );
     }
 
     // Finally, update the serviceDelivery
-    const [, [updatedServiceDelivery]] = await ServiceDeliveryModel.update(updateProps, {
-      where: { id, company },
-      returning: true,
-    });
+    const [, [updatedServiceDelivery]] = await ServiceDeliveryModel.update(
+      updateProps,
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
     return updatedServiceDelivery;
   }
 
@@ -57,7 +63,10 @@ class ServiceDeliveryService {
 
     // if serviceDelivery has been deleted, throw an error
     if (!serviceDelivery) {
-      throw new CustomError(404, ServiceDeliveryErrorCode.SERVICE_DELIVERY_NOT_FOUND);
+      throw new CustomError(
+        404,
+        ServiceDeliveryErrorCode.SERVICE_DELIVERY_NOT_FOUND
+      );
     }
 
     return serviceDelivery;
@@ -87,7 +96,10 @@ class ServiceDeliveryService {
 
     // If no serviceDelivery has been found, then throw an error
     if (!serviceDelivery) {
-      throw new CustomError(404, ServiceDeliveryErrorCode.SERVICE_DELIVERY_NOT_FOUND);
+      throw new CustomError(
+        404,
+        ServiceDeliveryErrorCode.SERVICE_DELIVERY_NOT_FOUND
+      );
     }
 
     return serviceDelivery;

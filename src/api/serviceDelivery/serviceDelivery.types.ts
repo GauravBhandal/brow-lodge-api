@@ -34,7 +34,8 @@ export interface DeleteServiceDeliveryProps {
   company: ServiceDelivery["company"];
 }
 
-export interface GetServiceDeliveryByIdProps extends DeleteServiceDeliveryProps {}
+export interface GetServiceDeliveryByIdProps
+  extends DeleteServiceDeliveryProps {}
 
 export interface GetServiceDeliveriesProps extends QueryParams {
   company: ServiceDelivery["company"];

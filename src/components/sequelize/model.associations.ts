@@ -1182,7 +1182,6 @@ function initializeParticipantExpenseModelAssociations() {
   });
 }
 
-
 function initializeServiceDeliveryModelAssociations() {
   ServiceDeliveryModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },

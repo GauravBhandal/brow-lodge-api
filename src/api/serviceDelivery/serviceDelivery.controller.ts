@@ -10,7 +10,9 @@ class ServiceDeliveryController {
       ...req.body,
     };
 
-    const serviceDelivery = await serviceDeliveryService.createServiceDelivery(props);
+    const serviceDelivery = await serviceDeliveryService.createServiceDelivery(
+      props
+    );
 
     res.status(200).json(serviceDelivery);
   }
@@ -23,7 +25,9 @@ class ServiceDeliveryController {
       ...req.body,
     };
 
-    const serviceDelivery = await serviceDeliveryService.updateServiceDelivery(props);
+    const serviceDelivery = await serviceDeliveryService.updateServiceDelivery(
+      props
+    );
 
     res.status(200).json(serviceDelivery);
   }
@@ -47,7 +51,9 @@ class ServiceDeliveryController {
       company: req.auth.companyId,
     };
 
-    const serviceDelivery = await serviceDeliveryService.getServiceDeliveryById(props);
+    const serviceDelivery = await serviceDeliveryService.getServiceDeliveryById(
+      props
+    );
 
     res.status(200).json(serviceDelivery);
   }
