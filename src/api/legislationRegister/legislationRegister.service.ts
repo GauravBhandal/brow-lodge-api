@@ -104,6 +104,12 @@ class LegislationRegisterService {
         {
           model: CompanyModel,
         },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
       ],
     });
 
