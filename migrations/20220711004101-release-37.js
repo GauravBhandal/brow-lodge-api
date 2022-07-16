@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS "service_deliveries" (
   "service" UUID REFERENCES "services" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
   "notes" VARCHAR NOT NULL,
   "shift" UUID REFERENCES "shift_records" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
-  "progressnotes" UUID REFERENCES "progress_notes" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+  "progressnote" UUID REFERENCES "progress_notes" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
   "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
   "deleted" TIMESTAMP WITH TIME ZONE,

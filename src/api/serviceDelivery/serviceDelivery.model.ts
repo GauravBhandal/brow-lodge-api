@@ -28,6 +28,7 @@ class ServiceDeliveryModel<
   Client: ServiceDelivery["Client"];
   company!: ServiceDelivery["company"];
   Company: ServiceDelivery["Company"];
+  progressnote: ServiceDelivery["progressnote"];
 }
 
 modelManager.init(

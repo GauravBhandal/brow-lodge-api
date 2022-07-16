@@ -1198,4 +1198,8 @@ function initializeServiceDeliveryModelAssociations() {
     foreignKey: { name: "service", allowNull: false },
     as: "Service",
   });
+  ServiceDeliveryModel.belongsTo(ProgressNoteModel, {
+    foreignKey: { name: "progressnote", allowNull: false },
+    as: "Progressnote",
+  });
 }

@@ -17,11 +17,74 @@ import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
+import { ProgressNote, progressNoteService } from "../progressNote";
 
 class ServiceDeliveryService {
   async createServiceDelivery(props: CreateServiceDeliveryProps) {
-    const serviceDelivery = await ServiceDeliveryModel.create(props);
+    const createProgressNoteProp = {
+      date: props.date,
+      shiftStartTime: props.startTime,
+      shiftEndTime: props.endTime,
+      staff: [props.staff],
+      client: props.client,
+      company: props.company,
+      notes: props.notes,
+    };
+    const progressNote = await progressNoteService.createProgressNote(
+      createProgressNoteProp
+    );
+
+    const createProps = {
+      ...props,
+      progressnote: progressNote.id,
+    };
+    const serviceDelivery = await ServiceDeliveryModel.create(createProps);
     return serviceDelivery;
+  }
+
+  async _updateProgressNote(
+    props: UpdateServiceDeliveryProps,
+    progressnote: ProgressNote["id"]
+  ) {
+    let progressNote;
+    const progressNoteProp = {
+      date: props.date,
+      shiftStartTime: props.startTime,
+      shiftEndTime: props.endTime,
+      staff: [props.staff],
+      client: props.client,
+      company: props.company,
+      notes: props.notes,
+    };
+    try {
+      // Find progress notes by id
+      if (progressnote) {
+        const existingProgressNote =
+          await progressNoteService.getProgressNoteById({
+            id: progressnote,
+            company: props.company,
+          });
+
+        const updateProgressNoteProp = {
+          ...progressNoteProp,
+          id: existingProgressNote.id,
+        };
+        // If found, update it
+        progressNote = await progressNoteService.updateProgressNote(
+          updateProgressNoteProp
+        );
+      } else {
+        progressNote = await progressNoteService.createProgressNote(
+          progressNoteProp
+        );
+      }
+    } catch (error) {
+      // Otherwise, create a new one
+      progressNote = await progressNoteService.createProgressNote(
+        progressNoteProp
+      );
+    }
+    return progressNote;
   }
 
   async updateServiceDelivery(props: UpdateServiceDeliveryProps) {
@@ -42,9 +105,19 @@ class ServiceDeliveryService {
       );
     }
 
+    let progressNote = await this._updateProgressNote(
+      props,
+      serviceDelivery.progressnote!
+    );
+
+    const newUpdateProps = {
+      ...updateProps,
+      progressnote: progressNote.id,
+    };
+
     // Finally, update the serviceDelivery
     const [, [updatedServiceDelivery]] = await ServiceDeliveryModel.update(
-      updateProps,
+      newUpdateProps,
       {
         where: { id, company },
         returning: true,
@@ -57,8 +130,8 @@ class ServiceDeliveryService {
     // Props
     const { id, company } = props;
 
-    // Find and delete the serviceDelivery by id and company
-    const serviceDelivery = await ServiceDeliveryModel.destroy({
+    // Find serviceDelivery by id and company
+    const serviceDelivery = await ServiceDeliveryModel.findOne({
       where: { id, company },
     });
 
@@ -69,6 +142,17 @@ class ServiceDeliveryService {
         ServiceDeliveryErrorCode.SERVICE_DELIVERY_NOT_FOUND
       );
     }
+
+    // Delete the linked progress note
+    await progressNoteService.deleteProgressNote({
+      id: serviceDelivery.progressnote!,
+      company,
+    });
+
+    // Delete the serviceDelivery by id and company
+    await ServiceDeliveryModel.destroy({
+      where: { id, company },
+    });
 
     return serviceDelivery;
   }

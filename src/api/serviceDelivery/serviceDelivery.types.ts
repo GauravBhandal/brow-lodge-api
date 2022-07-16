@@ -4,6 +4,7 @@ import { Service } from "../service";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { ProgressNote } from "../progressNote";
 
 export interface ServiceDelivery extends DefaultSchemaConfig {
   date: Date;
@@ -18,6 +19,7 @@ export interface ServiceDelivery extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  progressnote?: ProgressNote["id"];
 }
 
 export interface CreateServiceDeliveryProps {
@@ -29,6 +31,7 @@ export interface CreateServiceDeliveryProps {
   client: ServiceDelivery["client"];
   company: ServiceDelivery["company"];
   service: ServiceDelivery["service"];
+  progressnote: ServiceDelivery["progressnote"];
 }
 
 export interface UpdateServiceDeliveryProps extends CreateServiceDeliveryProps {
