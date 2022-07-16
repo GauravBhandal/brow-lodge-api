@@ -1001,6 +1001,11 @@ function initializeLegislationRegisterModelAssociations() {
   LegislationRegisterModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
+  LegislationRegisterModel.belongsToMany(AttachmentModel, {
+    through: "legislation_registers_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeTemplateModelAssociations() {

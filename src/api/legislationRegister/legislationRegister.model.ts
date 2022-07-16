@@ -24,6 +24,7 @@ class LegislationRegisterModel<
   monitoringMechanism!: LegislationRegister["monitoringMechanism"];
   company!: LegislationRegister["company"];
   Company: LegislationRegister["Company"];
+  Attachments: LegislationRegister["Attachments"];
 }
 
 modelManager.init(
