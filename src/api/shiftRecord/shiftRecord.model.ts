@@ -15,7 +15,7 @@ class ShiftRecordModel<
 {
   startDateTime!: ShiftRecord["startDateTime"];
   endDateTime!: ShiftRecord["endDateTime"];
-  break!: ShiftRecord["break"];
+  break: ShiftRecord["break"];
   company!: ShiftRecord["company"];
   Company: ShiftRecord["Company"];
   repeat?: ShiftRecord["repeat"];
