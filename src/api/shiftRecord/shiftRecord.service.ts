@@ -179,6 +179,7 @@ class ShiftRecordService {
   }
 
   async updateShiftRecord(props: UpdateShiftRecordProps) {
+    console.log("props", props);
     const companyData = await companyService.getCompanyById({
       company: props.company,
     });

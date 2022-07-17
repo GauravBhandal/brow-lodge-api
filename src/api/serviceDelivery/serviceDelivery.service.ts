@@ -18,9 +18,13 @@ import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { ProgressNote, progressNoteService } from "../progressNote";
+import { ShiftRecord, shiftRecordService } from "../shiftRecord";
+import { ShiftRecordStatus } from "../shiftRecord/shiftRecord.constant";
+import makeMoment from "../../components/moment";
 
 class ServiceDeliveryService {
   async createServiceDelivery(props: CreateServiceDeliveryProps) {
+    // Create Progress Notes
     const createProgressNoteProp = {
       date: props.date,
       shiftStartTime: props.startTime,
@@ -34,9 +38,40 @@ class ServiceDeliveryService {
       createProgressNoteProp
     );
 
+    // Create shift
+    const startDate = makeMoment(props.date).format("YYYY-MM-DD");
+    const startTime = props.startTime;
+    const tStartDateTime = startDate + " " + startTime;
+    const startDateTime = makeMoment(tStartDateTime).toDate();
+
+    const endTime = props.endTime;
+    const tEndDateTime = startDate + " " + endTime;
+    const endDateTime = makeMoment(tEndDateTime).toDate();
+
+    const createShiftProp = {
+      startDateTime: startDateTime,
+      endDateTime: endDateTime,
+      break: undefined,
+      staff: [props.staff],
+      client: [props.client],
+      company: props.company,
+      services: [
+        {
+          service: props.service,
+          startTime: startDateTime,
+        },
+      ],
+      status: ShiftRecordStatus.PUBLISHED,
+    };
+    const shiftRecord = await shiftRecordService.createShiftRecord(
+      createShiftProp
+    );
+
+    // Finally, create service delivery
     const createProps = {
       ...props,
       progressnote: progressNote.id,
+      shift: shiftRecord.id,
     };
     const serviceDelivery = await ServiceDeliveryModel.create(createProps);
     return serviceDelivery;
@@ -87,6 +122,68 @@ class ServiceDeliveryService {
     return progressNote;
   }
 
+  async _updateShift(
+    props: UpdateServiceDeliveryProps,
+    shift: ShiftRecord["id"]
+  ) {
+    let shiftRecord;
+
+    const startDate = makeMoment(props.date).format("YYYY-MM-DD");
+    const startTime = props.startTime;
+    const tStartDateTime = startDate + " " + startTime;
+    const startDateTime = makeMoment(tStartDateTime).toDate();
+
+    const endTime = props.endTime;
+    const tEndDateTime = startDate + " " + endTime;
+    const endDateTime = makeMoment(tEndDateTime).toDate();
+
+    const updateShiftProp = {
+      startDateTime: startDateTime,
+      endDateTime: endDateTime,
+      break: undefined,
+      staff: [props.staff],
+      client: [props.client],
+      company: props.company,
+      updateRecurring: false,
+      services: [
+        {
+          service: props.service,
+          startTime: startDateTime,
+        },
+      ],
+      status: ShiftRecordStatus.PUBLISHED,
+    };
+
+    try {
+      // Find progress notes by id
+      if (shift) {
+        const existingShiftRecord = await shiftRecordService.getShiftRecordById(
+          {
+            id: shift,
+            company: props.company,
+          }
+        );
+
+        const updateShiftRecordProp = {
+          ...updateShiftProp,
+          id: existingShiftRecord.id,
+        };
+        // If found, update it
+        shiftRecord = await shiftRecordService.updateShiftRecord(
+          updateShiftRecordProp
+        );
+      } else {
+        shiftRecord = await shiftRecordService.createShiftRecord(
+          updateShiftProp
+        );
+      }
+    } catch (error) {
+      // Otherwise, create a new one
+      shiftRecord = await shiftRecordService.createShiftRecord(updateShiftProp);
+    }
+    return shiftRecord as ShiftRecord;
+  }
+
   async updateServiceDelivery(props: UpdateServiceDeliveryProps) {
     // Props
     const { id, company } = props;
@@ -105,14 +202,19 @@ class ServiceDeliveryService {
       );
     }
 
-    let progressNote = await this._updateProgressNote(
+    // Update progress note
+    const progressNote = await this._updateProgressNote(
       props,
       serviceDelivery.progressnote!
     );
 
+    // Update shift record
+    const shiftRecord = await this._updateShift(props, serviceDelivery.shift!);
+
     const newUpdateProps = {
       ...updateProps,
       progressnote: progressNote.id,
+      shift: shiftRecord.id,
     };
 
     // Finally, update the serviceDelivery
@@ -147,6 +249,13 @@ class ServiceDeliveryService {
     await progressNoteService.deleteProgressNote({
       id: serviceDelivery.progressnote!,
       company,
+    });
+
+    // Delete the linked shift record
+    await shiftRecordService.deleteShiftRecord({
+      id: serviceDelivery.shift!,
+      company,
+      deleteRecurring: false,
     });
 
     // Delete the serviceDelivery by id and company

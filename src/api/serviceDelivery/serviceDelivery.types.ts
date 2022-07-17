@@ -5,6 +5,7 @@ import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
 import { ProgressNote } from "../progressNote";
+import { ShiftRecord } from "../shiftRecord";
 
 export interface ServiceDelivery extends DefaultSchemaConfig {
   date: Date;
@@ -20,6 +21,7 @@ export interface ServiceDelivery extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   progressnote?: ProgressNote["id"];
+  shift?: ShiftRecord["id"];
 }
 
 export interface CreateServiceDeliveryProps {
@@ -32,6 +34,7 @@ export interface CreateServiceDeliveryProps {
   company: ServiceDelivery["company"];
   service: ServiceDelivery["service"];
   progressnote: ServiceDelivery["progressnote"];
+  shift: ServiceDelivery["shift"];
 }
 
 export interface UpdateServiceDeliveryProps extends CreateServiceDeliveryProps {

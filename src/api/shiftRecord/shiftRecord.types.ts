@@ -11,7 +11,7 @@ import { User } from "../user";
 export interface ShiftRecord extends DefaultSchemaConfig {
   startDateTime: Date;
   endDateTime: Date;
-  break: Number;
+  break?: Number;
   Staff?: StaffProfile[];
   Client?: ClientProfile[];
   user: User["id"];
