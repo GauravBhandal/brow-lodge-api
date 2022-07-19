@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS "service_deliveries" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "service_deliveries" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "companies" ADD COLUMN "abn" VARCHAR (255);
 `;
 
 const queryDown = `
@@ -38,6 +40,8 @@ DROP TABLE IF EXISTS "service_deliveries";
 
 ALTER TABLE "legislation_registers_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "legislation_registers_attachments";
+
+ALTER TABLE "companies" DROP COLUMN "abn";
 `;
 
 module.exports = {

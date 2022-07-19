@@ -10,6 +10,7 @@ export interface Company extends DefaultSchemaConfig {
   ndisRegistrationNumber?: string;
   timezone?: string;
   attachment?: Attachment["id"];
+  abn?: string;
 }
 
 export interface CreateCompanyProps {
@@ -25,6 +26,7 @@ export interface UpdateMyCompanyProps extends CreateCompanyProps {
   ndisRegistrationNumber: string;
   timezone: string;
   attachment: Attachment["id"];
+  abn: string;
 }
 
 export interface GetMyCompanyProps {
