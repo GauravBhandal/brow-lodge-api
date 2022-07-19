@@ -10,6 +10,7 @@ export interface Service extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   archived: boolean;
+  price: Number;
 }
 
 export interface CreateServiceProps {
@@ -19,6 +20,7 @@ export interface CreateServiceProps {
   rateType: Service["rateType"];
   effectiveDate?: Service["effectiveDate"];
   company: Service["company"];
+  price: Service["price"];
 }
 
 export interface UpdateServiceProps extends CreateServiceProps {
