@@ -20,6 +20,7 @@ class ServiceModel<
   effectiveDate!: Service["effectiveDate"];
   company!: Service["company"];
   Company: Service["Company"];
+  price!: Service["price"];
 }
 
 modelManager.init(
@@ -44,6 +45,9 @@ modelManager.init(
     archived: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
+    },
+    price: {
+      type: Sequelize.NUMBER,
     },
   },
   {

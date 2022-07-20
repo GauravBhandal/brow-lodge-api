@@ -9,6 +9,7 @@ const createServiceSchema = wrapSchema({
     name: Joi.string().required().trim(),
     effectiveDate: Joi.date().allow(null),
     rateType: Joi.string().required().trim(),
+    price: Joi.number(),
     archived: Joi.boolean().required(),
   }),
 });
@@ -19,6 +20,7 @@ const editServiceSchema = wrapSchema({
     code: Joi.string().required().trim(),
     name: Joi.string().required().trim(),
     effectiveDate: Joi.date().allow(null),
+    price: Joi.number(),
     archived: Joi.boolean().required(),
     rateType: Joi.string().required().trim(),
   }),

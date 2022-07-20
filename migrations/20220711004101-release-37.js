@@ -31,17 +31,21 @@ CREATE TABLE IF NOT EXISTS "service_deliveries" (
 );
 ALTER TABLE "service_deliveries" ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE "services" ADD COLUMN "price" DOUBLE PRECISION;
+
 ALTER TABLE "companies" ADD COLUMN "abn" VARCHAR (255);
 `;
 
 const queryDown = `
+ALTER TABLE "companies" DROP COLUMN "abn";
+
+ALTER TABLE "services" DROP COLUMN "price";
+
 ALTER TABLE "service_deliveries" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "service_deliveries";
 
 ALTER TABLE "legislation_registers_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "legislation_registers_attachments";
-
-ALTER TABLE "companies" DROP COLUMN "abn";
 `;
 
 module.exports = {
