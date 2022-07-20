@@ -128,6 +128,7 @@ class ShiftRecordService {
   }
 
   async createShiftRecord(props: CreateShiftRecordProps) {
+    console.log("createShiftRecord", props);
     // Create a new shiftRecord
     const shiftRecord = await ShiftRecordModel.create(props);
 
@@ -179,7 +180,7 @@ class ShiftRecordService {
   }
 
   async updateShiftRecord(props: UpdateShiftRecordProps) {
-    console.log("props", props);
+    console.log("updateShiftRecord", props);
     const companyData = await companyService.getCompanyById({
       company: props.company,
     });

@@ -12,7 +12,7 @@ import { CustomError } from "../../components/errors";
 import ServiceDeliveryErrorCode from "./serviceDelivery.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { CompanyModel } from "../company";
+import { CompanyModel, companyService } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
@@ -42,15 +42,31 @@ class ServiceDeliveryService {
       createProgressNoteProp
     );
 
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+
+    console.log("createServiceDelivery props", props);
     // Create shift
-    const startDate = makeMoment(props.date).format("YYYY-MM-DD");
+    const startDate = makeMoment(props.date, companyData.timezone).format(
+      "YYYY-MM-DD"
+    );
     const startTime = props.startTime;
     const tStartDateTime = startDate + " " + startTime;
-    const startDateTime = makeMoment(tStartDateTime).toDate();
+    const startDateTime = makeMoment(
+      tStartDateTime,
+      companyData.timezone
+    ).toDate();
+
+    console.log("startDate", startDate);
+    console.log("startDateTime", startDateTime);
 
     const endTime = props.endTime;
     const tEndDateTime = startDate + " " + endTime;
-    const endDateTime = makeMoment(tEndDateTime).toDate();
+    const endDateTime = makeMoment(tEndDateTime, companyData.timezone).toDate();
+
+    console.log("endTime", endTime);
+    console.log("endDateTime", endDateTime);
 
     const createShiftProp = {
       startDateTime: startDateTime,
@@ -68,6 +84,7 @@ class ServiceDeliveryService {
       status: ShiftRecordStatus.PUBLISHED,
       claimType: props.claimType,
     };
+    console.log("createShiftProp", createShiftProp);
     const shiftRecord = await shiftRecordService.createShiftRecord(
       createShiftProp
     );
@@ -133,14 +150,29 @@ class ServiceDeliveryService {
   ) {
     let shiftRecord;
 
-    const startDate = makeMoment(props.date).format("YYYY-MM-DD");
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+
+    const startDate = makeMoment(props.date, companyData.timezone).format(
+      "YYYY-MM-DD"
+    );
     const startTime = props.startTime;
     const tStartDateTime = startDate + " " + startTime;
-    const startDateTime = makeMoment(tStartDateTime).toDate();
+    const startDateTime = makeMoment(
+      tStartDateTime,
+      companyData.timezone
+    ).toDate();
+
+    console.log("startDate", startDate);
+    console.log("startDateTime", startDateTime);
 
     const endTime = props.endTime;
     const tEndDateTime = startDate + " " + endTime;
-    const endDateTime = makeMoment(tEndDateTime).toDate();
+    const endDateTime = makeMoment(tEndDateTime, companyData.timezone).toDate();
+
+    console.log("endTime", endTime);
+    console.log("endDateTime", endDateTime);
 
     const updateShiftProp = {
       startDateTime: startDateTime,
@@ -160,8 +192,10 @@ class ServiceDeliveryService {
       claimType: props.claimType,
     };
 
+    console.log("updateShiftProp", updateShiftProp);
+
     try {
-      // Find progress notes by id
+      // Find shift record by id
       if (shift) {
         const existingShiftRecord = await shiftRecordService.getShiftRecordById(
           {
@@ -194,6 +228,7 @@ class ServiceDeliveryService {
     // Props
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
+    console.log("updateServiceDelivery props", props);
 
     // Find serviceDelivery by id and company
     const serviceDelivery = await ServiceDeliveryModel.findOne({
