@@ -13,6 +13,7 @@ const editMyCompanySchema = wrapSchema({
     ndisRegistrationNumber: Joi.string().allow("", null),
     timezone: Joi.string().allow("", null),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    abn: Joi.string().allow("", null),
   }),
 });
 
