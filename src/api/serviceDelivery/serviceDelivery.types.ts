@@ -35,6 +35,7 @@ export interface CreateServiceDeliveryProps {
   service: ServiceDelivery["service"];
   progressnote: ServiceDelivery["progressnote"];
   shift: ServiceDelivery["shift"];
+  claimType: string;
 }
 
 export interface UpdateServiceDeliveryProps extends CreateServiceDeliveryProps {

@@ -34,9 +34,13 @@ ALTER TABLE "service_deliveries" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "services" ADD COLUMN "price" DOUBLE PRECISION;
 
 ALTER TABLE "companies" ADD COLUMN "abn" VARCHAR (255);
+
+ALTER TABLE "shift_records" ADD COLUMN "claim_type" VARCHAR (255);
 `;
 
 const queryDown = `
+ALTER TABLE "shift_records" DROP COLUMN "claim_type";
+
 ALTER TABLE "companies" DROP COLUMN "abn";
 
 ALTER TABLE "services" DROP COLUMN "price";

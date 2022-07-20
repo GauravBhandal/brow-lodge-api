@@ -21,6 +21,7 @@ class ShiftRecordModel<
   repeat?: ShiftRecord["repeat"];
   user!: ShiftRecord["user"];
   status?: ShiftRecord["status"];
+  claimType?: ShiftRecord["claimType"];
 }
 
 modelManager.init(
@@ -39,6 +40,9 @@ modelManager.init(
       type: Sequelize.NUMBER,
     },
     status: {
+      type: Sequelize.STRING,
+    },
+    claimType: {
       type: Sequelize.STRING,
     },
   },

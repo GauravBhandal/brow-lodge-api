@@ -18,7 +18,11 @@ import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { ProgressNote, progressNoteService } from "../progressNote";
-import { ShiftRecord, shiftRecordService } from "../shiftRecord";
+import {
+  ShiftRecord,
+  ShiftRecordModel,
+  shiftRecordService,
+} from "../shiftRecord";
 import { ShiftRecordStatus } from "../shiftRecord/shiftRecord.constant";
 import makeMoment from "../../components/moment";
 
@@ -62,6 +66,7 @@ class ServiceDeliveryService {
         },
       ],
       status: ShiftRecordStatus.PUBLISHED,
+      claimType: props.claimType,
     };
     const shiftRecord = await shiftRecordService.createShiftRecord(
       createShiftProp
@@ -152,6 +157,7 @@ class ServiceDeliveryService {
         },
       ],
       status: ShiftRecordStatus.PUBLISHED,
+      claimType: props.claimType,
     };
 
     try {
@@ -288,6 +294,10 @@ class ServiceDeliveryService {
         {
           model: ServiceModel,
           as: "Service",
+        },
+        {
+          model: ShiftRecordModel,
+          as: "Shift",
         },
       ],
     });

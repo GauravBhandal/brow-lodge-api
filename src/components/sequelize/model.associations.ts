@@ -1202,7 +1202,7 @@ function initializeServiceDeliveryModelAssociations() {
     foreignKey: { name: "progressnote", allowNull: false },
     as: "Progressnote",
   });
-  ServiceDeliveryModel.belongsTo(ShiftRepeatModel, {
+  ServiceDeliveryModel.belongsTo(ShiftRecordModel, {
     foreignKey: { name: "shift", allowNull: false },
     as: "Shift",
   });
