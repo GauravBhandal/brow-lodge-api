@@ -21,6 +21,7 @@ class CompanyModel<
   ndisRegistrationNumber: Company["ndisRegistrationNumber"];
   timezone: Company["timezone"];
   atttachment: Company["attachment"];
+  abn: Company["abn"];
 }
 
 modelManager.init(
@@ -41,6 +42,7 @@ modelManager.init(
     email: { type: Sequelize.STRING },
     ndisRegistrationNumber: { type: Sequelize.STRING },
     timezone: { type: Sequelize.STRING },
+    abn: { type: Sequelize.STRING },
   },
   {
     defaultScope: {
