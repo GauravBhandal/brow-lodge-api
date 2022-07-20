@@ -251,23 +251,27 @@ class ServiceDeliveryService {
       );
     }
 
-    // Delete the linked progress note
-    await progressNoteService.deleteProgressNote({
-      id: serviceDelivery.progressnote!,
-      company,
-    });
+    try {
+      // Delete the linked progress note
+      await progressNoteService.deleteProgressNote({
+        id: serviceDelivery.progressnote!,
+        company,
+      });
 
-    // Delete the linked shift record
-    await shiftRecordService.deleteShiftRecord({
-      id: serviceDelivery.shift!,
-      company,
-      deleteRecurring: false,
-    });
-
-    // Delete the serviceDelivery by id and company
-    await ServiceDeliveryModel.destroy({
-      where: { id, company },
-    });
+      // Delete the linked shift record
+      await shiftRecordService.deleteShiftRecord({
+        id: serviceDelivery.shift!,
+        company,
+        deleteRecurring: false,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // Delete the serviceDelivery by id and company
+      await ServiceDeliveryModel.destroy({
+        where: { id, company },
+      });
+    }
 
     return serviceDelivery;
   }
