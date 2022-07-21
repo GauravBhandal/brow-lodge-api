@@ -122,6 +122,9 @@ export const generateShiftServices = (
     shiftRecord.startDateTime,
     timezone
   );
+  console.log("props.startDateTime", props.startDateTime);
+  console.log("shiftRecord.startDateTime", shiftRecord.startDateTime);
+  console.log("dayDifference", dayDifference);
   const services = props.services.map((singleService: any) => ({
     startTime: addTimeToDate(
       singleService.startTime,
@@ -131,6 +134,7 @@ export const generateShiftServices = (
     ),
     service: singleService.service,
   }));
+  console.log("services", services);
   return services;
 };
 
