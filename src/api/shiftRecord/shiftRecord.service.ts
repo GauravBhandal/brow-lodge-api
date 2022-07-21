@@ -17,7 +17,7 @@ import { CustomError } from "../../components/errors";
 import ShiftRecordErrorCode from "./shiftRecord.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
-import { CompanyModel } from "../company";
+import { CompanyModel, companyService } from "../company";
 import { getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
@@ -36,24 +36,37 @@ import { TimesheetModel, timesheetService } from "../timesheet";
 import { InvoiceModel, invoiceService } from "../invoice";
 import { ShiftRecordStatus } from "./shiftRecord.constant";
 
-const getTimeForSelect = (date: any) =>
-  date ? makeMoment(date).format("HH:mm") : null;
+const getTimeForSelect = (date: any, timezone: any) =>
+  date ? makeMoment(date, timezone).format("HH:mm") : null;
 
-const getStartDate = (existingDateTime: any, newDateTime: any) => {
-  const formatedDate = formatDateToString(existingDateTime);
-  const formatedTime = getTimeForSelect(newDateTime);
+const getStartDate = (
+  existingDateTime: any,
+  newDateTime: any,
+  timezone: any
+) => {
+  const formatedDate = formatDateToString(existingDateTime, timezone);
+  const formatedTime = getTimeForSelect(newDateTime, timezone);
   const finalDateTime = formatedDate + " " + formatedTime;
-  return makeMoment(finalDateTime);
+  return makeMoment(finalDateTime, timezone);
 };
 
-const getDateDiff = (startDate: any, endDate: any) => {
+const getDateDiff = (startDate: any, endDate: any, timezone: any) => {
   return moment
-    .duration(makeMoment(endDate).diff(makeMoment(startDate)))
+    .duration(
+      makeMoment(endDate, timezone).diff(makeMoment(startDate, timezone))
+    )
     .asMinutes();
 };
 class ShiftRecordService {
   async createShiftRecordInBulk(props: CreateShiftRecordInBulkProps) {
-    const createProps = createShifts(props);
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+
+    const createProps = createShifts({
+      ...props,
+      timezone: companyData.timezone,
+    });
 
     const shiftRepeat = await shiftRepeatService.createShiftRepeat({
       meta: props.repeat,
@@ -70,7 +83,11 @@ class ShiftRecordService {
     for (let index = 0; index < shiftRecords.length; index++) {
       const shiftRecord = shiftRecords[index];
 
-      const shiftServices = generateShiftServices(shiftRecord, props);
+      const shiftServices = generateShiftServices(
+        shiftRecord,
+        props,
+        companyData.timezone
+      );
 
       await shiftRecordServiceService.createBulkShiftRecordService({
         shift: shiftRecord.id,
@@ -162,6 +179,10 @@ class ShiftRecordService {
   }
 
   async updateShiftRecord(props: UpdateShiftRecordProps) {
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+
     // Props
     const { id, company, updateRecurring } = props;
     const updateProps = _omit(props, ["id", "company"]);
@@ -229,21 +250,28 @@ class ShiftRecordService {
       if (shiftRecords.length > 0) {
         const dateDiff = getDateDiff(
           updateProps.startDateTime,
-          updateProps.endDateTime
+          updateProps.endDateTime,
+          companyData.timezone
         );
+
         shiftRecords.forEach(async (shift) => {
           const getStartTime = getStartDate(
             shift.id === id ? updateProps.startDateTime : shift.startDateTime,
-            updateProps.startDateTime
+            updateProps.startDateTime,
+            companyData.timezone
           );
+
           const getEndTime = getStartDate(
             addTimeToDate(
               shift.id === id ? updateProps.startDateTime : shift.startDateTime,
               dateDiff,
-              "minutes"
+              "minutes",
+              companyData.timezone
             ),
-            updateProps.endDateTime
+            updateProps.endDateTime,
+            companyData.timezone
           );
+
           const newProps = {
             ...updateProps,
             startDateTime: getStartTime,
@@ -253,7 +281,11 @@ class ShiftRecordService {
             where: { id: shift.id, company: shift.company },
             returning: true,
           });
-          const shiftServices = generateShiftServices(shift, props);
+          const shiftServices = generateShiftServices(
+            shift,
+            props,
+            companyData.timezone
+          );
           // Update services
           if (props.services && props.services.length) {
             await shiftRecordServiceService.updateBulkShiftRecordService({

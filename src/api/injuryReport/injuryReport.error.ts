@@ -1,5 +1,5 @@
 enum InjuryReportErrorCode {
-  INJURY_REPORT = "INJURY_REPORT",
+  INJURY_REPORT = "Injury report!",
 }
 
 export default InjuryReportErrorCode;

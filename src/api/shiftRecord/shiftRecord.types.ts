@@ -11,7 +11,7 @@ import { User } from "../user";
 export interface ShiftRecord extends DefaultSchemaConfig {
   startDateTime: Date;
   endDateTime: Date;
-  break: Number;
+  break?: Number;
   Staff?: StaffProfile[];
   Client?: ClientProfile[];
   user: User["id"];
@@ -20,6 +20,7 @@ export interface ShiftRecord extends DefaultSchemaConfig {
   Services?: Service[];
   repeat?: ShiftRepeat["id"];
   status?: String;
+  claimType?: string;
 }
 
 export interface CreateShiftRecordProps {
@@ -31,6 +32,20 @@ export interface CreateShiftRecordProps {
   company: ShiftRecord["company"];
   services: ServiceProp[];
   status: ShiftRecord["status"];
+  claimType: ShiftRecord["claimType"];
+}
+
+export interface CreateShiftRecordInBulkHelperProps {
+  startDateTime: ShiftRecord["startDateTime"];
+  endDateTime: ShiftRecord["endDateTime"];
+  break: ShiftRecord["break"];
+  staff: StaffProfile["id"][];
+  client: ClientProfile["id"][];
+  company: ShiftRecord["company"];
+  services: ServiceProp[];
+  repeat: any; // TODO: Remove any
+  status: ShiftRecord["status"];
+  timezone?: string;
 }
 
 export interface CreateShiftRecordInBulkProps {

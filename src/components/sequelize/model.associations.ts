@@ -71,6 +71,7 @@ import { ProgressNoteSettingsModel } from "../../api/progressNoteSettings";
 import { ProcessModel } from "../../api/process";
 import { RpdhsResourceModel } from "../../api/rpdhsResources";
 import { PracticeGuideModel } from "../../api/practiceGuide";
+import { ServiceDeliveryModel } from "../../api/serviceDelivery";
 
 export default {
   initialize() {
@@ -146,6 +147,7 @@ export default {
     initializeRpdhsResourceModelAssociations();
     initializePracticeGuideModelAssociations();
     initializeParticipantExpenseModelAssociations();
+    initializeServiceDeliveryModelAssociations();
   },
 };
 
@@ -1001,6 +1003,11 @@ function initializeLegislationRegisterModelAssociations() {
   LegislationRegisterModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
+  LegislationRegisterModel.belongsToMany(AttachmentModel, {
+    through: "legislation_registers_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeTemplateModelAssociations() {
@@ -1172,5 +1179,31 @@ function initializeParticipantExpenseModelAssociations() {
     through: "participant_expenses_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
+  });
+}
+
+function initializeServiceDeliveryModelAssociations() {
+  ServiceDeliveryModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ServiceDeliveryModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ServiceDeliveryModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
+  });
+  ServiceDeliveryModel.belongsTo(ServiceModel, {
+    foreignKey: { name: "service", allowNull: false },
+    as: "Service",
+  });
+  ServiceDeliveryModel.belongsTo(ProgressNoteModel, {
+    foreignKey: { name: "progressnote", allowNull: false },
+    as: "Progressnote",
+  });
+  ServiceDeliveryModel.belongsTo(ShiftRecordModel, {
+    foreignKey: { name: "shift", allowNull: false },
+    as: "Shift",
   });
 }

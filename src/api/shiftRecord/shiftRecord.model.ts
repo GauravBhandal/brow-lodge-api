@@ -15,12 +15,13 @@ class ShiftRecordModel<
 {
   startDateTime!: ShiftRecord["startDateTime"];
   endDateTime!: ShiftRecord["endDateTime"];
-  break!: ShiftRecord["break"];
+  break: ShiftRecord["break"];
   company!: ShiftRecord["company"];
   Company: ShiftRecord["Company"];
   repeat?: ShiftRecord["repeat"];
   user!: ShiftRecord["user"];
   status?: ShiftRecord["status"];
+  claimType?: ShiftRecord["claimType"];
 }
 
 modelManager.init(
@@ -39,6 +40,9 @@ modelManager.init(
       type: Sequelize.NUMBER,
     },
     status: {
+      type: Sequelize.STRING,
+    },
+    claimType: {
       type: Sequelize.STRING,
     },
   },

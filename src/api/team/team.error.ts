@@ -1,6 +1,6 @@
 enum TeamErrorCode {
-  TEAM_NOT_FOUND = "TEAM_NOT_FOUND",
-  TEAM_ALREADY_EXISTS = "TEAM_ALREADY_EXISTS",
+  TEAM_NOT_FOUND = "Team not found!",
+  TEAM_ALREADY_EXISTS = "Team already exists!",
 }
 
 export default TeamErrorCode;
