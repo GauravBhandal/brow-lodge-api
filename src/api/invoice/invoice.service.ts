@@ -323,9 +323,6 @@ class InvoiceService {
     */
     let result: any = {};
 
-    console.log("allInvoices", allInvoices);
-    console.log("timezone", timezone);
-
     // Helper fn. to return the endTime of given service
     const getEndTime = (
       index: any,
@@ -359,15 +356,15 @@ class InvoiceService {
         // Calculate hours for every service and add it to result object
         services.forEach((service: any, index: Number) => {
           if (client.accountingCode) {
-            const temp = getMinutesDiff(
-              service.shift_records_services.dataValues.start_time, // TODO: This is messy
-              getEndTime(index, services.length, services, invoice),
-              timezone
-            );
-            console.log("temp", temp);
             result[client.accountingCode][service.code] =
               (result[client.accountingCode][service.code] || 0) +
-              (service.rateType === "Fixed" ? 1 : temp / 60);
+              (service.rateType === "Fixed"
+                ? 1
+                : getMinutesDiff(
+                    service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                    getEndTime(index, services.length, services, invoice),
+                    timezone
+                  ) / 60);
           }
         });
       }

@@ -46,7 +46,6 @@ class ServiceDeliveryService {
       company: props.company,
     });
 
-    console.log("createServiceDelivery props", props);
     // Create shift
     const startDate = makeMoment(props.date, companyData.timezone).format(
       "YYYY-MM-DD"

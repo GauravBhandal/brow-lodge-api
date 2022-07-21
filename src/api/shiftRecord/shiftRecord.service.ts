@@ -128,7 +128,6 @@ class ShiftRecordService {
   }
 
   async createShiftRecord(props: CreateShiftRecordProps) {
-    console.log("createShiftRecord", props);
     // Create a new shiftRecord
     const shiftRecord = await ShiftRecordModel.create(props);
 
@@ -180,7 +179,6 @@ class ShiftRecordService {
   }
 
   async updateShiftRecord(props: UpdateShiftRecordProps) {
-    console.log("updateShiftRecord", props);
     const companyData = await companyService.getCompanyById({
       company: props.company,
     });
@@ -255,14 +253,13 @@ class ShiftRecordService {
           updateProps.endDateTime,
           companyData.timezone
         );
-        console.log("dateDiff", dateDiff);
+
         shiftRecords.forEach(async (shift) => {
           const getStartTime = getStartDate(
             shift.id === id ? updateProps.startDateTime : shift.startDateTime,
             updateProps.startDateTime,
             companyData.timezone
           );
-          console.log("getStartTime", getStartTime);
 
           const getEndTime = getStartDate(
             addTimeToDate(
@@ -274,7 +271,6 @@ class ShiftRecordService {
             updateProps.endDateTime,
             companyData.timezone
           );
-          console.log("getEndTime", getEndTime);
 
           const newProps = {
             ...updateProps,
