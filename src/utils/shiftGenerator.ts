@@ -71,8 +71,13 @@ export const daysDifference = (
 
 // returns difference of minutes between two dates
 export const getMinutesDiff = (startDate: any, endDate: any, timezone: any) => {
+  console.log("startDate", startDate);
+  console.log("endDate", endDate);
+  console.log("timezone", timezone);
   const start = makeMoment(startDate, timezone);
   const end = makeMoment(endDate, timezone);
+  console.log("start", start);
+  console.log("end", end);
   return moment.duration(end.diff(start)).asMinutes();
 };
 
