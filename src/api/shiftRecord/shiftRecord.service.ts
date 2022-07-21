@@ -47,7 +47,7 @@ const getStartDate = (
   const formatedDate = formatDateToString(existingDateTime, timezone);
   const formatedTime = getTimeForSelect(newDateTime, timezone);
   const finalDateTime = formatedDate + " " + formatedTime;
-  return makeMoment(finalDateTime);
+  return makeMoment(finalDateTime, timezone);
 };
 
 const getDateDiff = (startDate: any, endDate: any, timezone: any) => {
@@ -179,7 +179,6 @@ class ShiftRecordService {
   }
 
   async updateShiftRecord(props: UpdateShiftRecordProps) {
-    console.log("props", props);
     const companyData = await companyService.getCompanyById({
       company: props.company,
     });
@@ -254,12 +253,14 @@ class ShiftRecordService {
           updateProps.endDateTime,
           companyData.timezone
         );
+
         shiftRecords.forEach(async (shift) => {
           const getStartTime = getStartDate(
             shift.id === id ? updateProps.startDateTime : shift.startDateTime,
             updateProps.startDateTime,
             companyData.timezone
           );
+
           const getEndTime = getStartDate(
             addTimeToDate(
               shift.id === id ? updateProps.startDateTime : shift.startDateTime,
@@ -270,6 +271,7 @@ class ShiftRecordService {
             updateProps.endDateTime,
             companyData.timezone
           );
+
           const newProps = {
             ...updateProps,
             startDateTime: getStartTime,
