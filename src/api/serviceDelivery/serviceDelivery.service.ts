@@ -57,15 +57,9 @@ class ServiceDeliveryService {
       companyData.timezone
     ).toDate();
 
-    console.log("startDate", startDate);
-    console.log("startDateTime", startDateTime);
-
     const endTime = props.endTime;
     const tEndDateTime = startDate + " " + endTime;
     const endDateTime = makeMoment(tEndDateTime, companyData.timezone).toDate();
-
-    console.log("endTime", endTime);
-    console.log("endDateTime", endDateTime);
 
     const createShiftProp = {
       startDateTime: startDateTime,
@@ -83,7 +77,7 @@ class ServiceDeliveryService {
       status: ShiftRecordStatus.PUBLISHED,
       claimType: props.claimType,
     };
-    console.log("createShiftProp", createShiftProp);
+
     const shiftRecord = await shiftRecordService.createShiftRecord(
       createShiftProp
     );
@@ -163,15 +157,9 @@ class ServiceDeliveryService {
       companyData.timezone
     ).toDate();
 
-    console.log("startDate", startDate);
-    console.log("startDateTime", startDateTime);
-
     const endTime = props.endTime;
     const tEndDateTime = startDate + " " + endTime;
     const endDateTime = makeMoment(tEndDateTime, companyData.timezone).toDate();
-
-    console.log("endTime", endTime);
-    console.log("endDateTime", endDateTime);
 
     const updateShiftProp = {
       startDateTime: startDateTime,
@@ -190,8 +178,6 @@ class ServiceDeliveryService {
       status: ShiftRecordStatus.PUBLISHED,
       claimType: props.claimType,
     };
-
-    console.log("updateShiftProp", updateShiftProp);
 
     try {
       // Find shift record by id
@@ -227,7 +213,6 @@ class ServiceDeliveryService {
     // Props
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
-    console.log("updateServiceDelivery props", props);
 
     // Find serviceDelivery by id and company
     const serviceDelivery = await ServiceDeliveryModel.findOne({
