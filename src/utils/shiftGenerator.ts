@@ -71,13 +71,8 @@ export const daysDifference = (
 
 // returns difference of minutes between two dates
 export const getMinutesDiff = (startDate: any, endDate: any, timezone: any) => {
-  console.log("startDate", startDate);
-  console.log("endDate", endDate);
-  console.log("timezone", timezone);
   const start = makeMoment(startDate, timezone);
   const end = makeMoment(endDate, timezone);
-  console.log("start", start);
-  console.log("end", end);
   return moment.duration(end.diff(start)).asMinutes();
 };
 
@@ -122,9 +117,7 @@ export const generateShiftServices = (
     shiftRecord.startDateTime,
     timezone
   );
-  console.log("props.startDateTime", props.startDateTime);
-  console.log("shiftRecord.startDateTime", shiftRecord.startDateTime);
-  console.log("dayDifference", dayDifference);
+
   const services = props.services.map((singleService: any) => ({
     startTime: addTimeToDate(
       singleService.startTime,
@@ -134,7 +127,7 @@ export const generateShiftServices = (
     ),
     service: singleService.service,
   }));
-  console.log("services", services);
+
   return services;
 };
 
