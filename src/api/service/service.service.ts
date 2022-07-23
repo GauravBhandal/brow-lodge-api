@@ -91,7 +91,7 @@ class ServiceService {
       });
 
       // If exists, then throw an error
-      if (existingService) {
+      if (existingService && existingService.id !== service.id) {
         throw new CustomError(409, ServiceErrorCode.SERVICE_ALREADY_EXISTS);
       }
     }
