@@ -67,7 +67,9 @@ export const daysDifference = (
   repeatEndDate: any,
   timezone: any
 ) =>
-  makeMoment(repeatEndDate, timezone).diff(makeMoment(repeatStartDate), "days");
+  makeMoment(repeatEndDate, timezone)
+    .endOf("day")
+    .diff(makeMoment(repeatStartDate).startOf("day"), "days");
 
 // returns difference of minutes between two dates
 export const getMinutesDiff = (startDate: any, endDate: any, timezone: any) => {
