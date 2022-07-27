@@ -72,6 +72,7 @@ import { ProcessModel } from "../../api/process";
 import { RpdhsResourceModel } from "../../api/rpdhsResources";
 import { PracticeGuideModel } from "../../api/practiceGuide";
 import { ServiceDeliveryModel } from "../../api/serviceDelivery";
+import { ExpensesModel } from "../../api/expenses";
 
 export default {
   initialize() {
@@ -148,6 +149,7 @@ export default {
     initializePracticeGuideModelAssociations();
     initializeParticipantExpenseModelAssociations();
     initializeServiceDeliveryModelAssociations();
+    initializeExpensesModelAssociations();
   },
 };
 
@@ -1205,5 +1207,24 @@ function initializeServiceDeliveryModelAssociations() {
   ServiceDeliveryModel.belongsTo(ShiftRecordModel, {
     foreignKey: { name: "shift", allowNull: false },
     as: "Shift",
+  }); 
+}
+
+function initializeExpensesModelAssociations() {
+  ExpensesModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ExpensesModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ExpensesModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client" },
+    as: "Client",
+  });
+  ExpensesModel.belongsToMany(AttachmentModel, {
+    through: "expenses_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
