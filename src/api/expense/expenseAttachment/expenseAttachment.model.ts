@@ -5,24 +5,24 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../../components/sequelize/manager";
 import {
-  ExpensesAttachment,
-  CreateBulkExpensesAttachmentProps,
-} from "./expensesAttachment.types";
+  ExpenseAttachment,
+  CreateBulkExpenseAttachmentProps,
+} from "./expenseAttachment.types";
 
-class ExpensesAttachmentModel<
-    ModelAttributes = ExpensesAttachment,
-    ModelCreationAttributes = CreateBulkExpensesAttachmentProps
+class ExpenseAttachmentModel<
+    ModelAttributes = ExpenseAttachment,
+    ModelCreationAttributes = CreateBulkExpenseAttachmentProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements ExpensesAttachment
+  implements ExpenseAttachment
 {
-  relation!: ExpensesAttachment["relation"];
-  attachment!: ExpensesAttachment["attachment"];
+  relation!: ExpenseAttachment["relation"];
+  attachment!: ExpenseAttachment["attachment"];
 }
 
 modelManager.init(
-  "ExpensesAttachment",
-  ExpensesAttachmentModel,
+  "ExpenseAttachment",
+  ExpenseAttachmentModel,
   {
     relation: {
       type: Sequelize.UUIDV4,
@@ -41,8 +41,8 @@ modelManager.init(
     },
     underscored: true,
     paranoid: false, // <-- We are setting to false because of the update functionality of this Model
-    tableName: "expenses_attachments",
+    tableName: "expense_attachments",
   }
 );
 
-export default ExpensesAttachmentModel;
+export default ExpenseAttachmentModel;

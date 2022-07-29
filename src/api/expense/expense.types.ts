@@ -6,7 +6,7 @@ import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
 import { GetPracticeGuideByIdProps } from "../practiceGuide/practiceGuide.types";
 
-export interface Expenses extends DefaultSchemaConfig {
+export interface Expense extends DefaultSchemaConfig {
   date: Date;
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
@@ -23,33 +23,33 @@ export interface Expenses extends DefaultSchemaConfig {
   
 }
 
-export interface CreateExpensesProps {
-  date: Expenses["date"];
-  staff: Expenses["staff"];
-  client?: Expenses["client"];
-  totalExpense: Expenses["totalExpense"];
-  description: Expenses["description"];
+export interface CreateExpenseProps {
+  date: Expense["date"];
+  staff: Expense["staff"];
+  client?: Expense["client"];
+  totalExpense: Expense["totalExpense"];
+  description: Expense["description"];
   attachments: Attachment["id"][];
-  paidBy: Expenses["paidBy"];
-  status: Expenses["status"];
-  paymentReimbursed: Expenses["paymentReimbursed"];
-  company: Expenses["company"];
+  paidBy: Expense["paidBy"];
+  status: Expense["status"];
+  paymentReimbursed: Expense["paymentReimbursed"];
+  company: Expense["company"];
  
 }
 
-export interface UpdateExpensesProps
-  extends CreateExpensesProps {
-  id: Expenses["id"];
+export interface UpdateExpenseProps
+  extends CreateExpenseProps {
+  id: Expense["id"];
 }
 
-export interface DeleteExpensesProps {
-  id: Expenses["id"];
-  company: Expenses["company"];
+export interface DeleteExpenseProps {
+  id: Expense["id"];
+  company: Expense["company"];
 }
 
-export interface GetExpensesByIdProps
-  extends DeleteExpensesProps {}
+export interface GetExpenseByIdProps
+  extends DeleteExpenseProps {}
 
-export interface GetExpensessProps extends QueryParams {
-  company: Expenses["company"];
+export interface GetExpensesProps extends QueryParams {
+  company: Expense["company"];
 }

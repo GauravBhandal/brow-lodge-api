@@ -1,61 +1,61 @@
 import { omit as _omit } from "lodash";
 
-import ExpensesModel from "./expenses.model";
+import ExpenseModel from "./expense.model";
 import {
-  CreateExpensesProps,
-  UpdateExpensesProps,
-  DeleteExpensesProps,
-  GetExpensesByIdProps,
-  GetExpensessProps,
-} from "./expenses.types";
+  CreateExpenseProps,
+  UpdateExpenseProps,
+  DeleteExpenseProps,
+  GetExpenseByIdProps,
+  GetExpensesProps,
+} from "./expense.types";
 import { CustomError } from "../../components/errors";
-import ExpensesErrorCode from "./expenses.error";
+import ExpenseErrorCode from "./expense.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
-import { expensesAttachmentService } from "./expensesAttachment";
+import { expenseAttachmentService } from "./expenseAttachment";
 import { ClientProfileModel } from "../clientProfile";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 import { AttachmentModel } from "../attachment";
 
-class ExpensesService {
-  async createExpenses(props: CreateExpensesProps) {
-    const expenses = await ExpensesModel.create(props);
+class ExpenseService {
+  async createExpense(props: CreateExpenseProps) {
+    const expense = await ExpenseModel.create(props);
 
     // Create attachments
 
     if (props.attachments && props.attachments.length) {
-      await expensesAttachmentService.createBulkExpensesAttachment({
-        relation: expenses.id,
+      await expenseAttachmentService.createBulkExpenseAttachment({
+        relation: expense.id,
         attachments: props.attachments,
       });
     }
-    return expenses;
+    return expense;
   }
 
-  async updateExpenses(props: UpdateExpensesProps) {
+  async updateExpense(props: UpdateExpenseProps) {
     // Props
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
-    // Find expenses by id and company
-    const expenses = await ExpensesModel.findOne({
+    // Find expense by id and company
+    const expense = await ExpenseModel.findOne({
       where: { id, company },
     });
 
-    // if expenses not found, throw an error
-    if (!expenses) {
+    // if expense not found, throw an error
+    if (!expense) {
       throw new CustomError(
         404,
-        ExpensesErrorCode.EXPENSES_NOT_FOUND
+        ExpenseErrorCode.EXPENSE_NOT_FOUND
       );
     }
 
-    // Finally, update the expenses
-    const [, [updatedExpenses]] =
-      await ExpensesModel.update(updateProps, {
+    // Finally, update the expense
+    const [, [updatedExpense]] =
+      await ExpenseModel.update(updateProps, {
         where: { id, company },
         returning: true,
       });
@@ -63,40 +63,40 @@ class ExpensesService {
     // Update attachments
 
     if (props.attachments && props.attachments.length) {
-      await expensesAttachmentService.updateBulkExpensesAttachment({
-        relation: expenses.id,
+      await expenseAttachmentService.updateBulkExpenseAttachment({
+        relation: expense.id,
         attachments: props.attachments,
       });
     }
-    return updatedExpenses;
+    return updatedExpense;
   }
 
-  async deleteExpenses(props: DeleteExpensesProps) {
+  async deleteExpense(props: DeleteExpenseProps) {
     // Props
     const { id, company } = props;
 
-    // Find and delete the expenses by id and company
-    const expenses = await ExpensesModel.destroy({
+    // Find and delete the expense by id and company
+    const expense = await ExpenseModel.destroy({
       where: { id, company },
     });
 
-    // if expenses has been deleted, throw an error
-    if (!expenses) {
+    // if expense has been deleted, throw an error
+    if (!expense) {
       throw new CustomError(
         404,
-        ExpensesErrorCode.EXPENSES_NOT_FOUND
+        ExpenseErrorCode.EXPENSE_NOT_FOUND
       );
     }
 
-    return expenses;
+    return expense;
   }
 
-  async getExpensesById(props: GetExpensesByIdProps) {
+  async getExpenseById(props: GetExpenseByIdProps) {
     // Props
     const { id, company } = props;
 
-    // Find  the expenses by id and company
-    const expenses = await ExpensesModel.findOne({
+    // Find  the expense by id and company
+    const expense = await ExpenseModel.findOne({
       where: { id, company },
       include: [
         {
@@ -120,18 +120,18 @@ class ExpensesService {
       ],
     });
 
-    // If no expenses has been found, then throw an error
-    if (!expenses) {
+    // If no expense has been found, then throw an error
+    if (!expense) {
       throw new CustomError(
         404,
-        ExpensesErrorCode.EXPENSES_NOT_FOUND
+        ExpenseErrorCode.EXPENSE_NOT_FOUND
       );
     }
 
-    return expenses;
+    return expense;
   }
 
-  async getExpensess(props: GetExpensessProps, userId: string) {
+  async getExpenses(props: GetExpensesProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
@@ -170,8 +170,8 @@ class ExpensesService {
       },
     ];
 
-    // Count total expensess in the given company
-    const count = await ExpensesModel.count({
+    // Count total expenses in the given company
+    const count = await ExpenseModel.count({
       where: {
         company,
         ...filters["primaryFilters"],
@@ -180,8 +180,8 @@ class ExpensesService {
       include,
     });
 
-    // Find all expensess for matching props and company
-    const data = await ExpensesModel.findAll({
+    // Find all expenses for matching props and company
+    const data = await ExpenseModel.findAll({
       offset,
       limit,
       order,
@@ -198,4 +198,4 @@ class ExpensesService {
   }
 }
 
-export default new ExpensesService();
+export default new ExpenseService();

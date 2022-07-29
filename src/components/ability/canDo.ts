@@ -76,7 +76,7 @@ type Subject =
   | "policy"
   | "participantExpense"
   | "serviceDelivery"
-  | "expenses";
+  | "expense";
   
 
 export const canDo = (action: Action, subject: Subject) => {

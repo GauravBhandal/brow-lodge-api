@@ -5,36 +5,36 @@ import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
 import {
-  Expenses,
-  CreateExpensesProps,
-} from "./expenses.types";
+  Expense,
+  CreateExpenseProps,
+} from "./expense.types";
 
-class ExpensesModel<
-    ModelAttributes = Expenses,
-    ModelCreationAttributes = CreateExpensesProps
+class ExpenseModel<
+    ModelAttributes = Expense,
+    ModelCreationAttributes = CreateExpenseProps
   >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements Expenses
+  implements Expense
 {
-  date!: Expenses["date"];
-  staff!: Expenses["staff"];
-  Staff: Expenses["Staff"];
-  client: Expenses["client"];
-  Client: Expenses["Client"];
-  totalExpense!: Expenses["totalExpense"];
-  description!: Expenses["description"];
-  Attachments!: Expenses["Attachments"];
-  paidBy!: Expenses["paidBy"];
-  status!: Expenses["status"];
-  paymentReimbursed!: Expenses["paymentReimbursed"];
-  company!: Expenses["company"];
-  Company: Expenses["Company"];
+  date!: Expense["date"];
+  staff!: Expense["staff"];
+  Staff: Expense["Staff"];
+  client: Expense["client"];
+  Client: Expense["Client"];
+  totalExpense!: Expense["totalExpense"];
+  description!: Expense["description"];
+  Attachments!: Expense["Attachments"];
+  paidBy!: Expense["paidBy"];
+  status!: Expense["status"];
+  paymentReimbursed!: Expense["paymentReimbursed"];
+  company!: Expense["company"];
+  Company: Expense["Company"];
   
 }
 
 modelManager.init(
-  "Expenses",
-  ExpensesModel,
+  "Expense",
+  ExpenseModel,
   {
     date: {
       type: Sequelize.DATE,
@@ -69,8 +69,8 @@ modelManager.init(
     },
     underscored: true,
     paranoid: true,
-    tableName: "expenses",
+    tableName: "expense",
   }
 );
 
-export default ExpensesModel;
+export default ExpenseModel;

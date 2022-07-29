@@ -3,7 +3,7 @@ import Joi from "joi";
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
-const createExpensesSchema = wrapSchema({
+const createExpenseSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
     staff: requiredUUIDSchema(),
@@ -20,8 +20,8 @@ const createExpensesSchema = wrapSchema({
   }),
 });
 
-const editExpensesSchema = wrapSchema({
-  params: Joi.object().keys({ expensesId: requiredUUIDSchema() }),
+const editExpenseSchema = wrapSchema({
+  params: Joi.object().keys({ expenseId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
     staff: requiredUUIDSchema(),
@@ -38,19 +38,19 @@ const editExpensesSchema = wrapSchema({
   }),
 });
 
-const deleteExpensesSchema = wrapSchema({
+const deleteExpenseSchema = wrapSchema({
   params: Joi.object().keys({
-    expensesId: requiredUUIDSchema(),
+    expenseId: requiredUUIDSchema(),
   }),
 });
 
-const getExpensesByIdSchema = wrapSchema({
+const getExpenseByIdSchema = wrapSchema({
   params: Joi.object().keys({
-    expensesId: requiredUUIDSchema(),
+    expenseId: requiredUUIDSchema(),
   }),
 });
 
-const getExpensesSchema = wrapSchema({
+const getExpenseSchema = wrapSchema({
   query: Joi.object().keys({
     page: Joi.number().min(1),
     pageSize: Joi.number().min(1),
@@ -60,9 +60,9 @@ const getExpensesSchema = wrapSchema({
 });
 
 export default {
-  createExpenses: joiMiddleware(createExpensesSchema),
-  editExpenses: joiMiddleware(editExpensesSchema),
-  deleteExpenses: joiMiddleware(deleteExpensesSchema),
-  getExpensesById: joiMiddleware(getExpensesByIdSchema),
-  getExpensess: joiMiddleware(getExpensesSchema),
+  createExpense: joiMiddleware(createExpenseSchema),
+  editExpense: joiMiddleware(editExpenseSchema),
+  deleteExpense: joiMiddleware(deleteExpenseSchema),
+  getExpenseById: joiMiddleware(getExpenseByIdSchema),
+  getExpenses: joiMiddleware(getExpenseSchema),
 };
