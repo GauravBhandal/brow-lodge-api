@@ -17,7 +17,6 @@ import { StaffProfileModel } from "../staffProfile";
 import { expenseAttachmentService } from "./expenseAttachment";
 import { ClientProfileModel } from "../clientProfile";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
-
 import { AttachmentModel } from "../attachment";
 
 class ExpenseService {
@@ -25,7 +24,6 @@ class ExpenseService {
     const expense = await ExpenseModel.create(props);
 
     // Create attachments
-
     if (props.attachments && props.attachments.length) {
       await expenseAttachmentService.createBulkExpenseAttachment({
         relation: expense.id,
@@ -61,7 +59,6 @@ class ExpenseService {
       });
 
     // Update attachments
-
     if (props.attachments && props.attachments.length) {
       await expenseAttachmentService.updateBulkExpenseAttachment({
         relation: expense.id,

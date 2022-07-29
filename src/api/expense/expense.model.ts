@@ -69,7 +69,7 @@ modelManager.init(
     },
     underscored: true,
     paranoid: true,
-    tableName: "expense",
+    tableName: "expenses",
   }
 );
 

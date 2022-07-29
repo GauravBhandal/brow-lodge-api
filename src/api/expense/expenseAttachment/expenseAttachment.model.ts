@@ -41,7 +41,7 @@ modelManager.init(
     },
     underscored: true,
     paranoid: false, // <-- We are setting to false because of the update functionality of this Model
-    tableName: "expense_attachments",
+    tableName: "expenses_attachments",
   }
 );
 

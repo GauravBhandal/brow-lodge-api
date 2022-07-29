@@ -13,9 +13,9 @@ const createExpenseSchema = wrapSchema({
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .required(),
-    paidBy: Joi.string().required(),
-    status: Joi.string().valid("Approved", "Pending", "Rejected").required(),
-    paymentReimbursed: Joi.string().required(),
+      paidBy: Joi.string().valid("Company", "Participant", "Staff").required(),
+      status: Joi.string().valid("Approved", "Pending", "Rejected").required(),
+      paymentReimbursed: Joi.string().valid("Yes", "No", "Not Applicable").required(),
 
   }),
 });

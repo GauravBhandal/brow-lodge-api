@@ -4,7 +4,6 @@ import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
-import { GetPracticeGuideByIdProps } from "../practiceGuide/practiceGuide.types";
 
 export interface Expense extends DefaultSchemaConfig {
   date: Date;
