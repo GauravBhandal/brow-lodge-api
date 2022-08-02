@@ -261,14 +261,11 @@ class ShiftRecordService {
             companyData.timezone
           );
 
-          const getEndTime = getStartDate(
-            addTimeToDate(
-              shift.id === id ? updateProps.startDateTime : shift.startDateTime,
-              dateDiff,
-              "minutes",
-              companyData.timezone
-            ),
-            updateProps.endDateTime,
+          // Just add the dateDiff to new start time
+          const getEndTime = addTimeToDate(
+            getStartTime,
+            dateDiff,
+            "minutes",
             companyData.timezone
           );
 
