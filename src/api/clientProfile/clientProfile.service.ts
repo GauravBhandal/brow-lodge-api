@@ -18,6 +18,25 @@ import { ClientContactModel, clientContactService } from "./clientContact";
 
 class ClientProfileService {
   async createClientProfile(props: CreateClientProfileProps) {
+      const { preferredName } = props;
+
+      // Check if client already exist
+      const existingClient = await ClientProfileModel.findOne({
+        where: {
+          preferredName: {
+            [Op.iLike]: `${preferredName}`,
+          },
+          company: props.company,
+        },
+      });
+  
+      // if the role exists, throw an error
+      if (existingClient) {
+        throw new CustomError(
+          409,
+          ClientProfileErrorCode.CLIENT_PROFILE_ALREADY_EXIST
+        );
+      }
     const clientProfile = await ClientProfileModel.create(props);
     return clientProfile;
   }
@@ -56,6 +75,29 @@ class ClientProfileService {
       await clientContactService.updateBulkClientContact(
         updateClientContactsProp
       );
+    }
+
+    if (
+      clientProfile.preferredName.toLowerCase() !==
+      props.preferredName.toLowerCase()
+    ) {
+      // Check if Staff with same preferred name already exists
+      const existingRole = await ClientProfileModel.findOne({
+        where: {
+          preferredName: {
+            [Op.iLike]: `${props.preferredName}`,
+          },
+          company,
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingRole) {
+        throw new CustomError(
+          409,
+          ClientProfileErrorCode.CLIENT_PROFILE_ALREADY_EXIST
+        );
+      }
     }
 
     // Finally, update the clientProfile

@@ -21,6 +21,25 @@ import { PayLevelModel } from "../payLevel";
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
+    const { preferredName } = props;
+
+    // Check if staff already exist
+    const existingStaff = await StaffProfileModel.findOne({
+      where: {
+        preferredName: {
+          [Op.iLike]: `${preferredName}`,
+        },
+        company: props.company,
+      },
+    });
+
+    // if the role exists, throw an error
+    if (existingStaff) {
+      throw new CustomError(
+        409,
+        StaffProfileErrorCode.STAFF_PROFILE_ALREADY_EXIST
+      );
+    }
     const staffProfile = await StaffProfileModel.create(props);
     return staffProfile;
   }
@@ -39,7 +58,28 @@ class StaffProfileService {
     if (!staffProfile) {
       throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
     }
+    if (
+      staffProfile.preferredName.toLowerCase() !==
+      props.preferredName.toLowerCase()
+    ) {
+      // Check if Staff with same preferred name already exists
+      const existingRole = await StaffProfileModel.findOne({
+        where: {
+          preferredName: {
+            [Op.iLike]: `${props.preferredName}`,
+          },
+          company,
+        },
+      });
 
+      // If exists, then throw an error
+      if (existingRole) {
+        throw new CustomError(
+          409,
+          StaffProfileErrorCode.STAFF_PROFILE_ALREADY_EXIST
+        );
+      }
+    }
     // Finally, update the staffProfile
     const [, [updatedStaffProfile]] = await StaffProfileModel.update(
       updateProps,
