@@ -33,7 +33,7 @@ class StaffProfileService {
       },
     });
 
-    // if the role exists, throw an error
+    // if the staff exists, throw an error
     if (existingStaff) {
       throw new CustomError(
         409,
@@ -63,7 +63,7 @@ class StaffProfileService {
       props.preferredName.toLowerCase()
     ) {
       // Check if Staff with same preferred name already exists
-      const existingRole = await StaffProfileModel.findOne({
+      const existingStaff = await StaffProfileModel.findOne({
         where: {
           preferredName: {
             [Op.iLike]: `${props.preferredName}`,
@@ -73,7 +73,7 @@ class StaffProfileService {
       });
 
       // If exists, then throw an error
-      if (existingRole) {
+      if (existingStaff) {
         throw new CustomError(
           409,
           StaffProfileErrorCode.STAFF_PROFILE_ALREADY_EXIST
