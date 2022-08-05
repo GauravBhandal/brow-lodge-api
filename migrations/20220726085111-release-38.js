@@ -56,14 +56,23 @@ SELECT uuid_generate_v4(), e.id, pea.attachment, pea.created, pea.updated FROM e
 INNER JOIN participant_expenses_attachments as pea ON e.temp_column = pea.relation;
 
 ALTER TABLE "expenses" DROP COLUMN "temp_column";
+
+ALTER TABLE "client_risks" ADD COLUMN "next_review_date" TIMESTAMP WITH TIME ZONE;
+
+ALTER TABLE "corporate_risks" ADD COLUMN "next_review_date" TIMESTAMP WITH TIME ZONE;
 `;
 
 const queryDown = `
+ALTER TABLE "client_risks" DROP COLUMN "next_review_date";
+
+ALTER TABLE "corporate_risks" DROP COLUMN "next_review_date";
+
 ALTER TABLE "expenses_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "expenses_attachments";
 
 ALTER TABLE "expenses" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "expenses";
+
 `;
 
 module.exports = {

@@ -6,6 +6,7 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createClientRiskSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
+    nextReviewDate: Joi.date().allow(null),
     levelOfRisk: Joi.string().required(),
     likelihood: Joi.string().required(),
     consequences: Joi.string().required(),
@@ -25,6 +26,7 @@ const editClientRiskSchema = wrapSchema({
   params: Joi.object().keys({ clientRiskId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
+    nextReviewDate: Joi.date().allow(null),
     levelOfRisk: Joi.string().required(),
     likelihood: Joi.string().required(),
     consequences: Joi.string().required(),
