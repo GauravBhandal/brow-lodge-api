@@ -7,6 +7,7 @@ import { Attachment } from "../attachment";
 
 export interface ClientRisk extends DefaultSchemaConfig {
   date: Date;
+  nextReviewDate?: Date;
   levelOfRisk: string;
   likelihood: string;
   consequences: string;
@@ -25,6 +26,7 @@ export interface ClientRisk extends DefaultSchemaConfig {
 
 export interface CreateClientRiskProps {
   date: ClientRisk["date"];
+  nextReviewDate?: ClientRisk["nextReviewDate"];
   levelOfRisk: ClientRisk["levelOfRisk"];
   likelihood: ClientRisk["likelihood"];
   consequences: ClientRisk["consequences"];

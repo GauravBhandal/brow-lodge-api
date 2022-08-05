@@ -14,6 +14,7 @@ class CorporateRiskModel<
   implements CorporateRisk
 {
   date!: CorporateRisk["date"];
+  nextReviewDate: CorporateRisk["nextReviewDate"];
   levelOfRisk!: CorporateRisk["levelOfRisk"];
   likelihood!: CorporateRisk["likelihood"];
   consequences!: CorporateRisk["consequences"];
@@ -37,6 +38,9 @@ modelManager.init(
     levelOfRisk: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    nextReviewDate: {
+      type: Sequelize.DATE,
     },
     likelihood: {
       type: Sequelize.STRING,

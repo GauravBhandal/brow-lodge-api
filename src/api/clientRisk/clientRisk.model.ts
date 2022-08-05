@@ -14,6 +14,7 @@ class ClientRiskModel<
   implements ClientRisk
 {
   date!: ClientRisk["date"];
+  nextReviewDate: ClientRisk["nextReviewDate"];
   levelOfRisk!: ClientRisk["levelOfRisk"];
   likelihood!: ClientRisk["likelihood"];
   consequences!: ClientRisk["consequences"];
@@ -37,6 +38,9 @@ modelManager.init(
     date: {
       type: Sequelize.DATE,
       allowNull: false,
+    },
+    nextReviewDate: {
+      type: Sequelize.DATE,
     },
     levelOfRisk: {
       type: Sequelize.STRING,
