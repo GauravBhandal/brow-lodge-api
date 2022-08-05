@@ -116,6 +116,25 @@ class StaffProfileService {
         );
       }
     }
+
+    if (staffProfile.email.toLowerCase() !== props.email.toLowerCase()) {
+      // Check if Staff with same email already exists
+      const existingStaff = await StaffProfileModel.findOne({
+        where: {
+          email: {
+            [Op.iLike]: `${props.email}`, // We are not using company here
+          },
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingStaff) {
+        throw new CustomError(
+          409,
+          StaffProfileErrorCode.STAFF_PROFILE_EMAIL_ALREADY_EXIST
+        );
+      }
+    }
     // Finally, update the staffProfile
     const [, [updatedStaffProfile]] = await StaffProfileModel.update(
       updateProps,
