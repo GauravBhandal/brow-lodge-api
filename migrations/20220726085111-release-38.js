@@ -63,9 +63,9 @@ ALTER TABLE "corporate_risks" ADD COLUMN "next_review_date" TIMESTAMP WITH TIME 
 `;
 
 const queryDown = `
-ALTER TABLE "client_risks" DROP COLUMN "next_review_date";
-
 ALTER TABLE "corporate_risks" DROP COLUMN "next_review_date";
+
+ALTER TABLE "client_risks" DROP COLUMN "next_review_date";
 
 ALTER TABLE "expenses_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "expenses_attachments";
