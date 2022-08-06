@@ -25,6 +25,7 @@ import {
 } from "../shiftRecord";
 import { ShiftRecordStatus } from "../shiftRecord/shiftRecord.constant";
 import makeMoment from "../../components/moment";
+import { getEndDate } from "../../utils/shiftGenerator";
 
 class ServiceDeliveryService {
   async createServiceDelivery(props: CreateServiceDeliveryProps) {
@@ -57,8 +58,15 @@ class ServiceDeliveryService {
       companyData.timezone
     ).toDate();
 
+    const endDate = getEndDate(
+      props.startTime,
+      props.endTime,
+      startDate,
+      companyData.timezone
+    );
+
     const endTime = props.endTime;
-    const tEndDateTime = startDate + " " + endTime;
+    const tEndDateTime = endDate + " " + endTime;
     const endDateTime = makeMoment(tEndDateTime, companyData.timezone).toDate();
 
     const createShiftProp = {
@@ -157,8 +165,15 @@ class ServiceDeliveryService {
       companyData.timezone
     ).toDate();
 
+    const endDate = getEndDate(
+      props.startTime,
+      props.endTime,
+      startDate,
+      companyData.timezone
+    );
+
     const endTime = props.endTime;
-    const tEndDateTime = startDate + " " + endTime;
+    const tEndDateTime = endDate + " " + endTime;
     const endDateTime = makeMoment(tEndDateTime, companyData.timezone).toDate();
 
     const updateShiftProp = {

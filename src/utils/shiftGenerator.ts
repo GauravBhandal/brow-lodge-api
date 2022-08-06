@@ -16,6 +16,18 @@ const daysOfWeek = [
   "sunday",
 ];
 
+export const getEndDate = (
+  startTime: any,
+  endTime: any,
+  date: any,
+  timezone: any
+) => {
+  if (startTime > endTime) {
+    return makeMoment(date, timezone).add(1, "days").format("YYYY-MM-DD");
+  }
+  return date;
+};
+
 /**
  * Add time in date
  * @param date
