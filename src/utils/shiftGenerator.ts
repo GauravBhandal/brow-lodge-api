@@ -16,6 +16,18 @@ const daysOfWeek = [
   "sunday",
 ];
 
+export const getEndDate = (
+  startTime: any,
+  endTime: any,
+  date: any,
+  timezone: any
+) => {
+  if (startTime > endTime) {
+    return makeMoment(date, timezone).add(1, "days").format("YYYY-MM-DD");
+  }
+  return date;
+};
+
 /**
  * Add time in date
  * @param date
@@ -67,7 +79,9 @@ export const daysDifference = (
   repeatEndDate: any,
   timezone: any
 ) =>
-  makeMoment(repeatEndDate, timezone).diff(makeMoment(repeatStartDate), "days");
+  makeMoment(repeatEndDate, timezone)
+    .startOf("day")
+    .diff(makeMoment(repeatStartDate, timezone).startOf("day"), "days");
 
 // returns difference of minutes between two dates
 export const getMinutesDiff = (startDate: any, endDate: any, timezone: any) => {

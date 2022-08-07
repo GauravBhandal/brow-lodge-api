@@ -666,37 +666,6 @@ module.exports = {
     );
 
     await queryInterface.bulkInsert(
-      "progress_notes",
-      [
-        {
-          id: "204f3598-960b-4c53-be9c-bd8e89ff917d",
-          date: new Date(),
-          shift_start_time: new Date(),
-          shift_end_time: new Date(),
-          notes: "Company 1 Notes",
-          staff: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
-          client: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
-          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
-          created: new Date(),
-          updated: new Date(),
-        },
-        {
-          id: "37ead1de-fda9-4882-a702-2b6f7673ed8d",
-          date: new Date(),
-          shift_start_time: new Date(),
-          shift_end_time: new Date(),
-          notes: "Company 2 Notes",
-          staff: "7b052282-d57e-45c0-8cef-b39c949294b5",
-          client: "346fd1cf-ceea-4e85-b8ac-54acca970843",
-          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
-          created: new Date(),
-          updated: new Date(),
-        },
-      ],
-      {}
-    );
-
-    await queryInterface.bulkInsert(
       "users_roles",
       [
         {
@@ -1689,7 +1658,6 @@ module.exports = {
     await queryInterface.bulkDelete("bowel_logs", null, {});
     await queryInterface.bulkDelete("blood_glucose_logs", null, {});
     await queryInterface.bulkDelete("users_roles", null, {});
-    await queryInterface.bulkDelete("progress_notes", null, {});
     await queryInterface.bulkDelete("client_profiles", null, {});
     await queryInterface.bulkDelete("staff_profiles", null, {});
     await queryInterface.bulkDelete("users", null, {});

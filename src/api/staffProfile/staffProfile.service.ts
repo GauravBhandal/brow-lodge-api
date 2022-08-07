@@ -16,12 +16,67 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { getFilters } from "../../components/filters";
 import { CompanyModel } from "../company";
-import { UserModel } from "../user";
+import { User, UserModel, userService } from "../user";
 import { PayLevelModel } from "../payLevel";
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
-    const staffProfile = await StaffProfileModel.create(props);
+    const { preferredName, email } = props;
+
+    // Check if staff already exist
+    const existingStaffWithName = await StaffProfileModel.findOne({
+      where: {
+        preferredName: {
+          [Op.iLike]: `${preferredName}`,
+        },
+        company: props.company,
+      },
+    });
+
+    const existingStaffWithEmail = await StaffProfileModel.findOne({
+      where: {
+        email: {
+          [Op.iLike]: `${email}`,
+        },
+        company: props.company,
+      },
+    });
+
+    // TODO: We are not using company id here which might be a problem
+    const existingStaffWithUser = await UserModel.findOne({
+      where: {
+        email: {
+          [Op.iLike]: `${email}`,
+        },
+      },
+    });
+
+    // if the staff exists, throw an error
+    if (existingStaffWithName) {
+      throw new CustomError(
+        409,
+        StaffProfileErrorCode.STAFF_PROFILE_NAME_ALREADY_EXIST
+      );
+    }
+    if (existingStaffWithEmail || existingStaffWithUser) {
+      throw new CustomError(
+        409,
+        StaffProfileErrorCode.STAFF_PROFILE_EMAIL_ALREADY_EXIST
+      );
+    }
+    const createUserProps = _omit(props, ["preferredName"]);
+    const user = (await userService.createUser(createUserProps)) as User;
+
+    const createStaffProps = {
+      firstName: props.firstName,
+      lastName: props.lastName,
+      preferredName: props.preferredName,
+      email: props.email,
+      user: user.id,
+      company: props.company,
+    };
+
+    const staffProfile = await StaffProfileModel.create(createStaffProps);
     return staffProfile;
   }
 
@@ -39,7 +94,47 @@ class StaffProfileService {
     if (!staffProfile) {
       throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
     }
+    if (
+      staffProfile.preferredName.toLowerCase() !==
+      props.preferredName.toLowerCase()
+    ) {
+      // Check if Staff with same preferred name already exists
+      const existingStaff = await StaffProfileModel.findOne({
+        where: {
+          preferredName: {
+            [Op.iLike]: `${props.preferredName}`,
+          },
+          company,
+        },
+      });
 
+      // If exists, then throw an error
+      if (existingStaff) {
+        throw new CustomError(
+          409,
+          StaffProfileErrorCode.STAFF_PROFILE_NAME_ALREADY_EXIST
+        );
+      }
+    }
+
+    if (staffProfile.email.toLowerCase() !== props.email.toLowerCase()) {
+      // Check if Staff with same email already exists
+      const existingStaff = await StaffProfileModel.findOne({
+        where: {
+          email: {
+            [Op.iLike]: `${props.email}`, // We are not using company here
+          },
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingStaff) {
+        throw new CustomError(
+          409,
+          StaffProfileErrorCode.STAFF_PROFILE_EMAIL_ALREADY_EXIST
+        );
+      }
+    }
     // Finally, update the staffProfile
     const [, [updatedStaffProfile]] = await StaffProfileModel.update(
       updateProps,

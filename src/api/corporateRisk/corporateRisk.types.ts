@@ -5,6 +5,7 @@ import { QueryParams } from "../../common/types";
 
 export interface CorporateRisk extends DefaultSchemaConfig {
   date: Date;
+  nextReviewDate?: Date;
   levelOfRisk: string;
   likelihood: string;
   consequences: string;
@@ -19,6 +20,7 @@ export interface CorporateRisk extends DefaultSchemaConfig {
 
 export interface CreateCorporateRiskProps {
   date: CorporateRisk["date"];
+  nextReviewDate?: CorporateRisk["nextReviewDate"];
   levelOfRisk: CorporateRisk["levelOfRisk"];
   likelihood: CorporateRisk["likelihood"];
   consequences: CorporateRisk["consequences"];

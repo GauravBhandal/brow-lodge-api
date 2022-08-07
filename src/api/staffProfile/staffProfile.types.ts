@@ -1,6 +1,7 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { User } from "../user";
+import { Role } from "../role";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
 import { PayLevel } from "../payLevel";
@@ -39,24 +40,10 @@ export interface CreateStaffProfileProps {
   lastName: StaffProfile["lastName"];
   preferredName: StaffProfile["preferredName"];
   email: StaffProfile["email"];
-  gender?: StaffProfile["gender"];
-  accountingCode?: StaffProfile["accountingCode"];
-  dateOfBirth?: StaffProfile["dateOfBirth"];
-  personalContactNumber?: StaffProfile["personalContactNumber"];
-  workContactNumber?: StaffProfile["workContactNumber"];
-  address?: StaffProfile["address"];
-  emergencyContactName?: StaffProfile["emergencyContactName"];
-  emergencyContactPhone?: StaffProfile["emergencyContactPhone"];
-  emergencyContactRelation?: StaffProfile["emergencyContactRelation"];
-  jobTitle?: StaffProfile["jobTitle"];
-  employmentStartDate?: StaffProfile["employmentStartDate"];
-  employmentEndDate?: StaffProfile["employmentEndDate"];
-  employmentType?: StaffProfile["employmentType"];
-  manager?: StaffProfile["manager"];
-  user: StaffProfile["user"];
-  company: StaffProfile["company"];
-  attachment?: StaffProfile["attachment"];
-  paylevel?: StaffProfile["paylevel"];
+  password: User["password"];
+  blocked: User["blocked"];
+  company: User["company"];
+  roles?: Role["id"][];
 }
 
 export interface UpdateStaffProfileProps extends CreateStaffProfileProps {

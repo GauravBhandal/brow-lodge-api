@@ -23,7 +23,10 @@ const shiftRepeatSchema = Joi.object()
 const createShiftRecordSchema = wrapSchema({
   body: Joi.object().keys({
     startDateTime: Joi.date().required(),
-    endDateTime: Joi.date().required(),
+    endDateTime: Joi.date()
+      .required()
+      .greater(Joi.ref("startDateTime"))
+      .message("Shift start time must be greater than shift end time"),
     break: Joi.number().allow("", null),
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
@@ -40,7 +43,10 @@ const editShiftRecordSchema = wrapSchema({
   body: Joi.object().keys({
     updateRecurring: Joi.boolean().required(),
     startDateTime: Joi.date().required(),
-    endDateTime: Joi.date().required(),
+    endDateTime: Joi.date()
+      .required()
+      .greater(Joi.ref("startDateTime"))
+      .message("Shift start time must be greater than shift end time"),
     break: Joi.number().allow("", null),
     staff: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     client: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
