@@ -25,7 +25,6 @@ type Subject =
   | "transportBehaviour"
   | "vehicleLog"
   | "injuryReport"
-  | "expenseReimbursement"
   | "doctorVisit"
   | "clientAsset"
   | "companyAsset"
@@ -53,7 +52,6 @@ type Subject =
   | "incidentType"
   | "keyDecision"
   | "restrictivePracticeLog"
-  | "companyExpense"
   | "progressReport"
   | "policyReview"
   | "rosterSetting"
@@ -74,7 +72,6 @@ type Subject =
   | "rpdhsResource"
   | "practiceGuide"
   | "policy"
-  | "participantExpense"
   | "serviceDelivery"
   | "expense";
   
