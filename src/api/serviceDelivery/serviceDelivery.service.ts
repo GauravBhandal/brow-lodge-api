@@ -194,16 +194,23 @@ class ServiceDeliveryService {
       claimType: props.claimType,
     };
 
-    try {
-      // Find shift record by id
-      if (shift) {
-        const existingShiftRecord = await shiftRecordService.getShiftRecordById(
-          {
-            id: shift,
-            company: props.company,
-          }
+    // Find shift record by id
+    if (shift) {
+      let existingShiftRecord;
+      try {
+        // Find shift by id
+        existingShiftRecord = await shiftRecordService.getShiftRecordById({
+          id: shift,
+          company: props.company,
+        });
+      } catch (error) {
+        // If not found, create a new one
+        shiftRecord = await shiftRecordService.createShiftRecord(
+          updateShiftProp
         );
+      }
 
+      if (existingShiftRecord) {
         const updateShiftRecordProp = {
           ...updateShiftProp,
           id: existingShiftRecord.id,
@@ -212,13 +219,8 @@ class ServiceDeliveryService {
         shiftRecord = await shiftRecordService.updateShiftRecord(
           updateShiftRecordProp
         );
-      } else {
-        shiftRecord = await shiftRecordService.createShiftRecord(
-          updateShiftProp
-        );
       }
-    } catch (error) {
-      // Otherwise, create a new one
+    } else {
       shiftRecord = await shiftRecordService.createShiftRecord(updateShiftProp);
     }
     return shiftRecord as ShiftRecord;
@@ -242,14 +244,14 @@ class ServiceDeliveryService {
       );
     }
 
+    // Update shift record
+    const shiftRecord = await this._updateShift(props, serviceDelivery.shift!);
+
     // Update progress note
     const progressNote = await this._updateProgressNote(
       props,
       serviceDelivery.progressnote!
     );
-
-    // Update shift record
-    const shiftRecord = await this._updateShift(props, serviceDelivery.shift!);
 
     const newUpdateProps = {
       ...updateProps,
