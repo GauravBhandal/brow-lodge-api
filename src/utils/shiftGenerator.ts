@@ -22,7 +22,7 @@ export const getEndDate = (
   date: any,
   timezone: any
 ) => {
-  if (startTime > endTime) {
+  if (startTime >= endTime) {
     return makeMoment(date, timezone).add(1, "days").format("YYYY-MM-DD");
   }
   return date;
