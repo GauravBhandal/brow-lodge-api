@@ -46,6 +46,12 @@ export interface GenerateInvoicesProps {
   ids: Invoice["id"][];
   company: Invoice["company"];
 }
+
+export interface PublishGenerateInvoicesProps {
+  ids: Invoice["id"][];
+  company: Invoice["company"];
+}
+
 export interface UpdateInvoiceOnShiftUpdateProps {
   startDateTime: Invoice["startDateTime"];
   endDateTime: Invoice["endDateTime"];
@@ -65,6 +71,8 @@ export interface GetInvoiceByIdProps {
 }
 
 export interface GetInvoiceByIdsProps extends GenerateInvoicesProps {}
+
+export interface GetInvoiceByIdsProps extends PublishGenerateInvoicesProps {}
 
 export interface GetInvoicesProps extends QueryParams {
   company: Invoice["company"];

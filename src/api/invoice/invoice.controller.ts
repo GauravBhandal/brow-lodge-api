@@ -39,6 +39,18 @@ class InvoiceController {
     res.status(200).json(invoice);
   }
 
+  async publishGenerateInvoices(req: Request, res: Response) {
+    const props = {
+      company: req.auth.companyId,
+      ...req.body,
+    };
+
+    const invoice = await invoiceService.publishGenerateInvoices(props);
+
+    res.status(200).json(invoice);
+  }
+
+
   async getInvoiceById(req: Request, res: Response) {
     const { invoiceId } = req.params;
     const props = {

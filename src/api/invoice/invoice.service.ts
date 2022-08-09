@@ -14,6 +14,7 @@ import {
   UpdateInvoiceStatusProps,
   GenerateInvoicesProps,
   GetInvoiceByIdsProps,
+  PublishGenerateInvoicesProps,
 } from "./invoice.types";
 import { CustomError } from "../../components/errors";
 import InvoiceErrorCode from "./invoice.error";
@@ -438,6 +439,19 @@ class InvoiceService {
       company,
       invoices,
     });
+
+    // Finally update the status of invoices
+    await this.updateInvoiceStatus({
+      company,
+      ids,
+      status: "Approved",
+      lastExportedOn: new Date(),
+    });
+  }
+
+  async publishGenerateInvoices(props: PublishGenerateInvoicesProps) {
+    // Props
+    const { ids, company } = props;
 
     // Finally update the status of invoices
     await this.updateInvoiceStatus({

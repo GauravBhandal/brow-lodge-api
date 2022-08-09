@@ -15,6 +15,13 @@ router.post(
 );
 
 router.put(
+  "/publish",
+  canDo("update", "invoice"),
+  invoiceSchems.publishGenerateInvoices,
+  catchWrap(controller.publishGenerateInvoices)
+);
+
+router.put(
   "/status",
   canDo("update", "invoice"),
   invoiceSchems.updateInvoiceStatus,
