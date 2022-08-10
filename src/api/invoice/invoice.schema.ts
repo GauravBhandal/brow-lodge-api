@@ -38,7 +38,7 @@ const generateInvoicesSchema = wrapSchema({
   }),
 });
 
-const publishGenerateInvoicesSchema = wrapSchema({
+const setExportedOnInvoicesSchema = wrapSchema({
   body: Joi.object().keys({
     ids: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
   }),
@@ -73,5 +73,5 @@ export default {
   deleteInvoice: joiMiddleware(deleteInvoiceSchema),
   getInvoiceById: joiMiddleware(getInvoiceByIdSchema),
   getInvoices: joiMiddleware(getInvoiceSchema),
-  publishGenerateInvoices: joiMiddleware(publishGenerateInvoicesSchema),
+  setExportedOnInvoices: joiMiddleware(setExportedOnInvoicesSchema),
 };

@@ -14,7 +14,7 @@ import {
   UpdateInvoiceStatusProps,
   GenerateInvoicesProps,
   GetInvoiceByIdsProps,
-  PublishGenerateInvoicesProps,
+  SetExportedOnInvoicesProps,
 } from "./invoice.types";
 import { CustomError } from "../../components/errors";
 import InvoiceErrorCode from "./invoice.error";
@@ -449,7 +449,7 @@ class InvoiceService {
     });
   }
 
-  async publishGenerateInvoices(props: PublishGenerateInvoicesProps) {
+  async setExportedOnInvoices(props: SetExportedOnInvoicesProps) {
     // Props
     const { ids, company } = props;
 

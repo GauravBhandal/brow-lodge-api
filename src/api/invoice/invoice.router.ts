@@ -15,10 +15,10 @@ router.post(
 );
 
 router.put(
-  "/publish",
+  "/exported",
   canDo("update", "invoice"),
-  invoiceSchems.publishGenerateInvoices,
-  catchWrap(controller.publishGenerateInvoices)
+  invoiceSchems.setExportedOnInvoices,
+  catchWrap(controller.setExportedOnInvoices)
 );
 
 router.put(

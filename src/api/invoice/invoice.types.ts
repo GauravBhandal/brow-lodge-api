@@ -47,7 +47,7 @@ export interface GenerateInvoicesProps {
   company: Invoice["company"];
 }
 
-export interface PublishGenerateInvoicesProps {
+export interface SetExportedOnInvoicesProps {
   ids: Invoice["id"][];
   company: Invoice["company"];
 }
@@ -71,8 +71,6 @@ export interface GetInvoiceByIdProps {
 }
 
 export interface GetInvoiceByIdsProps extends GenerateInvoicesProps {}
-
-export interface GetInvoiceByIdsProps extends PublishGenerateInvoicesProps {}
 
 export interface GetInvoicesProps extends QueryParams {
   company: Invoice["company"];
