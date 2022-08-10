@@ -1,0 +1,74 @@
+import Joi from "joi";
+
+import { joiMiddleware } from "../../components/joi/middleware";
+import {
+  requiredTimeSchema,
+  requiredUUIDSchema,
+  wrapSchema,
+} from "../../common/joiSchemas";
+
+const createParticipantGoalSchema = wrapSchema({
+  body: Joi.object().keys({
+    client: requiredUUIDSchema(),
+    staff: requiredUUIDSchema(),
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    strategy: Joi.string().required(),
+    support: Joi.string().required(),
+    type: Joi.string().required(),
+    status: Joi.string().required(),
+    comments: Joi.string().required(),
+    startDate: Joi.date().required(),
+    reviewDate: Joi.date().allow(null),
+    dueDate: Joi.date().allow(null),
+  }),
+});
+
+const editParticipantGoalSchema = wrapSchema({
+  params: Joi.object().keys({
+    participantGoalId: requiredUUIDSchema(),
+  }),
+  body: Joi.object().keys({
+    client: requiredUUIDSchema(),
+    staff: requiredUUIDSchema(),
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    strategy: Joi.string().required(),
+    support: Joi.string().required(),
+    type: Joi.string().required(),
+    status: Joi.string().required(),
+    comments: Joi.string().required(),
+    startDate: Joi.date().required(),
+    reviewDate: Joi.date().allow(null),
+    dueDate: Joi.date().allow(null),
+  }),
+});
+
+const deleteParticipantGoalSchema = wrapSchema({
+  params: Joi.object().keys({
+    participantGoalId: requiredUUIDSchema(),
+  }),
+});
+
+const getParticipantGoalByIdSchema = wrapSchema({
+  params: Joi.object().keys({
+    participantGoalId: requiredUUIDSchema(),
+  }),
+});
+
+const getParticipantGoalSchema = wrapSchema({
+  query: Joi.object().keys({
+    page: Joi.number().min(1),
+    pageSize: Joi.number().min(1),
+    sort: Joi.string(),
+    where: Joi.any(), //TODO use regular operation for applying schema for where props
+  }),
+});
+
+export default {
+  createParticipantGoal: joiMiddleware(createParticipantGoalSchema),
+  editParticipantGoal: joiMiddleware(editParticipantGoalSchema),
+  deleteParticipantGoal: joiMiddleware(deleteParticipantGoalSchema),
+  getParticipantGoalById: joiMiddleware(getParticipantGoalByIdSchema),
+  getParticipantGoals: joiMiddleware(getParticipantGoalSchema),
+};
