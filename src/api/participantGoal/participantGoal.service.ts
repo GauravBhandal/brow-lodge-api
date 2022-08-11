@@ -15,7 +15,6 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { ClientProfileModel } from "../clientProfile";
 import { StaffProfileModel } from "../staffProfile";
-
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 
 class ParticipantGoalService {

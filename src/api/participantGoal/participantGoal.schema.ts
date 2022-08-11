@@ -1,26 +1,24 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import {
-  requiredTimeSchema,
-  requiredUUIDSchema,
-  wrapSchema,
-} from "../../common/joiSchemas";
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createParticipantGoalSchema = wrapSchema({
   body: Joi.object().keys({
-    client: requiredUUIDSchema(),
-    staff: requiredUUIDSchema(),
     title: Joi.string().required(),
     description: Joi.string().required(),
     strategy: Joi.string().required(),
     support: Joi.string().required(),
-    type: Joi.string().required(),
-    status: Joi.string().required(),
+    type: Joi.string()
+      .valid("Short Term", "Medium Term", "Long Term")
+      .required(),
+    status: Joi.string().valid("Draft", "In Progress", "Achieved").required(),
     comments: Joi.string().required(),
     startDate: Joi.date().required(),
     reviewDate: Joi.date().allow(null),
     dueDate: Joi.date().allow(null),
+    client: requiredUUIDSchema(),
+    staff: requiredUUIDSchema(),
   }),
 });
 
@@ -29,18 +27,20 @@ const editParticipantGoalSchema = wrapSchema({
     participantGoalId: requiredUUIDSchema(),
   }),
   body: Joi.object().keys({
-    client: requiredUUIDSchema(),
-    staff: requiredUUIDSchema(),
     title: Joi.string().required(),
     description: Joi.string().required(),
     strategy: Joi.string().required(),
     support: Joi.string().required(),
-    type: Joi.string().required(),
-    status: Joi.string().required(),
+    type: Joi.string()
+      .valid("Short Term", "Medium Term", "Long Term")
+      .required(),
+    status: Joi.string().valid("Draft", "In Progress", "Achieved").required(),
     comments: Joi.string().required(),
     startDate: Joi.date().required(),
     reviewDate: Joi.date().allow(null),
     dueDate: Joi.date().allow(null),
+    client: requiredUUIDSchema(),
+    staff: requiredUUIDSchema(),
   }),
 });
 

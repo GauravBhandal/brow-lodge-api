@@ -57,7 +57,7 @@ modelManager.init(
     },
     underscored: true,
     paranoid: true,
-    tableName: "participant_goal",
+    tableName: "participant_goals",
   }
 );
 

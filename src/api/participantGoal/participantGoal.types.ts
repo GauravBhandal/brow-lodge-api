@@ -5,10 +5,6 @@ import { StaffProfile } from "../staffProfile";
 import { QueryParams } from "../../common/types";
 
 export interface ParticipantGoal extends DefaultSchemaConfig {
-  staff: StaffProfile["id"];
-  Staff?: StaffProfile;
-  client: ClientProfile["id"];
-  Client?: ClientProfile;
   title: string;
   description: string;
   strategy: string;
@@ -21,11 +17,13 @@ export interface ParticipantGoal extends DefaultSchemaConfig {
   dueDate?: Date;
   company: Company["id"];
   Company?: Company;
+  staff: StaffProfile["id"];
+  Staff?: StaffProfile;
+  client: ClientProfile["id"];
+  Client?: ClientProfile;
 }
 
 export interface CreateParticipantGoalProps {
-  client: ParticipantGoal["client"];
-  staff: ParticipantGoal["staff"];
   title: ParticipantGoal["title"];
   description: ParticipantGoal["description"];
   strategy: ParticipantGoal["strategy"];
@@ -36,7 +34,8 @@ export interface CreateParticipantGoalProps {
   startDate: ParticipantGoal["startDate"];
   reviewDate: ParticipantGoal["reviewDate"];
   dueDate: ParticipantGoal["dueDate"];
-
+  client: ParticipantGoal["client"];
+  staff: ParticipantGoal["staff"];
   company: ParticipantGoal["company"];
 }
 
