@@ -71,6 +71,7 @@ import { rpdhsResourceRoutes } from "../api/rpdhsResources";
 import { practiceGuideRoutes } from "../api/practiceGuide";
 import { serviceDeliveryRoutes } from "../api/serviceDelivery";
 import { expenseRoutes } from "../api/expense";
+import { participantGoalRoutes } from "../api/participantGoal";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -145,5 +146,6 @@ router.use("/rpdhs-resource", rpdhsResourceRoutes);
 router.use("/practice-guide", practiceGuideRoutes);
 router.use("/service-delivery", serviceDeliveryRoutes);
 router.use("/expense", expenseRoutes);
+router.use("/participant-goal", participantGoalRoutes);
 
 export default router;
