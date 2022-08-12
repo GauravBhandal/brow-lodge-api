@@ -13,7 +13,7 @@ const createParticipantGoalSchema = wrapSchema({
       .valid("Short Term", "Medium Term", "Long Term")
       .required(),
     status: Joi.string().valid("Draft", "In Progress", "Achieved").required(),
-    comments: Joi.string().required(),
+    comments: Joi.string().allow("", null),
     startDate: Joi.date().required(),
     reviewDate: Joi.date().allow(null),
     dueDate: Joi.date().allow(null),
@@ -35,7 +35,7 @@ const editParticipantGoalSchema = wrapSchema({
       .valid("Short Term", "Medium Term", "Long Term")
       .required(),
     status: Joi.string().valid("Draft", "In Progress", "Achieved").required(),
-    comments: Joi.string().required(),
+    comments: Joi.string().allow("", null),
     startDate: Joi.date().required(),
     reviewDate: Joi.date().allow(null),
     dueDate: Joi.date().allow(null),
