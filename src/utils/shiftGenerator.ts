@@ -22,7 +22,8 @@ export const getEndDate = (
   date: any,
   timezone: any
 ) => {
-  if (startTime > endTime) {
+  // We need = here otherwise it won't increment end date for 24hr shift which means we will get 0 hrs as total hrs in shift
+  if (startTime >= endTime) {
     return makeMoment(date, timezone).add(1, "days").format("YYYY-MM-DD");
   }
   return date;

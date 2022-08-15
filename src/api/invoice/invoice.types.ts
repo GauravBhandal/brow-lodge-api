@@ -46,6 +46,12 @@ export interface GenerateInvoicesProps {
   ids: Invoice["id"][];
   company: Invoice["company"];
 }
+
+export interface SetExportedOnInvoicesProps {
+  ids: Invoice["id"][];
+  company: Invoice["company"];
+}
+
 export interface UpdateInvoiceOnShiftUpdateProps {
   startDateTime: Invoice["startDateTime"];
   endDateTime: Invoice["endDateTime"];

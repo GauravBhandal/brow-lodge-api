@@ -29,20 +29,6 @@ import { getEndDate } from "../../utils/shiftGenerator";
 
 class ServiceDeliveryService {
   async createServiceDelivery(props: CreateServiceDeliveryProps) {
-    // Create Progress Notes
-    const createProgressNoteProp = {
-      date: props.date,
-      shiftStartTime: props.startTime,
-      shiftEndTime: props.endTime,
-      staff: [props.staff],
-      client: props.client,
-      company: props.company,
-      notes: props.notes,
-    };
-    const progressNote = await progressNoteService.createProgressNote(
-      createProgressNoteProp
-    );
-
     const companyData = await companyService.getCompanyById({
       company: props.company,
     });
@@ -88,6 +74,20 @@ class ServiceDeliveryService {
 
     const shiftRecord = await shiftRecordService.createShiftRecord(
       createShiftProp
+    );
+
+    // Create Progress Notes
+    const createProgressNoteProp = {
+      date: props.date,
+      shiftStartTime: props.startTime,
+      shiftEndTime: props.endTime,
+      staff: [props.staff],
+      client: props.client,
+      company: props.company,
+      notes: props.notes,
+    };
+    const progressNote = await progressNoteService.createProgressNote(
+      createProgressNoteProp
     );
 
     // Finally, create service delivery

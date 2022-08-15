@@ -17,14 +17,12 @@ import { PrnBalanceLogModel } from "../../api/prnBalanceLog";
 import { ClientBehaviourModel } from "../../api/clientBehaviour";
 import { VehicleLogModel } from "../../api/vehicleLog";
 import { InjuryReportModel } from "../../api/injuryReport";
-import { ExpenseReimbursementModel } from "../../api/expenseReimbursement";
 import { DoctorVisitModel } from "../../api/doctorVisit";
 import { ClientAssetModel } from "../../api/clientAsset";
 import { CompanyAssetModel } from "../../api/companyAsset";
 import { RepairRequestModel } from "../../api/repairRequest";
 import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
 import { CorporateRiskModel } from "../../api/corporateRisk";
-import { ParticipantExpenseModel } from "../../api/participantExpense";
 // import { WhsLogModel } from "../../api/whsLog";
 import { MeetingLogModel } from "../../api/meetingLog";
 import { ClientRiskModel } from "../../api/clientRisk";
@@ -49,7 +47,6 @@ import { ShiftRecordModel } from "../../api/shiftRecord";
 import { ShiftRepeatModel } from "../../api/shiftRepeat";
 import { ProgressReportModel } from "../../api/progressReport";
 import { PolicyModel } from "../../api/policy";
-import { CompanyExpenseModel } from "../../api/companyExpense";
 import { PolicyReviewModel } from "../../api/policyReview";
 import { ServiceModel } from "../../api/service";
 import { TimesheetModel } from "../../api/timesheet";
@@ -73,6 +70,7 @@ import { RpdhsResourceModel } from "../../api/rpdhsResources";
 import { PracticeGuideModel } from "../../api/practiceGuide";
 import { ServiceDeliveryModel } from "../../api/serviceDelivery";
 import { ExpenseModel } from "../../api/expense";
+import { ParticipantGoalModel } from "../../api/participantGoal";
 
 export default {
   initialize() {
@@ -95,7 +93,6 @@ export default {
     initializeClientBehaviourModelAssociations();
     initializeVehicleLogModelAssociations();
     initializeInjuryReportModelAssociations();
-    initializeExpenseReimbursementModelAssociations();
     initializeDoctorVisitModelAssociations();
     initializeClientAssetModelAssociations();
     initializeCompanyAssetModelAssociations();
@@ -125,7 +122,6 @@ export default {
     initializeShiftRepeatModelAssociations();
     initializeShiftRecordModelAssociations();
     initializePolicyModelAssociations();
-    initializeCompanyExpenseModelAssociations();
     initializeProgressReportModelAssociations();
     initializePolicyReviewModelAssociations();
     initializeServiceModelAssociations();
@@ -147,9 +143,9 @@ export default {
     initializeProcessModelAssociations();
     initializeRpdhsResourceModelAssociations();
     initializePracticeGuideModelAssociations();
-    initializeParticipantExpenseModelAssociations();
     initializeServiceDeliveryModelAssociations();
     initializeExpenseModelAssociations();
+    initializeParticipantGoalModelAssociations();
   },
 };
 
@@ -430,21 +426,6 @@ function initializeInjuryReportModelAssociations() {
   });
   InjuryReportModel.belongsToMany(AttachmentModel, {
     through: "injury_reports_attachments",
-    foreignKey: "relation",
-    otherKey: "attachment",
-  });
-}
-
-function initializeExpenseReimbursementModelAssociations() {
-  ExpenseReimbursementModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  ExpenseReimbursementModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
-    as: "Staff",
-  });
-  ExpenseReimbursementModel.belongsToMany(AttachmentModel, {
-    through: "expense_reimbursements_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
   });
@@ -889,21 +870,6 @@ function initializePolicyModelAssociations() {
   });
 }
 
-function initializeCompanyExpenseModelAssociations() {
-  CompanyExpenseModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  CompanyExpenseModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
-    as: "Staff",
-  });
-  CompanyExpenseModel.belongsToMany(AttachmentModel, {
-    through: "company_expenses_attachments",
-    foreignKey: "relation",
-    otherKey: "attachment",
-  });
-}
-
 function initializeProgressReportModelAssociations() {
   ProgressReportModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -1165,25 +1131,6 @@ function initializeProgressNoteSettingsModelAssociations() {
   });
 }
 
-function initializeParticipantExpenseModelAssociations() {
-  ParticipantExpenseModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  ParticipantExpenseModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
-    as: "Staff",
-  });
-  ParticipantExpenseModel.belongsTo(ClientProfileModel, {
-    foreignKey: { name: "client", allowNull: false },
-    as: "Client",
-  });
-  ParticipantExpenseModel.belongsToMany(AttachmentModel, {
-    through: "participant_expenses_attachments",
-    foreignKey: "relation",
-    otherKey: "attachment",
-  });
-}
-
 function initializeServiceDeliveryModelAssociations() {
   ServiceDeliveryModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -1207,7 +1154,7 @@ function initializeServiceDeliveryModelAssociations() {
   ServiceDeliveryModel.belongsTo(ShiftRecordModel, {
     foreignKey: { name: "shift", allowNull: false },
     as: "Shift",
-  }); 
+  });
 }
 
 function initializeExpenseModelAssociations() {
@@ -1226,5 +1173,19 @@ function initializeExpenseModelAssociations() {
     through: "expenses_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
+  });
+}
+
+function initializeParticipantGoalModelAssociations() {
+  ParticipantGoalModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ParticipantGoalModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ParticipantGoalModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
   });
 }
