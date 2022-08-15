@@ -6,6 +6,7 @@ import config from "../../config/environment";
 
 export function initialiseSentry(app: Express) {
   Sentry.init({
+    environment: config.APP_ENV, // "localhost", "dev", "staging", "production"
     dsn: config.SENTRY_DNS,
     integrations: [
       // enable HTTP calls tracing

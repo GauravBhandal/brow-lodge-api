@@ -2,6 +2,7 @@ export interface ProcessDotEnv {
   BASE_URL: string;
   PORT: number;
   URL_PREFIX: string;
+  APP_ENV: string;
 
   CORS_ORIGIN: string;
 
