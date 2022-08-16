@@ -400,12 +400,28 @@ class ShiftRecordService {
     if (!shiftRecord) {
       throw new CustomError(404, ShiftRecordErrorCode.SHIFT_RECORD_NOT_FOUND);
     }
-    // Find all invoices
-    const invoices = await InvoiceModel.findAll({
-      where: { shift: id, company },
-    });
+
     // Find all timesheets
     const timesheets = await TimesheetModel.findAll({
+      where: { shift: id, company },
+    });
+
+    if (timesheets.length > 0) {
+      // Checking that if any timesheet is approved or not
+      const timesheetApproved = timesheets.some(
+        (timesheet) => timesheet.status === "Approved"
+      );
+
+      if (timesheetApproved) {
+        throw new CustomError(
+          404,
+          ShiftRecordErrorCode.TIMESHEET_ALREADY_APPROVED
+        );
+      }
+    }
+
+    // Find all invoices
+    const invoices = await InvoiceModel.findAll({
       where: { shift: id, company },
     });
 
@@ -421,19 +437,9 @@ class ShiftRecordService {
           ShiftRecordErrorCode.INVOICE_ALREADY_APPROVED
         );
       }
-    } else if (timesheets.length > 0) {
-      // Checking that if any timesheet is approved or not
-      const timesheetApproved = timesheets.some(
-        (timesheet) => timesheet.status === "Approved"
-      );
+    }
 
-      if (timesheetApproved) {
-        throw new CustomError(
-          404,
-          ShiftRecordErrorCode.TIMESHEET_ALREADY_APPROVED
-        );
-      }
-    } else if (deleteRecurring && shiftRecord.repeat) {
+    if (deleteRecurring && shiftRecord.repeat) {
       // Find and delete the shiftRecords by company, has repeat and date greater than equal to that shift
       const shiftRecords = await ShiftRecordModel.destroy({
         where: {
