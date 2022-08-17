@@ -3,30 +3,17 @@ import Joi from "joi";
 import { joiMiddleware } from "../../components/joi/middleware";
 import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
-// TODO: There are lots of fields which have no use
 const createStaffProfileSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
     preferredName: Joi.string().required(),
     email: Joi.string().required(),
-    dateOfBirth: Joi.date().allow(null),
-    gender: Joi.string().valid("Male", "Female", "Other").allow(null),
-    accountingCode: Joi.string().allow("", null),
-    personalContactNumber: Joi.string().allow("", null),
-    workContactNumber: Joi.string().allow("", null),
-    address: Joi.string().allow("", null),
-    emergencyContactName: Joi.string().allow("", null),
-    emergencyContactPhone: Joi.string().allow("", null),
-    emergencyContactRelation: Joi.string().allow("", null),
-    jobTitle: Joi.string().allow("", null),
-    employmentStartDate: Joi.date().allow(null),
-    employmentEndDate: Joi.date().allow(null),
-    employmentType: Joi.string().allow("", null),
-    manager: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
-    user: requiredUUIDSchema(),
-    attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
-    paylevel: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    password: Joi.string().required(),
+    blocked: Joi.boolean().required(),
+    roles: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .required(),
   }),
 });
 

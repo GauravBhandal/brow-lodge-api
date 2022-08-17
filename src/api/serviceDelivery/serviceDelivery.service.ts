@@ -25,23 +25,10 @@ import {
 } from "../shiftRecord";
 import { ShiftRecordStatus } from "../shiftRecord/shiftRecord.constant";
 import makeMoment from "../../components/moment";
+import { getEndDate } from "../../utils/shiftGenerator";
 
 class ServiceDeliveryService {
   async createServiceDelivery(props: CreateServiceDeliveryProps) {
-    // Create Progress Notes
-    const createProgressNoteProp = {
-      date: props.date,
-      shiftStartTime: props.startTime,
-      shiftEndTime: props.endTime,
-      staff: [props.staff],
-      client: props.client,
-      company: props.company,
-      notes: props.notes,
-    };
-    const progressNote = await progressNoteService.createProgressNote(
-      createProgressNoteProp
-    );
-
     const companyData = await companyService.getCompanyById({
       company: props.company,
     });
@@ -57,8 +44,15 @@ class ServiceDeliveryService {
       companyData.timezone
     ).toDate();
 
+    const endDate = getEndDate(
+      props.startTime,
+      props.endTime,
+      startDate,
+      companyData.timezone
+    );
+
     const endTime = props.endTime;
-    const tEndDateTime = startDate + " " + endTime;
+    const tEndDateTime = endDate + " " + endTime;
     const endDateTime = makeMoment(tEndDateTime, companyData.timezone).toDate();
 
     const createShiftProp = {
@@ -80,6 +74,20 @@ class ServiceDeliveryService {
 
     const shiftRecord = await shiftRecordService.createShiftRecord(
       createShiftProp
+    );
+
+    // Create Progress Notes
+    const createProgressNoteProp = {
+      date: props.date,
+      shiftStartTime: props.startTime,
+      shiftEndTime: props.endTime,
+      staff: [props.staff],
+      client: props.client,
+      company: props.company,
+      notes: props.notes,
+    };
+    const progressNote = await progressNoteService.createProgressNote(
+      createProgressNoteProp
     );
 
     // Finally, create service delivery
@@ -157,8 +165,15 @@ class ServiceDeliveryService {
       companyData.timezone
     ).toDate();
 
+    const endDate = getEndDate(
+      props.startTime,
+      props.endTime,
+      startDate,
+      companyData.timezone
+    );
+
     const endTime = props.endTime;
-    const tEndDateTime = startDate + " " + endTime;
+    const tEndDateTime = endDate + " " + endTime;
     const endDateTime = makeMoment(tEndDateTime, companyData.timezone).toDate();
 
     const updateShiftProp = {
@@ -179,16 +194,23 @@ class ServiceDeliveryService {
       claimType: props.claimType,
     };
 
-    try {
-      // Find shift record by id
-      if (shift) {
-        const existingShiftRecord = await shiftRecordService.getShiftRecordById(
-          {
-            id: shift,
-            company: props.company,
-          }
+    // Find shift record by id
+    if (shift) {
+      let existingShiftRecord;
+      try {
+        // Find shift by id
+        existingShiftRecord = await shiftRecordService.getShiftRecordById({
+          id: shift,
+          company: props.company,
+        });
+      } catch (error) {
+        // If not found, create a new one
+        shiftRecord = await shiftRecordService.createShiftRecord(
+          updateShiftProp
         );
+      }
 
+      if (existingShiftRecord) {
         const updateShiftRecordProp = {
           ...updateShiftProp,
           id: existingShiftRecord.id,
@@ -197,13 +219,8 @@ class ServiceDeliveryService {
         shiftRecord = await shiftRecordService.updateShiftRecord(
           updateShiftRecordProp
         );
-      } else {
-        shiftRecord = await shiftRecordService.createShiftRecord(
-          updateShiftProp
-        );
       }
-    } catch (error) {
-      // Otherwise, create a new one
+    } else {
       shiftRecord = await shiftRecordService.createShiftRecord(updateShiftProp);
     }
     return shiftRecord as ShiftRecord;
@@ -227,14 +244,14 @@ class ServiceDeliveryService {
       );
     }
 
+    // Update shift record
+    const shiftRecord = await this._updateShift(props, serviceDelivery.shift!);
+
     // Update progress note
     const progressNote = await this._updateProgressNote(
       props,
       serviceDelivery.progressnote!
     );
-
-    // Update shift record
-    const shiftRecord = await this._updateShift(props, serviceDelivery.shift!);
 
     const newUpdateProps = {
       ...updateProps,

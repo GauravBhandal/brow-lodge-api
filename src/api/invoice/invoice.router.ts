@@ -15,6 +15,13 @@ router.post(
 );
 
 router.put(
+  "/exported",
+  canDo("update", "invoice"),
+  invoiceSchems.setExportedOnInvoices,
+  catchWrap(controller.setExportedOnInvoices)
+);
+
+router.put(
   "/status",
   canDo("update", "invoice"),
   invoiceSchems.updateInvoiceStatus,

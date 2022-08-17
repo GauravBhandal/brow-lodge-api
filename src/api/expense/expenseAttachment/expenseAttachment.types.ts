@@ -1,9 +1,9 @@
 import { DefaultSchemaConfig } from "../../../components/sequelize/manager";
-import { ExpenseReimbursement } from "../../expenseReimbursement";
+import { Expense } from "..";
 import { Attachment } from "../../attachment";
 
 export interface ExpenseAttachment extends DefaultSchemaConfig {
-  relation: ExpenseReimbursement["id"];
+  relation: Expense["id"];
   attachment: Attachment["id"];
 }
 

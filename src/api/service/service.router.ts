@@ -45,7 +45,7 @@ router.get(
 // TODO: Delete this endpoint
 router.get(
   "/effective",
-  canDo("read", "rosterSetting"),
+  // canDo("read", "rosterSetting"), // TODO : Services in create shift
   serviceSchemas.getServices,
   catchWrap(controller.getEffectiveService)
 );

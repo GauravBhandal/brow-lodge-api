@@ -1,101 +1,99 @@
 import { omit as _omit } from "lodash";
 
-import ExpenseReimbursementModel from "./expenseReimbursement.model";
+import ExpenseModel from "./expense.model";
 import {
-  CreateExpenseReimbursementProps,
-  UpdateExpenseReimbursementProps,
-  DeleteExpenseReimbursementProps,
-  GetExpenseReimbursementByIdProps,
-  GetExpenseReimbursementsProps,
-} from "./expenseReimbursement.types";
+  CreateExpenseProps,
+  UpdateExpenseProps,
+  DeleteExpenseProps,
+  GetExpenseByIdProps,
+  GetExpensesProps,
+} from "./expense.types";
 import { CustomError } from "../../components/errors";
-import ExpenseReimbursementErrorCode from "./expenseReimbursement.error";
+import ExpenseErrorCode from "./expense.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
-import { getFilters } from "../../components/filters";
 import { expenseAttachmentService } from "./expenseAttachment";
-
+import { ClientProfileModel } from "../clientProfile";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { AttachmentModel } from "../attachment";
 
-class ExpenseReimbursementService {
-  async createExpenseReimbursement(props: CreateExpenseReimbursementProps) {
-    const expenseReimbursement = await ExpenseReimbursementModel.create(props);
+class ExpenseService {
+  async createExpense(props: CreateExpenseProps) {
+    const expense = await ExpenseModel.create(props);
 
     // Create attachments
-
     if (props.attachments && props.attachments.length) {
       await expenseAttachmentService.createBulkExpenseAttachment({
-        relation: expenseReimbursement.id,
+        relation: expense.id,
         attachments: props.attachments,
       });
     }
-    return expenseReimbursement;
+    return expense;
   }
 
-  async updateExpenseReimbursement(props: UpdateExpenseReimbursementProps) {
+  async updateExpense(props: UpdateExpenseProps) {
     // Props
     const { id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
-    // Find expenseReimbursement by id and company
-    const expenseReimbursement = await ExpenseReimbursementModel.findOne({
+    // Find expense by id and company
+    const expense = await ExpenseModel.findOne({
       where: { id, company },
     });
 
-    // if expenseReimbursement not found, throw an error
-    if (!expenseReimbursement) {
+    // if expense not found, throw an error
+    if (!expense) {
       throw new CustomError(
         404,
-        ExpenseReimbursementErrorCode.EXPENSE_REIMBURSEMENT_NOT_FOUND
+        ExpenseErrorCode.EXPENSE_NOT_FOUND
       );
     }
 
-    // Finally, update the expenseReimbursement
-    const [, [updatedExpenseReimbursement]] =
-      await ExpenseReimbursementModel.update(updateProps, {
+    // Finally, update the expense
+    const [, [updatedExpense]] =
+      await ExpenseModel.update(updateProps, {
         where: { id, company },
         returning: true,
       });
 
     // Update attachments
-
     if (props.attachments && props.attachments.length) {
       await expenseAttachmentService.updateBulkExpenseAttachment({
-        relation: expenseReimbursement.id,
+        relation: expense.id,
         attachments: props.attachments,
       });
     }
-    return updatedExpenseReimbursement;
+    return updatedExpense;
   }
 
-  async deleteExpenseReimbursement(props: DeleteExpenseReimbursementProps) {
+  async deleteExpense(props: DeleteExpenseProps) {
     // Props
     const { id, company } = props;
 
-    // Find and delete the expenseReimbursement by id and company
-    const expenseReimbursement = await ExpenseReimbursementModel.destroy({
+    // Find and delete the expense by id and company
+    const expense = await ExpenseModel.destroy({
       where: { id, company },
     });
 
-    // if expenseReimbursement has been deleted, throw an error
-    if (!expenseReimbursement) {
+    // if expense has been deleted, throw an error
+    if (!expense) {
       throw new CustomError(
         404,
-        ExpenseReimbursementErrorCode.EXPENSE_REIMBURSEMENT_NOT_FOUND
+        ExpenseErrorCode.EXPENSE_NOT_FOUND
       );
     }
 
-    return expenseReimbursement;
+    return expense;
   }
 
-  async getExpenseReimbursementById(props: GetExpenseReimbursementByIdProps) {
+  async getExpenseById(props: GetExpenseByIdProps) {
     // Props
     const { id, company } = props;
 
-    // Find  the expenseReimbursement by id and company
-    const expenseReimbursement = await ExpenseReimbursementModel.findOne({
+    // Find  the expense by id and company
+    const expense = await ExpenseModel.findOne({
       where: { id, company },
       include: [
         {
@@ -111,27 +109,41 @@ class ExpenseReimbursementService {
           model: StaffProfileModel,
           as: "Staff",
         },
+        {
+          model: ClientProfileModel,
+          as: "Client",
+          required: false,
+        },
       ],
     });
 
-    // If no expenseReimbursement has been found, then throw an error
-    if (!expenseReimbursement) {
+    // If no expense has been found, then throw an error
+    if (!expense) {
       throw new CustomError(
         404,
-        ExpenseReimbursementErrorCode.EXPENSE_REIMBURSEMENT_NOT_FOUND
+        ExpenseErrorCode.EXPENSE_NOT_FOUND
       );
     }
 
-    return expenseReimbursement;
+    return expense;
   }
 
-  async getExpenseReimbursements(props: GetExpenseReimbursementsProps) {
+  async getExpenses(props: GetExpensesProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+    const clientFilters = await addCientFiltersByTeams(userId, company);
+  
+
+     // func to check for optional clients that to apply team permissions or not
+     const checkClientPermissions = () => {
+      if (Object.keys(clientFilters).length !== 0) {
+        return { right: true };
+      }
+    };
 
     const include = [
       {
@@ -144,10 +156,19 @@ class ExpenseReimbursementService {
           ...filters["Staff"],
         },
       },
+      {
+        model: ClientProfileModel,
+        as: "Client",
+        where: {
+          ...clientFilters,
+        },
+        required: false,
+        ...checkClientPermissions(),
+      },
     ];
 
-    // Count total expenseReimbursements in the given company
-    const count = await ExpenseReimbursementModel.count({
+    // Count total expenses in the given company
+    const count = await ExpenseModel.count({
       where: {
         company,
         ...filters["primaryFilters"],
@@ -156,8 +177,8 @@ class ExpenseReimbursementService {
       include,
     });
 
-    // Find all expenseReimbursements for matching props and company
-    const data = await ExpenseReimbursementModel.findAll({
+    // Find all expenses for matching props and company
+    const data = await ExpenseModel.findAll({
       offset,
       limit,
       order,
@@ -174,4 +195,4 @@ class ExpenseReimbursementService {
   }
 }
 
-export default new ExpenseReimbursementService();
+export default new ExpenseService();

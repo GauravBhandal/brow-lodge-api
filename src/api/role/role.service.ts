@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import RoleModel from "./role.model";
 import {
@@ -17,9 +18,16 @@ import { getFilters } from "../../components/filters";
 
 class RoleService {
   async createRole(props: CreateRoleProps) {
+    const { name } = props;
+
     // Check if role already exist
     const existingRole = await RoleModel.findOne({
-      where: { name: props.name, company: props.company },
+      where: {
+        name: {
+          [Op.iLike]: `${name}`,
+        },
+        company: props.company,
+      },
     });
 
     // if the role exists, throw an error
@@ -42,6 +50,23 @@ class RoleService {
     // if role not found, throw an error
     if (!role) {
       throw new CustomError(404, RoleErrorCode.ROLE_NOT_FOUND);
+    }
+
+    if (role.name.toLowerCase() !== props.name.toLowerCase()) {
+      // Check if Role with same name already exists
+      const existingRole = await RoleModel.findOne({
+        where: {
+          name: {
+            [Op.iLike]: `${props.name}`,
+          },
+          company,
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingRole) {
+        throw new CustomError(409, RoleErrorCode.ROLE_ALREADY_EXISTS);
+      }
     }
 
     // Finally, update the role

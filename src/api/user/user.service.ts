@@ -154,10 +154,11 @@ class UserService {
       permissions: permissions,
     });
 
-    // Create user
-    const user: any = await this.createUser({
+    // Create staff (It will also create user)
+    const staffProfile = await staffProfileService.createStaffProfile({
       firstName: props.firstName,
       lastName: props.lastName,
+      preferredName: props.firstName,
       email: props.email,
       password: props.password,
       blocked: false,
@@ -165,17 +166,7 @@ class UserService {
       roles: [role.id],
     });
 
-    // Create staff
-    await staffProfileService.createStaffProfile({
-      firstName: props.firstName,
-      lastName: props.lastName,
-      preferredName: props.firstName,
-      email: props.email,
-      user: user.id,
-      company: company.id,
-    });
-
-    return user;
+    return staffProfile;
   }
 
   async forgotPassword(props: ForgotPasswordProps) {
@@ -232,9 +223,9 @@ class UserService {
       `;
     await sendEmail(updatedUser.email, emailBody);
 
-    return 
-    { Status: "ok" };
-    
+    return {
+      Status: "ok",
+    };
   }
 
   async resetPassword(props: ResetPasswordProps) {
