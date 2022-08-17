@@ -4,7 +4,10 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { AlertConfiguration, CreateAlertConfigurationProps } from "./alertConfiguration.types";
+import {
+  AlertConfiguration,
+  CreateAlertConfigurationProps,
+} from "./alertConfiguration.types";
 
 class AlertConfigurationModel<
     ModelAttributes = AlertConfiguration,
@@ -14,8 +17,7 @@ class AlertConfigurationModel<
   implements AlertConfiguration
 {
   name!: AlertConfiguration["name"];
-  description!: AlertConfiguration["description"];
-  permissions!: AlertConfiguration["permissions"];
+  transport!: AlertConfiguration["transport"];
   company!: AlertConfiguration["company"];
   Company: AlertConfiguration["Company"];
 }
@@ -28,10 +30,7 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    description: {
-      type: Sequelize.STRING,
-    },
-    permissions: {
+    transport: {
       type: Sequelize.JSONB,
     },
   },
@@ -42,8 +41,8 @@ modelManager.init(
       },
     },
     underscored: true,
-    paranoid: true,
-    tableName: "alertConfigurations",
+    paranoid: false, // <-- We are setting to false because of the update functionality of this Model
+    tableName: "alert_configurations",
   }
 );
 
