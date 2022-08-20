@@ -75,7 +75,6 @@ import { participantGoalRoutes } from "../api/participantGoal";
 import { alertConfigurationRoutes } from "../api/alertConfiguration";
 
 const router = express.Router();
-router.use(authMiddleware); // TODO: may be we can move this to express config file
 router.use(provideAbility);
 
 router.use("/user", userRoutes);
