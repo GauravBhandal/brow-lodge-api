@@ -37,6 +37,14 @@ export const permissions = {
       update: true,
     },
   },
+  expense: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   invoice: {
     actions: {
       read: true,
@@ -345,6 +353,22 @@ export const permissions = {
     },
   },
   clientBehaviour: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  participantGoal: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  serviceDelivery: {
     actions: {
       read: true,
       create: true,
