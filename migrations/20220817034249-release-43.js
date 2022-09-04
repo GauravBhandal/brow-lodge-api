@@ -24,7 +24,7 @@ INSERT INTO incident_types VALUES
 `;
 
 const queryDown = `
-DELETE FROM "incident_types" WHERE id (
+DELETE FROM "incident_types" WHERE id IN(
   'fb1b5dfe-81e4-440e-9ceb-a504279d1c98',
   'e2df1e1b-edbd-4dac-80ad-d7610c329015',
   'e86a426b-e404-4ed1-bf38-e07896365bfc',
