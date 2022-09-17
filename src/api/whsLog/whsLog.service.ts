@@ -14,7 +14,8 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
-import { getFilters } from "../../components/filters";
+import { ClientProfileModel } from "../clientProfile";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { whsLogAttachmentService } from "./whsLogAttachment";
 import { AttachmentModel } from "../attachment";
 
@@ -90,17 +91,13 @@ class WhsLogService {
       where: { id, company },
       include: [
         {
+          model: CompanyModel,
+        },
+        {
           model: AttachmentModel,
           through: {
             attributes: [],
           },
-        },
-        {
-          model: CompanyModel,
-        },
-        {
-          model: StaffProfileModel,
-          as: "Staff",
         },
       ],
     });
@@ -113,23 +110,17 @@ class WhsLogService {
     return whsLog;
   }
 
-  async getWhsLogs(props: GetWhsLogsProps) {
+  async getWhsLogs(props: GetWhsLogsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
+
     const include = [
       {
         model: CompanyModel,
-      },
-      {
-        model: StaffProfileModel,
-        as: "Staff",
-        where: {
-          ...filters["Staff"],
-        },
       },
     ];
 

@@ -19,8 +19,8 @@ class DoctorVisitModel<
   healthPractitioner!: DoctorVisit["healthPractitioner"];
   reasonForVisit!: DoctorVisit["reasonForVisit"];
   doctorInstructions!: DoctorVisit["doctorInstructions"];
-  location?: DoctorVisit["doctorInstructions"];
-  appointmentType?: DoctorVisit["doctorInstructions"];
+  location?: DoctorVisit["location"];
+  appointmentType?: DoctorVisit["appointmentType"];
   nextAppointmentDate?: DoctorVisit["nextAppointmentDate"];
   staff!: DoctorVisit["staff"];
   Staff: DoctorVisit["Staff"];

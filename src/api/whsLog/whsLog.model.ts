@@ -14,12 +14,10 @@ class WhsLogModel<
   implements WhsLog
 {
   date!: WhsLog["date"];
+  nextReviewDate!: WhsLog["nextReviewDate"];
   category!: WhsLog["category"];
-  location: WhsLog["location"];
-  nextReviewDate: WhsLog["nextReviewDate"];
-  comments: WhsLog["comments"];
-  staff!: WhsLog["staff"];
-  Staff: WhsLog["Staff"];
+  location!: WhsLog["location"];
+  comments?: WhsLog["comments"];
   company!: WhsLog["company"];
   Company: WhsLog["Company"];
   Attachments: WhsLog["Attachments"];
@@ -33,15 +31,17 @@ modelManager.init(
       type: Sequelize.DATE,
       allowNull: false,
     },
+    nextReviewDate: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
     category: {
       type: Sequelize.STRING,
       allowNull: false,
     },
     location: {
       type: Sequelize.STRING,
-    },
-    nextReviewDate: {
-      type: Sequelize.DATE,
+      allowNull: false,
     },
     comments: {
       type: Sequelize.STRING,
