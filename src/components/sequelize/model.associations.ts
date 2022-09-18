@@ -71,6 +71,7 @@ import { PracticeGuideModel } from "../../api/practiceGuide";
 import { ServiceDeliveryModel } from "../../api/serviceDelivery";
 import { ExpenseModel } from "../../api/expense";
 import { ParticipantGoalModel } from "../../api/participantGoal";
+import { AlertConfigurationModel } from "../../api/alertConfiguration";
 
 export default {
   initialize() {
@@ -146,6 +147,7 @@ export default {
     initializeServiceDeliveryModelAssociations();
     initializeExpenseModelAssociations();
     initializeParticipantGoalModelAssociations();
+    initializeAlertConfigurationAssociations();
   },
 };
 
@@ -1183,5 +1185,11 @@ function initializeParticipantGoalModelAssociations() {
   ParticipantGoalModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+}
+
+function initializeAlertConfigurationAssociations() {
+  AlertConfigurationModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }

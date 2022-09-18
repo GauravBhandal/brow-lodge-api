@@ -74,6 +74,7 @@ type Subject =
   | "serviceDelivery"
   | "expense"
   | "participantGoal"
+  | "alertConfiguration"
   | "whsLog";
 
 export const canDo = (action: Action, subject: Subject) => {
