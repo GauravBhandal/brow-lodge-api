@@ -712,29 +712,29 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    // await queryInterface.bulkDelete("feedbacks", null, {});
-    // await queryInterface.bulkDelete("attachments", null, {});
-    // await queryInterface.bulkDelete("resources", null, {});
-    // await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
-    // await queryInterface.bulkDelete("client_risks", null, {});
-    // await queryInterface.bulkDelete("meeting_logs", null, {});
-    // await queryInterface.bulkDelete("whs_logs", null, {});
-    // await queryInterface.bulkDelete("corporate_risks", null, {});
-    // await queryInterface.bulkDelete("conflict_of_interests", null, {});
-    // await queryInterface.bulkDelete("doctor_visits", null, {});
-    // await queryInterface.bulkDelete("injury_reports", null, {});
-    // await queryInterface.bulkDelete("vehicle_logs", null, {});
-    // await queryInterface.bulkDelete("transport_behaviours", null, {});
-    // await queryInterface.bulkDelete("client_behaviours", null, {});
-    // await queryInterface.bulkDelete("prn_balance_logs", null, {});
-    // await queryInterface.bulkDelete("prn_admin_logs", null, {});
-    // await queryInterface.bulkDelete("seizure_logs", null, {});
-    // await queryInterface.bulkDelete("oxygen_saturation_logs", null, {});
-    // await queryInterface.bulkDelete("weight_logs", null, {});
-    // await queryInterface.bulkDelete("temperature_logs", null, {});
-    // await queryInterface.bulkDelete("blood_pressure_logs", null, {});
-    // await queryInterface.bulkDelete("bowel_logs", null, {});
-    // await queryInterface.bulkDelete("blood_glucose_logs", null, {});
+    await queryInterface.bulkDelete("feedbacks", null, {});
+    await queryInterface.bulkDelete("attachments", null, {});
+    await queryInterface.bulkDelete("resources", null, {});
+    await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
+    await queryInterface.bulkDelete("client_risks", null, {});
+    await queryInterface.bulkDelete("meeting_logs", null, {});
+    await queryInterface.bulkDelete("participant_medication_charts", null, {});
+    await queryInterface.bulkDelete("corporate_risks", null, {});
+    await queryInterface.bulkDelete("conflict_of_interests", null, {});
+    await queryInterface.bulkDelete("doctor_visits", null, {});
+    await queryInterface.bulkDelete("injury_reports", null, {});
+    await queryInterface.bulkDelete("vehicle_logs", null, {});
+    await queryInterface.bulkDelete("participant_communication_logs", null, {});
+    await queryInterface.bulkDelete("client_behaviours", null, {});
+    await queryInterface.bulkDelete("prn_balance_logs", null, {});
+    await queryInterface.bulkDelete("prn_admin_logs", null, {});
+    await queryInterface.bulkDelete("seizure_logs", null, {});
+    await queryInterface.bulkDelete("oxygen_saturation_logs", null, {});
+    await queryInterface.bulkDelete("weight_logs", null, {});
+    await queryInterface.bulkDelete("temperature_logs", null, {});
+    await queryInterface.bulkDelete("blood_pressure_logs", null, {});
+    await queryInterface.bulkDelete("bowel_logs", null, {});
+    await queryInterface.bulkDelete("blood_glucose_logs", null, {});
 
     await queryInterface.bulkDelete("attachments", null, {});
 
