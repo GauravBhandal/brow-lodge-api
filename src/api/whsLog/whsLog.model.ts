@@ -14,7 +14,7 @@ class WhsLogModel<
   implements WhsLog
 {
   date!: WhsLog["date"];
-  nextReviewDate!: WhsLog["nextReviewDate"];
+  nextReviewDate: WhsLog["nextReviewDate"];
   category!: WhsLog["category"];
   location!: WhsLog["location"];
   comments?: WhsLog["comments"];
@@ -33,7 +33,6 @@ modelManager.init(
     },
     nextReviewDate: {
       type: Sequelize.DATE,
-      allowNull: false,
     },
     category: {
       type: Sequelize.STRING,

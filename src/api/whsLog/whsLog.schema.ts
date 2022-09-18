@@ -1,16 +1,12 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import {
-  requiredUUIDSchema,
-  wrapSchema,
-  requiredTimeSchema,
-} from "../../common/joiSchemas";
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createWhsLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    nextReviewDate: Joi.date().required(),
+    nextReviewDate: Joi.date().allow(null),
     category: Joi.string().required(),
     location: Joi.string().required(),
     comments: Joi.string().allow("", null),
@@ -24,7 +20,7 @@ const editWhsLogSchema = wrapSchema({
   params: Joi.object().keys({ whsLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    nextReviewDate: Joi.date().required(),
+    nextReviewDate: Joi.date().allow(null),
     category: Joi.string().required(),
     location: Joi.string().required(),
     comments: Joi.string().allow("", null),

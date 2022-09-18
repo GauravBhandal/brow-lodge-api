@@ -4,7 +4,7 @@ const queryUp = `
 CREATE TABLE IF NOT EXISTS "whs_logs" (
   "id" UUID NOT NULL,
   "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "next_review_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "next_review_date" TIMESTAMP WITH TIME ZONE,
   "category" VARCHAR (255) NOT NULL,
   "location" VARCHAR NOT NULL,
   "comments" VARCHAR ,

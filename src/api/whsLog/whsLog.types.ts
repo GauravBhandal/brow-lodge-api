@@ -1,13 +1,11 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
-import { StaffProfile } from "../staffProfile";
-import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
 
 export interface WhsLog extends DefaultSchemaConfig {
   date: Date;
-  nextReviewDate: Date;
+  nextReviewDate?: Date;
   category: string;
   location: string;
   comments?: string;

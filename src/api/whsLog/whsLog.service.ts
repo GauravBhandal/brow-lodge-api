@@ -13,9 +13,7 @@ import WhsLogErrorCode from "./whsLog.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
-import { StaffProfileModel } from "../staffProfile";
-import { ClientProfileModel } from "../clientProfile";
-import { addCientFiltersByTeams, getFilters } from "../../components/filters";
+import { getFilters } from "../../components/filters";
 import { whsLogAttachmentService } from "./whsLogAttachment";
 import { AttachmentModel } from "../attachment";
 
