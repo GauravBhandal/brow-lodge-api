@@ -1,6 +1,6 @@
 import { DefaultSchemaConfig } from "../../../components/sequelize/manager";
-import { WhsLog } from "..";
 import { Attachment } from "../../attachment";
+import { WhsLog } from "../whsLog.types";
 
 export interface WhsLogAttachment extends DefaultSchemaConfig {
   relation: WhsLog["id"];
