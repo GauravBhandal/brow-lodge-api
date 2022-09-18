@@ -64,7 +64,7 @@ class WhsLogController {
       ...queryParams,
     };
 
-    const whsLogs = await whsLogService.getWhsLogs(props, req.auth.userId);
+    const whsLogs = await whsLogService.getWhsLogs(props);
 
     res.status(200).json(whsLogs);
   }

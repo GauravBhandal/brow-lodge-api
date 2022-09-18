@@ -108,7 +108,7 @@ class WhsLogService {
     return whsLog;
   }
 
-  async getWhsLogs(props: GetWhsLogsProps, userId: string) {
+  async getWhsLogs(props: GetWhsLogsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
