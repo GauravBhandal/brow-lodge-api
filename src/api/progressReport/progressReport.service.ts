@@ -17,10 +17,19 @@ import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
 import { addCientFiltersByTeams } from "../../components/filters";
+import { progressReportAttachmentService } from "./progressReportAttachment";
+import { AttachmentModel } from "../attachment";
 
 class ProgressReportService {
   async createProgressReport(props: CreateProgressReportProps) {
     const progressReport = await ProgressReportModel.create(props);
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await progressReportAttachmentService.createBulkProgressReportAttachment({
+        relation: progressReport.id,
+        attachments: props.attachments,
+      });
+    }
     return progressReport;
   }
 
@@ -50,6 +59,15 @@ class ProgressReportService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments) {
+      await progressReportAttachmentService.updateBulkProgressReportAttachment({
+        relation: progressReport.id,
+        attachments: props.attachments,
+      });
+    }
+
     return updatedProgressReport;
   }
 
@@ -91,6 +109,12 @@ class ProgressReportService {
         {
           model: ClientProfileModel,
           as: "Client",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });

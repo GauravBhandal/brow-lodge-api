@@ -36,6 +36,7 @@ class ProgressReportModel<
   Client: ProgressReport["Client"];
   company!: ProgressReport["company"];
   Company: ProgressReport["Company"];
+  Attachments: ProgressReport["Attachments"];
 }
 
 modelManager.init(
