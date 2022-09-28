@@ -71,6 +71,7 @@ import { PracticeGuideModel } from "../../api/practiceGuide";
 import { ServiceDeliveryModel } from "../../api/serviceDelivery";
 import { ExpenseModel } from "../../api/expense";
 import { ParticipantGoalModel } from "../../api/participantGoal";
+import { ExternalContractModel } from "../../api/externalContract";
 
 export default {
   initialize() {
@@ -146,6 +147,7 @@ export default {
     initializeServiceDeliveryModelAssociations();
     initializeExpenseModelAssociations();
     initializeParticipantGoalModelAssociations();
+    initializeExternalContractModelAssociations();
   },
 };
 
@@ -1187,5 +1189,20 @@ function initializeParticipantGoalModelAssociations() {
   ParticipantGoalModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+}
+
+function initializeExternalContractModelAssociations() {
+  ExternalContractModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ExternalContractModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ExternalContractModel.belongsToMany(AttachmentModel, {
+    through: "external_contracts_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }
