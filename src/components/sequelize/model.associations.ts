@@ -23,7 +23,7 @@ import { CompanyAssetModel } from "../../api/companyAsset";
 import { RepairRequestModel } from "../../api/repairRequest";
 import { ConflictOfInterestModel } from "../../api/conflictOfInterest";
 import { CorporateRiskModel } from "../../api/corporateRisk";
-// import { WhsLogModel } from "../../api/whsLog";
+import { WhsLogModel } from "../../api/whsLog";
 import { MeetingLogModel } from "../../api/meetingLog";
 import { ClientRiskModel } from "../../api/clientRisk";
 import { StaffSleepDisturbanceModel } from "../../api/staffSleepDisturbance";
@@ -71,6 +71,8 @@ import { PracticeGuideModel } from "../../api/practiceGuide";
 import { ServiceDeliveryModel } from "../../api/serviceDelivery";
 import { ExpenseModel } from "../../api/expense";
 import { ParticipantGoalModel } from "../../api/participantGoal";
+import { AlertConfigurationModel } from "../../api/alertConfiguration";
+import { ExternalContractModel } from "../../api/externalContract";
 
 export default {
   initialize() {
@@ -99,7 +101,7 @@ export default {
     initializeRepairRequestModelAssociations();
     initializeConflictOfInterestModelAssociations();
     initializeCorporateRiskModelAssociations();
-    // initializeWhsLogModelAssociations();
+    initializeWhsLogModelAssociations();
     initializeMeetingLogModelAssociations();
     initializeClientRiskModelAssociations();
     initializeStaffSleepDisturbanceModelAssociations();
@@ -146,6 +148,8 @@ export default {
     initializeServiceDeliveryModelAssociations();
     initializeExpenseModelAssociations();
     initializeParticipantGoalModelAssociations();
+    initializeAlertConfigurationAssociations();
+    initializeExternalContractModelAssociations();
   },
 };
 
@@ -524,20 +528,16 @@ function initializeCorporateRiskModelAssociations() {
   });
 }
 
-// function initializeWhsLogModelAssociations() {
-//   WhsLogModel.belongsTo(CompanyModel, {
-//     foreignKey: { name: "company", allowNull: false },
-//   });
-//   WhsLogModel.belongsTo(StaffProfileModel, {
-//     foreignKey: { name: "staff", allowNull: false },
-//     as: "Staff",
-//   });
-//   WhsLogModel.belongsToMany(AttachmentModel, {
-//     through: "whs_logs_attachments",
-//     foreignKey: "relation",
-//     otherKey: "attachment",
-//   });
-// }
+function initializeWhsLogModelAssociations() {
+  WhsLogModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  WhsLogModel.belongsToMany(AttachmentModel, {
+    through: "whs_logs_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
 
 function initializeMeetingLogModelAssociations() {
   MeetingLogModel.belongsTo(CompanyModel, {
@@ -882,6 +882,11 @@ function initializeProgressReportModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  ProgressReportModel.belongsToMany(AttachmentModel, {
+    through: "progress_reports_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializePolicyReviewModelAssociations() {
@@ -1187,5 +1192,26 @@ function initializeParticipantGoalModelAssociations() {
   ParticipantGoalModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+}
+
+function initializeAlertConfigurationAssociations() {
+  AlertConfigurationModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeExternalContractModelAssociations() {
+  ExternalContractModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ExternalContractModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ExternalContractModel.belongsToMany(AttachmentModel, {
+    through: "external_contracts_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }

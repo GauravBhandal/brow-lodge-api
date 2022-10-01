@@ -55,7 +55,7 @@ class ParticipantMedicationChartService {
     if (!participantMedicationChart) {
       throw new CustomError(
         404,
-        ParticipantMedicationChartErrorCode.INJURY_REPORT
+        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART
       );
     }
 
@@ -95,7 +95,7 @@ class ParticipantMedicationChartService {
     if (!participantMedicationChart) {
       throw new CustomError(
         404,
-        ParticipantMedicationChartErrorCode.INJURY_REPORT
+        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART
       );
     }
 
@@ -137,7 +137,7 @@ class ParticipantMedicationChartService {
     if (!participantMedicationChart) {
       throw new CustomError(
         404,
-        ParticipantMedicationChartErrorCode.INJURY_REPORT
+        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART
       );
     }
 
