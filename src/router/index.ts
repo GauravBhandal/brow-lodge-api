@@ -72,6 +72,7 @@ import { practiceGuideRoutes } from "../api/practiceGuide";
 import { serviceDeliveryRoutes } from "../api/serviceDelivery";
 import { expenseRoutes } from "../api/expense";
 import { participantGoalRoutes } from "../api/participantGoal";
+import { regulatoryComplianceRoutes } from "../api/regulatoryCompliance";
 
 const router = express.Router();
 router.use(authMiddleware); // TODO: may be we can move this to express config file
@@ -147,5 +148,6 @@ router.use("/practice-guide", practiceGuideRoutes);
 router.use("/service-delivery", serviceDeliveryRoutes);
 router.use("/expense", expenseRoutes);
 router.use("/participant-goal", participantGoalRoutes);
+router.use("/regulatory-compliance", regulatoryComplianceRoutes);
 
 export default router;

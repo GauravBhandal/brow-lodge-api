@@ -71,6 +71,7 @@ import { PracticeGuideModel } from "../../api/practiceGuide";
 import { ServiceDeliveryModel } from "../../api/serviceDelivery";
 import { ExpenseModel } from "../../api/expense";
 import { ParticipantGoalModel } from "../../api/participantGoal";
+import { RegulatoryComplianceModel } from "../../api/regulatoryCompliance";
 
 export default {
   initialize() {
@@ -146,6 +147,7 @@ export default {
     initializeServiceDeliveryModelAssociations();
     initializeExpenseModelAssociations();
     initializeParticipantGoalModelAssociations();
+    initializeRegulatoryComplianceModelAssociations();
   },
 };
 
@@ -1187,5 +1189,20 @@ function initializeParticipantGoalModelAssociations() {
   ParticipantGoalModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+}
+
+function initializeRegulatoryComplianceModelAssociations() {
+  RegulatoryComplianceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  RegulatoryComplianceModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  RegulatoryComplianceModel.belongsToMany(AttachmentModel, {
+    through: "regulatory_compliances_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }

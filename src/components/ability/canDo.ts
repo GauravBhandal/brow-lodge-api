@@ -74,7 +74,8 @@ type Subject =
   | "policy"
   | "serviceDelivery"
   | "expense"
-  | "participantGoal";
+  | "participantGoal"
+  | "regulatoryCompliance";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {
