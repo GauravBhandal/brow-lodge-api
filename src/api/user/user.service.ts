@@ -83,6 +83,9 @@ class UserService {
       where: { email },
       include: [
         {
+          model: CompanyModel,
+        },
+        {
           model: RoleModel,
           through: {
             attributes: [],
@@ -112,7 +115,12 @@ class UserService {
     if (isPasswordCorrect) {
       // If password is correct, create a jwtToken
       const token = jwt.sign(
-        { userId: user.id, companyId: user.company },
+        {
+          userId: user.id,
+          userEmail: user.email,
+          companyId: user.company,
+          companyName: user?.Company?.name,
+        },
         config.TOKEN_KEY,
         {
           expiresIn: config.TOKEN_EXPIRY,

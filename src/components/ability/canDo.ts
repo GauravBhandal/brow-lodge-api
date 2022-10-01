@@ -31,7 +31,6 @@ type Subject =
   | "repairRequest"
   | "conflictOfInterest"
   | "corporateRisk"
-  | "whsLog"
   | "meetingLog"
   | "clientRisk"
   | "staffSleepDisturbance"
@@ -75,6 +74,8 @@ type Subject =
   | "serviceDelivery"
   | "expense"
   | "participantGoal"
+  | "alertConfiguration"
+  | "whsLog"
   | "externalContract";
 
 export const canDo = (action: Action, subject: Subject) => {
