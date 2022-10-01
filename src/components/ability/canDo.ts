@@ -76,7 +76,8 @@ type Subject =
   | "participantGoal"
   | "alertConfiguration"
   | "whsLog"
-  | "externalContract";
+  | "externalContract"
+  | "regulatoryCompliance";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {
