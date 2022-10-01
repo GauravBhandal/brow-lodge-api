@@ -12,6 +12,7 @@ export interface CorporateRisk extends DefaultSchemaConfig {
   riskDescription: string;
   mitigationStrategy: string;
   monitoringStrategy: string;
+  overseenBy?: string;
   staff: StaffProfile["id"];
   Staff?: StaffProfile;
   company: Company["id"];
@@ -27,6 +28,7 @@ export interface CreateCorporateRiskProps {
   riskDescription: CorporateRisk["riskDescription"];
   mitigationStrategy: CorporateRisk["mitigationStrategy"];
   monitoringStrategy: CorporateRisk["monitoringStrategy"];
+  overseenBy: CorporateRisk["overseenBy"];
   staff: CorporateRisk["staff"];
   company: CorporateRisk["company"];
 }
