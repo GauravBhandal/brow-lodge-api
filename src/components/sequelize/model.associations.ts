@@ -880,6 +880,11 @@ function initializeProgressReportModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  ProgressReportModel.belongsToMany(AttachmentModel, {
+    through: "progress_reports_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializePolicyReviewModelAssociations() {
