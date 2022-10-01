@@ -37,9 +37,13 @@ CREATE TABLE IF NOT EXISTS "external_contracts_attachments" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "external_contracts_attachments" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "corporate_risks" ADD COLUMN "overseen_by" VARCHAR;
 `;
 
 const queryDown = `
+ALTER TABLE "corporate_risks" DROP COLUMN "overseen_by";
+
 ALTER TABLE "external_contracts_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "external_contracts_attachments";
 

@@ -32,13 +32,9 @@ CREATE TABLE IF NOT EXISTS "participant_goals" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "participant_goals" ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE "corporate_risks" ADD COLUMN "overseen_by" VARCHAR;
 `;
 
 const queryDown = `
-ALTER TABLE "corporate_risks" DROP COLUMN "overseen_by";
-
 ALTER TABLE "participant_goals" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "participant_goals";
 `;
