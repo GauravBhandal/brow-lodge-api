@@ -72,6 +72,7 @@ import { ServiceDeliveryModel } from "../../api/serviceDelivery";
 import { ExpenseModel } from "../../api/expense";
 import { ParticipantGoalModel } from "../../api/participantGoal";
 import { AlertConfigurationModel } from "../../api/alertConfiguration";
+import { ExternalContractModel } from "../../api/externalContract";
 
 export default {
   initialize() {
@@ -148,6 +149,7 @@ export default {
     initializeExpenseModelAssociations();
     initializeParticipantGoalModelAssociations();
     initializeAlertConfigurationAssociations();
+    initializeExternalContractModelAssociations();
   },
 };
 
@@ -1196,5 +1198,20 @@ function initializeParticipantGoalModelAssociations() {
 function initializeAlertConfigurationAssociations() {
   AlertConfigurationModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeExternalContractModelAssociations() {
+  ExternalContractModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ExternalContractModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ExternalContractModel.belongsToMany(AttachmentModel, {
+    through: "external_contracts_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }

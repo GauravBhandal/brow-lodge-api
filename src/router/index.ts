@@ -73,6 +73,7 @@ import { serviceDeliveryRoutes } from "../api/serviceDelivery";
 import { expenseRoutes } from "../api/expense";
 import { participantGoalRoutes } from "../api/participantGoal";
 import { alertConfigurationRoutes } from "../api/alertConfiguration";
+import { externalContractRoutes } from "../api/externalContract";
 
 const router = express.Router();
 router.use(provideAbility);
@@ -148,5 +149,6 @@ router.use("/service-delivery", serviceDeliveryRoutes);
 router.use("/expense", expenseRoutes);
 router.use("/participant-goal", participantGoalRoutes);
 router.use("/alert-configuration", alertConfigurationRoutes);
+router.use("/external-contract", externalContractRoutes);
 
 export default router;
