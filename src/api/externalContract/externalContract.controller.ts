@@ -68,10 +68,7 @@ class ExternalContractController {
     };
 
     const externalContracts =
-      await externalContractService.getExternalContracts(
-        props,
-        req.auth.userId
-      );
+      await externalContractService.getExternalContracts(props);
 
     res.status(200).json(externalContracts);
   }

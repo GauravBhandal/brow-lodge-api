@@ -14,7 +14,7 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { StaffProfileModel } from "../staffProfile";
-import { addCientFiltersByTeams, getFilters } from "../../components/filters";
+import { getFilters } from "../../components/filters";
 import { externalContractAttachmentService } from "./externalContractAttachment";
 import { AttachmentModel } from "../attachment";
 
@@ -120,15 +120,13 @@ class ExternalContractService {
     return externalContract;
   }
 
-  async getExternalContracts(props: GetExternalContractsProps, userId: string) {
+  async getExternalContracts(props: GetExternalContractsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
-
-    const clientFilters = await addCientFiltersByTeams(userId, company);
 
     const include = [
       {
