@@ -21,6 +21,7 @@ class CorporateRiskModel<
   riskDescription!: CorporateRisk["riskDescription"];
   mitigationStrategy!: CorporateRisk["mitigationStrategy"];
   monitoringStrategy!: CorporateRisk["monitoringStrategy"];
+  overseenBy: CorporateRisk["overseenBy"];
   staff!: CorporateRisk["staff"];
   Staff: CorporateRisk["Staff"];
   company!: CorporateRisk["company"];
@@ -62,6 +63,7 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    overseenBy: { type: Sequelize.STRING },
   },
   {
     defaultScope: {

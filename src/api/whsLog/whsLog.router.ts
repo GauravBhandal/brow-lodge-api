@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  canDo("read", "whsLog"),
+  canDo("create", "whsLog"),
   whsLogSchems.createWhsLog,
   catchWrap(controller.createWhsLog)
 );

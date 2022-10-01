@@ -20,7 +20,9 @@ class WhsLogAttachmentService {
 
   async updateBulkWhsLogAttachment(props: UpdateBulkWhsLogAttachmentProps) {
     // Delete all the existing attachments for the given relation
-    await this.deleteBulkWhsLogAttachment({ relation: props.relation });
+    await this.deleteBulkWhsLogAttachment({
+      relation: props.relation,
+    });
 
     // Then assign the new attachments to the given relation
     const whsLogAttachment = await this.createBulkWhsLogAttachment(props);

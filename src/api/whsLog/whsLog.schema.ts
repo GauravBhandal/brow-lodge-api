@@ -6,12 +6,13 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createWhsLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
+    nextReviewDate: Joi.date().allow(null),
     category: Joi.string().required(),
-    location: Joi.string().allow("", null),
-    nextReviewDate: Joi.date().allow("", null),
+    location: Joi.string().required(),
     comments: Joi.string().allow("", null),
-    staff: requiredUUIDSchema(),
-    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -19,12 +20,13 @@ const editWhsLogSchema = wrapSchema({
   params: Joi.object().keys({ whsLogId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
+    nextReviewDate: Joi.date().allow(null),
     category: Joi.string().required(),
-    location: Joi.string().allow("", null),
-    nextReviewDate: Joi.date().allow("", null),
+    location: Joi.string().required(),
     comments: Joi.string().allow("", null),
-    staff: requiredUUIDSchema(),
-    attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

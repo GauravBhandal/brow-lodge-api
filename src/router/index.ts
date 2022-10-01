@@ -27,7 +27,7 @@ import { companyAssetRoutes } from "../api/companyAsset";
 import { repairRequestRoutes } from "../api/repairRequest";
 import { conflictOfInterestRoutes } from "../api/conflictOfInterest";
 import { corporateRiskRoutes } from "../api/corporateRisk";
-// import { whsLogRoutes } from "../api/whsLog";
+import { whsLogRoutes } from "../api/whsLog";
 import { meetingLogRoutes } from "../api/meetingLog";
 import { clientRiskRoutes } from "../api/clientRisk";
 import { staffSleepDisturbanceRoutes } from "../api/staffSleepDisturbance";
@@ -72,10 +72,11 @@ import { practiceGuideRoutes } from "../api/practiceGuide";
 import { serviceDeliveryRoutes } from "../api/serviceDelivery";
 import { expenseRoutes } from "../api/expense";
 import { participantGoalRoutes } from "../api/participantGoal";
+import { alertConfigurationRoutes } from "../api/alertConfiguration";
+import { externalContractRoutes } from "../api/externalContract";
 import { regulatoryComplianceRoutes } from "../api/regulatoryCompliance";
 
 const router = express.Router();
-router.use(authMiddleware); // TODO: may be we can move this to express config file
 router.use(provideAbility);
 
 router.use("/user", userRoutes);
@@ -103,7 +104,7 @@ router.use("/company-asset", companyAssetRoutes);
 router.use("/repair-request", repairRequestRoutes);
 router.use("/conflict-of-interest", conflictOfInterestRoutes);
 router.use("/corporate-risk", corporateRiskRoutes);
-// router.use("/whs-log", whsLogRoutes);
+router.use("/whs-log", whsLogRoutes);
 router.use("/meeting-log", meetingLogRoutes);
 router.use("/client-risk", clientRiskRoutes);
 router.use("/staff-sleep-disturbance", staffSleepDisturbanceRoutes);
@@ -148,6 +149,8 @@ router.use("/practice-guide", practiceGuideRoutes);
 router.use("/service-delivery", serviceDeliveryRoutes);
 router.use("/expense", expenseRoutes);
 router.use("/participant-goal", participantGoalRoutes);
+router.use("/alert-configuration", alertConfigurationRoutes);
+router.use("/external-contract", externalContractRoutes);
 router.use("/regulatory-compliance", regulatoryComplianceRoutes);
 
 export default router;
