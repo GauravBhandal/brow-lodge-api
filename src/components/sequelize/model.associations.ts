@@ -72,6 +72,8 @@ import { ServiceDeliveryModel } from "../../api/serviceDelivery";
 import { ExpenseModel } from "../../api/expense";
 import { ParticipantGoalModel } from "../../api/participantGoal";
 import { AlertConfigurationModel } from "../../api/alertConfiguration";
+import { ExternalContractModel } from "../../api/externalContract";
+import { RegulatoryComplianceModel } from "../../api/regulatoryCompliance";
 
 export default {
   initialize() {
@@ -148,6 +150,8 @@ export default {
     initializeExpenseModelAssociations();
     initializeParticipantGoalModelAssociations();
     initializeAlertConfigurationAssociations();
+    initializeExternalContractModelAssociations();
+    initializeRegulatoryComplianceModelAssociations();
   },
 };
 
@@ -880,6 +884,11 @@ function initializeProgressReportModelAssociations() {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
   });
+  ProgressReportModel.belongsToMany(AttachmentModel, {
+    through: "progress_reports_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializePolicyReviewModelAssociations() {
@@ -1191,5 +1200,35 @@ function initializeParticipantGoalModelAssociations() {
 function initializeAlertConfigurationAssociations() {
   AlertConfigurationModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeExternalContractModelAssociations() {
+  ExternalContractModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ExternalContractModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ExternalContractModel.belongsToMany(AttachmentModel, {
+    through: "external_contracts_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
+}
+
+function initializeRegulatoryComplianceModelAssociations() {
+  RegulatoryComplianceModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  RegulatoryComplianceModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  RegulatoryComplianceModel.belongsToMany(AttachmentModel, {
+    through: "regulatory_compliances_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
   });
 }

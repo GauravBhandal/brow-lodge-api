@@ -13,6 +13,7 @@ const createCorporateRiskSchema = wrapSchema({
     riskDescription: Joi.string().required(),
     mitigationStrategy: Joi.string().required(),
     monitoringStrategy: Joi.string().required(),
+    overseenBy: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
   }),
 });
@@ -28,6 +29,7 @@ const editCorporateRiskSchema = wrapSchema({
     riskDescription: Joi.string().required(),
     mitigationStrategy: Joi.string().required(),
     monitoringStrategy: Joi.string().required(),
+    overseenBy: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
   }),
 });

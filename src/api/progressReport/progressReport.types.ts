@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { Attachment } from "../attachment";
 
 export interface ProgressReport extends DefaultSchemaConfig {
   startDate: Date;
@@ -25,6 +26,7 @@ export interface ProgressReport extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  Attachments?: Attachment[];
 }
 
 export interface CreateProgressReportProps {
@@ -45,6 +47,7 @@ export interface CreateProgressReportProps {
   staff: ProgressReport["staff"];
   client: ProgressReport["client"];
   company: ProgressReport["company"];
+  attachments?: Attachment["id"][];
 }
 
 export interface UpdateProgressReportProps extends CreateProgressReportProps {
