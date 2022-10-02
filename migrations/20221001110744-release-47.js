@@ -66,9 +66,22 @@ CREATE TABLE IF NOT EXISTS "regulatory_compliances_attachments" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "regulatory_compliances_attachments" ENABLE ROW LEVEL SECURITY;
+
+INSERT INTO incident_types VALUES
+    ('df8ce683-b778-4a91-85d8-86693c0695ba', 'Assault', false, now(), now()),
+    ('c02fc613-9569-424d-9d00-ef5a5fc0cbfa', 'Threat', false, now(), now()),
+    ('a0a3e4fb-6b9e-4e07-bb4a-19ab1211643a', 'PRN Administration', false, now(), now()),
+    ('e672a8aa-d5fe-4a00-a655-6a688b9f9ca6', 'Staff incident', false, now(), now());
 `;
 
 const queryDown = `
+DELETE FROM "incident_types" WHERE id IN(
+  'df8ce683-b778-4a91-85d8-86693c0695ba',
+  'c02fc613-9569-424d-9d00-ef5a5fc0cbfa',
+  'a0a3e4fb-6b9e-4e07-bb4a-19ab1211643a',
+  'e672a8aa-d5fe-4a00-a655-6a688b9f9ca6'
+);
+
 ALTER TABLE "regulatory_compliances_attachments" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "regulatory_compliances_attachments";
 
