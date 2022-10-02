@@ -1,18 +1,14 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import {
-  requiredUUIDSchema,
-  wrapSchema,
-  requiredTimeSchema,
-} from "../../common/joiSchemas";
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createExternalContractSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
     nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
-    notes: Joi.string().allow(null),
+    notes: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
@@ -28,7 +24,7 @@ const editExternalContractSchema = wrapSchema({
     date: Joi.date().required(),
     nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
-    notes: Joi.string().allow(null),
+    notes: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
