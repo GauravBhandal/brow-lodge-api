@@ -34,6 +34,7 @@ class ClientProfileModel<
   serviceStartDate: ClientProfile["serviceStartDate"];
   serviceEndDate: ClientProfile["serviceEndDate"];
   archived: ClientProfile["archived"];
+  invoiceTo: ClientProfile["invoiceTo"];
   company!: ClientProfile["company"];
   Company: ClientProfile["Company"];
   attachment: ClientProfile["attachment"];
@@ -108,6 +109,9 @@ modelManager.init(
     },
     archived: {
       type: Sequelize.BOOLEAN,
+    },
+    invoiceTo: {
+      type: Sequelize.STRING,
     },
   },
   {
