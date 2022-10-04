@@ -28,6 +28,7 @@ const createClientProfileSchema = wrapSchema({
     serviceStartDate: Joi.date().allow(null),
     serviceEndDate: Joi.date().allow(null),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    invoiceTo: Joi.string().allow("", null),
   }),
 });
 
@@ -71,6 +72,7 @@ const editClientProfileSchema = wrapSchema({
         })
       )
       .allow(null),
+    invoiceTo: Joi.string().allow("", null),
   }),
 });
 

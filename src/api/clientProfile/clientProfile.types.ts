@@ -31,6 +31,7 @@ export interface ClientProfile extends DefaultSchemaConfig {
   Company?: Company;
   attachment?: Attachment["id"];
   Contacts?: ClientContact[];
+  invoiceTo?: string;
 }
 
 export interface CreateClientProfileProps {
@@ -56,6 +57,7 @@ export interface CreateClientProfileProps {
   serviceEndDate: ClientProfile["serviceEndDate"];
   company: ClientProfile["company"];
   attachment: ClientProfile["attachment"];
+  invoiceTo: ClientProfile["invoiceTo"];
 }
 
 export interface UpdateClientProfileProps extends CreateClientProfileProps {
