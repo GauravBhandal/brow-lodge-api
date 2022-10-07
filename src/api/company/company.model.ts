@@ -22,6 +22,9 @@ class CompanyModel<
   timezone: Company["timezone"];
   atttachment: Company["attachment"];
   abn: Company["abn"];
+  accountBsb: Company["accountBsb"];
+  accountNumber: Company["accountNumber"];
+  accountName: Company["accountName"];
 }
 
 modelManager.init(
@@ -43,6 +46,15 @@ modelManager.init(
     ndisRegistrationNumber: { type: Sequelize.STRING },
     timezone: { type: Sequelize.STRING },
     abn: { type: Sequelize.STRING },
+    accountBsb: {
+      type: Sequelize.STRING,
+    },
+    accountNumber: {
+      type: Sequelize.STRING,
+    },
+    accountName: {
+      type: Sequelize.STRING,
+    },
   },
   {
     defaultScope: {
