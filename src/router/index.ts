@@ -75,6 +75,7 @@ import { participantGoalRoutes } from "../api/participantGoal";
 import { alertConfigurationRoutes } from "../api/alertConfiguration";
 import { externalContractRoutes } from "../api/externalContract";
 import { regulatoryComplianceRoutes } from "../api/regulatoryCompliance";
+import { medicationRegisterRoutes } from "../api/medicationRegister";
 
 const router = express.Router();
 router.use(provideAbility);
@@ -152,5 +153,6 @@ router.use("/participant-goal", participantGoalRoutes);
 router.use("/alert-configuration", alertConfigurationRoutes);
 router.use("/external-contract", externalContractRoutes);
 router.use("/regulatory-compliance", regulatoryComplianceRoutes);
+router.use("/medication-register", medicationRegisterRoutes);
 
 export default router;
