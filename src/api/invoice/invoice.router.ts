@@ -14,6 +14,13 @@ router.post(
   catchWrap(controller.generateInvoices)
 );
 
+router.post(
+  "/pdf",
+  canDo("update", "invoice"),
+  invoiceSchems.generateInvoices,
+  catchWrap(controller.generateInvoicesPdf)
+);
+
 router.put(
   "/exported",
   canDo("update", "invoice"),
