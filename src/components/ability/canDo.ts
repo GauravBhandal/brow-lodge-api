@@ -77,7 +77,8 @@ type Subject =
   | "alertConfiguration"
   | "whsLog"
   | "externalContract"
-  | "regulatoryCompliance";
+  | "regulatoryCompliance"
+  | "medicationRegister";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {

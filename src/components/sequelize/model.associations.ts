@@ -74,6 +74,7 @@ import { ParticipantGoalModel } from "../../api/participantGoal";
 import { AlertConfigurationModel } from "../../api/alertConfiguration";
 import { ExternalContractModel } from "../../api/externalContract";
 import { RegulatoryComplianceModel } from "../../api/regulatoryCompliance";
+import { MedicationRegisterModel } from "../../api/medicationRegister";
 
 export default {
   initialize() {
@@ -152,6 +153,7 @@ export default {
     initializeAlertConfigurationAssociations();
     initializeExternalContractModelAssociations();
     initializeRegulatoryComplianceModelAssociations();
+    initializeMedicationRegisterModelAssociations();
   },
 };
 
@@ -1230,5 +1232,19 @@ function initializeRegulatoryComplianceModelAssociations() {
     through: "regulatory_compliances_attachments",
     foreignKey: "relation",
     otherKey: "attachment",
+  });
+}
+
+function initializeMedicationRegisterModelAssociations() {
+  MedicationRegisterModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  MedicationRegisterModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  MedicationRegisterModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client", allowNull: false },
+    as: "Client",
   });
 }

@@ -362,10 +362,10 @@ class InvoiceService {
               (service.rateType === "Fixed"
                 ? 1
                 : getMinutesDiff(
-                    service.shift_records_services.dataValues.start_time, // TODO: This is messy
-                    getEndTime(index, services.length, services, invoice),
-                    timezone
-                  ) / 60);
+                  service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                  getEndTime(index, services.length, services, invoice),
+                  timezone
+                ) / 60);
           }
         });
       }
@@ -398,6 +398,118 @@ class InvoiceService {
         dueDate: invoiceDueDate,
         lineItems: getLineItems(result[clientId]),
         status: Invoice.StatusEnum.DRAFT,
+      };
+      formattedInvoices.push(invoice);
+    });
+
+    return formattedInvoices;
+  }
+
+  // Helper fn to check the accounting code in every invoice
+  async _getErrorMessagesForPdfInvoice(allInvoices: InvoiceType[]) {
+    // Details of all the error messages
+    const errorMessageDetails: any = [];
+
+    allInvoices.forEach((invoice: InvoiceType) => {
+      if (invoice?.Shift?.Services) {
+        // Sort all the services for every invoice by start Time
+        const services = _orderBy(
+          invoice.Shift.Services,
+          ["shift_records_services.dataValues.start_time"],
+          ["asc"]
+        );
+        services.forEach((service: any) => {
+          if (!service.price) {
+            errorMessageDetails.push(
+              `Price is not set for ${service.name} service`
+            );
+          }
+        })
+      }
+    })
+
+    const updatedErrorMessages = [...new Set(errorMessageDetails)];
+    return updatedErrorMessages;
+  }
+
+  // Helper function to convert the given invoices to the format for pdf export
+  _getFormattedInvoicesForPdf(allInvoices: InvoiceType[], timezone: any) {
+    /*
+     Creating an empty object to store the client and service details e.g.
+     parsedServiceData = {
+       clientId: {
+        client,
+        service1: {hours: Total Units, amount: Total Units * price, service: service details},
+        service2: {hours: Total Units, amount: Total Units * price, service: service details}
+       }
+     } 
+    */
+    let parsedServiceData: any = {};
+
+    // Helper fn. to return the endTime of given service
+    const getEndTime = (
+      index: any,
+      length: any,
+      services: any,
+      invoice: any
+    ) => {
+      if (index === length - 1) {
+        return invoice.endDateTime;
+      }
+      return services[index + 1].shift_records_services.dataValues.start_time;
+    };
+
+    // Map the total hours per service per client
+    allInvoices.forEach((invoice: InvoiceType) => {
+      if (invoice?.Shift?.Services && invoice?.Client) {
+        // Sort all the services for every invoice by start Time
+        const services = _orderBy(
+          invoice.Shift.Services,
+          ["shift_records_services.dataValues.start_time"],
+          ["asc"]
+        );
+
+        // For every Client, calculate hours for every service and add it to parsedServiceData object
+        const client = invoice.Client;
+        // Create a new key in result object for every client
+        if (client.id && !parsedServiceData[client.id]) {
+          parsedServiceData[client.id] = {};
+        }
+
+        // Calculate hours for every service and add it to result object
+        services.forEach((service: any, index: Number) => {
+          const numberOfHours = (service.rateType === "Fixed"
+            ? 1
+            : getMinutesDiff(
+              service.shift_records_services.dataValues.start_time, // TODO: This is messy
+              getEndTime(index, services.length, services, invoice),
+              timezone
+            ) / 60);
+          if (!parsedServiceData[client.id][service.id]) {
+            parsedServiceData[client.id][service.id] = { service, amount: 0, hours: 0 }
+          }
+          parsedServiceData[client.id][service.id] = {
+            hours: parsedServiceData[client.id][service.id].hours += numberOfHours,
+            amount: parsedServiceData[client.id][service.id].amount += (numberOfHours * service.price),
+            service
+          }
+        });
+        parsedServiceData[client.id]['client'] = client
+      }
+    });
+
+    // Helper fn. for modifying invoice data
+    const getParsedInvoices = (invoices: any) => {
+      const parsedInvoiceData = { ...invoices }
+      delete parsedInvoiceData['client'];
+      return parsedInvoiceData;
+    };
+
+    const formattedInvoices: any = [];
+    Object.keys(parsedServiceData).forEach((clientId) => {
+      const invoice: any = {
+        clientDetails: parsedServiceData[clientId]['client'],
+        invoices: getParsedInvoices(parsedServiceData[clientId]),
       };
       formattedInvoices.push(invoice);
     });
@@ -447,6 +559,43 @@ class InvoiceService {
       status: "Approved",
       lastExportedOn: new Date(),
     });
+  }
+
+  async generateInvoicesPdf(props: GenerateInvoicesProps) {
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+
+    // Props
+    const { ids, company } = props;
+
+    const { timezone } = companyData
+
+    // Find all the invoices for given company and ids
+    const allInvoices = await this._getInvoiceByIds({ ids, company });
+
+    // Called a helper fn to check the accounting code in every invoice
+    const getErrorMessages = await this._getErrorMessagesForPdfInvoice(allInvoices);
+
+    if (getErrorMessages.length > 0) {
+      throw new CustomError(404, getErrorMessages.toString());
+    }
+
+    // Convert the invoices to the format for pdf data
+    const formatedInvoices = this._getFormattedInvoicesForPdf(
+      allInvoices,
+      timezone
+    );
+    const invoiceDate = formatDateToString(new Date(), timezone);
+    const invoiceDueDate = formatDateToString(
+      addTimeToDate(new Date(), 6, "days", timezone),
+      timezone
+    );
+    const result = {
+      company: companyData, invoiceNumber: '',
+      invoiceDate: invoiceDate, invoiceDueDate: invoiceDueDate, invoices: formatedInvoices
+    }
+    return result
   }
 
   async setExportedOnInvoices(props: SetExportedOnInvoicesProps) {

@@ -11,6 +11,9 @@ export interface Company extends DefaultSchemaConfig {
   timezone?: string;
   attachment?: Attachment["id"];
   abn?: string;
+  accountBsb?: string;
+  accountNumber?: string;
+  accountName?: string;
 }
 
 export interface CreateCompanyProps {
@@ -27,6 +30,9 @@ export interface UpdateMyCompanyProps extends CreateCompanyProps {
   timezone: string;
   attachment: Attachment["id"];
   abn: string;
+  accountBsb: string;
+  accountNumber: string;
+  accountName: string;
 }
 
 export interface GetMyCompanyProps {
