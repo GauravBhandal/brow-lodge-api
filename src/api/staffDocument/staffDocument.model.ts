@@ -26,6 +26,7 @@ class StaffDocumentModel<
   Company: StaffDocument["Company"];
   Attachments: StaffDocument["Attachments"];
   archived: StaffDocument["archived"];
+  notes: StaffDocument["notes"];
 }
 
 modelManager.init(
@@ -44,6 +45,9 @@ modelManager.init(
     },
     archived: {
       type: Sequelize.BOOLEAN,
+    },
+    notes: {
+      type: Sequelize.STRING,
     },
   },
   {

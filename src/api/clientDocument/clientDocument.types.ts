@@ -20,6 +20,7 @@ export interface ClientDocument extends DefaultSchemaConfig {
   Company?: Company;
   Attachments?: Attachment[];
   archived?: boolean;
+  notes?: string;
 }
 
 export interface CreateClientDocumentProps {
@@ -31,6 +32,7 @@ export interface CreateClientDocumentProps {
   type: ClientDocument["type"];
   company: ClientDocument["company"];
   attachments: Attachment["id"][];
+  notes: ClientDocument["notes"];
 }
 
 export interface UpdateClientDocumentProps extends CreateClientDocumentProps {
