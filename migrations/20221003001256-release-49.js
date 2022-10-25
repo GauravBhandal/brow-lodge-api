@@ -25,17 +25,9 @@ CREATE TABLE IF NOT EXISTS "medication_registers" (
   PRIMARY KEY ("id")
 );
 ALTER TABLE "medication_registers" ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE "client_documents" ADD COLUMN "notes" VARCHAR;
-
-ALTER TABLE "staff_documents" ADD COLUMN "notes" VARCHAR;
 `;
 
 const queryDown = `
-ALTER TABLE "staff_documents" DROP COLUMN "notes";
-
-ALTER TABLE "client_documents" DROP COLUMN "notes";
-
 ALTER TABLE "medication_registers" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "medication_registers";
 
