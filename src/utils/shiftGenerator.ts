@@ -158,6 +158,7 @@ export const createShifts = (
     staff,
     status,
     timezone,
+    notes,
   } = data;
   const { frequency, every } = repeat;
 
@@ -205,6 +206,7 @@ export const createShifts = (
             startDateTime: shiftStartDateTime,
             endDateTime: shiftEndDateTime,
             repeat,
+            notes,
           });
         }
       } else {
@@ -218,6 +220,7 @@ export const createShifts = (
           startDateTime: shiftStartDateTime,
           endDateTime: shiftEndDateTime,
           repeat,
+          notes,
         });
       }
     }
@@ -247,7 +250,7 @@ export const createShifts = (
           if (repeatEndDate) {
             if (
               daysDifference(repeatStartDate, shiftStartDateTime, timezone) >=
-                0 &&
+              0 &&
               daysDifference(shiftStartDateTime, repeatEndDate, timezone) >= 0
             ) {
               finalResult.push({
@@ -259,6 +262,7 @@ export const createShifts = (
                 startDateTime: shiftStartDateTime,
                 endDateTime: shiftEndDateTime,
                 repeat,
+                notes,
               });
             }
           } else if (
@@ -273,6 +277,7 @@ export const createShifts = (
               startDateTime: shiftStartDateTime,
               endDateTime: shiftEndDateTime,
               repeat,
+              notes,
             });
           }
         }
