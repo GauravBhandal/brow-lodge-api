@@ -71,7 +71,7 @@ export interface DeleteShiftRecordProps {
   deleteRecurring?: Boolean;
 }
 
-export interface GetShiftRecordByIdProps extends DeleteShiftRecordProps {}
+export interface GetShiftRecordByIdProps extends DeleteShiftRecordProps { }
 
 export interface GetShiftRecordsProps extends QueryParams {
   company: ShiftRecord["company"];
@@ -84,4 +84,5 @@ export interface GetMyShiftRecordsProps extends QueryParams {
 export interface PublishShiftRecordsProps {
   shiftIds: ShiftRecord["id"][];
   company: ShiftRecord["company"];
+  status: ShiftRecord["status"];
 }

@@ -573,9 +573,9 @@ class ShiftRecordService {
   }
 
   async publishShiftRecords(props: PublishShiftRecordsProps) {
-    const { company, shiftIds } = props;
+    const { company, shiftIds, status } = props;
     const [numberOfShifts, []] = await ShiftRecordModel.update(
-      { status: ShiftRecordStatus.PUBLISHED },
+      { status },
       {
         where: {
           id: {
@@ -588,7 +588,7 @@ class ShiftRecordService {
     );
     return {
       numberOfShifts,
-      status: ShiftRecordStatus.PUBLISHED,
+      status: status,
     };
   }
 }
