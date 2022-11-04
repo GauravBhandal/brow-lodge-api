@@ -95,6 +95,9 @@ const publishShiftRecordSchema = wrapSchema({
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .min(1)
       .required(),
+    status: Joi.string()
+      .valid(ShiftRecordStatus.DRAFT, ShiftRecordStatus.PUBLISHED)
+      .required()
   }),
 });
 
