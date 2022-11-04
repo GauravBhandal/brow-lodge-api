@@ -20,6 +20,7 @@ export interface ShiftRecord extends DefaultSchemaConfig {
   Services?: Service[];
   repeat?: ShiftRepeat["id"];
   status?: String;
+  notes?: String;
   claimType?: string;
 }
 
@@ -33,6 +34,7 @@ export interface CreateShiftRecordProps {
   services: ServiceProp[];
   status: ShiftRecord["status"];
   claimType: ShiftRecord["claimType"];
+  notes: ShiftRecord["notes"];
 }
 
 export interface CreateShiftRecordInBulkHelperProps {
@@ -46,6 +48,7 @@ export interface CreateShiftRecordInBulkHelperProps {
   repeat: any; // TODO: Remove any
   status: ShiftRecord["status"];
   timezone?: string;
+  notes: ShiftRecord["notes"];
 }
 
 export interface CreateShiftRecordInBulkProps {
@@ -58,6 +61,7 @@ export interface CreateShiftRecordInBulkProps {
   services: ServiceProp[];
   repeat: any; // TODO: Remove any
   status: ShiftRecord["status"];
+  notes: ShiftRecord["notes"];
 }
 
 export interface UpdateShiftRecordProps extends CreateShiftRecordProps {
@@ -71,7 +75,7 @@ export interface DeleteShiftRecordProps {
   deleteRecurring?: Boolean;
 }
 
-export interface GetShiftRecordByIdProps extends DeleteShiftRecordProps {}
+export interface GetShiftRecordByIdProps extends DeleteShiftRecordProps { }
 
 export interface GetShiftRecordsProps extends QueryParams {
   company: ShiftRecord["company"];

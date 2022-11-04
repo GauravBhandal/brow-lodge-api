@@ -70,6 +70,7 @@ class ServiceDeliveryService {
       ],
       status: ShiftRecordStatus.PUBLISHED,
       claimType: props.claimType,
+      notes: props.notes,
     };
 
     const shiftRecord = await shiftRecordService.createShiftRecord(
@@ -190,6 +191,7 @@ class ServiceDeliveryService {
           startTime: startDateTime,
         },
       ],
+      notes: props.notes,
       status: ShiftRecordStatus.PUBLISHED,
       claimType: props.claimType,
     };

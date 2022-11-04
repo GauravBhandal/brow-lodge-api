@@ -35,6 +35,7 @@ const createShiftRecordSchema = wrapSchema({
     status: Joi.string()
       .valid(ShiftRecordStatus.DRAFT, ShiftRecordStatus.PUBLISHED)
       .required(),
+    notes: Joi.string().allow("", null),
   }),
 });
 
@@ -54,6 +55,7 @@ const editShiftRecordSchema = wrapSchema({
     status: Joi.string()
       .valid(ShiftRecordStatus.DRAFT, ShiftRecordStatus.PUBLISHED)
       .required(),
+    notes: Joi.string().allow("", null),
   }),
 });
 
