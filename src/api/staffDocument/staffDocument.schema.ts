@@ -14,6 +14,7 @@ const createStaffDocumentSchema = wrapSchema({
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .required(),
+    notes: Joi.string().allow("", null),
   }),
 });
 
@@ -30,6 +31,7 @@ const editStaffDocumentSchema = wrapSchema({
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow(null),
+    notes: Joi.string().allow("", null),
   }),
 });
 

@@ -29,6 +29,7 @@ class ClientDocumentModel<
   Company: ClientDocument["Company"];
   Attachments: ClientDocument["Attachments"];
   archived: ClientDocument["archived"];
+  notes: ClientDocument["notes"];
 }
 
 modelManager.init(
@@ -47,6 +48,9 @@ modelManager.init(
     },
     archived: {
       type: Sequelize.BOOLEAN,
+    },
+    notes: {
+      type: Sequelize.STRING,
     },
   },
   {

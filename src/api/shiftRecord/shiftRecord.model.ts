@@ -7,18 +7,18 @@ import modelManager, {
 import { ShiftRecord, CreateShiftRecordProps } from "./shiftRecord.types";
 
 class ShiftRecordModel<
-    ModelAttributes = ShiftRecord,
-    ModelCreationAttributes = CreateShiftRecordProps
-  >
+  ModelAttributes = ShiftRecord,
+  ModelCreationAttributes = CreateShiftRecordProps
+>
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements ShiftRecord
-{
+  implements ShiftRecord {
   startDateTime!: ShiftRecord["startDateTime"];
   endDateTime!: ShiftRecord["endDateTime"];
   break: ShiftRecord["break"];
   company!: ShiftRecord["company"];
   Company: ShiftRecord["Company"];
   repeat?: ShiftRecord["repeat"];
+  notes?: ShiftRecord["notes"];
   user!: ShiftRecord["user"];
   status?: ShiftRecord["status"];
   claimType?: ShiftRecord["claimType"];
@@ -43,6 +43,9 @@ modelManager.init(
       type: Sequelize.STRING,
     },
     claimType: {
+      type: Sequelize.STRING,
+    },
+    notes: {
       type: Sequelize.STRING,
     },
   },
