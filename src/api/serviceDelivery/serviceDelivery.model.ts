@@ -30,6 +30,7 @@ class ServiceDeliveryModel<
   Company: ServiceDelivery["Company"];
   progressnote: ServiceDelivery["progressnote"];
   shift: ServiceDelivery["shift"];
+  Attachments: ServiceDelivery["Attachments"];
 }
 
 modelManager.init(
