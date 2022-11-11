@@ -21,8 +21,8 @@ router.put(
   catchWrap(controller.updateProcess)
 );
 
-router.delete(
-  "/:processId",
+router.put(
+  "/archive/:processId",
   canDo("delete", "process"),
   processSchems.deleteProcess,
   catchWrap(controller.deleteProcess)

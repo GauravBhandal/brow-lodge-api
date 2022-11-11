@@ -14,7 +14,7 @@ const createSleepLogSchema = wrapSchema({
         Joi.object().keys({
           date: Joi.date().required(),
           time: requiredTimeSchema(),
-          activity: Joi.string().valid("Awake", "Sleep").required(),
+          activity: Joi.string().valid("Awake", "Sleep", "Unknown").required(),
           comments: Joi.string().allow("", null),
           staff: requiredUUIDSchema(),
           client: requiredUUIDSchema(),
@@ -29,7 +29,7 @@ const editSleepLogSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
     time: requiredTimeSchema(),
-    activity: Joi.string().valid("Awake", "Sleep").required(),
+    activity: Joi.string().valid("Awake", "Sleep", "Unknown").required(),
     comments: Joi.string().allow("", null),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),

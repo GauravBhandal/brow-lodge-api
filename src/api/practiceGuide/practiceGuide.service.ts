@@ -16,9 +16,25 @@ import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
 import { practiceGuideAttachmentService } from "./practiceGuideAttachment";
 import { AttachmentModel } from "../attachment";
+import { version } from "joi";
 
 class PracticeGuideService {
   async createPracticeGuide(props: CreatePracticeGuideProps) {
+    const { name, version, company } = props;
+
+    // Check if document already exists
+    const existingPractice = await PracticeGuideModel.findOne({
+      where: { name, version, company, archived: false },
+    });
+
+    // If already exists, throw an error
+    if (existingPractice) {
+      throw new CustomError(
+        409,
+        PracticeGuideErrorCode.PRACTICE_GUIDE_ALREADY_EXISTS
+      );
+    }
+
     const practiceGuide = await PracticeGuideModel.create(props);
 
     // Create attachments
@@ -33,7 +49,7 @@ class PracticeGuideService {
 
   async updatePracticeGuide(props: UpdatePracticeGuideProps) {
     // Props
-    const { id, company } = props;
+    const { name, version, id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find practiceGuide by id and company
@@ -47,6 +63,25 @@ class PracticeGuideService {
         404,
         PracticeGuideErrorCode.PRACTICE_GUIDE_NOT_FOUND
       );
+    }
+
+    if (
+      practiceGuide.name != name ||
+      practiceGuide.version != version ||
+      practiceGuide.company != company
+    ) {
+      // Check if document already exists
+      const existingPractice = await PracticeGuideModel.findOne({
+        where: { name, version, company, archived: false },
+      });
+
+      // If already exists, throw an error
+      if (existingPractice && existingPractice.id !== id) {
+        throw new CustomError(
+          409,
+          PracticeGuideErrorCode.PRACTICE_GUIDE_ALREADY_EXISTS
+        );
+      }
     }
 
     // Finally, update the practiceGuide
@@ -74,7 +109,7 @@ class PracticeGuideService {
     const { id, company } = props;
 
     // Find and delete the practiceGuide by id and company
-    const practiceGuide = await PracticeGuideModel.destroy({
+    const practiceGuide = await PracticeGuideModel.findOne({
       where: { id, company },
     });
 
@@ -86,7 +121,35 @@ class PracticeGuideService {
       );
     }
 
-    return practiceGuide;
+    if (practiceGuide.archived) {
+      // Check if document already exists
+      const existingPractice = await PracticeGuideModel.findAll({
+        where: {
+          name: practiceGuide.name,
+          version: practiceGuide.version,
+          company: practiceGuide.company,
+          archived: false,
+        },
+      });
+
+      if (existingPractice.length > 0) {
+        throw new CustomError(
+          409,
+          PracticeGuideErrorCode.PRACTICE_GUIDE_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the practiceGuide update the Archive state
+    const [, [updatedPracticeGuide]] = await PracticeGuideModel.update(
+      { archived: !practiceGuide.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedPracticeGuide;
   }
 
   async getPracticeGuideById(props: GetPracticeGuideByIdProps) {

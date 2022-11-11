@@ -19,6 +19,18 @@ import { AttachmentModel } from "../attachment";
 
 class TemplateService {
   async createTemplate(props: CreateTemplateProps) {
+    const { name, version, category, type, company } = props;
+
+    // Check if rpdhsResource already exists
+    const existingtemplate = await TemplateModel.findOne({
+      where: { name, version, category, type, company, archived: false },
+    });
+
+    // If already exists, throw an error
+    if (existingtemplate) {
+      throw new CustomError(409, TemplateErrorCode.TEMPLATE_ALREADY_EXISTS);
+    }
+
     const template = await TemplateModel.create(props);
 
     // Create attachments
@@ -33,7 +45,7 @@ class TemplateService {
 
   async updateTemplate(props: UpdateTemplateProps) {
     // Props
-    const { id, company } = props;
+    const { name, version, category, type, id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find template by id and company
@@ -44,6 +56,24 @@ class TemplateService {
     // if template not found, throw an error
     if (!template) {
       throw new CustomError(404, TemplateErrorCode.TEMPLATE_NOT_FOUND);
+    }
+
+    if (
+      template.name != name ||
+      template.version != version ||
+      template.category != category ||
+      template.type != type ||
+      template.company != company
+    ) {
+      // Check if template already exists
+      const existingtemplate = await TemplateModel.findOne({
+        where: { name, version, category, type, company, archived: false },
+      });
+
+      // If already exists, throw an error
+      if (existingtemplate && existingtemplate.id !== id) {
+        throw new CustomError(409, TemplateErrorCode.TEMPLATE_ALREADY_EXISTS);
+      }
     }
 
     // Finally, update the template
@@ -68,7 +98,7 @@ class TemplateService {
     const { id, company } = props;
 
     // Find and delete the template by id and company
-    const template = await TemplateModel.destroy({
+    const template = await TemplateModel.findOne({
       where: { id, company },
     });
 
@@ -77,7 +107,34 @@ class TemplateService {
       throw new CustomError(404, TemplateErrorCode.TEMPLATE_NOT_FOUND);
     }
 
-    return template;
+    if (template.archived) {
+      // Check if template already exists
+      const existingtemplate = await TemplateModel.findAll({
+        where: {
+          name: template.name,
+          version: template.version,
+          category: template.category,
+          type: template.type,
+          company: template.company,
+          archived: false,
+        },
+      });
+
+      if (existingtemplate.length > 0) {
+        throw new CustomError(409, TemplateErrorCode.TEMPLATE_ALREADY_EXISTS);
+      }
+    }
+
+    // Finally, update the template update the Archive state
+    const [, [updatedTemplate]] = await TemplateModel.update(
+      { archived: !template.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedTemplate;
   }
 
   async getTemplateById(props: GetTemplateByIdProps) {

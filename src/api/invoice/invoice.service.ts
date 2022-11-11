@@ -362,10 +362,10 @@ class InvoiceService {
               (service.rateType === "Fixed"
                 ? 1
                 : getMinutesDiff(
-                  service.shift_records_services.dataValues.start_time, // TODO: This is messy
-                  getEndTime(index, services.length, services, invoice),
-                  timezone
-                ) / 60);
+                    service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                    getEndTime(index, services.length, services, invoice),
+                    timezone
+                  ) / 60);
           }
         });
       }
@@ -424,9 +424,9 @@ class InvoiceService {
               `Price is not set for ${service.name} service`
             );
           }
-        })
+        });
       }
-    })
+    });
 
     const updatedErrorMessages = [...new Set(errorMessageDetails)];
     return updatedErrorMessages;
@@ -478,37 +478,44 @@ class InvoiceService {
 
         // Calculate hours for every service and add it to result object
         services.forEach((service: any, index: Number) => {
-          const numberOfHours = (service.rateType === "Fixed"
-            ? 1
-            : getMinutesDiff(
-              service.shift_records_services.dataValues.start_time, // TODO: This is messy
-              getEndTime(index, services.length, services, invoice),
-              timezone
-            ) / 60);
+          const numberOfHours =
+            service.rateType === "Fixed"
+              ? 1
+              : getMinutesDiff(
+                  service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                  getEndTime(index, services.length, services, invoice),
+                  timezone
+                ) / 60;
           if (!parsedServiceData[client.id][service.id]) {
-            parsedServiceData[client.id][service.id] = { service, amount: 0, hours: 0 }
+            parsedServiceData[client.id][service.id] = {
+              service,
+              amount: 0,
+              hours: 0,
+            };
           }
           parsedServiceData[client.id][service.id] = {
-            hours: parsedServiceData[client.id][service.id].hours += numberOfHours,
-            amount: parsedServiceData[client.id][service.id].amount += (numberOfHours * service.price),
-            service
-          }
+            hours: (parsedServiceData[client.id][service.id].hours +=
+              numberOfHours),
+            amount: (parsedServiceData[client.id][service.id].amount +=
+              numberOfHours * service.price),
+            service,
+          };
         });
-        parsedServiceData[client.id]['client'] = client
+        parsedServiceData[client.id]["client"] = client;
       }
     });
 
     // Helper fn. for modifying invoice data
     const getParsedInvoices = (invoices: any) => {
-      const parsedInvoiceData = { ...invoices }
-      delete parsedInvoiceData['client'];
+      const parsedInvoiceData = { ...invoices };
+      delete parsedInvoiceData["client"];
       return parsedInvoiceData;
     };
 
     const formattedInvoices: any = [];
     Object.keys(parsedServiceData).forEach((clientId) => {
       const invoice: any = {
-        clientDetails: parsedServiceData[clientId]['client'],
+        clientDetails: parsedServiceData[clientId]["client"],
         invoices: getParsedInvoices(parsedServiceData[clientId]),
       };
       formattedInvoices.push(invoice);
@@ -569,17 +576,26 @@ class InvoiceService {
     // Props
     const { ids, company } = props;
 
-    const { timezone } = companyData
+    const { timezone } = companyData;
 
     // Find all the invoices for given company and ids
     const allInvoices = await this._getInvoiceByIds({ ids, company });
 
     // Called a helper fn to check the accounting code in every invoice
-    const getErrorMessages = await this._getErrorMessagesForPdfInvoice(allInvoices);
+    const getErrorMessages = await this._getErrorMessagesForPdfInvoice(
+      allInvoices
+    );
 
     if (getErrorMessages.length > 0) {
       throw new CustomError(404, getErrorMessages.toString());
     }
+
+    await this.updateInvoiceStatus({
+      company,
+      ids,
+      status: "Approved",
+      lastExportedOn: new Date(),
+    });
 
     // Convert the invoices to the format for pdf data
     const formatedInvoices = this._getFormattedInvoicesForPdf(
@@ -592,10 +608,13 @@ class InvoiceService {
       timezone
     );
     const result = {
-      company: companyData, invoiceNumber: '',
-      invoiceDate: invoiceDate, invoiceDueDate: invoiceDueDate, invoices: formatedInvoices
-    }
-    return result
+      company: companyData,
+      invoiceNumber: "",
+      invoiceDate: invoiceDate,
+      invoiceDueDate: invoiceDueDate,
+      invoices: formatedInvoices,
+    };
+    return result;
   }
 
   async setExportedOnInvoices(props: SetExportedOnInvoicesProps) {

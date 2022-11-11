@@ -21,6 +21,7 @@ class TemplateModel<
   company!: Template["company"];
   Company: Template["Company"];
   Attachments: Template["Attachments"];
+  archived: Template["archived"];
 }
 
 modelManager.init(
@@ -43,6 +44,9 @@ modelManager.init(
     version: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

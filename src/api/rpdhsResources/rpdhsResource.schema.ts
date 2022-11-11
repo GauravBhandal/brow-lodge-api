@@ -20,6 +20,7 @@ const editRpdhsResourceSchema = wrapSchema({
     nextReviewDate: Joi.date().allow(null),
     name: Joi.string().required(),
     version: Joi.string().required(),
+    archived: Joi.boolean(),
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
