@@ -19,6 +19,7 @@ class ProcessModel<
   company!: Process["company"];
   Company: Process["Company"];
   Attachments: Process["Attachments"];
+  archived: Process["archived"];
 }
 
 modelManager.init(
@@ -33,6 +34,9 @@ modelManager.init(
     version: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
