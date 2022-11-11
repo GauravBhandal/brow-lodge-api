@@ -4,12 +4,17 @@ const queryUp = `
   ALTER TABLE "practice_guides" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
-
 ALTER TABLE "processes" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "rpdhs_resources" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 `;
 
 const queryDown = `
+ALTER TABLE "rpdhs_resources"
+DROP COLUMN "archived";
+
 ALTER TABLE "processes"
 DROP COLUMN "archived";
 
