@@ -12,6 +12,7 @@ export interface Template extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Attachments?: Attachment[];
+  archived?: boolean;
 }
 
 export interface CreateTemplateProps {
