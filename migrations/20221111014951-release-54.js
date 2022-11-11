@@ -9,9 +9,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE "rpdhs_resources" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "templates" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 `;
 
 const queryDown = `
+ALTER TABLE "templates"
+DROP COLUMN "archived";
+
 ALTER TABLE "rpdhs_resources"
 DROP COLUMN "archived";
 
