@@ -263,8 +263,10 @@ class ClientDocumentService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          ...filters["Client"],
-          ...clientFilters,
+          [Op.and]: [
+            { ...filters["Client"] },
+            { ...clientFilters, }
+          ]
         },
       },
       {
