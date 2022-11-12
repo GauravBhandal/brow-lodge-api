@@ -19,6 +19,7 @@ class RpdhsResourceModel<
   company!: RpdhsResource["company"];
   Company: RpdhsResource["Company"];
   Attachments: RpdhsResource["Attachments"];
+  archived: RpdhsResource["archived"];
 }
 
 modelManager.init(
@@ -33,6 +34,9 @@ modelManager.init(
     version: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

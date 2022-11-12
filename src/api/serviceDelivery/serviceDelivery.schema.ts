@@ -1,18 +1,25 @@
 import Joi from "joi";
 
 import { joiMiddleware } from "../../components/joi/middleware";
-import { requiredTimeSchema, requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
+import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createServiceDeliverySchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    startTime: requiredTimeSchema(),
-    endTime: requiredTimeSchema(),
+    startTime: Joi.string()
+      .regex(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
+      .required(),
+    endTime: Joi.string()
+      .regex(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
+      .required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
     service: requiredUUIDSchema(),
     notes: Joi.string().required(),
     claimType: Joi.string().required().allow(""),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -20,13 +27,20 @@ const editServiceDeliverySchema = wrapSchema({
   params: Joi.object().keys({ serviceDeliveryId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    startTime: requiredTimeSchema(),
-    endTime: requiredTimeSchema(),
+    startTime: Joi.string()
+      .regex(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
+      .required(),
+    endTime: Joi.string()
+      .regex(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
+      .required(),
     staff: requiredUUIDSchema(),
     client: requiredUUIDSchema(),
     service: requiredUUIDSchema(),
     notes: Joi.string().required(),
     claimType: Joi.string().required().allow(""),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

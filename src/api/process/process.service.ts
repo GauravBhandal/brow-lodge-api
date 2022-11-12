@@ -16,9 +16,22 @@ import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
 import { processAttachmentService } from "./processAttachment";
 import { AttachmentModel } from "../attachment";
+import { version } from "joi";
 
 class ProcessService {
   async createProcess(props: CreateProcessProps) {
+    const { name, version, company } = props;
+
+    // Check if document already exists
+    const existingProcess = await ProcessModel.findOne({
+      where: { name, version, company, archived: false },
+    });
+
+    // If already exists, throw an error
+    if (existingProcess) {
+      throw new CustomError(409, ProcessErrorCode.PROCESS_ALREADY_EXISTS);
+    }
+
     const process = await ProcessModel.create(props);
 
     // Create attachments
@@ -33,7 +46,7 @@ class ProcessService {
 
   async updateProcess(props: UpdateProcessProps) {
     // Props
-    const { id, company } = props;
+    const { name, version, id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find process by id and company
@@ -44,6 +57,22 @@ class ProcessService {
     // if process not found, throw an error
     if (!process) {
       throw new CustomError(404, ProcessErrorCode.PROCESS_NOT_FOUND);
+    }
+
+    if (
+      process.name != name ||
+      process.version != version ||
+      process.company != company
+    ) {
+      // Check if document already exists
+      const existingProcess = await ProcessModel.findOne({
+        where: { name, version, company, archived: false },
+      });
+
+      // If already exists, throw an error
+      if (existingProcess && existingProcess.id !== id) {
+        throw new CustomError(409, ProcessErrorCode.PROCESS_ALREADY_EXISTS);
+      }
     }
 
     // Finally, update the process
@@ -68,7 +97,7 @@ class ProcessService {
     const { id, company } = props;
 
     // Find and delete the process by id and company
-    const process = await ProcessModel.destroy({
+    const process = await ProcessModel.findOne({
       where: { id, company },
     });
 
@@ -77,7 +106,32 @@ class ProcessService {
       throw new CustomError(404, ProcessErrorCode.PROCESS_NOT_FOUND);
     }
 
-    return process;
+    if (process.archived) {
+      // Check if document already exists
+      const existingProcess = await ProcessModel.findAll({
+        where: {
+          name: process.name,
+          version: process.version,
+          company: process.company,
+          archived: false,
+        },
+      });
+
+      if (existingProcess.length > 0) {
+        throw new CustomError(409, ProcessErrorCode.PROCESS_ALREADY_EXISTS);
+      }
+    }
+
+    // Finally, update the Process update the Archive state
+    const [, [updatedProcess]] = await ProcessModel.update(
+      { archived: !process.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedProcess;
   }
 
   async getProcessById(props: GetProcessByIdProps) {

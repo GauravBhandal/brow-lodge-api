@@ -1164,6 +1164,11 @@ function initializeServiceDeliveryModelAssociations() {
     foreignKey: { name: "shift", allowNull: false },
     as: "Shift",
   });
+  ServiceDeliveryModel.belongsToMany(AttachmentModel, {
+    through: "service_delivery_attachments",
+    foreignKey: "relation",
+    otherKey: "attachment",
+  });
 }
 
 function initializeExpenseModelAssociations() {
