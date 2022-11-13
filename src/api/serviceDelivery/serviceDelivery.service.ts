@@ -26,6 +26,8 @@ import {
 import { ShiftRecordStatus } from "../shiftRecord/shiftRecord.constant";
 import makeMoment from "../../components/moment";
 import { getEndDate } from "../../utils/shiftGenerator";
+import { AttachmentModel } from "../attachment";
+import { serviceDeliveryAttachmentService } from "./serviceDeliveryAttachment";
 
 class ServiceDeliveryService {
   async createServiceDelivery(props: CreateServiceDeliveryProps) {
@@ -98,6 +100,16 @@ class ServiceDeliveryService {
       shift: shiftRecord.id,
     };
     const serviceDelivery = await ServiceDeliveryModel.create(createProps);
+
+    // Create attachments
+    if (props.attachments && props.attachments.length) {
+      await serviceDeliveryAttachmentService.createBulkServiceDeliveryAttachment(
+        {
+          relation: serviceDelivery.id,
+          attachments: props.attachments,
+        }
+      );
+    }
     return serviceDelivery;
   }
 
@@ -269,6 +281,17 @@ class ServiceDeliveryService {
         returning: true,
       }
     );
+
+    // Update attachments
+    if (props.attachments) {
+      await serviceDeliveryAttachmentService.updateBulkServiceDeliveryAttachment(
+        {
+          relation: serviceDelivery.id,
+          attachments: props.attachments,
+        }
+      );
+    }
+
     return updatedServiceDelivery;
   }
 
@@ -340,6 +363,12 @@ class ServiceDeliveryService {
         {
           model: ShiftRecordModel,
           as: "Shift",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
         },
       ],
     });

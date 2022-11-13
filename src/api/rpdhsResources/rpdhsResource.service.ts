@@ -19,6 +19,21 @@ import { AttachmentModel } from "../attachment";
 
 class RpdhsResourceService {
   async createRpdhsResource(props: CreateRpdhsResourceProps) {
+    const { name, version, company } = props;
+
+    // Check if rpdhsResource already exists
+    const existingRpdhs = await RpdhsResourceModel.findOne({
+      where: { name, version, company, archived: false },
+    });
+
+    // If already exists, throw an error
+    if (existingRpdhs) {
+      throw new CustomError(
+        409,
+        RpdhsResourceErrorCode.RPDHS_RESOURCE_ALREADY_EXISTS
+      );
+    }
+
     const rpdhsResource = await RpdhsResourceModel.create(props);
 
     // Create attachments
@@ -33,7 +48,7 @@ class RpdhsResourceService {
 
   async updateRpdhsResource(props: UpdateRpdhsResourceProps) {
     // Props
-    const { id, company } = props;
+    const { name, version, id, company } = props;
     const updateProps = _omit(props, ["id", "company"]);
 
     // Find rpdhsResource by id and company
@@ -43,7 +58,29 @@ class RpdhsResourceService {
 
     // if rpdhsResource not found, throw an error
     if (!rpdhsResource) {
-      throw new CustomError(404, RpdhsResourceErrorCode.PROCESS_NOT_FOUND);
+      throw new CustomError(
+        404,
+        RpdhsResourceErrorCode.RPDHS_RESOURCE_NOT_FOUND
+      );
+    }
+
+    if (
+      rpdhsResource.name != name ||
+      rpdhsResource.version != version ||
+      rpdhsResource.company != company
+    ) {
+      // Check if rpdhsResource already exists
+      const existingRpdhs = await RpdhsResourceModel.findOne({
+        where: { name, version, company, archived: false },
+      });
+
+      // If already exists, throw an error
+      if (existingRpdhs && existingRpdhs.id !== id) {
+        throw new CustomError(
+          409,
+          RpdhsResourceErrorCode.RPDHS_RESOURCE_ALREADY_EXISTS
+        );
+      }
     }
 
     // Finally, update the rpdhsResource
@@ -71,16 +108,47 @@ class RpdhsResourceService {
     const { id, company } = props;
 
     // Find and delete the rpdhsResource by id and company
-    const rpdhsResource = await RpdhsResourceModel.destroy({
+    const rpdhsResource = await RpdhsResourceModel.findOne({
       where: { id, company },
     });
 
     // if rpdhsResource has been deleted, throw an error
     if (!rpdhsResource) {
-      throw new CustomError(404, RpdhsResourceErrorCode.PROCESS_NOT_FOUND);
+      throw new CustomError(
+        404,
+        RpdhsResourceErrorCode.RPDHS_RESOURCE_NOT_FOUND
+      );
     }
 
-    return rpdhsResource;
+    if (rpdhsResource.archived) {
+      // Check if rpdhsResource already exists
+      const existingRpdhs = await RpdhsResourceModel.findAll({
+        where: {
+          name: rpdhsResource.name,
+          version: rpdhsResource.version,
+          company: rpdhsResource.company,
+          archived: false,
+        },
+      });
+
+      if (existingRpdhs.length > 0) {
+        throw new CustomError(
+          409,
+          RpdhsResourceErrorCode.RPDHS_RESOURCE_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the RpdhsResource update the Archive state
+    const [, [updatedRpdhsResource]] = await RpdhsResourceModel.update(
+      { archived: !rpdhsResource.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedRpdhsResource;
   }
 
   async getRpdhsResourceById(props: GetRpdhsResourceByIdProps) {
@@ -105,7 +173,10 @@ class RpdhsResourceService {
 
     // If no rpdhsResource has been found, then throw an error
     if (!rpdhsResource) {
-      throw new CustomError(404, RpdhsResourceErrorCode.PROCESS_NOT_FOUND);
+      throw new CustomError(
+        404,
+        RpdhsResourceErrorCode.RPDHS_RESOURCE_NOT_FOUND
+      );
     }
 
     return rpdhsResource;

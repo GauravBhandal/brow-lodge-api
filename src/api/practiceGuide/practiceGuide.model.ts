@@ -19,6 +19,7 @@ class PracticeGuideModel<
   company!: PracticeGuide["company"];
   Company: PracticeGuide["Company"];
   Attachments: PracticeGuide["Attachments"];
+  archived: PracticeGuide["archived"];
 }
 
 modelManager.init(
@@ -33,6 +34,9 @@ modelManager.init(
     version: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

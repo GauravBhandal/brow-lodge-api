@@ -21,8 +21,8 @@ router.put(
   catchWrap(controller.updateRpdhsResource)
 );
 
-router.delete(
-  "/:rpdhsResourceId",
+router.put(
+  "/archive/:rpdhsResourceId",
   canDo("delete", "rpdhsResource"),
   rpdhsResourceSchems.deleteRpdhsResource,
   catchWrap(controller.deleteRpdhsResource)

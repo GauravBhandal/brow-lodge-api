@@ -59,7 +59,7 @@ class ClientProfileService {
       );
     }
 
-    if (props.contacts && props.contacts.length) {
+    if (props.contacts && props.contacts.length >= 0) {
       const updatedClientContacts = props.contacts.map(
         (clientContact: any) => ({
           ...clientContact,

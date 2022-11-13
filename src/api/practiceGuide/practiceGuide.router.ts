@@ -1,5 +1,4 @@
 import express from "express";
-
 import controller from "./practiceGuide.controller";
 import practiceGuideSchems from "./practiceGuide.schema";
 import { catchWrap } from "../../components/errors";
@@ -21,8 +20,8 @@ router.put(
   catchWrap(controller.updatePracticeGuide)
 );
 
-router.delete(
-  "/:practiceGuideId",
+router.put(
+  "/archive/:practiceGuideId",
   canDo("delete", "practiceGuide"),
   practiceGuideSchems.deletePracticeGuide,
   catchWrap(controller.deletePracticeGuide)
