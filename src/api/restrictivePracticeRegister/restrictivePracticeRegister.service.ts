@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import RestrictivePracticeRegisterModel from "./restrictivePracticeRegister.model";
 import {
@@ -131,8 +132,10 @@ class RestrictivePracticeRegisterService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          ...filters["Client"],
-          ...clientFilters,
+          [Op.and]: [
+            { ...filters["Client"] },
+            { ...clientFilters, }
+          ]
         },
       },
     ];
