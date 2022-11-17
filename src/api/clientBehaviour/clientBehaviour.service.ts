@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import ClientBehaviourModel from "./clientBehaviour.model";
 import {
@@ -130,8 +131,10 @@ class ClientBehaviourService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          ...filters["Client"],
-          ...clientFilters,
+          [Op.and]: [
+            { ...filters["Client"] },
+            { ...clientFilters, }
+          ]
         },
       },
     ];

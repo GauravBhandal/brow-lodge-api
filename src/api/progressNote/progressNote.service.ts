@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import ProgressNoteModel from "./progressNote.model";
 import {
@@ -163,8 +164,10 @@ class ProgressNoteService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          ...filters["Client"],
-          ...clientFilters,
+          [Op.and]: [
+            { ...filters["Client"] },
+            { ...clientFilters, }
+          ]
         },
         duplicating: true,
         required: true,
