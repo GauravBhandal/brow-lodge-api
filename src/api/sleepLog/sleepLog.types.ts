@@ -7,7 +7,7 @@ import { QueryParams } from "../../common/types";
 export interface SleepLog extends DefaultSchemaConfig {
   date: Date;
   time: Date;
-  activity: "sleep" | "awake";
+  activity: "sleep" | "awake" | "Unknown";
   comments?: string;
   staff: StaffProfile["id"];
   Staff?: StaffProfile;

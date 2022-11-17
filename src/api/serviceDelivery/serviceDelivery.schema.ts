@@ -13,6 +13,9 @@ const createServiceDeliverySchema = wrapSchema({
     service: requiredUUIDSchema(),
     notes: Joi.string().required(),
     claimType: Joi.string().required().allow(""),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 
@@ -27,6 +30,9 @@ const editServiceDeliverySchema = wrapSchema({
     service: requiredUUIDSchema(),
     notes: Joi.string().required(),
     claimType: Joi.string().required().allow(""),
+    attachments: Joi.array()
+      .items(Joi.string().uuid({ version: "uuidv4" }))
+      .allow("", null),
   }),
 });
 

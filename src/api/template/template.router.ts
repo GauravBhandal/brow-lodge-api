@@ -21,8 +21,8 @@ router.put(
   catchWrap(controller.updateTemplate)
 );
 
-router.delete(
-  "/:templateId",
+router.put(
+  "/archive/:templateId",
   canDo("delete", "template"),
   templateSchems.deleteTemplate,
   catchWrap(controller.deleteTemplate)
