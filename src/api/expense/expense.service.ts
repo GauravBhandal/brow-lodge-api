@@ -1,4 +1,5 @@
 import { omit as _omit } from "lodash";
+import { Op } from "sequelize";
 
 import ExpenseModel from "./expense.model";
 import {
@@ -136,14 +137,6 @@ class ExpenseService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
     const clientFilters = await addCientFiltersByTeams(userId, company);
-  
-
-     // func to check for optional clients that to apply team permissions or not
-     const checkClientPermissions = () => {
-      if (Object.keys(clientFilters).length !== 0) {
-        return { right: true };
-      }
-    };
 
     const include = [
       {
@@ -160,10 +153,12 @@ class ExpenseService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          ...clientFilters,
+          [Op.and]: [
+            { ...filters["Client"] },
+            { ...clientFilters, }
+          ]
         },
-        required: false,
-        ...checkClientPermissions(),
+        required: (filters["Client"] && Object.keys(filters["Client"]).length) || (Object.keys(clientFilters).length) ? true : false,
       },
     ];
 
