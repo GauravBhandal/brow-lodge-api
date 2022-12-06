@@ -152,6 +152,26 @@ class PracticeGuideService {
     return updatedPracticeGuide;
   }
 
+  async deleteArchivePracticeGuide(props: DeletePracticeGuideProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the practiceGuide by id and company
+    const practiceGuide = await PracticeGuideModel.destroy({
+      where: { id, company },
+    });
+
+    // if practiceGuide has been deleted, throw an error
+    if (!practiceGuide) {
+      throw new CustomError(
+        404,
+        PracticeGuideErrorCode.PRACTICE_GUIDE_NOT_FOUND
+      );
+    }
+
+    return practiceGuide;
+  }
+
   async getPracticeGuideById(props: GetPracticeGuideByIdProps) {
     // Props
     const { id, company } = props;
