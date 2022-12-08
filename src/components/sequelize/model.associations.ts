@@ -76,6 +76,7 @@ import { ExternalContractModel } from "../../api/externalContract";
 import { RegulatoryComplianceModel } from "../../api/regulatoryCompliance";
 import { MedicationRegisterModel } from "../../api/medicationRegister";
 import { ContinuousImprovementModel } from "../../api/continuousImprovement";
+import { RestrictivePracticeLogTypeModel } from "../../api/restrictivePracticeLog/restrictivePracticeLogType";
 
 export default {
   initialize() {
@@ -809,6 +810,11 @@ function initializeRestrictivePracticeLogModelAssociations() {
   RestrictivePracticeLogModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
     as: "Client",
+  });
+  RestrictivePracticeLogModel.hasMany(RestrictivePracticeLogTypeModel, {
+    foreignKey: "restrictive_practice_log",
+    sourceKey: "id",
+    as: 'Types',
   });
 }
 
