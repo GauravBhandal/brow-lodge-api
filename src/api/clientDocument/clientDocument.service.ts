@@ -114,20 +114,20 @@ class ClientDocumentService {
     // Props
     const { id, company } = props;
 
-    // Find and delete the clientBehaviour by id and company
-    const clientBehaviour = await ClientDocumentModel.destroy({
+    // Find and delete the clientDocument by id and company
+    const clientDocument = await ClientDocumentModel.destroy({
       where: { id, company },
     });
 
-    // if clientBehaviour has been deleted, throw an error
-    if (!clientBehaviour) {
+    // if clientDocument has been deleted, throw an error
+    if (!clientDocument) {
       throw new CustomError(
         404,
         ClientDocumentErrorCode.CLIENT_DOCUMENT_NOT_FOUND
       );
     }
 
-    return clientBehaviour;
+    return clientDocument;
   }
 
   async deleteClientDocument(props: DeleteClientDocumentProps) {

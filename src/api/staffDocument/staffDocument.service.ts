@@ -114,20 +114,20 @@ class StaffDocumentService {
     // Props
     const { id, company } = props;
 
-    // Find and delete the clientBehaviour by id and company
-    const clientBehaviour = await StaffDocumentModel.destroy({
+    // Find and delete the staffDocument by id and company
+    const staffDocument = await StaffDocumentModel.destroy({
       where: { id, company },
     });
 
     // if clientBehaviour has been deleted, throw an error
-    if (!clientBehaviour) {
+    if (!staffDocument) {
       throw new CustomError(
         404,
         StaffDocumentErrorCode.STAFF_DOCUMENT_NOT_FOUND
       );
     }
 
-    return clientBehaviour;
+    return staffDocument;
   }
 
   async deleteStaffDocument(props: DeleteStaffDocumentProps) {
