@@ -337,6 +337,13 @@ class InvoiceService {
       return services[index + 1].shift_records_services.dataValues.start_time;
     };
 
+    // Invoice dates
+    const invoiceDate = formatDateToString(new Date(), timezone);
+    const invoiceDueDate = formatDateToString(
+      addTimeToDate(new Date(), 6, "days", timezone),
+      timezone
+    );
+
     // Map the total hours per service per client
     allInvoices.forEach((invoice: InvoiceType) => {
       if (invoice?.Shift?.Services && invoice?.Client) {
@@ -351,38 +358,41 @@ class InvoiceService {
         const client = invoice.Client;
         // Create a new key in result object for every client
         if (client.accountingCode && !result[client.accountingCode]) {
-          result[client.accountingCode] = {};
+          result[client.accountingCode] = {
+            referenceData: `${client.firstName} ${client.lastName} - ${client.ndisNumber}`,
+            services: {}
+          };
         }
 
         // Calculate hours for every service and add it to result object
         services.forEach((service: any, index: Number) => {
           if (client.accountingCode) {
-            result[client.accountingCode][service.code] =
-              (result[client.accountingCode][service.code] || 0) +
+            if (!result[client.accountingCode]['services'][service.code]) {
+              result[client.accountingCode]['services'][service.code] = {
+                amount: 0,
+                details: `${service.code} : ${invoiceDate} - ${invoiceDueDate}`
+              }
+            }
+            result[client.accountingCode]['services'][service.code]['amount'] =
+              (result[client.accountingCode]['services'][service.code] || 0) +
               (service.rateType === "Fixed"
                 ? 1
                 : getMinutesDiff(
-                    service.shift_records_services.dataValues.start_time, // TODO: This is messy
-                    getEndTime(index, services.length, services, invoice),
-                    timezone
-                  ) / 60);
+                  service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                  getEndTime(index, services.length, services, invoice),
+                  timezone
+                ) / 60);
           }
         });
       }
     });
-
-    // Invoice dates
-    const invoiceDate = formatDateToString(new Date(), timezone);
-    const invoiceDueDate = formatDateToString(
-      addTimeToDate(new Date(), 13, "days", timezone),
-      timezone
-    );
-
+    console.log('result', result)
     // Helper fn. to result invoice line item as per Xero format
     const getLineItems = (services: any) => {
       const finalLineItems = Object.keys(services).map((service) => ({
-        quantity: services[service],
+        quantity: services[service]['amount'],
         itemCode: service,
+        description: services[service]['details']
       }));
       return finalLineItems;
     };
@@ -396,8 +406,9 @@ class InvoiceService {
         },
         date: invoiceDate,
         dueDate: invoiceDueDate,
-        lineItems: getLineItems(result[clientId]),
+        lineItems: getLineItems(result[clientId]['services']),
         status: Invoice.StatusEnum.DRAFT,
+        reference: result[clientId]['referenceData']
       };
       formattedInvoices.push(invoice);
     });
@@ -482,10 +493,10 @@ class InvoiceService {
             service.rateType === "Fixed"
               ? 1
               : getMinutesDiff(
-                  service.shift_records_services.dataValues.start_time, // TODO: This is messy
-                  getEndTime(index, services.length, services, invoice),
-                  timezone
-                ) / 60;
+                service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                getEndTime(index, services.length, services, invoice),
+                timezone
+              ) / 60;
           if (!parsedServiceData[client.id][service.id]) {
             parsedServiceData[client.id][service.id] = {
               service,
@@ -549,6 +560,7 @@ class InvoiceService {
       allInvoices,
       companyData.timezone
     );
+    console.log('formatedInvoices', formatedInvoices)
     const invoices: Invoices = {
       invoices: formatedInvoices,
     };
