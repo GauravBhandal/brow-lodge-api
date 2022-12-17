@@ -44,6 +44,18 @@ class ClientDocumentController {
     res.status(204).json();
   }
 
+  async deleteArchiveClientDocument(req: Request, res: Response) {
+    const { clientDocumentId } = req.params;
+    const props = {
+      id: clientDocumentId,
+      company: req.auth.companyId,
+    };
+
+    await clientDocumentService.deleteArchiveClientDocument(props);
+
+    res.status(204).json();
+  }
+
   async getclientDocumentById(req: Request, res: Response) {
     const { clientDocumentId } = req.params;
     const props = {

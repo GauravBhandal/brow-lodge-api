@@ -40,6 +40,18 @@ class StaffDocumentController {
     res.status(204).json();
   }
 
+  async deleteArchiveStaffDocument(req: Request, res: Response) {
+    const { staffDocumentId } = req.params;
+    const props = {
+      id: staffDocumentId,
+      company: req.auth.companyId,
+    };
+
+    await staffDocumentService.deleteArchiveStaffDocument(props);
+
+    res.status(204).json();
+  }
+
   async getstaffDocumentById(req: Request, res: Response) {
     const { staffDocumentId } = req.params;
     const props = {

@@ -41,6 +41,12 @@ const deleteClientDocumentSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveClientDocument = wrapSchema({
+  params: Joi.object().keys({
+    clientDocumentId: requiredUUIDSchema(),
+  }),
+});
+
 const getClientDocumentByIdSchema = wrapSchema({
   params: Joi.object().keys({
     clientDocumentId: requiredUUIDSchema(),
@@ -60,6 +66,7 @@ export default {
   createClientDocument: joiMiddleware(createClientDocumentSchema),
   editClientDocument: joiMiddleware(editClientDocumentSchema),
   deleteClientDocument: joiMiddleware(deleteClientDocumentSchema),
+  deleteArchiveClientDocument: joiMiddleware(deleteArchiveClientDocument),
   getClientDocumentById: joiMiddleware(getClientDocumentByIdSchema),
   getClientDocuments: joiMiddleware(getClientDocumentSchema),
 };
