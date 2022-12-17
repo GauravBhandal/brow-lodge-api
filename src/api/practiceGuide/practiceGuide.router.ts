@@ -27,6 +27,13 @@ router.put(
   catchWrap(controller.deletePracticeGuide)
 );
 
+router.delete(
+  "/:practiceGuideId",
+  canDo("delete", "practiceGuide"),
+  practiceGuideSchems.deleteArchivePracticeGuide,
+  catchWrap(controller.deleteArchivePracticeGuide)
+);
+
 router.get(
   "/:practiceGuideId",
   canDo("read", "practiceGuide"),

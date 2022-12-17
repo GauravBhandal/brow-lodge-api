@@ -32,6 +32,12 @@ const deletePracticeGuideSchema = wrapSchema({
   }),
 });
 
+const deleteArchivePracticeGuideSchema = wrapSchema({
+  params: Joi.object().keys({
+    practiceGuideId: requiredUUIDSchema(),
+  }),
+});
+
 const getPracticeGuideByIdSchema = wrapSchema({
   params: Joi.object().keys({
     practiceGuideId: requiredUUIDSchema(),
@@ -51,6 +57,7 @@ export default {
   createPracticeGuide: joiMiddleware(createPracticeGuideSchema),
   editPracticeGuide: joiMiddleware(editPracticeGuideSchema),
   deletePracticeGuide: joiMiddleware(deletePracticeGuideSchema),
+  deleteArchivePracticeGuide: joiMiddleware(deleteArchivePracticeGuideSchema),
   getPracticeGuideById: joiMiddleware(getPracticeGuideByIdSchema),
   getPracticeGuides: joiMiddleware(getPracticeGuideSchema),
 };
