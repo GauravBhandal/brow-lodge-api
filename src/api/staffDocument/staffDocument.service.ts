@@ -10,6 +10,7 @@ import {
   GetStaffDocumentByTypeProps,
   GetStaffDocumentByCategoryProps,
   GetStaffDocumentsProps,
+  DeleteArchiveStaffDocumentProps,
 } from "./staffDocument.types";
 import { CustomError } from "../../components/errors";
 import StaffDocumentErrorCode from "./staffDocument.error";
@@ -107,6 +108,26 @@ class StaffDocumentService {
       });
     }
     return updatedStaffDocument;
+  }
+
+  async deleteArchiveStaffDocument(props: DeleteArchiveStaffDocumentProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the clientBehaviour by id and company
+    const clientBehaviour = await StaffDocumentModel.destroy({
+      where: { id, company },
+    });
+
+    // if clientBehaviour has been deleted, throw an error
+    if (!clientBehaviour) {
+      throw new CustomError(
+        404,
+        StaffDocumentErrorCode.STAFF_DOCUMENT_NOT_FOUND
+      );
+    }
+
+    return clientBehaviour;
   }
 
   async deleteStaffDocument(props: DeleteStaffDocumentProps) {

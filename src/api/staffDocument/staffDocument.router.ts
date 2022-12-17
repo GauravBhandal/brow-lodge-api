@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateStaffDocument)
 );
 
+router.delete(
+  "/:staffDocumentId",
+  canDo("delete", "staffDocument"),
+  staffDocumentSchems.deleteArchiveStaffDocument,
+  catchWrap(controller.deleteArchiveStaffDocument)
+);
+
 router.put(
   "/archive/:staffDocumentId",
   canDo("delete", "staffDocument"),
