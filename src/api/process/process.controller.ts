@@ -40,6 +40,18 @@ class ProcessController {
     res.status(204).json();
   }
 
+  async deleteArchiveProcess(req: Request, res: Response) {
+    const { processId } = req.params;
+    const props = {
+      id: processId,
+      company: req.auth.companyId,
+    };
+
+    await processService.deleteArchiveProcess(props);
+
+    res.status(204).json();
+  }
+
   async getprocessById(req: Request, res: Response) {
     const { processId } = req.params;
     const props = {

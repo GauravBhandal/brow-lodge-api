@@ -33,6 +33,12 @@ const deleteProcessSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveProcessSchema = wrapSchema({
+  params: Joi.object().keys({
+    processId: requiredUUIDSchema(),
+  }),
+});
+
 const getProcessByIdSchema = wrapSchema({
   params: Joi.object().keys({
     processId: requiredUUIDSchema(),
@@ -52,6 +58,7 @@ export default {
   createProcess: joiMiddleware(createProcessSchema),
   editProcess: joiMiddleware(editProcessSchema),
   deleteProcess: joiMiddleware(deleteProcessSchema),
+  deleteArchiveProcess: joiMiddleware(deleteArchiveProcessSchema),
   getProcessById: joiMiddleware(getProcessByIdSchema),
   getProcesses: joiMiddleware(getProcessSchema),
 };
