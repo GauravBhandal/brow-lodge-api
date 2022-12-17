@@ -151,6 +151,26 @@ class RpdhsResourceService {
     return updatedRpdhsResource;
   }
 
+  async deleteArchiveRpdhsResource(props: DeleteRpdhsResourceProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the rpdhsResource by id and company
+    const rpdhsResource = await RpdhsResourceModel.destroy({
+      where: { id, company },
+    });
+
+    // if rpdhsResource has been deleted, throw an error
+    if (!rpdhsResource) {
+      throw new CustomError(
+        404,
+        RpdhsResourceErrorCode.RPDHS_RESOURCE_NOT_FOUND
+      );
+    }
+
+    return rpdhsResource;
+  }
+
   async getRpdhsResourceById(props: GetRpdhsResourceByIdProps) {
     // Props
     const { id, company } = props;
