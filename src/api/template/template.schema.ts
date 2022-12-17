@@ -37,6 +37,12 @@ const deleteTemplateSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveTemplateSchema = wrapSchema({
+  params: Joi.object().keys({
+    templateId: requiredUUIDSchema(),
+  }),
+});
+
 const getTemplateByIdSchema = wrapSchema({
   params: Joi.object().keys({
     templateId: requiredUUIDSchema(),
@@ -56,6 +62,7 @@ export default {
   createTemplate: joiMiddleware(createTemplateSchema),
   editTemplate: joiMiddleware(editTemplateSchema),
   deleteTemplate: joiMiddleware(deleteTemplateSchema),
+  deleteArchiveTemplate: joiMiddleware(deleteArchiveTemplateSchema),
   getTemplateById: joiMiddleware(getTemplateByIdSchema),
   getTemplates: joiMiddleware(getTemplateSchema),
 };

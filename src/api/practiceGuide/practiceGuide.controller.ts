@@ -40,6 +40,18 @@ class PracticeGuideController {
     res.status(204).json();
   }
 
+  async deleteArchivePracticeGuide(req: Request, res: Response) {
+    const { practiceGuideId } = req.params;
+    const props = {
+      id: practiceGuideId,
+      company: req.auth.companyId,
+    };
+
+    await practiceGuideService.deleteArchivePracticeGuide(props);
+
+    res.status(204).json();
+  }
+
   async getpracticeGuideById(req: Request, res: Response) {
     const { practiceGuideId } = req.params;
     const props = {
