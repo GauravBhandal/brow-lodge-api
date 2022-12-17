@@ -28,6 +28,13 @@ router.put(
   catchWrap(controller.deleteTemplate)
 );
 
+router.delete(
+  "/:templateId",
+  canDo("delete", "template"),
+  templateSchems.deleteArchiveTemplate,
+  catchWrap(controller.deleteArchiveTemplate)
+);
+
 router.get(
   "/:templateId",
   canDo("read", "template"),
