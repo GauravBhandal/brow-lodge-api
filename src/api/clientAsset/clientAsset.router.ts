@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateClientAsset)
 );
 
+router.put(
+  "/archive/:clientAssetId",
+  canDo("delete", "clientAsset"),
+  clientAssetSchems.deleteArchiveClientAsset,
+  catchWrap(controller.deleteArchiveClientAsset)
+);
+
 router.delete(
   "/:clientAssetId",
   canDo("delete", "clientAsset"),
