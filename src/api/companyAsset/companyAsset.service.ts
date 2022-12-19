@@ -66,6 +66,53 @@ class CompanyAssetService {
     return updatedCompanyAsset;
   }
 
+  async deleteArchiveCompanyAsset(props: DeleteCompanyAssetProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the companyAsset by id and company
+    const companyAsset = await CompanyAssetModel.findOne({
+      where: { id, company },
+    });
+
+    // if companyAsset has been deleted, throw an error
+    if (!companyAsset) {
+      throw new CustomError(404, CompanyAssetErrorCode.COMPANY_ASSET_NOT_FOUND);
+    }
+
+    if (companyAsset.archived) {
+      // Check if companyAsset already exists
+      const existingCompanyAsset = await CompanyAssetModel.findAll({
+        where: {
+          date: companyAsset.date,
+          staff: companyAsset.staff,
+          assetName: companyAsset.assetName,
+          location: companyAsset.location,
+          company: companyAsset.company,
+          archived: false,
+        },
+      });
+
+      if (existingCompanyAsset.length > 0) {
+        throw new CustomError(
+          409,
+          CompanyAssetErrorCode.COMPANY_ASSET_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the companyAsset update the Archive state
+    const [, [updatedCompanyAsset]] = await CompanyAssetModel.update(
+      { archived: !companyAsset.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedCompanyAsset;
+  }
+
   async deleteCompanyAsset(props: DeleteCompanyAssetProps) {
     // Props
     const { id, company } = props;
