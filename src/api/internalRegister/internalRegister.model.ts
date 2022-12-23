@@ -23,6 +23,7 @@ class InternalRegisterModel<
   company!: InternalRegister["company"];
   Company: InternalRegister["Company"];
   Attachments: InternalRegister["Attachments"];
+  archived: InternalRegister["archived"];
 }
 
 modelManager.init(
@@ -40,6 +41,9 @@ modelManager.init(
     version: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
