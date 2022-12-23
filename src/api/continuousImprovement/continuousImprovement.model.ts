@@ -28,6 +28,7 @@ class ContinuousImprovementModel<
   comments: ContinuousImprovement["comments"];
   company!: ContinuousImprovement["company"];
   Company: ContinuousImprovement["Company"];
+  archived: ContinuousImprovement["archived"];
 }
 
 modelManager.init(
@@ -42,6 +43,7 @@ modelManager.init(
     dueDate: { type: Sequelize.DATE },
     nextReviewDate: { type: Sequelize.DATE },
     comments: { type: Sequelize.STRING },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {
