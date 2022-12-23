@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateWhsLog)
 );
 
+router.put(
+  "/archive/:whsLogId",
+  canDo("delete", "whsLog"),
+  whsLogSchems.deleteArchiveWhsLog,
+  catchWrap(controller.deleteArchiveWhsLog)
+);
+
 router.delete(
   "/:whsLogId",
   canDo("delete", "whsLog"),
