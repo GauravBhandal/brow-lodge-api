@@ -13,6 +13,7 @@ export interface KeyDecision extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  archived?: boolean;
 }
 
 export interface CreateKeyDecisionProps {

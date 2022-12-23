@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateCorporateRisk)
 );
 
+router.put(
+  "/archive/:corporateRiskId",
+  canDo("delete", "corporateRisk"),
+  corporateRiskSchems.deleteArchiveCorporateRisk,
+  catchWrap(controller.deleteArchiveCorporateRisk)
+);
+
 router.delete(
   "/:corporateRiskId",
   canDo("delete", "corporateRisk"),
