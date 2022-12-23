@@ -38,6 +38,12 @@ const deleteLegislationRegisterSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveLegislationRegisterSchema = wrapSchema({
+  params: Joi.object().keys({
+    legislationRegisterId: requiredUUIDSchema(),
+  }),
+});
+
 const getLegislationRegisterByIdSchema = wrapSchema({
   params: Joi.object().keys({
     legislationRegisterId: requiredUUIDSchema(),
@@ -57,6 +63,9 @@ export default {
   createLegislationRegister: joiMiddleware(createLegislationRegisterSchema),
   editLegislationRegister: joiMiddleware(editLegislationRegisterSchema),
   deleteLegislationRegister: joiMiddleware(deleteLegislationRegisterSchema),
+  deleteArchiveLegislationRegister: joiMiddleware(
+    deleteArchiveLegislationRegisterSchema
+  ),
   getLegislationRegisterById: joiMiddleware(getLegislationRegisterByIdSchema),
   getLegislationRegisters: joiMiddleware(getLegislationRegisterSchema),
 };
