@@ -41,6 +41,17 @@ class RegulatoryComplianceController {
 
     res.status(204).json();
   }
+  async deleteArchiveRegulatoryCompliance(req: Request, res: Response) {
+    const { regulatoryComplianceId } = req.params;
+    const props = {
+      id: regulatoryComplianceId,
+      company: req.auth.companyId,
+    };
+
+    await regulatoryComplianceService.deleteArchiveRegulatoryCompliance(props);
+
+    res.status(204).json();
+  }
 
   async getregulatoryComplianceById(req: Request, res: Response) {
     const { regulatoryComplianceId } = req.params;

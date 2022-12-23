@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateRegulatoryCompliance)
 );
 
+router.put(
+  "/archive/:regulatoryComplianceId",
+  canDo("delete", "regulatoryCompliance"),
+  regulatoryComplianceSchems.deleteArchiveRegulatoryCompliance,
+  catchWrap(controller.deleteArchiveRegulatoryCompliance)
+);
+
 router.delete(
   "/:regulatoryComplianceId",
   canDo("delete", "regulatoryCompliance"),
