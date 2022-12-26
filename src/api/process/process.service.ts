@@ -134,6 +134,23 @@ class ProcessService {
     return updatedProcess;
   }
 
+  async deleteArchiveProcess(props: DeleteProcessProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the process by id and company
+    const process = await ProcessModel.destroy({
+      where: { id, company },
+    });
+
+    // if process has been deleted, throw an error
+    if (!process) {
+      throw new CustomError(404, ProcessErrorCode.PROCESS_NOT_FOUND);
+    }
+
+    return process;
+  }
+
   async getProcessById(props: GetProcessByIdProps) {
     // Props
     const { id, company } = props;

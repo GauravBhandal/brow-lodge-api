@@ -33,6 +33,12 @@ const deleteRpdhsResourceSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveRpdhsResourceSchema = wrapSchema({
+  params: Joi.object().keys({
+    rpdhsResourceId: requiredUUIDSchema(),
+  }),
+});
+
 const getRpdhsResourceByIdSchema = wrapSchema({
   params: Joi.object().keys({
     rpdhsResourceId: requiredUUIDSchema(),
@@ -52,6 +58,7 @@ export default {
   createRpdhsResource: joiMiddleware(createRpdhsResourceSchema),
   editRpdhsResource: joiMiddleware(editRpdhsResourceSchema),
   deleteRpdhsResource: joiMiddleware(deleteRpdhsResourceSchema),
+  deleteArchiveRpdhsResource: joiMiddleware(deleteArchiveRpdhsResourceSchema),
   getRpdhsResourceById: joiMiddleware(getRpdhsResourceByIdSchema),
   getRpdhsResources: joiMiddleware(getRpdhsResourceSchema),
 };

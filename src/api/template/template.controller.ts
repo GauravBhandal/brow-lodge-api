@@ -40,6 +40,18 @@ class TemplateController {
     res.status(204).json();
   }
 
+  async deleteArchiveTemplate(req: Request, res: Response) {
+    const { templateId } = req.params;
+    const props = {
+      id: templateId,
+      company: req.auth.companyId,
+    };
+
+    await templateService.deleteArchiveTemplate(props);
+
+    res.status(204).json();
+  }
+
   async gettemplateById(req: Request, res: Response) {
     const { templateId } = req.params;
     const props = {
