@@ -23,6 +23,7 @@ class RepairRequestModel<
   company!: RepairRequest["company"];
   Company: RepairRequest["Company"];
   Attachments: RepairRequest["Attachments"];
+  archived: RepairRequest["archived"];
 }
 
 modelManager.init(
@@ -48,6 +49,9 @@ modelManager.init(
     status: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
