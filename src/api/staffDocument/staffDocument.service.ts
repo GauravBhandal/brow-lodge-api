@@ -249,11 +249,11 @@ class StaffDocumentService {
   async getStaffDocuments(props: GetStaffDocumentsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
-
+    console.log('where', where)
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     let filters = getFilters(where);
-
+    console.log('filters', filters)
     // Only return archived results if filters contains archived
 
     if (filters.Staff) {

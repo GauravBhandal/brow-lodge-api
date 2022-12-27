@@ -6,6 +6,7 @@ import {
   UpdateAlertConfigurationProps,
   DeleteAlertConfigurationProps,
   GetAlertConfigurationsProps,
+  GetAlertConfigurationByNameProps,
 } from "./alertConfiguration.types";
 
 class AlertConfigurationService {
@@ -58,6 +59,26 @@ class AlertConfigurationService {
     });
 
     return data;
+  }
+
+  async getAlertConfigurationByName(props: GetAlertConfigurationByNameProps) {
+    // Props
+    const { company, name } = props;
+
+    // Find all alertConfigurations for matching props and company
+    const alertConfiguration = await AlertConfigurationModel.findAll({
+      where: {
+        company,
+      },
+    });
+
+    if (!alertConfiguration) {
+      return {};
+    }
+
+    const getAlertByName = alertConfiguration.find(alert => alert.name === name);
+
+    return getAlertByName;
   }
 }
 

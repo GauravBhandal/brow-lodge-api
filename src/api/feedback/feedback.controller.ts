@@ -1,18 +1,42 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import sendEmail from "../../components/email";
+import { alertConfigurationService } from "../alertConfiguration";
 
 import feedbackService from "./feedback.service";
 
 class FeedbackController {
   async createFeedback(req: Request, res: Response) {
+    const company = req.auth.companyId;
     const props = {
-      company: req.auth.companyId,
+      company,
       ...req.body,
     };
 
-    const feedback = await feedbackService.createFeedback(props);
+    // const feedback = await feedbackService.createFeedback(props);
 
-    res.status(200).json(feedback);
+    const alertNotificationData: any = await alertConfigurationService.getAlertConfigurationByName({ company, name: 'feedback' });
+    if (Object.keys(alertNotificationData || {}).length) {
+      const { transport = {} } = alertNotificationData;
+      console.log('alertNotificationData', alertNotificationData)
+      const emailBody = `
+      Hi user!
+      <br>  
+      <br>  
+      New feedback form is created recently please check it once!
+      <br>
+      <br>  
+      Best Regards,
+      <br>
+      Team Care Diary
+        `;
+      console.log('transport', transport)
+      if (transport.primaryEmail) {
+        // sendEmail(transport.primaryEmail, emailBody)
+      }
+    }
+    console.log('alertNotificationData22', alertNotificationData)
+    res.status(200).json({});
   }
 
   async updateFeedback(req: Request, res: Response) {
