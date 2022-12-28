@@ -48,6 +48,53 @@ class KeyDecisionService {
     return updatedKeyDecision;
   }
 
+  async deleteArchiveKeyDecision(props: DeleteKeyDecisionProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the keyDecision by id and company
+    const keyDecision = await KeyDecisionModel.findOne({
+      where: { id, company },
+    });
+
+    // if keyDecision has been deleted, throw an error
+    if (!keyDecision) {
+      throw new CustomError(404, KeyDecisionErrorCode.KEY_DECISION_NOT_FOUND);
+    }
+
+    if (keyDecision.archived) {
+      // Check if document already exists
+      const existingKeyDecision = await KeyDecisionModel.findAll({
+        where: {
+          date: keyDecision.date,
+          decisionRationale: keyDecision.decisionRationale,
+          staff: keyDecision.staff,
+          description: keyDecision.description,
+          company: keyDecision.company,
+          archived: false,
+        },
+      });
+
+      if (existingKeyDecision.length > 0) {
+        throw new CustomError(
+          409,
+          KeyDecisionErrorCode.KEY_DECISION_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the keyDecision update the Archive state
+    const [, [updatedKeyDecision]] = await KeyDecisionModel.update(
+      { archived: !keyDecision.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedKeyDecision;
+  }
+
   async deleteKeyDecision(props: DeleteKeyDecisionProps) {
     // Props
     const { id, company } = props;

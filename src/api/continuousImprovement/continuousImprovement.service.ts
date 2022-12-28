@@ -52,6 +52,62 @@ class ContinuousImprovementService {
     return updatedContinuousImprovement;
   }
 
+  async deleteArchiveContinuousImprovement(
+    props: DeleteContinuousImprovementProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the continuousImprovement by id and company
+    const continuousImprovement = await ContinuousImprovementModel.findOne({
+      where: { id, company },
+    });
+
+    // if continuousImprovement has been deleted, throw an error
+    if (!continuousImprovement) {
+      throw new CustomError(
+        404,
+        ContinuousImprovementErrorCode.CONTINUOUS_IMPROVEMENT_NOT_FOUND
+      );
+    }
+
+    if (continuousImprovement.archived) {
+      // Check if document already exists
+      const existingContinuousImprovement =
+        await ContinuousImprovementModel.findAll({
+          where: {
+            date: continuousImprovement.date,
+            source: continuousImprovement.source,
+            improvement: continuousImprovement.improvement,
+            action: continuousImprovement.action,
+            staff: continuousImprovement.staff,
+            status: continuousImprovement.status,
+            company: continuousImprovement.company,
+            archived: false,
+          },
+        });
+
+      if (existingContinuousImprovement.length > 0) {
+        throw new CustomError(
+          409,
+          ContinuousImprovementErrorCode.CONTINUOUS_IMPROVEMENT_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the continuousImprovement update the Archive state
+    const [, [updatedContinuousImprovement]] =
+      await ContinuousImprovementModel.update(
+        { archived: !continuousImprovement.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedContinuousImprovement;
+  }
+
   async deleteContinuousImprovement(props: DeleteContinuousImprovementProps) {
     // Props
     const { id, company } = props;
