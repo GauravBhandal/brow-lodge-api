@@ -24,6 +24,7 @@ class ClientAssetModel<
   company!: ClientAsset["company"];
   Company: ClientAsset["Company"];
   Attachments: ClientAsset["Attachments"];
+  archived: ClientAsset["archived"];
 }
 
 modelManager.init(
@@ -44,6 +45,9 @@ modelManager.init(
     },
     description: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
