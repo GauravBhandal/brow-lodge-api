@@ -42,6 +42,12 @@ const deleteRepairRequestSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveRepairRequestSchema = wrapSchema({
+  params: Joi.object().keys({
+    repairRequestId: requiredUUIDSchema(),
+  }),
+});
+
 const getRepairRequestByIdSchema = wrapSchema({
   params: Joi.object().keys({
     repairRequestId: requiredUUIDSchema(),
@@ -61,6 +67,7 @@ export default {
   createRepairRequest: joiMiddleware(createRepairRequestSchema),
   editRepairRequest: joiMiddleware(editRepairRequestSchema),
   deleteRepairRequest: joiMiddleware(deleteRepairRequestSchema),
+  deleteArchiveRepairRequest: joiMiddleware(deleteArchiveRepairRequestSchema),
   getRepairRequestById: joiMiddleware(getRepairRequestByIdSchema),
   getRepairRequests: joiMiddleware(getRepairRequestSchema),
 };
