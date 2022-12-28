@@ -38,9 +38,21 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "continuous_improvements" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "corporate_risks" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "key_decisions" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "key_decisions"
+DROP COLUMN "archived";
+
+ALTER TABLE "corporate_risks"
+DROP COLUMN "archived";
+
 ALTER TABLE "continuous_improvements"
 DROP COLUMN "archived";
 
@@ -64,6 +76,8 @@ DROP COLUMN "archived";
 
 ALTER TABLE "restrictive_practice_logs_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "restrictive_practice_logs_types";
+
+
 
 `;
 
