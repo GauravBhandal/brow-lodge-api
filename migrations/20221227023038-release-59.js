@@ -47,9 +47,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "internal_registers" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "legislation_registers" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "legislation_registers"
+DROP COLUMN "archived";
+
 ALTER TABLE "internal_registers"
 DROP COLUMN "archived";
 
