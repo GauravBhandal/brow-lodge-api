@@ -49,7 +49,7 @@ class RegulatoryComplianceService {
     if (!regulatoryCompliance) {
       throw new CustomError(
         404,
-        RegulatoryComplianceErrorCode.REGULATORY_COMPLIANCE
+        RegulatoryComplianceErrorCode.REGULATORY_COMPLIANCE_NOT_FOUND
       );
     }
 
@@ -73,6 +73,60 @@ class RegulatoryComplianceService {
     return updatedRegulatoryCompliance;
   }
 
+  async deleteArchiveRegulatoryCompliance(
+    props: DeleteRegulatoryComplianceProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the regulatoryCompliance by id and company
+    const regulatoryCompliance = await RegulatoryComplianceModel.findOne({
+      where: { id, company },
+    });
+
+    // if regulatoryCompliance has been deleted, throw an error
+    if (!regulatoryCompliance) {
+      throw new CustomError(
+        404,
+        RegulatoryComplianceErrorCode.REGULATORY_COMPLIANCE_NOT_FOUND
+      );
+    }
+
+    if (regulatoryCompliance.archived) {
+      // Check if document already exists
+      const existingRegulatoryCompliance =
+        await RegulatoryComplianceModel.findAll({
+          where: {
+            date: regulatoryCompliance.date,
+            staff: regulatoryCompliance.staff,
+            title: regulatoryCompliance.title,
+            category: regulatoryCompliance.category,
+            company: regulatoryCompliance.company,
+            archived: false,
+          },
+        });
+
+      if (existingRegulatoryCompliance.length > 0) {
+        throw new CustomError(
+          409,
+          RegulatoryComplianceErrorCode.REGULATORY_COMPLIANCE_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the regulatoryCompliance update the Archive state
+    const [, [updatedRegulatoryCompliance]] =
+      await RegulatoryComplianceModel.update(
+        { archived: !regulatoryCompliance.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedRegulatoryCompliance;
+  }
+
   async deleteRegulatoryCompliance(props: DeleteRegulatoryComplianceProps) {
     // Props
     const { id, company } = props;
@@ -86,7 +140,7 @@ class RegulatoryComplianceService {
     if (!regulatoryCompliance) {
       throw new CustomError(
         404,
-        RegulatoryComplianceErrorCode.REGULATORY_COMPLIANCE
+        RegulatoryComplianceErrorCode.REGULATORY_COMPLIANCE_NOT_FOUND
       );
     }
 
@@ -121,7 +175,7 @@ class RegulatoryComplianceService {
     if (!regulatoryCompliance) {
       throw new CustomError(
         404,
-        RegulatoryComplianceErrorCode.REGULATORY_COMPLIANCE
+        RegulatoryComplianceErrorCode.REGULATORY_COMPLIANCE_NOT_FOUND
       );
     }
 
