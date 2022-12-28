@@ -32,9 +32,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "client_assets" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "conflict_of_interests" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "conflict_of_interests"
+DROP COLUMN "archived";
+
 ALTER TABLE "client_assets"
 DROP COLUMN "archived";
 
