@@ -42,6 +42,18 @@ class InternalRegisterController {
     res.status(204).json();
   }
 
+  async deleteArchiveInternalRegister(req: Request, res: Response) {
+    const { internalRegisterId } = req.params;
+    const props = {
+      id: internalRegisterId,
+      company: req.auth.companyId,
+    };
+
+    await internalRegisterService.deleteArchiveInternalRegister(props);
+
+    res.status(204).json();
+  }
+
   async getinternalRegisterById(req: Request, res: Response) {
     const { internalRegisterId } = req.params;
     const props = {

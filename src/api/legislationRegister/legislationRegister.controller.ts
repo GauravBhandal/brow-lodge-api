@@ -42,6 +42,18 @@ class LegislationRegisterController {
     res.status(204).json();
   }
 
+  async deleteArchiveLegislationRegister(req: Request, res: Response) {
+    const { legislationRegisterId } = req.params;
+    const props = {
+      id: legislationRegisterId,
+      company: req.auth.companyId,
+    };
+
+    await legislationRegisterService.deleteArchiveLegislationRegister(props);
+
+    res.status(204).json();
+  }
+
   async getlegislationRegisterById(req: Request, res: Response) {
     const { legislationRegisterId } = req.params;
     const props = {

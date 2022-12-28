@@ -17,12 +17,23 @@ import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { restrictivePracticeLogStaffProfileService } from "./restrictivePracticeLogStaffProfile";
+import { RestrictivePracticeLogTypeModel, restrictivePracticeLogTypeService } from "./restrictivePracticeLogType";
 
 class RestrictivePracticeLogService {
   async createRestrictivePracticeLog(props: CreateRestrictivePracticeLogProps) {
     const restrictivePracticeLog = await RestrictivePracticeLogModel.create(
       props
     );
+
+    // Assign staff profiles
+    if (props.type && props.type.length) {
+      await restrictivePracticeLogTypeService.createBulkRestrictivePracticeLogType(
+        {
+          restrictivePracticeLog: restrictivePracticeLog.id,
+          type: props.type,
+        }
+      );
+    }
 
     // Assign staff profiles
     if (props.staff && props.staff.length) {
@@ -61,6 +72,16 @@ class RestrictivePracticeLogService {
         where: { id, company },
         returning: true,
       });
+
+    // Updaate type
+    if (props.type && props.type.length) {
+      await restrictivePracticeLogTypeService.updateBulkRestrictivePracticeLogType(
+        {
+          restrictivePracticeLog: restrictivePracticeLog.id,
+          type: props.type,
+        }
+      );
+    }
 
     // Updaate staff profiles
     if (props.staff && props.staff.length) {
@@ -119,6 +140,10 @@ class RestrictivePracticeLogService {
           model: ClientProfileModel,
           as: "Client",
         },
+        {
+          model: RestrictivePracticeLogTypeModel,
+          as: "Types",
+        },
       ],
     });
 
@@ -173,6 +198,10 @@ class RestrictivePracticeLogService {
         },
         duplicating: true,
         required: true,
+      },
+      {
+        model: RestrictivePracticeLogTypeModel,
+        as: "Types",
       },
     ];
 

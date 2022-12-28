@@ -20,6 +20,13 @@ router.put(
   catchWrap(controller.updateLeaseAndUtilityLog)
 );
 
+router.put(
+  "/archive/:leaseAndUtilityLogId",
+  canDo("delete", "leaseAndUtilityLog"),
+  leaseAndUtilityLogSchems.deleteArchiveLeaseAndUtilityLog,
+  catchWrap(controller.deleteArchiveLeaseAndUtilityLog)
+);
+
 router.delete(
   "/:leaseAndUtilityLogId",
   canDo("delete", "leaseAndUtilityLog"),
