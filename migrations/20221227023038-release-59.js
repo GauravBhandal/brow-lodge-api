@@ -44,9 +44,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "key_decisions" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "internal_registers" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "internal_registers"
+DROP COLUMN "archived";
+
 ALTER TABLE "key_decisions"
 DROP COLUMN "archived";
 
@@ -76,8 +82,6 @@ DROP COLUMN "archived";
 
 ALTER TABLE "restrictive_practice_logs_types" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "restrictive_practice_logs_types";
-
-
 
 `;
 
