@@ -42,6 +42,18 @@ class LeaseAndUtilityLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveLeaseAndUtilityLog(req: Request, res: Response) {
+    const { leaseAndUtilityLogId } = req.params;
+    const props = {
+      id: leaseAndUtilityLogId,
+      company: req.auth.companyId,
+    };
+
+    await leaseAndUtilityLogService.deleteArchiveLeaseAndUtilityLog(props);
+
+    res.status(204).json();
+  }
+
   async getleaseAndUtilityLogById(req: Request, res: Response) {
     const { leaseAndUtilityLogId } = req.params;
     const props = {

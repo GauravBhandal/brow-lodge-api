@@ -38,6 +38,12 @@ const deleteClientAssetSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveClientAssetSchema = wrapSchema({
+  params: Joi.object().keys({
+    clientAssetId: requiredUUIDSchema(),
+  }),
+});
+
 const getClientAssetByIdSchema = wrapSchema({
   params: Joi.object().keys({
     clientAssetId: requiredUUIDSchema(),
@@ -57,6 +63,7 @@ export default {
   createClientAsset: joiMiddleware(createClientAssetSchema),
   editClientAsset: joiMiddleware(editClientAssetSchema),
   deleteClientAsset: joiMiddleware(deleteClientAssetSchema),
+  deleteArchiveClientAsset: joiMiddleware(deleteArchiveClientAssetSchema),
   getClientAssetById: joiMiddleware(getClientAssetByIdSchema),
   getClientAssets: joiMiddleware(getClientAssetSchema),
 };

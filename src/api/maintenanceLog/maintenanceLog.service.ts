@@ -73,6 +73,57 @@ class MaintenanceLogService {
     return updatedMaintenanceLog;
   }
 
+  async deleteArchiveMaintenanceLog(props: DeleteMaintenanceLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the maintenanceLog by id and company
+    const maintenanceLog = await MaintenanceLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if maintenanceLog has been deleted, throw an error
+    if (!maintenanceLog) {
+      throw new CustomError(
+        404,
+        MaintenanceLogErrorCode.MAINTENANCE_LOG_NOT_FOUND
+      );
+    }
+
+    if (maintenanceLog.archived) {
+      // Check if maintenanceLog already exists
+      const existingMaintenanceLog = await MaintenanceLogModel.findAll({
+        where: {
+          date: maintenanceLog.date,
+          time: maintenanceLog.time,
+          staff: maintenanceLog.staff,
+          description: maintenanceLog.description,
+          subject: maintenanceLog.subject,
+          company: maintenanceLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingMaintenanceLog.length > 0) {
+        throw new CustomError(
+          409,
+          MaintenanceLogErrorCode.MAINTENANCE_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the maintenanceLog update the Archive state
+    const [, [updatedMaintenanceLog]] = await MaintenanceLogModel.update(
+      { archived: !maintenanceLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedMaintenanceLog;
+  }
+
   async deleteMaintenanceLog(props: DeleteMaintenanceLogProps) {
     // Props
     const { id, company } = props;
