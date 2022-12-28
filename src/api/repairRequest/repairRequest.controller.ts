@@ -40,6 +40,18 @@ class RepairRequestController {
     res.status(204).json();
   }
 
+  async deleteArchiveRepairRequest(req: Request, res: Response) {
+    const { repairRequestId } = req.params;
+    const props = {
+      id: repairRequestId,
+      company: req.auth.companyId,
+    };
+
+    await repairRequestService.deleteArchiveRepairRequest(props);
+
+    res.status(204).json();
+  }
+
   async getrepairRequestById(req: Request, res: Response) {
     const { repairRequestId } = req.params;
     const props = {
