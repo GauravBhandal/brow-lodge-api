@@ -53,9 +53,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "regulatory_compliances" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "whs_logs" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "whs_logs"
+DROP COLUMN "archived";
+
 ALTER TABLE "regulatory_compliances"
 DROP COLUMN "archived";
 
