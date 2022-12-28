@@ -74,6 +74,56 @@ class LeaseAndUtilityLogService {
     return updatedLeaseAndUtilityLog;
   }
 
+  async deleteArchiveLeaseAndUtilityLog(props: DeleteLeaseAndUtilityLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the leaseAndUtilityLog by id and company
+    const leaseAndUtilityLog = await LeaseAndUtilityLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if leaseAndUtilityLog has been deleted, throw an error
+    if (!leaseAndUtilityLog) {
+      throw new CustomError(
+        404,
+        LeaseAndUtilityLogErrorCode.LEASE_AND_UTILITY_LOG_NOT_FOUND
+      );
+    }
+
+    if (leaseAndUtilityLog.archived) {
+      // Check if leaseAndUtilityLog already exists
+      const existingLeaseAndUtilityLog = await LeaseAndUtilityLogModel.findAll({
+        where: {
+          date: leaseAndUtilityLog.date,
+          staff: leaseAndUtilityLog.staff,
+          documentName: leaseAndUtilityLog.documentName,
+          company: leaseAndUtilityLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingLeaseAndUtilityLog.length > 0) {
+        throw new CustomError(
+          409,
+          LeaseAndUtilityLogErrorCode.LEASE_AND_UTILITY_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the leaseAndUtilityLog update the Archive state
+    const [, [updatedLeaseAndUtilityLog]] =
+      await LeaseAndUtilityLogModel.update(
+        { archived: !leaseAndUtilityLog.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedLeaseAndUtilityLog;
+  }
+
   async deleteLeaseAndUtilityLog(props: DeleteLeaseAndUtilityLogProps) {
     // Props
     const { id, company } = props;
