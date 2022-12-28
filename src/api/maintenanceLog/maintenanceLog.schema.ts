@@ -38,6 +38,12 @@ const deleteMaintenanceLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveMaintenanceLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    maintenanceLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getMaintenanceLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     maintenanceLogId: requiredUUIDSchema(),
@@ -57,6 +63,7 @@ export default {
   createMaintenanceLog: joiMiddleware(createMaintenanceLogSchema),
   editMaintenanceLog: joiMiddleware(editMaintenanceLogSchema),
   deleteMaintenanceLog: joiMiddleware(deleteMaintenanceLogSchema),
+  deleteArchiveMaintenanceLog: joiMiddleware(deleteArchiveMaintenanceLogSchema),
   getMaintenanceLogById: joiMiddleware(getMaintenanceLogByIdSchema),
   getMaintenanceLogs: joiMiddleware(getMaintenanceLogSchema),
 };

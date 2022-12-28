@@ -22,6 +22,7 @@ class CompanyAssetModel<
   company!: CompanyAsset["company"];
   Company: CompanyAsset["Company"];
   Attachments: CompanyAsset["Attachments"];
+  archived: CompanyAsset["archived"];
 }
 
 modelManager.init(
@@ -42,6 +43,9 @@ modelManager.init(
     },
     description: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
