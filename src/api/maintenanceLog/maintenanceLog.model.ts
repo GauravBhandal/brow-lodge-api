@@ -26,6 +26,7 @@ class MaintenanceLogModel<
   company!: MaintenanceLog["company"];
   Company: MaintenanceLog["Company"];
   Attachments: MaintenanceLog["Attachments"];
+  archived: MaintenanceLog["archived"];
 }
 
 modelManager.init(
@@ -50,6 +51,9 @@ modelManager.init(
     },
     location: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
