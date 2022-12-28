@@ -46,12 +46,8 @@ export const addTimeToDate = (
 };
 
 // Returns the date with format 'YYYY-MM-DD'
-export const formatDateToString = (date: any, timezone: any) =>
-  makeMoment(date, timezone).format("YYYY-MM-DD");
-
-// Returns the date with format 'DD-MM-YYYY'
-export const formatDateToAString = (date: any, timezone: any) =>
-  makeMoment(date, timezone).format("DD-MM-YYYY");
+export const formatDateToString = (date: any, timezone: any, dateFormat: any = "YYYY-MM-DD") =>
+  makeMoment(date, timezone).format(dateFormat);
 
 //Convert any date to formatted date
 const convertDateToMoment = (date: string, timezone: any) =>
@@ -254,7 +250,7 @@ export const createShifts = (
           if (repeatEndDate) {
             if (
               daysDifference(repeatStartDate, shiftStartDateTime, timezone) >=
-                0 &&
+              0 &&
               daysDifference(shiftStartDateTime, repeatEndDate, timezone) >= 0
             ) {
               finalResult.push({

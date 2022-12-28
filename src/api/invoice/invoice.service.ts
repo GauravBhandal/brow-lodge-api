@@ -24,13 +24,12 @@ import { Company, CompanyModel, companyService } from "../company";
 import { StaffProfileModel } from "../staffProfile";
 import { getFilters } from "../../components/filters";
 import { ShiftRecordModel } from "../shiftRecord";
-import { ClientProfileModel, ClientProfile } from "../clientProfile";
+import { ClientProfileModel } from "../clientProfile";
 import { ServiceModel } from "../service";
 import { Invoice, Invoices } from "xero-node";
 import {
   addTimeToDate,
   formatDateToString,
-  formatDateToAString,
   getMinutesDiff,
 } from "../../utils/shiftGenerator";
 import { xeroService } from "../xero";
@@ -345,12 +344,6 @@ class InvoiceService {
       timezone
     );
 
-    const formattedInvoiceDate = formatDateToAString(new Date(), timezone);
-    const formattedInvoiceDueDate = formatDateToAString(
-      addTimeToDate(new Date(), 6, "days", timezone),
-      timezone
-    );
-
     // Map the total hours per service per client
     allInvoices.forEach((invoice: InvoiceType) => {
       if (invoice?.Shift?.Services && invoice?.Client) {
@@ -366,7 +359,7 @@ class InvoiceService {
         // Create a new key in result object for every client
         if (client.accountingCode && !result[client.accountingCode]) {
           result[client.accountingCode] = {
-            referenceData: `${client.firstName} ${client.lastName} - ${client.ndisNumber}`,
+            referenceData: `${client.firstName} ${client.lastName} ${client.ndisNumber && `- ${client.ndisNumber}`}`,
             services: {},
           };
         }
@@ -377,13 +370,27 @@ class InvoiceService {
             if (!result[client.accountingCode]["services"][service.code]) {
               result[client.accountingCode]["services"][service.code] = {
                 amount: 0,
-                details: `${service.code} - ${service.name} : ${formattedInvoiceDate} - ${formattedInvoiceDueDate}`,
+                details: `${service.code} - ${service.name}`,
+                startDate: invoice.startDateTime,
+                endDate: invoice.startDateTime,
               };
             }
-            console.log(
-              "Something",
-              result[client.accountingCode]["services"][service.code]
+            const serviceStartTimeDiff = getMinutesDiff(
+              result[client.accountingCode]["services"][service.code]["startDate"],
+              invoice.startDateTime,
+              timezone
             );
+            const serviceEndTimeDiff = getMinutesDiff(
+              invoice.startDateTime,
+              result[client.accountingCode]["services"][service.code]["endDate"],
+              timezone
+            )
+            if (serviceStartTimeDiff < 0) {
+              result[client.accountingCode]["services"][service.code]["startDate"] = invoice.startDateTime
+            }
+            if (serviceEndTimeDiff < 0) {
+              result[client.accountingCode]["services"][service.code]["endDate"] = invoice.startDateTime
+            }
             result[client.accountingCode]["services"][service.code]["amount"] =
               (result[client.accountingCode]["services"][service.code][
                 "amount"
@@ -391,30 +398,21 @@ class InvoiceService {
               (service.rateType === "Fixed"
                 ? 1
                 : getMinutesDiff(
-                    service.shift_records_services.dataValues.start_time, // TODO: This is messy
-                    getEndTime(index, services.length, services, invoice),
-                    timezone
-                  ) / 60);
-            console.log(
-              "Something Too",
-              result[client.accountingCode]["services"][service.code]["amount"]
-            );
+                  service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                  getEndTime(index, services.length, services, invoice),
+                  timezone
+                ) / 60);
           }
         });
       }
     });
-    console.log("result", result);
     // Helper fn. to result invoice line item as per Xero format
     const getLineItems = (services: any) => {
-      console.log("services", services);
-
       const finalLineItems = Object.keys(services).map((service) => ({
         quantity: services[service]["amount"],
         itemCode: service,
-        description: services[service]["details"],
+        description: `${services[service]["details"]} : ${formatDateToString(services[service]["startDate"], timezone, "DD-MM-YYYY")} ${services[service]["startDate"] !== services[service]["endDate"] && ` - ${formatDateToString(services[service]["endDate"], timezone, "DD-MM-YYYY")}`}`,
       }));
-
-      console.log("finalLineItems", finalLineItems);
 
       return finalLineItems;
     };
@@ -515,10 +513,10 @@ class InvoiceService {
             service.rateType === "Fixed"
               ? 1
               : getMinutesDiff(
-                  service.shift_records_services.dataValues.start_time, // TODO: This is messy
-                  getEndTime(index, services.length, services, invoice),
-                  timezone
-                ) / 60;
+                service.shift_records_services.dataValues.start_time, // TODO: This is messy
+                getEndTime(index, services.length, services, invoice),
+                timezone
+              ) / 60;
           if (!parsedServiceData[client.id][service.id]) {
             parsedServiceData[client.id][service.id] = {
               service,
@@ -582,7 +580,6 @@ class InvoiceService {
       allInvoices,
       companyData.timezone
     );
-    console.log("formatedInvoices", formatedInvoices);
     const invoices: Invoices = {
       invoices: formatedInvoices,
     };
