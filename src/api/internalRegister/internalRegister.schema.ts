@@ -34,6 +34,12 @@ const deleteInternalRegisterSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveInternalRegisterSchema = wrapSchema({
+  params: Joi.object().keys({
+    internalRegisterId: requiredUUIDSchema(),
+  }),
+});
+
 const getInternalRegisterByIdSchema = wrapSchema({
   params: Joi.object().keys({
     internalRegisterId: requiredUUIDSchema(),
@@ -53,6 +59,9 @@ export default {
   createInternalRegister: joiMiddleware(createInternalRegisterSchema),
   editInternalRegister: joiMiddleware(editInternalRegisterSchema),
   deleteInternalRegister: joiMiddleware(deleteInternalRegisterSchema),
+  deleteArchiveInternalRegister: joiMiddleware(
+    deleteArchiveInternalRegisterSchema
+  ),
   getInternalRegisterById: joiMiddleware(getInternalRegisterByIdSchema),
   getInternalRegisters: joiMiddleware(getInternalRegisterSchema),
 };

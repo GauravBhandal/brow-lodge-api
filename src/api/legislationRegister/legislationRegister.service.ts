@@ -73,6 +73,61 @@ class LegislationRegisterService {
     return updatedLegislationRegister;
   }
 
+  async deleteArchiveLegislationRegister(
+    props: DeleteLegislationRegisterProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the legislationRegister by id and company
+    const legislationRegister = await LegislationRegisterModel.findOne({
+      where: { id, company },
+    });
+
+    // if legislationRegister has been deleted, throw an error
+    if (!legislationRegister) {
+      throw new CustomError(
+        404,
+        LegislationRegisterErrorCode.LEGISLATION_REGISTER_NOT_FOUND
+      );
+    }
+
+    if (legislationRegister.archived) {
+      // Check if legislationRegister already exists
+      const existingLegislationRegister =
+        await LegislationRegisterModel.findAll({
+          where: {
+            reviewedOn: legislationRegister.reviewedOn,
+            domain: legislationRegister.domain,
+            legislativeReference: legislationRegister.legislativeReference,
+            documentReference: legislationRegister.documentReference,
+            monitoringMechanism: legislationRegister.monitoringMechanism,
+            company: legislationRegister.company,
+            archived: false,
+          },
+        });
+
+      if (existingLegislationRegister.length > 0) {
+        throw new CustomError(
+          409,
+          LegislationRegisterErrorCode.LEGISLATION_REGISTER_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the legislationRegister update the Archive state
+    const [, [updatedLegislationRegister]] =
+      await LegislationRegisterModel.update(
+        { archived: !legislationRegister.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedLegislationRegister;
+  }
+
   async deleteLegislationRegister(props: DeleteLegislationRegisterProps) {
     // Props
     const { id, company } = props;

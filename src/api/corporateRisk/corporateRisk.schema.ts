@@ -40,6 +40,12 @@ const deleteCorporateRiskSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveCorporateRiskSchema = wrapSchema({
+  params: Joi.object().keys({
+    corporateRiskId: requiredUUIDSchema(),
+  }),
+});
+
 const getCorporateRiskByIdSchema = wrapSchema({
   params: Joi.object().keys({
     corporateRiskId: requiredUUIDSchema(),
@@ -59,6 +65,7 @@ export default {
   createCorporateRisk: joiMiddleware(createCorporateRiskSchema),
   editCorporateRisk: joiMiddleware(editCorporateRiskSchema),
   deleteCorporateRisk: joiMiddleware(deleteCorporateRiskSchema),
+  deleteArchiveCorporateRisk: joiMiddleware(deleteArchiveCorporateRiskSchema),
   getCorporateRiskById: joiMiddleware(getCorporateRiskByIdSchema),
   getCorporateRisks: joiMiddleware(getCorporateRiskSchema),
 };

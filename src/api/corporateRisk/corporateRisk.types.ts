@@ -17,6 +17,7 @@ export interface CorporateRisk extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
+  archived?: boolean;
 }
 
 export interface CreateCorporateRiskProps {

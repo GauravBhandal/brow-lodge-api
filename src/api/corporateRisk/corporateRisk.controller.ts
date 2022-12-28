@@ -40,6 +40,18 @@ class CorporateRiskController {
     res.status(204).json();
   }
 
+  async deleteArchiveCorporateRisk(req: Request, res: Response) {
+    const { corporateRiskId } = req.params;
+    const props = {
+      id: corporateRiskId,
+      company: req.auth.companyId,
+    };
+
+    await corporateRiskService.deleteArchiveCorporateRisk(props);
+
+    res.status(204).json();
+  }
+
   async getcorporateRiskById(req: Request, res: Response) {
     const { corporateRiskId } = req.params;
     const props = {

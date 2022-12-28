@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateMaintenanceLog)
 );
 
+router.put(
+  "/archive/:maintenanceLogId",
+  canDo("delete", "maintenanceLog"),
+  maintenanceLogSchems.deleteArchiveMaintenanceLog,
+  catchWrap(controller.deleteArchiveMaintenanceLog)
+);
+
 router.delete(
   "/:maintenanceLogId",
   canDo("delete", "maintenanceLog"),
