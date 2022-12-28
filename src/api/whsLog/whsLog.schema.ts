@@ -36,6 +36,12 @@ const deleteWhsLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveWhsLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    whsLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getWhsLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     whsLogId: requiredUUIDSchema(),
@@ -55,6 +61,7 @@ export default {
   createWhsLog: joiMiddleware(createWhsLogSchema),
   editWhsLog: joiMiddleware(editWhsLogSchema),
   deleteWhsLog: joiMiddleware(deleteWhsLogSchema),
+  deleteArchiveWhsLog: joiMiddleware(deleteArchiveWhsLogSchema),
   getWhsLogById: joiMiddleware(getWhsLogByIdSchema),
   getWhsLogs: joiMiddleware(getWhsLogSchema),
 };
