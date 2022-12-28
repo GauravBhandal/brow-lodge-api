@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateConflictOfInterest)
 );
 
+router.put(
+  "/archive/:conflictOfInterestId",
+  canDo("delete", "conflictOfInterest"),
+  conflictOfInterestSchems.deleteArchiveConflictOfInterest,
+  catchWrap(controller.deleteArchiveConflictOfInterest)
+);
+
 router.delete(
   "/:conflictOfInterestId",
   canDo("delete", "conflictOfInterest"),

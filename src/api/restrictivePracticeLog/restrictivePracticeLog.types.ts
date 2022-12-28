@@ -3,10 +3,10 @@ import { Company } from "../company";
 import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
+import { RestrictivePracticeLogType } from "./restrictivePracticeLogType";
 
 export interface RestrictivePracticeLog extends DefaultSchemaConfig {
   isAuthorised: string;
-  type: string;
   impactOnAnyPerson: string;
   injuryToAnyPerson: string;
   wasReportableIncident: string;
@@ -27,11 +27,12 @@ export interface RestrictivePracticeLog extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  Type?: RestrictivePracticeLogType[];
 }
 
 export interface CreateRestrictivePracticeLogProps {
   isAuthorised: RestrictivePracticeLog["isAuthorised"];
-  type: RestrictivePracticeLog["type"];
+  type: string[];
   impactOnAnyPerson: RestrictivePracticeLog["impactOnAnyPerson"];
   injuryToAnyPerson: RestrictivePracticeLog["injuryToAnyPerson"];
   wasReportableIncident: RestrictivePracticeLog["wasReportableIncident"];
@@ -63,7 +64,7 @@ export interface DeleteRestrictivePracticeLogProps {
 }
 
 export interface GetRestrictivePracticeLogByIdProps
-  extends DeleteRestrictivePracticeLogProps {}
+  extends DeleteRestrictivePracticeLogProps { }
 
 export interface GetRestrictivePracticeLogsProps extends QueryParams {
   company: RestrictivePracticeLog["company"];

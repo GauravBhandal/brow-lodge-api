@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateInternalRegister)
 );
 
+router.put(
+  "/archive/:internalRegisterId",
+  canDo("delete", "internalRegister"),
+  internalRegisterSchems.deleteArchiveInternalRegister,
+  catchWrap(controller.deleteArchiveInternalRegister)
+);
+
 router.delete(
   "/:internalRegisterId",
   canDo("delete", "internalRegister"),

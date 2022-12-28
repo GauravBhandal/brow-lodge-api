@@ -36,6 +36,12 @@ const deleteLeaseAndUtilityLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveLeaseAndUtilityLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    leaseAndUtilityLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getLeaseAndUtilityLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     leaseAndUtilityLogId: requiredUUIDSchema(),
@@ -55,6 +61,9 @@ export default {
   createLeaseAndUtilityLog: joiMiddleware(createLeaseAndUtilityLogSchema),
   editLeaseAndUtilityLog: joiMiddleware(editLeaseAndUtilityLogSchema),
   deleteLeaseAndUtilityLog: joiMiddleware(deleteLeaseAndUtilityLogSchema),
+  deleteArchiveLeaseAndUtilityLog: joiMiddleware(
+    deleteArchiveLeaseAndUtilityLogSchema
+  ),
   getLeaseAndUtilityLogById: joiMiddleware(getLeaseAndUtilityLogByIdSchema),
   getLeaseAndUtilityLogs: joiMiddleware(getLeaseAndUtilityLogSchema),
 };

@@ -52,6 +52,60 @@ class CorporateRiskService {
     return updatedCorporateRisk;
   }
 
+  async deleteArchiveCorporateRisk(props: DeleteCorporateRiskProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the corporateRisk by id and company
+    const corporateRisk = await CorporateRiskModel.findOne({
+      where: { id, company },
+    });
+
+    // if corporateRisk has been deleted, throw an error
+    if (!corporateRisk) {
+      throw new CustomError(
+        404,
+        CorporateRiskErrorCode.CORPORATE_RISK_NOT_FOUND
+      );
+    }
+
+    if (corporateRisk.archived) {
+      // Check if corporateRisk already exists
+      const existingCorporateRisk = await CorporateRiskModel.findAll({
+        where: {
+          date: corporateRisk.date,
+          levelOfRisk: corporateRisk.levelOfRisk,
+          likelihood: corporateRisk.likelihood,
+          consequences: corporateRisk.consequences,
+          riskDescription: corporateRisk.riskDescription,
+          mitigationStrategy: corporateRisk.mitigationStrategy,
+          monitoringStrategy: corporateRisk.monitoringStrategy,
+          staff: corporateRisk.staff,
+          company: corporateRisk.company,
+          archived: false,
+        },
+      });
+
+      if (existingCorporateRisk.length > 0) {
+        throw new CustomError(
+          409,
+          CorporateRiskErrorCode.CORPORATE_RISK_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the corporateRisk update the Archive state
+    const [, [updatedCorporateRisk]] = await CorporateRiskModel.update(
+      { archived: !corporateRisk.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedCorporateRisk;
+  }
+
   async deleteCorporateRisk(props: DeleteCorporateRiskProps) {
     // Props
     const { id, company } = props;

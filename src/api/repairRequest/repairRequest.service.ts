@@ -71,6 +71,57 @@ class RepairRequestService {
     return updatedRepairRequest;
   }
 
+  async deleteArchiveRepairRequest(props: DeleteRepairRequestProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the repairRequest by id and company
+    const repairRequest = await RepairRequestModel.findOne({
+      where: { id, company },
+    });
+
+    // if repairRequest has been deleted, throw an error
+    if (!repairRequest) {
+      throw new CustomError(
+        404,
+        RepairRequestErrorCode.REPAIR_REQUEST_NOT_FOUND
+      );
+    }
+
+    if (repairRequest.archived) {
+      // Check if repairRequest already exists
+      const existingRepairRequest = await RepairRequestModel.findAll({
+        where: {
+          risk: repairRequest.risk,
+          staff: repairRequest.staff,
+          problem: repairRequest.problem,
+          location: repairRequest.location,
+          priority: repairRequest.priority,
+          company: repairRequest.company,
+          archived: false,
+        },
+      });
+
+      if (existingRepairRequest.length > 0) {
+        throw new CustomError(
+          409,
+          RepairRequestErrorCode.REPAIR_REQUEST_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the repairRequest update the Archive state
+    const [, [updatedRepairRequest]] = await RepairRequestModel.update(
+      { archived: !repairRequest.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedRepairRequest;
+  }
+
   async deleteRepairRequest(props: DeleteRepairRequestProps) {
     // Props
     const { id, company } = props;

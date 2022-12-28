@@ -26,6 +26,7 @@ class LeaseAndUtilityLogModel<
   company!: LeaseAndUtilityLog["company"];
   Company: LeaseAndUtilityLog["Company"];
   Attachments: LeaseAndUtilityLog["Attachments"];
+  archived: LeaseAndUtilityLog["archived"];
 }
 
 modelManager.init(
@@ -42,6 +43,9 @@ modelManager.init(
     },
     comments: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

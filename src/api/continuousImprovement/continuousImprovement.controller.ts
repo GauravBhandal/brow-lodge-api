@@ -42,6 +42,20 @@ class ContinuousImprovementController {
     res.status(204).json();
   }
 
+  async deleteArchiveContinuousImprovement(req: Request, res: Response) {
+    const { continuousImprovementId } = req.params;
+    const props = {
+      id: continuousImprovementId,
+      company: req.auth.companyId,
+    };
+
+    await continuousImprovementService.deleteArchiveContinuousImprovement(
+      props
+    );
+
+    res.status(204).json();
+  }
+
   async getcontinuousImprovementById(req: Request, res: Response) {
     const { continuousImprovementId } = req.params;
     const props = {
