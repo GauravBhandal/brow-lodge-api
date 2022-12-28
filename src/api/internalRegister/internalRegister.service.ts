@@ -73,6 +73,54 @@ class InternalRegisterService {
     return updatedInternalRegister;
   }
 
+  async deleteArchiveInternalRegister(props: DeleteInternalRegisterProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the internalRegister by id and company
+    const internalRegister = await InternalRegisterModel.findOne({
+      where: { id, company },
+    });
+
+    // if internalRegister has been deleted, throw an error
+    if (!internalRegister) {
+      throw new CustomError(
+        404,
+        InternalRegisterErrorCode.INTERNAL_REGISTER_NOT_FOUND
+      );
+    }
+
+    if (internalRegister.archived) {
+      // Check if internalRegister already exists
+      const existingInternalRegister = await InternalRegisterModel.findAll({
+        where: {
+          name: internalRegister.name,
+          version: internalRegister.version,
+          company: internalRegister.company,
+          archived: false,
+        },
+      });
+
+      if (existingInternalRegister.length > 0) {
+        throw new CustomError(
+          409,
+          InternalRegisterErrorCode.INTERNAL_REGISTER_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the internalRegister update the Archive state
+    const [, [updatedInternalRegister]] = await InternalRegisterModel.update(
+      { archived: !internalRegister.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedInternalRegister;
+  }
+
   async deleteInternalRegister(props: DeleteInternalRegisterProps) {
     // Props
     const { id, company } = props;
