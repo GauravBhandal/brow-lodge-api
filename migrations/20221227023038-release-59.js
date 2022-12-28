@@ -26,9 +26,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "lease_and_utility_logs" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "company_assets" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "company_assets"
+DROP COLUMN "archived";
+
 ALTER TABLE "lease_and_utility_logs"
 DROP COLUMN "archived";
 
