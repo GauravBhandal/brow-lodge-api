@@ -137,6 +137,23 @@ class TemplateService {
     return updatedTemplate;
   }
 
+  async deleteArchiveTemplate(props: DeleteTemplateProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the template by id and company
+    const template = await TemplateModel.destroy({
+      where: { id, company },
+    });
+
+    // if template has been deleted, throw an error
+    if (!template) {
+      throw new CustomError(404, TemplateErrorCode.TEMPLATE_NOT_FOUND);
+    }
+
+    return template;
+  }
+
   async getTemplateById(props: GetTemplateByIdProps) {
     // Props
     const { id, company } = props;

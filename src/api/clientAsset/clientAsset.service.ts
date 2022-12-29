@@ -83,6 +83,54 @@ class ClientAssetService {
     return clientAsset;
   }
 
+  async deleteArchiveClientAsset(props: DeleteClientAssetProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the clientAsset by id and company
+    const clientAsset = await ClientAssetModel.findOne({
+      where: { id, company },
+    });
+
+    // if clientAsset has been deleted, throw an error
+    if (!clientAsset) {
+      throw new CustomError(404, ClientAssetErrorCode.CLIENT_ASSET_NOT_FOUND);
+    }
+
+    if (clientAsset.archived) {
+      // Check if clientAsset already exists
+      const existingClientAsset = await ClientAssetModel.findAll({
+        where: {
+          date: clientAsset.date,
+          staff: clientAsset.staff,
+          client: clientAsset.client,
+          assetName: clientAsset.assetName,
+          location: clientAsset.location,
+          company: clientAsset.company,
+          archived: false,
+        },
+      });
+
+      if (existingClientAsset.length > 0) {
+        throw new CustomError(
+          409,
+          ClientAssetErrorCode.CLIENT_ASSET_NOT_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the clientAsset update the Archive state
+    const [, [updatedClientAsset]] = await ClientAssetModel.update(
+      { archived: !clientAsset.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedClientAsset;
+  }
+
   async getClientAssetById(props: GetClientAssetByIdProps) {
     // Props
     const { id, company } = props;

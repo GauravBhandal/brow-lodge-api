@@ -25,6 +25,7 @@ class LegislationRegisterModel<
   company!: LegislationRegister["company"];
   Company: LegislationRegister["Company"];
   Attachments: LegislationRegister["Attachments"];
+  archived: LegislationRegister["archived"];
 }
 
 modelManager.init(
@@ -37,6 +38,7 @@ modelManager.init(
     legislativeReference: { type: Sequelize.STRING, allowNull: false },
     documentReference: { type: Sequelize.STRING, allowNull: false },
     monitoringMechanism: { type: Sequelize.STRING, allowNull: false },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {

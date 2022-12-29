@@ -26,6 +26,7 @@ class CorporateRiskModel<
   Staff: CorporateRisk["Staff"];
   company!: CorporateRisk["company"];
   Company: CorporateRisk["Company"];
+  archived: CorporateRisk["archived"];
 }
 
 modelManager.init(
@@ -64,6 +65,7 @@ modelManager.init(
       allowNull: false,
     },
     overseenBy: { type: Sequelize.STRING },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {

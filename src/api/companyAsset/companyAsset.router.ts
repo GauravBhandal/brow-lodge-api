@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateCompanyAsset)
 );
 
+router.put(
+  "/archive/:companyAssetId",
+  canDo("delete", "companyAsset"),
+  companyAssetSchems.deleteArchiveCompanyAsset,
+  catchWrap(controller.deleteArchiveCompanyAsset)
+);
+
 router.delete(
   "/:companyAssetId",
   canDo("delete", "companyAsset"),

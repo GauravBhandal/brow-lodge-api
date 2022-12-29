@@ -26,6 +26,7 @@ class RegulatoryComplianceModel<
   reviewDate: RegulatoryCompliance["reviewDate"];
   company!: RegulatoryCompliance["company"];
   Company: RegulatoryCompliance["Company"];
+  archived: RegulatoryCompliance["archived"];
 }
 
 modelManager.init(
@@ -49,6 +50,9 @@ modelManager.init(
     },
     reviewDate: {
       type: Sequelize.DATE,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

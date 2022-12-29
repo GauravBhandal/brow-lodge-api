@@ -28,6 +28,13 @@ router.put(
   catchWrap(controller.deleteRpdhsResource)
 );
 
+router.delete(
+  "/:rpdhsResourceId",
+  canDo("delete", "rpdhsResource"),
+  rpdhsResourceSchems.deleteArchiveRpdhsResource,
+  catchWrap(controller.deleteArchiveRpdhsResource)
+);
+
 router.get(
   "/:rpdhsResourceId",
   canDo("read", "rpdhsResource"),

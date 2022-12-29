@@ -16,6 +16,7 @@ export interface RegulatoryCompliance extends DefaultSchemaConfig {
   reviewDate?: Date;
   company: Company["id"];
   Company?: Company;
+  archived?: boolean;
 }
 
 export interface CreateRegulatoryComplianceProps {

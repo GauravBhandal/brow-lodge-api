@@ -14,6 +14,7 @@ export interface CompanyAsset extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Attachments?: Attachment[];
+  archived?: boolean;
 }
 
 export interface CreateCompanyAssetProps {

@@ -40,6 +40,18 @@ class CompanyAssetController {
     res.status(204).json();
   }
 
+  async deleteArchiveCompanyAsset(req: Request, res: Response) {
+    const { companyAssetId } = req.params;
+    const props = {
+      id: companyAssetId,
+      company: req.auth.companyId,
+    };
+
+    await companyAssetService.deleteArchiveCompanyAsset(props);
+
+    res.status(204).json();
+  }
+
   async getcompanyAssetById(req: Request, res: Response) {
     const { companyAssetId } = req.params;
     const props = {

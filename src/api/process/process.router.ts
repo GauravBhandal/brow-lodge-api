@@ -28,6 +28,13 @@ router.put(
   catchWrap(controller.deleteProcess)
 );
 
+router.delete(
+  "/:processId",
+  canDo("delete", "process"),
+  processSchems.deleteArchiveProcess,
+  catchWrap(controller.deleteArchiveProcess)
+);
+
 router.get(
   "/:processId",
   canDo("read", "process"),

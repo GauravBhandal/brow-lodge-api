@@ -40,6 +40,18 @@ class RpdhsResourceController {
     res.status(204).json();
   }
 
+  async deleteArchiveRpdhsResource(req: Request, res: Response) {
+    const { rpdhsResourceId } = req.params;
+    const props = {
+      id: rpdhsResourceId,
+      company: req.auth.companyId,
+    };
+
+    await rpdhsResourceService.deleteArchiveRpdhsResource(props);
+
+    res.status(204).json();
+  }
+
   async getrpdhsResourceById(req: Request, res: Response) {
     const { rpdhsResourceId } = req.params;
     const props = {

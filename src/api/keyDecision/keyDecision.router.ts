@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateKeyDecision)
 );
 
+router.put(
+  "/archive/:keyDecisionId",
+  canDo("delete", "keyDecision"),
+  keyDecisionSchems.deleteArchiveKeyDecision,
+  catchWrap(controller.deleteArchiveKeyDecision)
+);
+
 router.delete(
   "/:keyDecisionId",
   canDo("delete", "keyDecision"),

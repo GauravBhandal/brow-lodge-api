@@ -63,6 +63,49 @@ class WhsLogService {
     return updatedWhsLog;
   }
 
+  async deleteArchiveWhsLog(props: DeleteWhsLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the whsLog by id and company
+    const whsLog = await WhsLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if whsLog has been deleted, throw an error
+    if (!whsLog) {
+      throw new CustomError(404, WhsLogErrorCode.WHS_LOG_NOT_FOUND);
+    }
+
+    if (whsLog.archived) {
+      // Check if document already exists
+      const existingWhsLog = await WhsLogModel.findAll({
+        where: {
+          date: whsLog.date,
+          category: whsLog.category,
+          location: whsLog.location,
+          company: whsLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingWhsLog.length > 0) {
+        throw new CustomError(409, WhsLogErrorCode.WHS_LOG_ALREADY_EXISTS);
+      }
+    }
+
+    // Finally, update the whsLog update the Archive state
+    const [, [updatedWhsLog]] = await WhsLogModel.update(
+      { archived: !whsLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedWhsLog;
+  }
+
   async deleteWhsLog(props: DeleteWhsLogProps) {
     // Props
     const { id, company } = props;

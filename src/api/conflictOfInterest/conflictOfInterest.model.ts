@@ -24,6 +24,7 @@ class ConflictOfInterestModel<
   company!: ConflictOfInterest["company"];
   Company: ConflictOfInterest["Company"];
   Attachments: ConflictOfInterest["Attachments"];
+  archived: ConflictOfInterest["archived"];
 }
 
 modelManager.init(
@@ -41,6 +42,9 @@ modelManager.init(
     mitigationStrategy: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
