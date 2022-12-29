@@ -10,6 +10,7 @@ import {
   GetClientDocumentByCategoryProps,
   GetClientDocumentByIdProps,
   GetClientDocumentsProps,
+  DeleteArchiveClientDocumentProps,
 } from "./clientDocument.types";
 import { CustomError } from "../../components/errors";
 import ClientDocumentErrorCode from "./clientDocument.error";
@@ -107,6 +108,26 @@ class ClientDocumentService {
       });
     }
     return updatedClientDocument;
+  }
+
+  async deleteArchiveClientDocument(props: DeleteArchiveClientDocumentProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the clientDocument by id and company
+    const clientDocument = await ClientDocumentModel.destroy({
+      where: { id, company },
+    });
+
+    // if clientDocument has been deleted, throw an error
+    if (!clientDocument) {
+      throw new CustomError(
+        404,
+        ClientDocumentErrorCode.CLIENT_DOCUMENT_NOT_FOUND
+      );
+    }
+
+    return clientDocument;
   }
 
   async deleteClientDocument(props: DeleteClientDocumentProps) {

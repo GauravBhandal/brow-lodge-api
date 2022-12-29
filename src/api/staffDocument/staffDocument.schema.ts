@@ -41,6 +41,12 @@ const deleteStaffDocumentSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveStaffDocumentSchema = wrapSchema({
+  params: Joi.object().keys({
+    staffDocumentId: requiredUUIDSchema(),
+  }),
+});
+
 const getStaffDocumentByIdSchema = wrapSchema({
   params: Joi.object().keys({
     staffDocumentId: requiredUUIDSchema(),
@@ -60,6 +66,7 @@ export default {
   createStaffDocument: joiMiddleware(createStaffDocumentSchema),
   editStaffDocument: joiMiddleware(editStaffDocumentSchema),
   deleteStaffDocument: joiMiddleware(deleteStaffDocumentSchema),
+  deleteArchiveStaffDocument: joiMiddleware(deleteArchiveStaffDocumentSchema),
   getStaffDocumentById: joiMiddleware(getStaffDocumentByIdSchema),
   getStaffDocuments: joiMiddleware(getStaffDocumentSchema),
 };
