@@ -359,7 +359,7 @@ class InvoiceService {
         // Create a new key in result object for every client
         if (client.accountingCode && !result[client.accountingCode]) {
           result[client.accountingCode] = {
-            referenceData: `${client.firstName} ${client.lastName} ${client.ndisNumber && `- ${client.ndisNumber}`}`,
+            referenceData: `${client.firstName} ${client.lastName} ${client.ndisNumber ? `- ${client.ndisNumber}` : ''}`,
             services: {},
           };
         }
@@ -411,7 +411,7 @@ class InvoiceService {
       const finalLineItems = Object.keys(services).map((service) => ({
         quantity: services[service]["amount"],
         itemCode: service,
-        description: `${services[service]["details"]} : ${formatDateToString(services[service]["startDate"], timezone, "DD-MM-YYYY")} ${services[service]["startDate"] !== services[service]["endDate"] && ` - ${formatDateToString(services[service]["endDate"], timezone, "DD-MM-YYYY")}`}`,
+        description: `${services[service]["details"]} : ${formatDateToString(services[service]["startDate"], timezone, "DD-MM-YYYY")} ${services[service]["startDate"] !== services[service]["endDate"] ? ` - ${formatDateToString(services[service]["endDate"], timezone, "DD-MM-YYYY")}` : ''}`,
       }));
 
       return finalLineItems;
