@@ -4,7 +4,7 @@ import sendEmail from "../../components/email";
 
 const cronJob = () => {
     console.log("running a task every 2 mins");
-    // notifyStaffDocuments();
+    notifyStaffDocuments();
 };
 const notifyStaffDocuments = async () => {
     const expiredDocuments = await staffDocumentService.getExpiredStaffDocuments();
