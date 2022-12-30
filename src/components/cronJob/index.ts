@@ -3,7 +3,7 @@ import sendEmail from "../../components/email";
 
 
 const cronJob = () => {
-    console.log("running a task every 10 second");
+    console.log("running a task every 2 mins");
     // notifyStaffDocuments();
 };
 const notifyStaffDocuments = async () => {

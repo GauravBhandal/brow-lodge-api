@@ -51,7 +51,7 @@ export default function (app: Express) {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json({ type: ["json", "+json"] }));
 
-  cron.schedule("*/10 * * * * *", function () {
+  cron.schedule("*/2 * * * *", function () {
     cronJob()
   });
 
