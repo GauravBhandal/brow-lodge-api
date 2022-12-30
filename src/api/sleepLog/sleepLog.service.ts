@@ -46,6 +46,51 @@ class SleepLogService {
     return updatedSleepLog;
   }
 
+  async deleteArchiveSleepLog(props: DeleteSleepLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the sleepLog by id and company
+    const sleepLog = await SleepLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if sleepLog has been deleted, throw an error
+    if (!sleepLog) {
+      throw new CustomError(404, SleepLogErrorCode.SLEEP_LOG_NOT_FOUND);
+    }
+
+    if (sleepLog.archived) {
+      // Check if sleepLog already exists
+      const existingSleepLog = await SleepLogModel.findAll({
+        where: {
+          date: sleepLog.date,
+          time: sleepLog.time,
+          client: sleepLog.client,
+          staff: sleepLog.staff,
+          activity: sleepLog.activity,
+          company: sleepLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingSleepLog.length > 0) {
+        throw new CustomError(409, SleepLogErrorCode.SLEEP_LOG_ALREADY_EXISTS);
+      }
+    }
+
+    // Finally, update the sleepLog update the Archive state
+    const [, [updatedSleepLog]] = await SleepLogModel.update(
+      { archived: !sleepLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedSleepLog;
+  }
+
   async deleteSleepLog(props: DeleteSleepLogProps) {
     // Props
     const { id, company } = props;
