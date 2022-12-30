@@ -25,6 +25,7 @@ class SeizureLogModel<
   Client: SeizureLog["Client"];
   company!: SeizureLog["company"];
   Company: SeizureLog["Company"];
+  archived: SeizureLog["archived"];
 }
 
 modelManager.init(
@@ -53,6 +54,9 @@ modelManager.init(
     },
     comments: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
