@@ -13,12 +13,11 @@ class FeedbackController {
       ...req.body,
     };
 
-    // const feedback = await feedbackService.createFeedback(props);
+    const feedback = await feedbackService.createFeedback(props);
 
     const alertNotificationData: any = await alertConfigurationService.getAlertConfigurationByName({ company, name: 'feedback' });
     if (Object.keys(alertNotificationData || {}).length) {
       const { transport = {} } = alertNotificationData;
-      console.log('alertNotificationData', alertNotificationData)
       const emailBody = `
       Hi user!
       <br>  
@@ -30,13 +29,11 @@ class FeedbackController {
       <br>
       Team Care Diary
         `;
-      console.log('transport', transport)
       if (transport.primaryEmail) {
-        // sendEmail(transport.primaryEmail, emailBody)
+        sendEmail(transport.primaryEmail, emailBody)
       }
     }
-    console.log('alertNotificationData22', alertNotificationData)
-    res.status(200).json({});
+    res.status(200).json(feedback);
   }
 
   async updateFeedback(req: Request, res: Response) {

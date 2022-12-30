@@ -1,15 +1,30 @@
 import { staffDocumentService } from "../../api/staffDocument";
+import sendEmail from "../../components/email";
+
 
 const cronJob = () => {
     console.log("running a task every 10 second");
+    // notifyStaffDocuments();
 };
+const notifyStaffDocuments = async () => {
+    const expiredDocuments = await staffDocumentService.getExpiredStaffDocuments();
+    const emailBody = `
+      Hi user!
+      <br>  
+      <br>  
+      Staff document will be expired in 30 days!
+      <br>
+      <br>  
+      Best Regards,
+      <br>
+      Team Care Diary
+        `;
 
-const notifyStaffDocuments = () => {
-    const props = {
-
-        where: { expiryDate_lt: '2022-12-25T00:00:00+05:30', archived_eq: 'false' }
-    }
-    const expiredDocuments = staffDocumentService.getStaffDocuments();
+    expiredDocuments.forEach(document => {
+        if (document.Staff?.email) {
+            sendEmail(document.Staff?.email, emailBody)
+        }
+    })
 }
 
 export default cronJob;

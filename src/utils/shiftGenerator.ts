@@ -54,12 +54,20 @@ const convertDateToMoment = (date: string, timezone: any) =>
   makeMoment(date, timezone).format();
 
 // Add days in date
-const addDaysInDate = (
+export const addDaysInDate = (
   date: string | Date,
   number: number,
   type: any,
   timezone: any
 ) => makeMoment(date, timezone).add(number, type).format();
+
+export const getDateInterval = (date: string | Date, numberOfDays: number) => {
+  const currentDate = makeMoment(date).add(numberOfDays, 'days').format();
+  return {
+    startDate: makeMoment(currentDate).startOf("day").format(),
+    endDate: makeMoment(currentDate).endOf("day").format()
+  }
+}
 
 // returns the specific day date of week e.g any date with sunday then returns date of that sunday in the week
 const specificDay = (

@@ -23,6 +23,7 @@ import { AttachmentModel } from "../attachment";
 import { StaffDocumentTypeModel } from "../staffDocumentType";
 import { StaffDocumentCategoryModel } from "../staffDocumentCategory";
 import { StaffProfileModel } from "../staffProfile";
+import { getDateInterval } from "../../utils/shiftGenerator";
 class StaffDocumentService {
   async createStaffDocument(props: CreateStaffDocumentProps) {
     const { category, type, staff, company } = props;
@@ -222,6 +223,52 @@ class StaffDocumentService {
     return staffDocument;
   }
 
+  async getExpiredStaffDocuments() {
+    const getmonthlyDate = getDateInterval(new Date(), 30);
+    // Find  the staffDocument by id and company
+
+    const staffDocumentsWithMonthLeft = await StaffDocumentModel.findAll({
+      where: {
+        archived: {
+          [Op.eq]: "false",
+        },
+        expiryDate: {
+          [Op.gte]: getmonthlyDate.startDate,
+          [Op.lte]: getmonthlyDate.endDate,
+        }
+      },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: StaffProfileModel,
+          as: "Staff",
+          where: {
+            archived: {
+              [Op.eq]: "false",
+            },
+          },
+        },
+        {
+          model: StaffDocumentTypeModel,
+          as: "Type",
+        },
+        {
+          model: StaffDocumentCategoryModel,
+          as: "Category",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    return staffDocumentsWithMonthLeft;
+  }
+
   async getStaffDocumentByType(props: GetStaffDocumentByTypeProps) {
     // Props
     const { type, company } = props;
@@ -249,11 +296,9 @@ class StaffDocumentService {
   async getStaffDocuments(props: GetStaffDocumentsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
-    console.log('where', where)
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     let filters = getFilters(where);
-    console.log('filters', filters)
     // Only return archived results if filters contains archived
 
     if (filters.Staff) {
