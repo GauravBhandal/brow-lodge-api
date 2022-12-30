@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateWeightLog)
 );
 
+router.put(
+  "/archive/:weightLogId",
+  canDo("delete", "weightLog"),
+  weightLogSchems.deleteArchiveWeightLog,
+  catchWrap(controller.deleteArchiveWeightLog)
+);
+
 router.delete(
   "/:weightLogId",
   canDo("delete", "weightLog"),
