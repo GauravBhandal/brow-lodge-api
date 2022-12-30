@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateTemperatureLog)
 );
 
+router.put(
+  "/archive/:temperatureLogId",
+  canDo("delete", "temperatureLog"),
+  temperatureLogSchems.deleteArchiveTemperatureLog,
+  catchWrap(controller.deleteArchiveTemperatureLog)
+);
+
 router.delete(
   "/:temperatureLogId",
   canDo("delete", "temperatureLog"),

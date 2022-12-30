@@ -52,6 +52,57 @@ class TemperatureLogService {
     return updatedTemperatureLog;
   }
 
+  async deleteArchiveTemperatureLog(props: DeleteTemperatureLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the temperatureLog by id and company
+    const temperatureLog = await TemperatureLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if temperatureLog has been deleted, throw an error
+    if (!temperatureLog) {
+      throw new CustomError(
+        404,
+        TemperatureLogErrorCode.TEMPERATURE_LOG_NOT_FOUND
+      );
+    }
+
+    if (temperatureLog.archived) {
+      // Check if temperatureLog already exists
+      const existingTemperatureLog = await TemperatureLogModel.findAll({
+        where: {
+          date: temperatureLog.date,
+          time: temperatureLog.time,
+          company: temperatureLog.company,
+          staff: temperatureLog.staff,
+          client: temperatureLog.client,
+          reading: temperatureLog.reading,
+          archived: false,
+        },
+      });
+
+      if (existingTemperatureLog.length > 0) {
+        throw new CustomError(
+          409,
+          TemperatureLogErrorCode.TEMPERATURE_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the temperatureLog update the Archive state
+    const [, [updatedTemperatureLog]] = await TemperatureLogModel.update(
+      { archived: !temperatureLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedTemperatureLog;
+  }
+
   async deleteTemperatureLog(props: DeleteTemperatureLogProps) {
     // Props
     const { id, company } = props;
