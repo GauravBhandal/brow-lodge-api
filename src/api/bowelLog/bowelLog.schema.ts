@@ -36,6 +36,12 @@ const deleteBowelLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveBowelLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    bowelLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getBowelLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     bowelLogId: requiredUUIDSchema(),
@@ -55,6 +61,7 @@ export default {
   createBowelLog: joiMiddleware(createBowelLogSchema),
   editBowelLog: joiMiddleware(editBowelLogSchema),
   deleteBowelLog: joiMiddleware(deleteBowelLogSchema),
+  deleteArchiveBowelLog: joiMiddleware(deleteArchiveBowelLogSchema),
   getBowelLogById: joiMiddleware(getBowelLogByIdSchema),
   getBowelLogs: joiMiddleware(getBowelLogSchema),
 };
