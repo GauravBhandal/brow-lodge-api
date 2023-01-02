@@ -28,6 +28,18 @@ class FeedbackController {
     res.status(200).json(feedback);
   }
 
+  async deleteArchiveFeedback(req: Request, res: Response) {
+    const { feedbackId } = req.params;
+    const props = {
+      id: feedbackId,
+      company: req.auth.companyId,
+    };
+
+    await feedbackService.deleteArchiveFeedback(props);
+
+    res.status(204).json();
+  }
+
   async deleteFeedback(req: Request, res: Response) {
     const { feedbackId } = req.params;
     const props = {

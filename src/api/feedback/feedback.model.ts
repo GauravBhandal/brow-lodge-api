@@ -30,6 +30,7 @@ class FeedbackModel<
   company!: Feedback["company"];
   Company: Feedback["Company"];
   Attachments: Feedback["Attachments"];
+  archived: Feedback["archived"];
 }
 
 modelManager.init(
@@ -75,6 +76,9 @@ modelManager.init(
     },
     status: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

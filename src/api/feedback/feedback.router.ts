@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateFeedback)
 );
 
+router.put(
+  "/archive/:feedbackId",
+  canDo("delete", "feedback"),
+  feedbackSchems.deleteArchiveFeedback,
+  catchWrap(controller.deleteArchiveFeedback)
+);
+
 router.delete(
   "/:feedbackId",
   canDo("delete", "feedback"),

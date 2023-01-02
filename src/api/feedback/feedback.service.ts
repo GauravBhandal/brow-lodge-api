@@ -62,6 +62,48 @@ class FeedbackService {
     return updatedFeedback;
   }
 
+  async deleteArchiveFeedback(props: DeleteFeedbackProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the feedback by id and company
+    const feedback = await FeedbackModel.findOne({
+      where: { id, company },
+    });
+
+    // if feedback has been deleted, throw an error
+    if (!feedback) {
+      throw new CustomError(404, FeedbackErrorCode.FEEDBACK_NOT_FOUND);
+    }
+
+    if (feedback.archived) {
+      // Check if feedback already exists
+      const existingFeedback = await FeedbackModel.findAll({
+        where: {
+          dateReported: feedback.dateReported,
+          name: feedback.name,
+          company: feedback.company,
+          archived: false,
+        },
+      });
+
+      if (existingFeedback.length > 0) {
+        throw new CustomError(409, FeedbackErrorCode.FEEDBACK_ALREADY_EXISTS);
+      }
+    }
+
+    // Finally, update the feedback update the Archive state
+    const [, [updatedFeedback]] = await FeedbackModel.update(
+      { archived: !feedback.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedFeedback;
+  }
+
   async deleteFeedback(props: DeleteFeedbackProps) {
     // Props
     const { id, company } = props;
