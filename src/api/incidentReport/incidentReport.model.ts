@@ -35,6 +35,7 @@ class IncidentReportModel<
   company!: IncidentReport["company"];
   Company: IncidentReport["Company"];
   Attachments: IncidentReport["Attachments"];
+  archived: IncidentReport["archived"];
 }
 
 modelManager.init(
@@ -87,6 +88,9 @@ modelManager.init(
     },
     closureDate: {
       type: Sequelize.DATE,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

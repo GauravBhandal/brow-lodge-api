@@ -44,6 +44,18 @@ class IncidentReportController {
     res.status(204).json();
   }
 
+  async deleteArchiveIncidentReport(req: Request, res: Response) {
+    const { incidentReportId } = req.params;
+    const props = {
+      id: incidentReportId,
+      company: req.auth.companyId,
+    };
+
+    await incidentReportService.deleteArchiveIncidentReport(props);
+
+    res.status(204).json();
+  }
+
   async getincidentReportById(req: Request, res: Response) {
     const { incidentReportId } = req.params;
     const props = {

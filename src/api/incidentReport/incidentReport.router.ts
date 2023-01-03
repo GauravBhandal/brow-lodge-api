@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateIncidentReport)
 );
 
+router.put(
+  "/archive/:incidentReportId",
+  canDo("delete", "incidentReport"),
+  incidentReportSchems.deleteArchiveIncidentReport,
+  catchWrap(controller.deleteArchiveIncidentReport)
+);
+
 router.delete(
   "/:incidentReportId",
   canDo("delete", "incidentReport"),
