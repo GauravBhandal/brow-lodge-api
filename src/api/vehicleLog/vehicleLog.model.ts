@@ -27,6 +27,7 @@ class VehicleLogModel<
   Client: VehicleLog["Client"];
   company!: VehicleLog["company"];
   Company: VehicleLog["Company"];
+  archived: VehicleLog["archived"];
 }
 
 modelManager.init(
@@ -64,6 +65,9 @@ modelManager.init(
     vehicle: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
