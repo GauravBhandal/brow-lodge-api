@@ -73,12 +73,21 @@ class AlertConfigurationService {
     });
 
     if (!alertConfiguration) {
-      return {};
+      return [];
     }
 
-    const getAlertByName = alertConfiguration.find(alert => alert.name === name);
-
-    return getAlertByName;
+    const getAlertByName: any = alertConfiguration.find(alert => alert.name === name);
+    const { transport = {} } = getAlertByName;
+    const alertsEmails = []
+    const primaryEmail = transport.primaryEmail.trim();
+    const secondaryEmail = transport.secondaryEmail.trim();
+    if (primaryEmail.length) {
+      alertsEmails.push(primaryEmail)
+    }
+    if (secondaryEmail.length) {
+      alertsEmails.push(secondaryEmail)
+    }
+    return alertsEmails;
   }
 }
 

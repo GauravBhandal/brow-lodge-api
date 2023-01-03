@@ -15,24 +15,23 @@ class FeedbackController {
 
     const feedback = await feedbackService.createFeedback(props);
 
-    const alertNotificationData: any = await alertConfigurationService.getAlertConfigurationByName({ company, name: 'feedback' });
-    if (Object.keys(alertNotificationData || {}).length) {
-      const { transport = {} } = alertNotificationData;
-      const emailBody = `
-      Hi user!
-      <br>  
-      <br>  
-      New feedback form is created recently please check it once!
-      <br>
-      <br>  
-      Best Regards,
-      <br>
-      Team Care Diary
-        `;
-      if (transport.primaryEmail) {
-        sendEmail(transport.primaryEmail, emailBody)
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'feedback' }).then((alertNotificationEmails) => {
+      if (alertNotificationEmails.length) {
+        const emailBody = `
+        Hi user!
+        <br>  
+        <br>  
+        New feedback form is created recently please check it once!
+        <br>
+        <br>  
+        Best Regards,
+        <br>
+        Team Care Diary
+          `;
+        sendEmail(alertNotificationEmails, emailBody, "Feedback created successfully!")
       }
-    }
+    });
+
     res.status(200).json(feedback);
   }
 

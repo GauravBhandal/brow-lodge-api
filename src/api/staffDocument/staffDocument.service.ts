@@ -223,19 +223,30 @@ class StaffDocumentService {
     return staffDocument;
   }
 
-  async getExpiredStaffDocuments() {
-    const getmonthlyDate = getDateInterval(new Date(), 30);
+  async getExpiredStaffDocuments(numberOfDays: number) {
+    const getmonthlyDate = getDateInterval(new Date(), numberOfDays);
     // Find  the staffDocument by id and company
+
+    const getExpiryDatesOps = () => {
+      if (numberOfDays <= 0) {
+        return ({
+          [Op.lte]: getmonthlyDate.startDate,
+        })
+      }
+      else {
+        return ({
+          [Op.gte]: getmonthlyDate.startDate,
+          [Op.lte]: getmonthlyDate.endDate,
+        })
+      }
+    }
 
     const staffDocumentsWithMonthLeft = await StaffDocumentModel.findAll({
       where: {
         archived: {
           [Op.eq]: "false",
         },
-        expiryDate: {
-          [Op.gte]: getmonthlyDate.startDate,
-          [Op.lte]: getmonthlyDate.endDate,
-        }
+        expiryDate: getExpiryDatesOps()
       },
       include: [
         {
