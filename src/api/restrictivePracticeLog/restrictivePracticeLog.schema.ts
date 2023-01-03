@@ -62,6 +62,12 @@ const deleteRestrictivePracticeLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveRestrictivePracticeLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    restrictivePracticeLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getRestrictivePracticeLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     restrictivePracticeLogId: requiredUUIDSchema(),
@@ -84,6 +90,9 @@ export default {
   editRestrictivePracticeLog: joiMiddleware(editRestrictivePracticeLogSchema),
   deleteRestrictivePracticeLog: joiMiddleware(
     deleteRestrictivePracticeLogSchema
+  ),
+  deleteArchiveRestrictivePracticeLog: joiMiddleware(
+    deleteArchiveRestrictivePracticeLogSchema
   ),
   getRestrictivePracticeLogById: joiMiddleware(
     getRestrictivePracticeLogByIdSchema
