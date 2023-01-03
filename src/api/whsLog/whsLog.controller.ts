@@ -40,6 +40,18 @@ class WhsLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveWhsLog(req: Request, res: Response) {
+    const { whsLogId } = req.params;
+    const props = {
+      id: whsLogId,
+      company: req.auth.companyId,
+    };
+
+    await whsLogService.deleteArchiveWhsLog(props);
+
+    res.status(204).json();
+  }
+
   async getwhsLogById(req: Request, res: Response) {
     const { whsLogId } = req.params;
     const props = {

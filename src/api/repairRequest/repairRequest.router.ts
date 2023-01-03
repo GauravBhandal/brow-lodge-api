@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateRepairRequest)
 );
 
+router.put(
+  "/archive/:repairRequestId",
+  canDo("delete", "repairRequest"),
+  repairRequestSchems.deleteArchiveRepairRequest,
+  catchWrap(controller.deleteArchiveRepairRequest)
+);
+
 router.delete(
   "/:repairRequestId",
   canDo("delete", "repairRequest"),

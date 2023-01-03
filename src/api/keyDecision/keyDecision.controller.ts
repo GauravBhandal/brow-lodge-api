@@ -40,6 +40,18 @@ class KeyDecisionController {
     res.status(204).json();
   }
 
+  async deleteArchiveKeyDecision(req: Request, res: Response) {
+    const { keyDecisionId } = req.params;
+    const props = {
+      id: keyDecisionId,
+      company: req.auth.companyId,
+    };
+
+    await keyDecisionService.deleteArchiveKeyDecision(props);
+
+    res.status(204).json();
+  }
+
   async getkeyDecisionById(req: Request, res: Response) {
     const { keyDecisionId } = req.params;
     const props = {

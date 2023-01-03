@@ -40,6 +40,12 @@ const deleteContinuousImprovementSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveContinuousImprovementSchema = wrapSchema({
+  params: Joi.object().keys({
+    continuousImprovementId: requiredUUIDSchema(),
+  }),
+});
+
 const getContinuousImprovementByIdSchema = wrapSchema({
   params: Joi.object().keys({
     continuousImprovementId: requiredUUIDSchema(),
@@ -59,6 +65,9 @@ export default {
   createContinuousImprovement: joiMiddleware(createContinuousImprovementSchema),
   editContinuousImprovement: joiMiddleware(editContinuousImprovementSchema),
   deleteContinuousImprovement: joiMiddleware(deleteContinuousImprovementSchema),
+  deleteArchiveContinuousImprovement: joiMiddleware(
+    deleteArchiveContinuousImprovementSchema
+  ),
   getContinuousImprovementById: joiMiddleware(
     getContinuousImprovementByIdSchema
   ),

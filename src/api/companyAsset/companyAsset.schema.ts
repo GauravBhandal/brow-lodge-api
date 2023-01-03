@@ -36,6 +36,12 @@ const deleteCompanyAssetSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveCompanyAssetSchema = wrapSchema({
+  params: Joi.object().keys({
+    companyAssetId: requiredUUIDSchema(),
+  }),
+});
+
 const getCompanyAssetByIdSchema = wrapSchema({
   params: Joi.object().keys({
     companyAssetId: requiredUUIDSchema(),
@@ -55,6 +61,7 @@ export default {
   createCompanyAsset: joiMiddleware(createCompanyAssetSchema),
   editCompanyAsset: joiMiddleware(editCompanyAssetSchema),
   deleteCompanyAsset: joiMiddleware(deleteCompanyAssetSchema),
+  deleteArchiveCompanyAsset: joiMiddleware(deleteArchiveCompanyAssetSchema),
   getCompanyAssetById: joiMiddleware(getCompanyAssetByIdSchema),
   getCompanyAssets: joiMiddleware(getCompanyAssetSchema),
 };
