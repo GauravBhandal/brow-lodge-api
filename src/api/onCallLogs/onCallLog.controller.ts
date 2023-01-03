@@ -40,6 +40,18 @@ class OnCallLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveOnCallLog(req: Request, res: Response) {
+    const { onCallLogId } = req.params;
+    const props = {
+      id: onCallLogId,
+      company: req.auth.companyId,
+    };
+
+    await onCallLogService.deleteArchiveOnCallLog(props);
+
+    res.status(204).json();
+  }
+
   async getonCallLogById(req: Request, res: Response) {
     const { onCallLogId } = req.params;
     const props = {
