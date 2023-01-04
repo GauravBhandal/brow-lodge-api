@@ -28,6 +28,7 @@ class ParticipantCommunicationLogModel<
   company!: ParticipantCommunicationLog["company"];
   Company: ParticipantCommunicationLog["Company"];
   Attachments: ParticipantCommunicationLog["Attachments"];
+  archived: ParticipantCommunicationLog["archived"];
 }
 
 modelManager.init(
@@ -45,6 +46,7 @@ modelManager.init(
     communicationWith: { type: Sequelize.STRING },
     subject: { type: Sequelize.STRING, allowNull: false },
     description: { type: Sequelize.STRING, allowNull: false },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {
