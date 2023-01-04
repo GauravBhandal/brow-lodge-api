@@ -3,7 +3,7 @@ import sendEmail from "../../components/email";
 
 
 const cronJob = () => {
-    console.log("running a task every 2 mins");
+    console.log("running a task every 24 hours");
     notifyStaffDocuments();
 };
 const notifyStaffDocuments = () => {
@@ -47,7 +47,7 @@ const notifyStaffDocuments = () => {
         })
     })
 
-    staffDocumentService.getExpiredStaffDocuments(14).then((documentsExpiresIn7Days) => {
+    staffDocumentService.getExpiredStaffDocuments(7).then((documentsExpiresIn7Days) => {
         const emailBody = `
         Hi user!
         <br>  
@@ -67,7 +67,7 @@ const notifyStaffDocuments = () => {
         })
     })
 
-    staffDocumentService.getExpiredStaffDocuments(14).then((documentsExpiresIn1Day) => {
+    staffDocumentService.getExpiredStaffDocuments(1).then((documentsExpiresIn1Day) => {
         const emailBody = `
         Hi user!
         <br>  
@@ -81,26 +81,6 @@ const notifyStaffDocuments = () => {
           `;
 
         documentsExpiresIn1Day.forEach(document => {
-            if (document.Staff?.email) {
-                sendEmail([document.Staff?.email], emailBody, "Staff documents expiry reminder")
-            }
-        })
-    })
-
-    staffDocumentService.getExpiredStaffDocuments(0).then((documentsExpired) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Staff document are expired!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-
-        documentsExpired.forEach(document => {
             if (document.Staff?.email) {
                 sendEmail([document.Staff?.email], emailBody, "Staff documents expiry reminder")
             }
