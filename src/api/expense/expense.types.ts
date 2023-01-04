@@ -19,7 +19,7 @@ export interface Expense extends DefaultSchemaConfig {
   paymentReimbursed: string;
   company: Company["id"];
   Company?: Company;
-  
+  archived?: boolean;
 }
 
 export interface CreateExpenseProps {
@@ -33,11 +33,9 @@ export interface CreateExpenseProps {
   status: Expense["status"];
   paymentReimbursed: Expense["paymentReimbursed"];
   company: Expense["company"];
- 
 }
 
-export interface UpdateExpenseProps
-  extends CreateExpenseProps {
+export interface UpdateExpenseProps extends CreateExpenseProps {
   id: Expense["id"];
 }
 
@@ -46,8 +44,7 @@ export interface DeleteExpenseProps {
   company: Expense["company"];
 }
 
-export interface GetExpenseByIdProps
-  extends DeleteExpenseProps {}
+export interface GetExpenseByIdProps extends DeleteExpenseProps {}
 
 export interface GetExpensesProps extends QueryParams {
   company: Expense["company"];
