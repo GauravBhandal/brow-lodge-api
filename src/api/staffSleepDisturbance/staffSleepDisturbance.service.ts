@@ -53,6 +53,62 @@ class StaffSleepDisturbanceService {
     return updatedStaffSleepDisturbance;
   }
 
+  async deleteArchiveStaffSleepDisturbance(
+    props: DeleteStaffSleepDisturbanceProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the staffSleepDisturbance by id and company
+    const staffSleepDisturbance = await StaffSleepDisturbanceModel.findOne({
+      where: { id, company },
+    });
+
+    // if staffSleepDisturbance has been deleted, throw an error
+    if (!staffSleepDisturbance) {
+      throw new CustomError(
+        404,
+        StaffSleepDisturbanceErrorCode.STAFF_SLEEP_DISTURBANCE_NOT_FOUND
+      );
+    }
+
+    if (staffSleepDisturbance.archived) {
+      // Check if staffSleepDisturbance already exists
+      const existingPractice = await StaffSleepDisturbanceModel.findAll({
+        where: {
+          date: staffSleepDisturbance.date,
+          startTime: staffSleepDisturbance.startTime,
+          endTime: staffSleepDisturbance.endTime,
+          staff: staffSleepDisturbance.staff,
+          client: staffSleepDisturbance.client,
+          totalHours: staffSleepDisturbance.totalHours,
+          description: staffSleepDisturbance.description,
+          actions: staffSleepDisturbance.actions,
+          company: staffSleepDisturbance.company,
+          archived: false,
+        },
+      });
+
+      if (existingPractice.length > 0) {
+        throw new CustomError(
+          409,
+          StaffSleepDisturbanceErrorCode.STAFF_SLEEP_DISTURBANCE_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the staffSleepDisturbance update the Archive state
+    const [, [updatedPracticeGuide]] = await StaffSleepDisturbanceModel.update(
+      { archived: !staffSleepDisturbance.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedPracticeGuide;
+  }
+
   async deleteStaffSleepDisturbance(props: DeleteStaffSleepDisturbanceProps) {
     // Props
     const { id, company } = props;
