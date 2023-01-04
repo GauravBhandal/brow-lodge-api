@@ -42,6 +42,18 @@ class StaffSupervisionLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveStaffSupervisionLog(req: Request, res: Response) {
+    const { staffSupervisionLogId } = req.params;
+    const props = {
+      id: staffSupervisionLogId,
+      company: req.auth.companyId,
+    };
+
+    await staffSupervisionLogService.deleteArchiveStaffSupervisionLog(props);
+
+    res.status(204).json();
+  }
+
   async getstaffSupervisionLogById(req: Request, res: Response) {
     const { staffSupervisionLogId } = req.params;
     const props = {
