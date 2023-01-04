@@ -23,6 +23,7 @@ import { AttachmentModel } from "../attachment";
 import { StaffDocumentTypeModel } from "../staffDocumentType";
 import { StaffDocumentCategoryModel } from "../staffDocumentCategory";
 import { StaffProfileModel } from "../staffProfile";
+import { getDateInterval } from "../../utils/shiftGenerator";
 class StaffDocumentService {
   async createStaffDocument(props: CreateStaffDocumentProps) {
     const { category, type, staff, company } = props;
@@ -222,6 +223,63 @@ class StaffDocumentService {
     return staffDocument;
   }
 
+  async getExpiredStaffDocuments(numberOfDays: number) {
+    const getmonthlyDate = getDateInterval(new Date(), numberOfDays);
+    // Find  the staffDocument by id and company
+
+    const getExpiryDatesOps = () => {
+      if (numberOfDays <= 0) {
+        return ({
+          [Op.lte]: getmonthlyDate.startDate,
+        })
+      }
+      else {
+        return ({
+          [Op.gte]: getmonthlyDate.startDate,
+          [Op.lte]: getmonthlyDate.endDate,
+        })
+      }
+    }
+
+    const staffDocumentsWithMonthLeft = await StaffDocumentModel.findAll({
+      where: {
+        archived: {
+          [Op.eq]: "false",
+        },
+        expiryDate: getExpiryDatesOps()
+      },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: StaffProfileModel,
+          as: "Staff",
+          where: {
+            archived: {
+              [Op.eq]: "false",
+            },
+          },
+        },
+        {
+          model: StaffDocumentTypeModel,
+          as: "Type",
+        },
+        {
+          model: StaffDocumentCategoryModel,
+          as: "Category",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    return staffDocumentsWithMonthLeft;
+  }
+
   async getStaffDocumentByType(props: GetStaffDocumentByTypeProps) {
     // Props
     const { type, company } = props;
@@ -249,11 +307,9 @@ class StaffDocumentService {
   async getStaffDocuments(props: GetStaffDocumentsProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
-
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     let filters = getFilters(where);
-
     // Only return archived results if filters contains archived
 
     if (filters.Staff) {
