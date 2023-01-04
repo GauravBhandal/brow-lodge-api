@@ -16,7 +16,7 @@ class InternalRegisterController {
     const internalRegister =
       await internalRegisterService.createInternalRegister(props);
 
-    alertConfigurationService.getAlertConfigurationByName({ company, name: 'incidentReport' }).then((alertNotificationEmails) => {
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'internalRegister' }).then((alertNotificationEmails) => {
       if (alertNotificationEmails.length) {
         const emailBody = `
           Hi user!
