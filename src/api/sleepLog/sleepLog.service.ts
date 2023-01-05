@@ -68,7 +68,6 @@ class SleepLogService {
           time: sleepLog.time,
           client: sleepLog.client,
           staff: sleepLog.staff,
-          activity: sleepLog.activity,
           company: sleepLog.company,
           archived: false,
         },
