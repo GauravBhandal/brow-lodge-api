@@ -227,7 +227,7 @@ class StaffDocumentService {
     const getmonthlyDate = getDateInterval(new Date(), numberOfDays);
     // Find  the staffDocument by id and company
 
-    const staffDocumentsWithMonthLeft = await StaffDocumentModel.findAll({
+    const expiredDocuments = await StaffDocumentModel.findAll({
       where: {
         archived: {
           [Op.eq]: "false",
@@ -266,7 +266,7 @@ class StaffDocumentService {
         },
       ],
     });
-    return staffDocumentsWithMonthLeft;
+    return expiredDocuments;
   }
 
   async getStaffDocumentByType(props: GetStaffDocumentByTypeProps) {
