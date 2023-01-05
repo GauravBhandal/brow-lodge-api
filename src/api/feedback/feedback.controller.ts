@@ -15,6 +15,7 @@ class FeedbackController {
 
     const feedback = await feedbackService.createFeedback(props);
 
+    // Send Email after creating the entry if alerts are set and emails are present
     alertConfigurationService.getAlertConfigurationByName({ company, name: 'feedback' }).then((alertNotificationEmails) => {
       if (alertNotificationEmails.length) {
         const emailBody = `
