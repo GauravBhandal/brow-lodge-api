@@ -66,6 +66,9 @@ class BowelLogService {
         where: {
           date: bowelLog.date,
           time: bowelLog.time,
+          staff: bowelLog.staff,
+          client: bowelLog.client,
+          status: bowelLog.status,
           company: bowelLog.company,
           archived: false,
         },
