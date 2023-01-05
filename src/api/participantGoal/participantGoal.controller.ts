@@ -44,6 +44,18 @@ class ParticipantGoalController {
     res.status(204).json();
   }
 
+  async deleteArchiveParticipantGoal(req: Request, res: Response) {
+    const { participantGoalId } = req.params;
+    const props = {
+      id: participantGoalId,
+      company: req.auth.companyId,
+    };
+
+    await participantGoalService.deleteArchiveParticipantGoal(props);
+
+    res.status(204).json();
+  }
+
   async getparticipantGoalById(req: Request, res: Response) {
     const { participantGoalId } = req.params;
     const props = {

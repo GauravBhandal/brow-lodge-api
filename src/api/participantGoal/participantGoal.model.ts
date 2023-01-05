@@ -32,6 +32,7 @@ class ParticipantGoalModel<
   dueDate: ParticipantGoal["dueDate"];
   company!: ParticipantGoal["company"];
   Company: ParticipantGoal["Company"];
+  archived: ParticipantGoal["archived"];
 }
 
 modelManager.init(
@@ -48,6 +49,7 @@ modelManager.init(
     startDate: { type: Sequelize.DATE, allowNull: false },
     reviewDate: { type: Sequelize.DATE },
     dueDate: { type: Sequelize.DATE },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {
