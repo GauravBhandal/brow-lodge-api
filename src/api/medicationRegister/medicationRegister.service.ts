@@ -50,6 +50,60 @@ class MedicationRegisterService {
     return updatedMedicationRegister;
   }
 
+  async deleteArchiveMedicationRegister(props: DeleteMedicationRegisterProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the medicationRegister by id and company
+    const medicationRegister = await MedicationRegisterModel.findOne({
+      where: { id, company },
+    });
+
+    // if medicationRegister has been deleted, throw an error
+    if (!medicationRegister) {
+      throw new CustomError(
+        404,
+        MedicationRegisterErrorCode.MEDICATION_REGISTER_NOT_FOUND
+      );
+    }
+
+    if (medicationRegister.archived) {
+      // Check if medicationRegister already exists
+      const existingMedicationRegister = await MedicationRegisterModel.findAll({
+        where: {
+          startDate: medicationRegister.startDate,
+          client: medicationRegister.client,
+          staff: medicationRegister.staff,
+          medicationName: medicationRegister.medicationName,
+          administrationType: medicationRegister.administrationType,
+          dosage: medicationRegister.dosage,
+          frequency: medicationRegister.frequency,
+          company: medicationRegister.company,
+          archived: false,
+        },
+      });
+
+      if (existingMedicationRegister.length > 0) {
+        throw new CustomError(
+          409,
+          MedicationRegisterErrorCode.MEDICATION_REGISTER_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the medicationRegister update the Archive state
+    const [, [updatedMedicationRegister]] =
+      await MedicationRegisterModel.update(
+        { archived: !medicationRegister.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedMedicationRegister;
+  }
+
   async deleteMedicationRegister(props: DeleteMedicationRegisterProps) {
     // Props
     const { id, company } = props;
