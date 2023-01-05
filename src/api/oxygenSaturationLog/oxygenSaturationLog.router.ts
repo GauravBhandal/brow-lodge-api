@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateOxygenSaturationLog)
 );
 
+router.put(
+  "/archive/:oxygenSaturationLogId",
+  canDo("delete", "oxygenSaturationLog"),
+  oxygenSaturationLogSchems.deleteArchiveOxygenSaturationLog,
+  catchWrap(controller.deleteArchiveOxygenSaturationLog)
+);
+
 router.delete(
   "/:oxygenSaturationLogId",
   canDo("delete", "oxygenSaturationLog"),

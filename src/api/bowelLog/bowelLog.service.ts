@@ -46,6 +46,50 @@ class BowelLogService {
     return updatedBowelLog;
   }
 
+  async deleteArchiveBowelLog(props: DeleteBowelLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the bowelLog by id and company
+    const bowelLog = await BowelLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if bowelLog has been deleted, throw an error
+    if (!bowelLog) {
+      throw new CustomError(404, BowelLogErrorCode.BOWEL_LOG_NOT_FOUND);
+    }
+
+    if (bowelLog.archived) {
+      // Check if bowelLog already exists
+      const existingBowelLog = await BowelLogModel.findAll({
+        where: {
+          date: bowelLog.date,
+          time: bowelLog.time,
+          staff: bowelLog.staff,
+          client: bowelLog.client,
+          company: bowelLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingBowelLog.length > 0) {
+        throw new CustomError(409, BowelLogErrorCode.BOWEL_LOG_ALREADY_EXISTS);
+      }
+    }
+
+    // Finally, update the bowelLog update the Archive state
+    const [, [updatedBowelLog]] = await BowelLogModel.update(
+      { archived: !bowelLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedBowelLog;
+  }
+
   async deleteBowelLog(props: DeleteBowelLogProps) {
     // Props
     const { id, company } = props;

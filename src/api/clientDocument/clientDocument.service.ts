@@ -23,6 +23,7 @@ import { AttachmentModel } from "../attachment";
 import { ClientDocumentTypeModel } from "../clientDocumentType";
 import { ClientDocumentCategoryModel } from "../clientDocumentCategory";
 import { ClientProfileModel } from "../clientProfile";
+import { getDateInterval } from "../../utils/shiftGenerator";
 class ClientDocumentService {
   async createClientDocument(props: CreateClientDocumentProps) {
     const { category, type, client, company } = props;
@@ -220,6 +221,47 @@ class ClientDocumentService {
     }
 
     return clientDocument;
+  }
+
+  async getExpiredClientDocuments(numberOfDays: number) {
+    const getmonthlyDate = getDateInterval(new Date(), numberOfDays);
+    // Find  the clientDocument by id and company
+
+    const expiredDocuments = await ClientDocumentModel.findAll({
+      where: {
+        archived: {
+          [Op.eq]: "false",
+        },
+        expiryDate: {
+          [Op.gte]: getmonthlyDate.startDate,
+          [Op.lte]: getmonthlyDate.endDate,
+        }
+      },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: ClientProfileModel,
+          as: "Client",
+        },
+        {
+          model: ClientDocumentTypeModel,
+          as: "Type",
+        },
+        {
+          model: ClientDocumentCategoryModel,
+          as: "Category",
+        },
+        {
+          model: AttachmentModel,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    return expiredDocuments;
   }
 
   async getClientDocumentByType(props: GetClientDocumentByTypeProps) {
