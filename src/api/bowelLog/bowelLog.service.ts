@@ -68,7 +68,6 @@ class BowelLogService {
           time: bowelLog.time,
           staff: bowelLog.staff,
           client: bowelLog.client,
-          status: bowelLog.status,
           company: bowelLog.company,
           archived: false,
         },

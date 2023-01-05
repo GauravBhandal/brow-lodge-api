@@ -78,8 +78,6 @@ class OxygenSaturationLogService {
             staff: oxygenSaturationLog.staff,
             time: oxygenSaturationLog.time,
             client: oxygenSaturationLog.client,
-            reading: oxygenSaturationLog.reading,
-            probePlacement: oxygenSaturationLog.probePlacement,
             company: oxygenSaturationLog.company,
             archived: false,
           },

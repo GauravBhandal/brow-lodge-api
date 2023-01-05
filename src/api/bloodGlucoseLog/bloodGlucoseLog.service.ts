@@ -77,7 +77,6 @@ class BloodGlucoseLogService {
           time: bloodGlucoseLog.time,
           staff: bloodGlucoseLog.staff,
           client: bloodGlucoseLog.client,
-          reading: bloodGlucoseLog.reading,
           company: bloodGlucoseLog.company,
           archived: false,
         },
