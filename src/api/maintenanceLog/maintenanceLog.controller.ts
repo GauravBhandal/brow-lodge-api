@@ -44,6 +44,18 @@ class MaintenanceLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveMaintenanceLog(req: Request, res: Response) {
+    const { maintenanceLogId } = req.params;
+    const props = {
+      id: maintenanceLogId,
+      company: req.auth.companyId,
+    };
+
+    await maintenanceLogService.deleteArchiveMaintenanceLog(props);
+
+    res.status(204).json();
+  }
+
   async getmaintenanceLogById(req: Request, res: Response) {
     const { maintenanceLogId } = req.params;
     const props = {

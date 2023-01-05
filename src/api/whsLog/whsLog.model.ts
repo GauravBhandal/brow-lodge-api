@@ -21,6 +21,7 @@ class WhsLogModel<
   company!: WhsLog["company"];
   Company: WhsLog["Company"];
   Attachments: WhsLog["Attachments"];
+  archived: WhsLog["archived"];
 }
 
 modelManager.init(
@@ -44,6 +45,9 @@ modelManager.init(
     },
     comments: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

@@ -32,6 +32,12 @@ const deleteKeyDecisionSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveKeyDecisionSchema = wrapSchema({
+  params: Joi.object().keys({
+    keyDecisionId: requiredUUIDSchema(),
+  }),
+});
+
 const getKeyDecisionByIdSchema = wrapSchema({
   params: Joi.object().keys({
     keyDecisionId: requiredUUIDSchema(),
@@ -51,6 +57,7 @@ export default {
   createKeyDecision: joiMiddleware(createKeyDecisionSchema),
   editKeyDecision: joiMiddleware(editKeyDecisionSchema),
   deleteKeyDecision: joiMiddleware(deleteKeyDecisionSchema),
+  deleteArchiveKeyDecision: joiMiddleware(deleteArchiveKeyDecisionSchema),
   getKeyDecisionById: joiMiddleware(getKeyDecisionByIdSchema),
   getKeyDecisions: joiMiddleware(getKeyDecisionSchema),
 };

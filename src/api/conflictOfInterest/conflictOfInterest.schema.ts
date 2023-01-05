@@ -34,6 +34,12 @@ const deleteConflictOfInterestSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveConflictOfInterestSchema = wrapSchema({
+  params: Joi.object().keys({
+    conflictOfInterestId: requiredUUIDSchema(),
+  }),
+});
+
 const getConflictOfInterestByIdSchema = wrapSchema({
   params: Joi.object().keys({
     conflictOfInterestId: requiredUUIDSchema(),
@@ -53,6 +59,9 @@ export default {
   createConflictOfInterest: joiMiddleware(createConflictOfInterestSchema),
   editConflictOfInterest: joiMiddleware(editConflictOfInterestSchema),
   deleteConflictOfInterest: joiMiddleware(deleteConflictOfInterestSchema),
+  deleteArchiveConflictOfInterest: joiMiddleware(
+    deleteArchiveConflictOfInterestSchema
+  ),
   getConflictOfInterestById: joiMiddleware(getConflictOfInterestByIdSchema),
   getConflictOfInterests: joiMiddleware(getConflictOfInterestSchema),
 };

@@ -42,6 +42,18 @@ class ConflictOfInterestController {
     res.status(204).json();
   }
 
+  async deleteArchiveConflictOfInterest(req: Request, res: Response) {
+    const { conflictOfInterestId } = req.params;
+    const props = {
+      id: conflictOfInterestId,
+      company: req.auth.companyId,
+    };
+
+    await conflictOfInterestService.deleteArchiveConflictOfInterest(props);
+
+    res.status(204).json();
+  }
+
   async getconflictOfInterestById(req: Request, res: Response) {
     const { conflictOfInterestId } = req.params;
     const props = {

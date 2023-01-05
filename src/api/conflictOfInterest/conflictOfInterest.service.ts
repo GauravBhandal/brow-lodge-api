@@ -72,6 +72,57 @@ class ConflictOfInterestService {
     return updatedConflictOfInterest;
   }
 
+  async deleteArchiveConflictOfInterest(props: DeleteConflictOfInterestProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the conflictOfInterest by id and company
+    const conflictOfInterest = await ConflictOfInterestModel.findOne({
+      where: { id, company },
+    });
+
+    // if conflictOfInterest has been deleted, throw an error
+    if (!conflictOfInterest) {
+      throw new CustomError(
+        404,
+        ConflictOfInterestErrorCode.CONFLICT_OF_INTEREST_NOT_FOUND
+      );
+    }
+
+    if (conflictOfInterest.archived) {
+      // Check if conflictOfInterest already exists
+      const existingConflictOfInterest = await ConflictOfInterestModel.findAll({
+        where: {
+          date: conflictOfInterest.date,
+          staff: conflictOfInterest.staff,
+          conflictDescription: conflictOfInterest.conflictDescription,
+          mitigationStrategy: conflictOfInterest.mitigationStrategy,
+          company: conflictOfInterest.company,
+          archived: false,
+        },
+      });
+
+      if (existingConflictOfInterest.length > 0) {
+        throw new CustomError(
+          409,
+          ConflictOfInterestErrorCode.CONFLICT_OF_INTEREST_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the conflictOfInterest update the Archive state
+    const [, [updatedConflictOfInterest]] =
+      await ConflictOfInterestModel.update(
+        { archived: !conflictOfInterest.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedConflictOfInterest;
+  }
+
   async deleteConflictOfInterest(props: DeleteConflictOfInterestProps) {
     // Props
     const { id, company } = props;

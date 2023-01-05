@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateLegislationRegister)
 );
 
+router.put(
+  "/archive/:legislationRegisterId",
+  canDo("delete", "legislationRegister"),
+  legislationRegisterSchemas.deleteArchiveLegislationRegister,
+  catchWrap(controller.deleteArchiveLegislationRegister)
+);
+
 router.delete(
   "/:legislationRegisterId",
   canDo("delete", "legislationRegister"),

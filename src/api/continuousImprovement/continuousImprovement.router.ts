@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateContinuousImprovement)
 );
 
+router.put(
+  "/archive/:continuousImprovementId",
+  canDo("delete", "continuousImprovement"),
+  continuousImprovementSchems.deleteArchiveContinuousImprovement,
+  catchWrap(controller.deleteArchiveContinuousImprovement)
+);
+
 router.delete(
   "/:continuousImprovementId",
   canDo("delete", "continuousImprovement"),

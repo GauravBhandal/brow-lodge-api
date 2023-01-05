@@ -44,6 +44,12 @@ const deleteRegulatoryComplianceSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveRegulatoryComplianceSchema = wrapSchema({
+  params: Joi.object().keys({
+    regulatoryComplianceId: requiredUUIDSchema(),
+  }),
+});
+
 const getRegulatoryComplianceByIdSchema = wrapSchema({
   params: Joi.object().keys({
     regulatoryComplianceId: requiredUUIDSchema(),
@@ -63,6 +69,9 @@ export default {
   createRegulatoryCompliance: joiMiddleware(createRegulatoryComplianceSchema),
   editRegulatoryCompliance: joiMiddleware(editRegulatoryComplianceSchema),
   deleteRegulatoryCompliance: joiMiddleware(deleteRegulatoryComplianceSchema),
+  deleteArchiveRegulatoryCompliance: joiMiddleware(
+    deleteArchiveRegulatoryComplianceSchema
+  ),
   getRegulatoryComplianceById: joiMiddleware(getRegulatoryComplianceByIdSchema),
   getRegulatoryCompliances: joiMiddleware(getRegulatoryComplianceSchema),
 };

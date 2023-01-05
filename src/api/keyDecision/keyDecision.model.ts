@@ -22,6 +22,7 @@ class KeyDecisionModel<
   Staff: KeyDecision["Staff"];
   company!: KeyDecision["company"];
   Company: KeyDecision["Company"];
+  archived: KeyDecision["archived"];
 }
 
 modelManager.init(
@@ -45,6 +46,9 @@ modelManager.init(
     },
     costImplications: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
