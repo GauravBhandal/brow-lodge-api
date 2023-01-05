@@ -42,6 +42,12 @@ const deleteSleepLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveSleepLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    sleepLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getSleepLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     sleepLogId: requiredUUIDSchema(),
@@ -61,6 +67,7 @@ export default {
   createSleepLog: joiMiddleware(createSleepLogSchema),
   editSleepLog: joiMiddleware(editSleepLogSchema),
   deleteSleepLog: joiMiddleware(deleteSleepLogSchema),
+  deleteArchiveSleepLog: joiMiddleware(deleteArchiveSleepLogSchema),
   getSleepLogById: joiMiddleware(getSleepLogByIdSchema),
   getSleepLogs: joiMiddleware(getSleepLogSchema),
 };
