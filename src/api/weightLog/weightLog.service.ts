@@ -69,7 +69,6 @@ class WeightLogService {
           company: weightLog.company,
           staff: weightLog.staff,
           client: weightLog.client,
-          reading: weightLog.reading,
           archived: false,
         },
       });
