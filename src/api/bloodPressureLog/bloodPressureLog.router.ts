@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateBloodPressureLog)
 );
 
+router.put(
+  "/archive/:bloodPressureLogId",
+  canDo("delete", "bloodPressureLog"),
+  bloodPressureLogSchems.deleteArchiveBloodPressureLog,
+  catchWrap(controller.deleteArchiveBloodPressureLog)
+);
+
 router.delete(
   "/:bloodPressureLogId",
   canDo("delete", "bloodPressureLog"),
