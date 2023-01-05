@@ -17,6 +17,7 @@ export interface ParticipantMedicationChart extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Attachments?: Attachment[];
+  archived?: boolean;
 }
 
 export interface CreateParticipantMedicationChartProps {
