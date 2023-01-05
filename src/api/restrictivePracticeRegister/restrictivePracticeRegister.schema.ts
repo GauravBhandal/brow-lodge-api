@@ -54,6 +54,12 @@ const deleteRestrictivePracticeRegisterSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveRestrictivePracticeRegisterSchema = wrapSchema({
+  params: Joi.object().keys({
+    restrictivePracticeRegisterId: requiredUUIDSchema(),
+  }),
+});
+
 const getRestrictivePracticeRegisterByIdSchema = wrapSchema({
   params: Joi.object().keys({
     restrictivePracticeRegisterId: requiredUUIDSchema(),
@@ -78,6 +84,9 @@ export default {
   ),
   deleteRestrictivePracticeRegister: joiMiddleware(
     deleteRestrictivePracticeRegisterSchema
+  ),
+  deleteArchiveRestrictivePracticeRegister: joiMiddleware(
+    deleteArchiveRestrictivePracticeRegisterSchema
   ),
   getRestrictivePracticeRegisterById: joiMiddleware(
     getRestrictivePracticeRegisterByIdSchema

@@ -57,6 +57,68 @@ class RestrictivePracticeRegisterService {
     return updatedRestrictivePracticeRegister;
   }
 
+  async deleteArchiveRestrictivePracticeRegister(
+    props: DeleteRestrictivePracticeRegisterProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the restrictivePracticeRegister by id and company
+    const restrictivePracticeRegister =
+      await RestrictivePracticeRegisterModel.findOne({
+        where: { id, company },
+      });
+
+    // if restrictivePracticeRegister has been deleted, throw an error
+    if (!restrictivePracticeRegister) {
+      throw new CustomError(
+        404,
+        RestrictivePracticeRegisterErrorCode.RESTRICTIVE_PRACTICE_REGISTER_NOT_FOUND
+      );
+    }
+
+    if (restrictivePracticeRegister.archived) {
+      // Check if restrictivePracticeRegister already exists
+      const existingRestrictivePracticeRegister =
+        await RestrictivePracticeRegisterModel.findAll({
+          where: {
+            startDate: restrictivePracticeRegister.startDate,
+            startTime: restrictivePracticeRegister.startTime,
+            typeOfRestrictivePractice:
+              restrictivePracticeRegister.typeOfRestrictivePractice,
+            administrationType: restrictivePracticeRegister.administrationType,
+            client: restrictivePracticeRegister.client,
+            isAuthorised: restrictivePracticeRegister.isAuthorised,
+            description: restrictivePracticeRegister.description,
+            behaviourOfConcerns:
+              restrictivePracticeRegister.behaviourOfConcerns,
+            reportingFrequency: restrictivePracticeRegister.reportingFrequency,
+            company: restrictivePracticeRegister.company,
+            archived: false,
+          },
+        });
+
+      if (existingRestrictivePracticeRegister.length > 0) {
+        throw new CustomError(
+          409,
+          RestrictivePracticeRegisterErrorCode.RESTRICTIVE_PRACTICE_REGISTER_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the restrictivePracticeRegister update the Archive state
+    const [, [updatedRestrictivePracticeRegister]] =
+      await RestrictivePracticeRegisterModel.update(
+        { archived: !restrictivePracticeRegister.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedRestrictivePracticeRegister;
+  }
+
   async deleteRestrictivePracticeRegister(
     props: DeleteRestrictivePracticeRegisterProps
   ) {
@@ -132,10 +194,7 @@ class RestrictivePracticeRegisterService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          [Op.and]: [
-            { ...filters["Client"] },
-            { ...clientFilters, }
-          ]
+          [Op.and]: [{ ...filters["Client"] }, { ...clientFilters }],
         },
       },
     ];

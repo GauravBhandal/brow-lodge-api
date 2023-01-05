@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateRestrictivePracticeRegister)
 );
 
+router.put(
+  "/archive/:restrictivePracticeRegisterId",
+  canDo("delete", "restrictivePracticeRegister"),
+  restrictivePracticeRegisterSchems.deleteArchiveRestrictivePracticeRegister,
+  catchWrap(controller.deleteArchiveRestrictivePracticeRegister)
+);
+
 router.delete(
   "/:restrictivePracticeRegisterId",
   canDo("delete", "restrictivePracticeRegister"),
