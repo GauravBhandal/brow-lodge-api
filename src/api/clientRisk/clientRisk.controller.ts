@@ -40,6 +40,18 @@ class ClientRiskController {
     res.status(204).json();
   }
 
+  async deleteArchiveClientRisk(req: Request, res: Response) {
+    const { clientRiskId } = req.params;
+    const props = {
+      id: clientRiskId,
+      company: req.auth.companyId,
+    };
+
+    await clientRiskService.deleteArchiveClientRisk(props);
+
+    res.status(204).json();
+  }
+
   async getclientRiskById(req: Request, res: Response) {
     const { clientRiskId } = req.params;
     const props = {

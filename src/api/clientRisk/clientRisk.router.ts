@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateClientRisk)
 );
 
+router.put(
+  "/archive/:clientRiskId",
+  canDo("delete", "clientRisk"),
+  clientRiskSchems.deleteArchiveClientRisk,
+  catchWrap(controller.deleteArchiveClientRisk)
+);
+
 router.delete(
   "/:clientRiskId",
   canDo("delete", "clientRisk"),

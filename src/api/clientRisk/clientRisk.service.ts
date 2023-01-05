@@ -67,6 +67,58 @@ class ClientRiskService {
     return updatedClientRisk;
   }
 
+  async deleteArchiveClientRisk(props: DeleteClientRiskProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the clientRisk by id and company
+    const clientRisk = await ClientRiskModel.findOne({
+      where: { id, company },
+    });
+
+    // if clientRisk has been deleted, throw an error
+    if (!clientRisk) {
+      throw new CustomError(404, ClientRiskErrorCode.CLIENT_RISK_NOT_FOUND);
+    }
+
+    if (clientRisk.archived) {
+      // Check if clientRisk already exists
+      const existingClientRisk = await ClientRiskModel.findAll({
+        where: {
+          date: clientRisk.date,
+          staff: clientRisk.staff,
+          levelOfRisk: clientRisk.levelOfRisk,
+          likelihood: clientRisk.likelihood,
+          consequences: clientRisk.consequences,
+          client: clientRisk.client,
+          riskDescription: clientRisk.riskDescription,
+          mitigationStrategy: clientRisk.mitigationStrategy,
+          monitoringStrategy: clientRisk.monitoringStrategy,
+          company: clientRisk.company,
+          archived: false,
+        },
+      });
+
+      if (existingClientRisk.length > 0) {
+        throw new CustomError(
+          409,
+          ClientRiskErrorCode.CLIENT_RISK_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the clientRisk update the Archive state
+    const [, [updatedClientRisk]] = await ClientRiskModel.update(
+      { archived: !clientRisk.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedClientRisk;
+  }
+
   async deleteClientRisk(props: DeleteClientRiskProps) {
     // Props
     const { id, company } = props;
