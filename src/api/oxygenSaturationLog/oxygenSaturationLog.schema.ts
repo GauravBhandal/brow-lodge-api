@@ -46,6 +46,12 @@ const deleteOxygenSaturationLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveOxygenSaturationLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    oxygenSaturationLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getOxygenSaturationLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     oxygenSaturationLogId: requiredUUIDSchema(),
@@ -65,6 +71,9 @@ export default {
   createOxygenSaturationLog: joiMiddleware(createOxygenSaturationLogSchema),
   editOxygenSaturationLog: joiMiddleware(editOxygenSaturationLogSchema),
   deleteOxygenSaturationLog: joiMiddleware(deleteOxygenSaturationLogSchema),
+  deleteArchiveOxygenSaturationLog: joiMiddleware(
+    deleteArchiveOxygenSaturationLogSchema
+  ),
   getOxygenSaturationLogById: joiMiddleware(getOxygenSaturationLogByIdSchema),
   getOxygenSaturationLogs: joiMiddleware(getOxygenSaturationLogSchema),
 };

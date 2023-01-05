@@ -50,6 +50,62 @@ class OxygenSaturationLogService {
     return updatedOxygenSaturationLog;
   }
 
+  async deleteArchiveOxygenSaturationLog(
+    props: DeleteOxygenSaturationLogProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the oxygenSaturationLog by id and company
+    const oxygenSaturationLog = await OxygenSaturationLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if oxygenSaturationLog has been deleted, throw an error
+    if (!oxygenSaturationLog) {
+      throw new CustomError(
+        404,
+        OxygenSaturationLogErrorCode.OXYGEN_SATURATION_LOG_NOT_FOUND
+      );
+    }
+
+    if (oxygenSaturationLog.archived) {
+      // Check if oxygenSaturationLog already exists
+      const existingOxygenSaturationLog =
+        await OxygenSaturationLogModel.findAll({
+          where: {
+            date: oxygenSaturationLog.date,
+            staff: oxygenSaturationLog.staff,
+            time: oxygenSaturationLog.time,
+            client: oxygenSaturationLog.client,
+            reading: oxygenSaturationLog.reading,
+            probePlacement: oxygenSaturationLog.probePlacement,
+            company: oxygenSaturationLog.company,
+            archived: false,
+          },
+        });
+
+      if (existingOxygenSaturationLog.length > 0) {
+        throw new CustomError(
+          409,
+          OxygenSaturationLogErrorCode.OXYGEN_SATURATION_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the oxygenSaturationLog update the Archive state
+    const [, [updatedOxygenSaturationLog]] =
+      await OxygenSaturationLogModel.update(
+        { archived: !oxygenSaturationLog.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedOxygenSaturationLog;
+  }
+
   async deleteOxygenSaturationLog(props: DeleteOxygenSaturationLogProps) {
     // Props
     const { id, company } = props;
