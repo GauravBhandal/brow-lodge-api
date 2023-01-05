@@ -78,7 +78,6 @@ class TemperatureLogService {
           company: temperatureLog.company,
           staff: temperatureLog.staff,
           client: temperatureLog.client,
-          reading: temperatureLog.reading,
           archived: false,
         },
       });

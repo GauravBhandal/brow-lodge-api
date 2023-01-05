@@ -12,9 +12,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE "sleep_logs" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "temperature_logs" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 `;
 
 const queryDown = `
+ALTER TABLE "temperature_logs"
+DROP COLUMN "archived";
+
 ALTER TABLE "sleep_logs"
 DROP COLUMN "archived";
 
