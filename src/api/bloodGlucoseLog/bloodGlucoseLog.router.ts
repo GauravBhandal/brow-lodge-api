@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateBloodGlucoseLog)
 );
 
+router.put(
+  "/archive/:bloodGlucoseLogId",
+  canDo("delete", "bloodGlucoseLog"),
+  bloodGlucoseLogSchems.deleteArchiveBloodGlucoseLog,
+  catchWrap(controller.deleteArchiveBloodGlucoseLog)
+);
+
 router.delete(
   "/:bloodGlucoseLogId",
   canDo("delete", "bloodGlucoseLog"),
