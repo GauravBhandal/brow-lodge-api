@@ -23,6 +23,7 @@ class SleepLogModel<
   Client: SleepLog["Client"];
   company!: SleepLog["company"];
   Company: SleepLog["Company"];
+  archived: SleepLog["archived"];
 }
 
 modelManager.init(
@@ -43,6 +44,9 @@ modelManager.init(
     },
     comments: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

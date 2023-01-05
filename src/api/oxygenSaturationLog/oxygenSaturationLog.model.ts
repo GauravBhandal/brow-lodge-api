@@ -31,6 +31,7 @@ class OxygenSaturationLogModel<
   Client: OxygenSaturationLog["Client"];
   company!: OxygenSaturationLog["company"];
   Company: OxygenSaturationLog["Company"];
+  archived: OxygenSaturationLog["archived"];
 }
 
 modelManager.init(
@@ -68,6 +69,9 @@ modelManager.init(
     },
     readingPostSuctioning: {
       type: Sequelize.DECIMAL,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

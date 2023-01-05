@@ -40,6 +40,18 @@ class BowelLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveBowelLog(req: Request, res: Response) {
+    const { bowelLogId } = req.params;
+    const props = {
+      id: bowelLogId,
+      company: req.auth.companyId,
+    };
+
+    await bowelLogService.deleteArchiveBowelLog(props);
+
+    res.status(204).json();
+  }
+
   async getbowelLogById(req: Request, res: Response) {
     const { bowelLogId } = req.params;
     const props = {
