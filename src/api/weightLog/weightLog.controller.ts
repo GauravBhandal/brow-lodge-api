@@ -40,6 +40,18 @@ class WeightLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveWeightLog(req: Request, res: Response) {
+    const { weightLogId } = req.params;
+    const props = {
+      id: weightLogId,
+      company: req.auth.companyId,
+    };
+
+    await weightLogService.deleteArchiveWeightLog(props);
+
+    res.status(204).json();
+  }
+
   async getweightLogById(req: Request, res: Response) {
     const { weightLogId } = req.params;
     const props = {
