@@ -16,11 +16,11 @@ const SESConfig = {
 
 const ses = new SES(SESConfig);
 
-export default function sendEmail(toemail: string, emailBody: string) {
+export default function sendEmail(toemail: string[], emailBody: string, subject: string) {
   const params = {
     Source: "support@carediary.com.au",
     Destination: {
-      ToAddresses: [toemail],
+      ToAddresses: toemail,
     },
     ReplyToAddresses: ["support@carediary.com.au"],
     Message: {
@@ -32,10 +32,12 @@ export default function sendEmail(toemail: string, emailBody: string) {
       },
       Subject: {
         Charset: "UTF-8",
-        Data: "Reset your Care Diary password",
+        Data: subject,
       },
     },
   };
 
   return ses.sendEmail(params).promise();
 }
+
+
