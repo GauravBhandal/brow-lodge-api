@@ -25,6 +25,7 @@ class ExternalContractModel<
   company!: ExternalContract["company"];
   Company: ExternalContract["Company"];
   Attachments!: ExternalContract["Attachments"];
+  archived: ExternalContract["archived"];
 }
 
 modelManager.init(
@@ -44,6 +45,9 @@ modelManager.init(
     },
     notes: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

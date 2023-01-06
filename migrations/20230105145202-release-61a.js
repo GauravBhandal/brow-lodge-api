@@ -24,9 +24,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE "expenses" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "external_contracts" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 `;
 
 const queryDown = `
+ALTER TABLE "external_contracts"
+DROP COLUMN "archived";
+
 ALTER TABLE "expenses"
 DROP COLUMN "archived";
 
