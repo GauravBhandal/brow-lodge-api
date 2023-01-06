@@ -40,6 +40,12 @@ const deleteSeizureLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveSeizureLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    seizureLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getSeizureLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     seizureLogId: requiredUUIDSchema(),
@@ -59,6 +65,7 @@ export default {
   createSeizureLog: joiMiddleware(createSeizureLogSchema),
   editSeizureLog: joiMiddleware(editSeizureLogSchema),
   deleteSeizureLog: joiMiddleware(deleteSeizureLogSchema),
+  deleteArchiveSeizureLog: joiMiddleware(deleteArchiveSeizureLogSchema),
   getSeizureLogById: joiMiddleware(getSeizureLogByIdSchema),
   getSeizureLogs: joiMiddleware(getSeizureLogSchema),
 };

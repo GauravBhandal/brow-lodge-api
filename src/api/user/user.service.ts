@@ -229,7 +229,7 @@ class UserService {
     <br>
     Team Care Diary
       `;
-    await sendEmail(updatedUser.email, emailBody);
+    await sendEmail([updatedUser.email], emailBody, "Reset your Care Diary password");
 
     return {
       Status: "ok",
