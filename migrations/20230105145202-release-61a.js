@@ -21,9 +21,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE "meeting_logs" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "expenses" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 `;
 
 const queryDown = `
+ALTER TABLE "expenses"
+DROP COLUMN "archived";
+
 ALTER TABLE "meeting_logs"
 DROP COLUMN "archived";
 
