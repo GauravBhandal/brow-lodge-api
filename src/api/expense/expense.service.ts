@@ -88,6 +88,8 @@ class ExpenseService {
           totalExpense: expense.totalExpense,
           description: expense.description,
           paidBy: expense.paidBy,
+          status: expense.status,
+          paymentReimbursed: expense.paymentReimbursed,
           company: expense.company,
           archived: false,
         },
@@ -192,7 +194,7 @@ class ExpenseService {
         },
         required:
           (filters["Client"] && Object.keys(filters["Client"]).length) ||
-          Object.keys(clientFilters).length
+            Object.keys(clientFilters).length
             ? true
             : false,
       },
