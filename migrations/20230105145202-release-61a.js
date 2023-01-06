@@ -18,9 +18,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE "weight_logs" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "meeting_logs" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 `;
 
 const queryDown = `
+ALTER TABLE "meeting_logs"
+DROP COLUMN "archived";
+
 ALTER TABLE "weight_logs"
 DROP COLUMN "archived";
 
