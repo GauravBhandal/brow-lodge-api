@@ -146,8 +146,11 @@ class SiteService {
      */
     const sitesClientIds = sitesList.reduce((prevData, site: any) => {
       return prevData.concat(site.Client)
-    }, []).map((client: any) => client.id)
+    }, []).map((client: any) => client.id) //TODO: change any to some prop type
 
+    /**
+     * clientList get client list where sites client ids are not present
+     */
     const clientList = await ClientProfileModel.findAll({
       order,
       where: {
