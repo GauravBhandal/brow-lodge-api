@@ -110,6 +110,9 @@ class SiteService {
     return site;
   }
 
+  /**
+   * getSiteClientProfiles - funtion to return list of clients which are not present in any site
+   */
   async getSiteClientProfiles(props: GetSitesProps) {
     // Props
     const { sort, where, company } = props;
@@ -137,6 +140,10 @@ class SiteService {
       },
       include,
     });
+
+    /**
+     * sitesClientIds - get the clients ids by first get the clients array from sites then map their ids only
+     */
     const sitesClientIds = sitesList.reduce((prevData, site: any) => {
       return prevData.concat(site.Client)
     }, []).map((client: any) => client.id)
