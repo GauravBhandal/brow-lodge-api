@@ -33,7 +33,7 @@ class FeedbackController {
           },
         ]
         const url = `/reporting/feedbacks/${feedback.id}`
-        const emailBody = getTemplateContent('Feedback Received', 'A new feedback received with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Feedback Received', 'A new feedback received with following details!', contentArray, url, 'Feedback')
         sendEmail(alertNotificationEmails, emailBody, "New feedback received!")
       }
     });

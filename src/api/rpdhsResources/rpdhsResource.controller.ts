@@ -24,7 +24,7 @@ class RpdhsResourceController {
           { label: 'Version', value: rpdhsResource.version },
         ]
         const url = `/company/rpdhs-resource/${rpdhsResource.id}`
-        const emailBody = getTemplateContent('RP DHS Resource Added', 'A RP DHS resource added with following details!', contentArray, url)
+        const emailBody = getTemplateContent('RP DHS Resource Added', 'A RP DHS resource added with following details!', contentArray, url, 'RP DHS Resource')
         sendEmail(alertNotificationEmails, emailBody, "New RP DHS Resource added successfully!")
       }
     });

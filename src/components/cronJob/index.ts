@@ -21,7 +21,7 @@ const notifyStaffDocuments = () => {
                     { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
                 ]
                 const url = `/staff/documents/${document.id}`
-                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 28 days!', contentArray, url)
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 28 days!', contentArray, url, 'document upload reminder')
                 sendEmail([document.Staff?.email], emailBody, "Staff document is about to expire in 28 days")
             }
         })
@@ -38,7 +38,7 @@ const notifyStaffDocuments = () => {
                     { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
                 ]
                 const url = `/staff/documents/${document.id}`
-                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 14 days!', contentArray, url)
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 14 days!', contentArray, url, 'document upload reminder')
                 sendEmail([document.Staff?.email], emailBody, "Staff document is about to expire in 14 days")
             }
         })
@@ -54,7 +54,7 @@ const notifyStaffDocuments = () => {
                     { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
                 ]
                 const url = `/staff/documents/${document.id}`
-                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 7 days!', contentArray, url)
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 7 days!', contentArray, url, 'document upload reminder')
                 sendEmail([document.Staff?.email], emailBody, "Staff document is about to expire in 7 days")
             }
         })
@@ -69,7 +69,7 @@ const notifyStaffDocuments = () => {
                     { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
                 ]
                 const url = `/staff/documents/${document.id}`
-                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 24 hours!', contentArray, url)
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 24 hours!', contentArray, url, 'document upload reminder')
                 sendEmail([document.Staff?.email], emailBody, "Staff document is about to expire in 24 hours")
             }
         })
@@ -87,7 +87,7 @@ const notifyClientDocuments = () => {
                     { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
                 ]
                 const url = `/participant/documents/${document.id}`
-                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 28 days!', contentArray, url)
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 28 days!', contentArray, url, 'document upload reminder')
                 sendEmail([document.Client?.email], emailBody, "Participant document is about to expire in 28 days")
             }
         })
@@ -102,7 +102,7 @@ const notifyClientDocuments = () => {
                     { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
                 ]
                 const url = `/participant/documents/${document.id}`
-                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 14 days!', contentArray, url)
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 14 days!', contentArray, url, 'document upload reminder')
                 sendEmail([document.Client?.email], emailBody, "Participant document is about to expire in 14 days")
             }
         })
@@ -117,7 +117,7 @@ const notifyClientDocuments = () => {
                     { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
                 ]
                 const url = `/participant/documents/${document.id}`
-                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 7 days!', contentArray, url)
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 7 days!', contentArray, url, 'document upload reminder')
                 sendEmail([document.Client?.email], emailBody, "Participant document is about to expire in 7 days")
             }
         })
@@ -132,7 +132,7 @@ const notifyClientDocuments = () => {
                     { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
                 ]
                 const url = `/participant/documents/${document.id}`
-                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 24 hours!', contentArray, url)
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 24 hours!', contentArray, url, 'document upload reminder')
                 sendEmail([document.Client?.email], emailBody, "Participant document is about to expire in 24 hours")
             }
         })

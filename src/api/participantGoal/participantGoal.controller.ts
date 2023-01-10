@@ -29,7 +29,7 @@ class ParticipantGoalController {
           { label: 'Status', value: participantGoal.status },
         ]
         const url = `/participant/goals/${participantGoal.id}`
-        const emailBody = getTemplateContent('Participant Goal Received', 'A new participant goal received with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Participant Goal Received', 'A new participant goal received with following details!', contentArray, url, 'Participant Goal')
         sendEmail(alertNotificationEmails, emailBody, "New participant goal received!")
       }
     });

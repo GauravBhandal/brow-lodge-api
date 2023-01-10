@@ -28,7 +28,7 @@ class StaffSleepDisturbanceController {
           { label: 'Total Hours', value: `${staffSleepDisturbance.totalHours}` },
         ]
         const url = `/reporting/sleep-disturbances/${staffSleepDisturbance.id}`
-        const emailBody = getTemplateContent('Sleep Disturbance Added', 'A sleep disturbance added with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Sleep Disturbance Added', 'A sleep disturbance added with following details!', contentArray, url, 'Sleep Disturbance')
         sendEmail(alertNotificationEmails, emailBody, "New sleep disturbance added successfully!")
       }
     });

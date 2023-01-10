@@ -25,7 +25,7 @@ class RepairRequestController {
           { label: 'Priority', value: repairRequest.priority },
         ]
         const url = `/asset/repair-requests/${repairRequest.id}`
-        const emailBody = getTemplateContent('Repair Request Added', 'A repair request added with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Repair Request Added', 'A repair request added with following details!', contentArray, url, 'Repair Request')
         sendEmail(alertNotificationEmails, emailBody, "New repair request created successfully!")
       }
     });

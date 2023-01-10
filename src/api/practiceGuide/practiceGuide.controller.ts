@@ -24,7 +24,7 @@ class PracticeGuideController {
           { label: 'Version', value: practiceGuide.version },
         ]
         const url = `/company/practice-guides/${practiceGuide.id}`
-        const emailBody = getTemplateContent('Practice Guide Added', 'A new practice guide added with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Practice Guide Added', 'A new practice guide added with following details!', contentArray, url, 'Practice Guide')
         sendEmail(alertNotificationEmails, emailBody, "New practice guide added successfully!")
       }
     });

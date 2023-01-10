@@ -1,7 +1,7 @@
 import config from "../../config/environment";
 
 
-export const getTemplateContent = (title: string, subtitle: string, contentArray: { label: string, value: string }[], url: string) => {
+export const getTemplateContent = (title: string, subtitle: string, contentArray: { label: string, value: string }[], url: string, name: string, isExpiry: boolean = false) => {
 
     const getContent = (contentList: { label: string, value: string }[]) => {
         const result: string[] = contentList.map(content => (`<tr>
@@ -256,8 +256,7 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
                         padding-bottom: 20px;
                         color: #999999;
                         font-family: sans-serif;" class="footer">
-                            You have received this email because your email has been listed as recipient email for every
-                            new Repair Request by the CareDiary admin.
+                            You have received this email because your email has been listed as recipient email for${isExpiry ? '' : ' every new'} ${name} by the CareDiary admin.
                         </td>
                     </tr>
                     <!-- End of WRAPPER -->

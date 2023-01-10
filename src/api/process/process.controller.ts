@@ -24,7 +24,7 @@ class ProcessController {
           { label: 'Version', value: process.version },
         ]
         const url = `/company/processes/${process.id}`
-        const emailBody = getTemplateContent('Process Added', 'A new process added with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Process Added', 'A new process added with following details!', contentArray, url, 'Process')
         sendEmail(alertNotificationEmails, emailBody, "New process added successfully!")
       }
     });

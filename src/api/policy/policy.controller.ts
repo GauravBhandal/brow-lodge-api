@@ -24,7 +24,7 @@ class PolicyController {
           { label: 'Version', value: policy.version },
         ]
         const url = `/company/policies/${policy.id}`
-        const emailBody = getTemplateContent('Policy Added', 'A new policy added with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Policy Added', 'A new policy added with following details!', contentArray, url, 'Policy')
         sendEmail(alertNotificationEmails, emailBody, "New policy added successfully!")
       }
     });

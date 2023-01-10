@@ -29,7 +29,7 @@ class IncidentReportController {
           { label: 'Description', value: incidentReport.incidentDescription },
         ]
         const url = `/reporting/incidents/${incidentReport.id}`
-        const emailBody = getTemplateContent('Incident Reported', 'A new incident report received with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Incident Reported', 'A new incident report received with following details!', contentArray, url, 'Incident Report')
         sendEmail(alertNotificationEmails, emailBody, "New incident report received!")
       }
     });

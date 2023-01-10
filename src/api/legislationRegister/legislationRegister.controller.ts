@@ -27,7 +27,7 @@ class LegislationRegisterController {
           { label: 'Legislative Reference', value: legislationRegister.legislativeReference },
         ]
         const url = `/compliance/legislation-registers/${legislationRegister.id}`
-        const emailBody = getTemplateContent('Legislation Registered', 'A new legislation registered with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Legislation Registered', 'A new legislation registered with following details!', contentArray, url, 'Legislation Register')
         sendEmail(alertNotificationEmails, emailBody, "New legislation registered successfully!")
       }
     });

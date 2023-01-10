@@ -26,7 +26,7 @@ class InternalRegisterController {
           { label: 'Version', value: internalRegister.version },
         ]
         const url = `/compliance/internal-registers/${internalRegister.id}`
-        const emailBody = getTemplateContent('Internal Register Received', 'A new internal register received with following details!', contentArray, url)
+        const emailBody = getTemplateContent('Internal Register Received', 'A new internal register received with following details!', contentArray, url, 'Internal Register')
         sendEmail(alertNotificationEmails, emailBody, "New internal register form received!")
       }
     });
