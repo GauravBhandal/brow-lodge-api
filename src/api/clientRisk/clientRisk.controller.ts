@@ -27,8 +27,7 @@ class ClientRiskController {
           { label: 'Consequences', value: clientRisk.consequences },
         ]
         const url = `/participant/participant-risks/${clientRisk.id}`
-        const emailBody = getTemplateContent('participant Risk Reported', 'A new participant risk received with following details!', contentArray, url)
-        console.log('emailBody', emailBody)
+        const emailBody = getTemplateContent('Participant Risk Reported', 'A new participant risk received with following details!', contentArray, url)
         sendEmail(alertNotificationEmails, emailBody, "New participant risk assessment received!")
       }
     });

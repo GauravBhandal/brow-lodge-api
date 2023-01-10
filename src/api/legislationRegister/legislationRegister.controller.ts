@@ -1,6 +1,8 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { formatDateToString } from "../../utils/shiftGenerator";
 import { alertConfigurationService } from "../alertConfiguration";
 
 import legislationRegisterService from "./legislationRegister.service";
@@ -19,18 +21,14 @@ class LegislationRegisterController {
     // Send Email after creating the entry if alerts are set and emails are present 
     alertConfigurationService.getAlertConfigurationByName({ company, name: 'legislationRegister' }).then((alertNotificationEmails) => {
       if (alertNotificationEmails.length) {
-        const emailBody = `
-            Hi user!
-            <br>  
-            <br>  
-            New legislation register form is created recently please check it once!
-            <br>
-            <br>  
-            Best Regards,
-            <br>
-            Team Care Diary
-              `;
-        sendEmail(alertNotificationEmails, emailBody, "Legislation register form created successfully!")
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Reviewed On', value: formatDateToString(legislationRegister.reviewedOn, '', 'DD-MMM-YYYY') },
+          { label: 'Domain', value: legislationRegister.domain },
+          { label: 'Legislative Reference', value: legislationRegister.legislativeReference },
+        ]
+        const url = `/compliance/legislation-registers/${legislationRegister.id}`
+        const emailBody = getTemplateContent('Legislation Registered', 'A new legislation registered with following details!', contentArray, url)
+        sendEmail(alertNotificationEmails, emailBody, "New legislation registered successfully!")
       }
     });
 

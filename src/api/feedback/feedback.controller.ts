@@ -1,6 +1,8 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { formatDateToString } from "../../utils/shiftGenerator";
 import { alertConfigurationService } from "../alertConfiguration";
 
 import feedbackService from "./feedback.service";
@@ -18,18 +20,21 @@ class FeedbackController {
     // Send Email after creating the entry if alerts are set and emails are present
     alertConfigurationService.getAlertConfigurationByName({ company, name: 'feedback' }).then((alertNotificationEmails) => {
       if (alertNotificationEmails.length) {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        New feedback form is created recently please check it once!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-        sendEmail(alertNotificationEmails, emailBody, "Feedback created successfully!")
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Date', value: formatDateToString(feedback.dateReported, '', 'DD-MMM-YYYY') },
+          {
+            label: 'Type of Feedback', value: `${feedback.typeOfFeedback}`
+          },
+          {
+            label: 'You are a?', value: `${feedback.youAreA}`
+          },
+          {
+            label: 'Feedback', value: `${feedback.feedback}`
+          },
+        ]
+        const url = `/reporting/feedbacks/${feedback.id}`
+        const emailBody = getTemplateContent('Feedback Received', 'A new feedback received with following details!', contentArray, url)
+        sendEmail(alertNotificationEmails, emailBody, "New feedback received!")
       }
     });
 
