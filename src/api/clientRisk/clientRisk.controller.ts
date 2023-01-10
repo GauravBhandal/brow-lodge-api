@@ -1,6 +1,8 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { formatDateToString } from "../../utils/shiftGenerator";
 import { alertConfigurationService } from "../alertConfiguration";
 
 import clientRiskService from "./clientRisk.service";
@@ -18,18 +20,16 @@ class ClientRiskController {
     // Send Email after creating the entry if alerts are set and emails are present 
     alertConfigurationService.getAlertConfigurationByName({ company, name: 'participantRiskAssessment' }).then((alertNotificationEmails) => {
       if (alertNotificationEmails.length) {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        New participant risk form is created recently please check it once!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-        sendEmail(alertNotificationEmails, emailBody, "Participant risk created successfully!")
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Date', value: formatDateToString(clientRisk.date, '', 'DD-MMM-YYYY') },
+          { label: 'Level Of Risk', value: clientRisk.levelOfRisk },
+          { label: 'Likelihood', value: clientRisk.likelihood },
+          { label: 'Consequences', value: clientRisk.consequences },
+        ]
+        const url = `/participant/participant-risks/${clientRisk.id}`
+        const emailBody = getTemplateContent('participant Risk Reported', 'A new participant risk received with following details!', contentArray, url)
+        console.log('emailBody', emailBody)
+        sendEmail(alertNotificationEmails, emailBody, "New participant risk assessment received!")
       }
     });
 

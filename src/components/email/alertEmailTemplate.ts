@@ -4,22 +4,22 @@ import config from "../../config/environment";
 export const getTemplateContent = (title: string, subtitle: string, contentArray: { label: string, value: string }[], url: string) => {
 
     const getContent = (contentList: { label: string, value: string }[]) => {
-        return contentList.map(content => (`<tr>
-            <td width="30%" align="left" valign="top" style="font-size: 14px; font-weight: 400; line-height: 160%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
-         padding-top: 10px;
-         color: #000000;
-         text-transform: capitalize;
-         font-family: sans-serif;" class="paragraph">
-                <b style="color: #333333;">
+        const result: string[] = contentList.map(content => (`<tr>
+        <td width="30%" align="left" valign="top" style="font-size: 14px; font-weight: 400; line-height: 130%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
+        padding-top: 10px;
+        color: #000000;
+        text-transform: capitalize;
+        font-family: sans-serif;" class="paragraph">
+        <b style="color: #333333;">
                     ${content.label}</b>
             </td>
-            <td align="left" valign="top" style="font-size: 14px; font-weight: 400; line-height: 130%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
-         padding-top: 10px;
-         color: #000000;
-         font-family: sans-serif;" class="paragraph">
+            <td width="70%" align="left" valign="top" style="font-size: 14px; font-weight: 400; line-height: 130%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
+            padding-top: 10px;color: #000000;font-family: sans-serif;" class="paragraph">
                 ${content.value}
             </td>
         </tr>`))
+        const finalDataString = result.reduce((prevVal, curVal) => `${prevVal}${curVal}`, "")
+        return finalDataString;
     }
 
     const getRenderUrl = (url: string) => (`${config.BASE_URL}${url}`)
@@ -188,13 +188,12 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
                                 style="margin: 0; padding: 0;" />
                         </td>
                     </tr>
-                    <!-- LIST -->
                     <tr>
                         <td align="center" valign="top"
                             style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%;"
                             class="list-item">
                             <table align="center" border="0" cellspacing="0" cellpadding="0"
-                                style="width: inherit; margin: 0; padding: 0; border-collapse: collapse; border-spacing: 0;">
+                                style="width: 100%; margin: 0; padding: 0; border-collapse: collapse; border-spacing: 0;">
                                 <!-- LIST ITEM -->
                                 ${getContent(contentArray)}
                             </table>
