@@ -20,6 +20,25 @@ import { siteClientProfileService } from "./siteClientProfile";
 
 class SiteService {
   async createSite(props: CreateSiteProps) {
+    // Props
+    const { company, name } = props;
+
+    // Check if site with same name already exists
+    const existingSite = await SiteModel.findOne({
+      where: {
+        company,
+        name: {
+          [Op.iLike]: `${name}`,
+        },
+      },
+    });
+
+    // If exists, then throw an error
+    if (existingSite) {
+      throw new CustomError(409, SiteErrorCode.SITE_ALREADY_EXISTS);
+    }
+
+    // Otherwise, create a new site
     const site = await SiteModel.create(props);
 
     // Add ClientProfiles
@@ -45,6 +64,23 @@ class SiteService {
     // if site not found, throw an error
     if (!site) {
       throw new CustomError(404, SiteErrorCode.SITE_NOT_FOUND);
+    }
+
+    if (site.name.toLowerCase() !== props.name.toLowerCase()) {
+      // Check if site with same name already exists
+      const existingSite = await SiteModel.findOne({
+        where: {
+          name: {
+            [Op.iLike]: `${props.name}`,
+          },
+          company,
+        },
+      });
+
+      // If exists, then throw an error
+      if (existingSite) {
+        throw new CustomError(409, SiteErrorCode.SITE_ALREADY_EXISTS);
+      }
     }
 
     // Finally, update the site
@@ -144,9 +180,11 @@ class SiteService {
     /**
      * sitesClientIds - get the clients ids by first get the clients array from sites then map their ids only
      */
-    const sitesClientIds = sitesList.reduce((prevData, site: any) => {
-      return prevData.concat(site.Client)
-    }, []).map((client: any) => client.id) //TODO: change any to some prop type
+    const sitesClientIds = sitesList
+      .reduce((prevData, site: any) => {
+        return prevData.concat(site.Client);
+      }, [])
+      .map((client: any) => client.id); //TODO: change any to some prop type
 
     /**
      * clientList get client list where sites client ids are not present
@@ -156,7 +194,7 @@ class SiteService {
       where: {
         company,
         id: {
-          [Op.notIn]: sitesClientIds
+          [Op.notIn]: sitesClientIds,
         },
         archived: false,
         ...filters["primaryFilters"],
