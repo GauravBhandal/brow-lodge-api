@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get(
   "/clientProfiles",
-  canDo("read", "site"),
+  canDo("create", "site"),
   siteSchems.getSiteClientProfiles,
   catchWrap(controller.getSiteClientProfiles)
 );
