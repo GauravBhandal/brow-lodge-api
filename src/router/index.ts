@@ -77,6 +77,7 @@ import { externalContractRoutes } from "../api/externalContract";
 import { regulatoryComplianceRoutes } from "../api/regulatoryCompliance";
 import { medicationRegisterRoutes } from "../api/medicationRegister";
 import { continuousImprovementRoutes } from "../api/continuousImprovement";
+import { siteRoutes } from "../api/site";
 
 const router = express.Router();
 router.use(provideAbility);
@@ -156,5 +157,6 @@ router.use("/external-contract", externalContractRoutes);
 router.use("/regulatory-compliance", regulatoryComplianceRoutes);
 router.use("/medication-register", medicationRegisterRoutes);
 router.use("/continuous-improvement", continuousImprovementRoutes);
+router.use("/site", siteRoutes);
 
 export default router;

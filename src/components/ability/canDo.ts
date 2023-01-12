@@ -79,7 +79,8 @@ type Subject =
   | "externalContract"
   | "regulatoryCompliance"
   | "medicationRegister"
-  | "continuousImprovement";
+  | "continuousImprovement"
+  | "site";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {
