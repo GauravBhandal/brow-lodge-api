@@ -1,8 +1,6 @@
 import config from "../../config/environment";
 
-
 export const getTemplateContent = (title: string, subtitle: string, contentArray: { label: string, value: string }[], url: string, name: string, isExpiry: boolean = false) => {
-
     const getContent = (contentList: { label: string, value: string }[]) => {
         const result: string[] = contentList.map(content => (`<tr>
         <td width="30%" align="left" valign="top" style="font-size: 14px; font-weight: 400; line-height: 130%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
@@ -32,6 +30,7 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
     <meta name="format-detection" content="telephone=no" />
     <!-- Responsive Mobile-First Email Template by Konstantin Savchenko, 2015.
          https://github.com/konsav/email-templates/  -->
+   <link href='https://fonts.googleapis.com/css?family=Fredoka One' rel='stylesheet'>
     <style>
         /* Reset styles */
         body {
@@ -121,7 +120,7 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
 
 <body topmargin="0" rightmargin="0" bottommargin="0" leftmargin="0" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
       background-color: #F0F0F0;
-      color: #000000;" bgcolor="#F0F0F0" text="#000000">
+      color: #000000; padding-top:50px;" bgcolor="#F0F0F0" text="#000000">
     <!-- SECTION / BACKGROUND -->
     <!-- Set message background color one again -->
     <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0"
@@ -129,27 +128,6 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
         <tr>
             <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;"
                 bgcolor="#F0F0F0">
-                <!-- WRAPPER -->
-                <!-- Set wrapper width (twice) -->
-                <table border="0" cellpadding="0" cellspacing="0" align="center" width="560" style="border-collapse: collapse; border-spacing: 0; padding: 0; width: inherit;
-                  max-width: 560px;" class="wrapper">
-                    <tr>
-                        <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
-                        padding-top: 20px;
-                        padding-bottom: 20px;">
-                            <!-- LOGO -->
-                            <!-- Image text color should be opposite to background color. Set your url, image src, alt and title. Alt text should fit the image size. Real image size should be x2. URL format: http://domain.com/?utm_source={{Campaign-Source}}&utm_medium=email&utm_content=logo&utm_campaign={{Campaign-Name}} -->
-                            <a target="_blank" style="text-decoration: none;"
-                                href=${config.BASE_URL}><img border="0" vspace="0" hspace="0"
-                                    src="../images/care-diary-logo.png"
-                                    width="100" height="30" alt="Logo" title="Logo"
-                                    style="
-                           color: #000000;
-                           font-size: 10px; margin: 0; padding: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;" /></a>
-                        </td>
-                    </tr>
-                    <!-- End of WRAPPER -->
-                </table>
                 <!-- WRAPPER / CONTEINER -->
                 <!-- Set conteiner background color -->
                 <table border="0" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF" width="560" style="border-collapse: collapse; border-spacing: 0; padding: 0; width: inherit;
@@ -157,8 +135,23 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
                     <!-- HEADER -->
                     <!-- Set text color and font family ("sans-serif" or "Georgia, serif") -->
                     <tr>
+                    <td align="center" valign="top"
+                                            style="padding-top: 20px; padding-bottom: 20px; background-color:#017eff;"
+                                            class="header">
+                        <a target="_blank" style="text-decoration: none;"
+                                href=${config.BASE_URL}>
+                                <span
+                                style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 28px; font-weight: bold; line-height: 130%;
+                        color: #FFFFFF;
+                        font-family: 'Fredoka One';"
+                                >
+                                Care Diary
+                                </a>
+                        </td>
+                        </tr>
+                    <tr>
                         <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 24px; font-weight: bold; line-height: 130%;
-                        padding-top: 25px;
+                        padding-top: 10px;
                         color: #000000;
                         font-family: sans-serif;" class="header">
                             ${title}
