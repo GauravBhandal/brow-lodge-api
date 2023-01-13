@@ -2,7 +2,7 @@ import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 import sendEmail from "../../components/email";
 import { getTemplateContent } from "../../components/email/alertEmailTemplate";
-import { formatDateToString } from "../../utils/shiftGenerator";
+import { formatDateToString, getFormattedTime } from "../../utils/shiftGenerator";
 import { alertConfigurationService } from "../alertConfiguration";
 
 import incidentReportService from "./incidentReport.service";
@@ -24,7 +24,7 @@ class IncidentReportController {
       if (alertNotificationEmails.length) {
         const contentArray: { label: string, value: string }[] = [
           { label: 'Date', value: formatDateToString(incidentReport.date, '', 'DD-MMM-YYYY') },
-          { label: 'Time', value: `${incidentReport.time}` },
+          { label: 'Time', value: `${getFormattedTime(incidentReport.time)}` },
           { label: 'Location', value: incidentReport.location },
           { label: 'Description', value: incidentReport.incidentDescription },
         ]

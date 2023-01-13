@@ -16,6 +16,13 @@ const daysOfWeek = [
   "sunday",
 ];
 
+/**
+ * getFormattedTime - return the time with HH:MM am/pm format of u pass as HH:MM:SS
+ * @param time 
+ */
+export const getFormattedTime = (time: any) =>
+  time ? moment(time, "HH:mm:ss").format("hh:mm A") : '-';
+
 export const getEndDate = (
   startTime: any,
   endTime: any,

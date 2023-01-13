@@ -2,7 +2,7 @@ import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 import sendEmail from "../../components/email";
 import { getTemplateContent } from "../../components/email/alertEmailTemplate";
-import { formatDateToString } from "../../utils/shiftGenerator";
+import { formatDateToString, getFormattedTime } from "../../utils/shiftGenerator";
 import { alertConfigurationService } from "../alertConfiguration";
 
 import staffSleepDisturbanceService from "./staffSleepDisturbance.service";
@@ -23,8 +23,8 @@ class StaffSleepDisturbanceController {
       if (alertNotificationEmails.length) {
         const contentArray: { label: string, value: string }[] = [
           { label: 'Date', value: formatDateToString(staffSleepDisturbance.date, '', 'DD-MMM-YYYY') },
-          { label: 'Start Time', value: `${staffSleepDisturbance.startTime}` },
-          { label: 'End Time', value: `${staffSleepDisturbance.endTime}` },
+          { label: 'Start Time', value: `${getFormattedTime(staffSleepDisturbance.startTime)}` },
+          { label: 'End Time', value: `${getFormattedTime(staffSleepDisturbance.endTime)}` },
           { label: 'Total Hours', value: `${staffSleepDisturbance.totalHours}` },
         ]
         const url = `/reporting/sleep-disturbances/${staffSleepDisturbance.id}`
