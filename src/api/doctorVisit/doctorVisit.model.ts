@@ -29,6 +29,7 @@ class DoctorVisitModel<
   company!: DoctorVisit["company"];
   Company: DoctorVisit["Company"];
   Attachments: DoctorVisit["Attachments"];
+  archived: DoctorVisit["archived"];
 }
 
 modelManager.init(
@@ -67,6 +68,9 @@ modelManager.init(
     },
     nextAppointmentDate: {
       type: Sequelize.DATE,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
