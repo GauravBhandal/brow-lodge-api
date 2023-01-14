@@ -45,7 +45,7 @@ class InjuryReportService {
 
     // if injuryReport not found, throw an error
     if (!injuryReport) {
-      throw new CustomError(404, InjuryReportErrorCode.INJURY_REPORT);
+      throw new CustomError(404, InjuryReportErrorCode.INJURY_REPORT_NOT_FOUND);
     }
 
     // Finally, update the injuryReport
@@ -68,6 +68,54 @@ class InjuryReportService {
     return updatedInjuryReport;
   }
 
+  async deleteArchiveInjuryReport(props: DeleteInjuryReportProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the injuryReport by id and company
+    const injuryReport = await InjuryReportModel.findOne({
+      where: { id, company },
+    });
+
+    // if injuryReport has been deleted, throw an error
+    if (!injuryReport) {
+      throw new CustomError(404, InjuryReportErrorCode.INJURY_REPORT_NOT_FOUND);
+    }
+
+    if (injuryReport.archived) {
+      // Check if injuryReport already exists
+      const existingInjuryReport = await InjuryReportModel.findAll({
+        where: {
+          date: injuryReport.date,
+          time: injuryReport.time,
+          staff: injuryReport.staff,
+          client: injuryReport.client,
+          description: injuryReport.description,
+          company: injuryReport.company,
+          archived: false,
+        },
+      });
+
+      if (existingInjuryReport.length > 0) {
+        throw new CustomError(
+          409,
+          InjuryReportErrorCode.INJURY_REPORT_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the injuryReport update the Archive state
+    const [, [updatedInjuryReport]] = await InjuryReportModel.update(
+      { archived: !injuryReport.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedInjuryReport;
+  }
+
   async deleteInjuryReport(props: DeleteInjuryReportProps) {
     // Props
     const { id, company } = props;
@@ -79,7 +127,7 @@ class InjuryReportService {
 
     // if injuryReport has been deleted, throw an error
     if (!injuryReport) {
-      throw new CustomError(404, InjuryReportErrorCode.INJURY_REPORT);
+      throw new CustomError(404, InjuryReportErrorCode.INJURY_REPORT_NOT_FOUND);
     }
 
     return injuryReport;
@@ -115,7 +163,7 @@ class InjuryReportService {
 
     // If no injuryReport has been found, then throw an error
     if (!injuryReport) {
-      throw new CustomError(404, InjuryReportErrorCode.INJURY_REPORT);
+      throw new CustomError(404, InjuryReportErrorCode.INJURY_REPORT_NOT_FOUND);
     }
 
     return injuryReport;
