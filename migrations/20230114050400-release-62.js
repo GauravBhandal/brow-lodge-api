@@ -25,9 +25,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "restrictive_practice_logs" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "vehicle_logs" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "vehicle_logs"
+DROP COLUMN "archived";
+
 ALTER TABLE "restrictive_practice_logs"
 DROP COLUMN "archived";
 
