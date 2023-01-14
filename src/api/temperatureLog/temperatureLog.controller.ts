@@ -44,6 +44,18 @@ class TemperatureLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveTemperatureLog(req: Request, res: Response) {
+    const { temperatureLogId } = req.params;
+    const props = {
+      id: temperatureLogId,
+      company: req.auth.companyId,
+    };
+
+    await temperatureLogService.deleteArchiveTemperatureLog(props);
+
+    res.status(204).json();
+  }
+
   async gettemperatureLogById(req: Request, res: Response) {
     const { temperatureLogId } = req.params;
     const props = {

@@ -23,6 +23,7 @@ class BowelLogModel<
   Client: BowelLog["Client"];
   company!: BowelLog["company"];
   Company: BowelLog["Company"];
+  archived: BowelLog["archived"];
 }
 
 modelManager.init(
@@ -43,6 +44,9 @@ modelManager.init(
     },
     type: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

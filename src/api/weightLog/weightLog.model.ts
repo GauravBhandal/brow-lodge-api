@@ -23,6 +23,7 @@ class WeightLogModel<
   Client: WeightLog["Client"];
   company!: WeightLog["company"];
   Company: WeightLog["Company"];
+  archived: WeightLog["archived"];
 }
 
 modelManager.init(
@@ -43,6 +44,9 @@ modelManager.init(
     },
     comments: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
