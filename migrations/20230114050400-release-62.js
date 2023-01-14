@@ -52,9 +52,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "restrictive_practice_register" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "client_risks" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "client_risks"
+DROP COLUMN "archived";
+
 ALTER TABLE "restrictive_practice_register"
 DROP COLUMN "archived";
 
