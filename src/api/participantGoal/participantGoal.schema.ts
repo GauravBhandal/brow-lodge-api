@@ -50,6 +50,12 @@ const deleteParticipantGoalSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveParticipantGoalSchema = wrapSchema({
+  params: Joi.object().keys({
+    participantGoalId: requiredUUIDSchema(),
+  }),
+});
+
 const getParticipantGoalByIdSchema = wrapSchema({
   params: Joi.object().keys({
     participantGoalId: requiredUUIDSchema(),
@@ -69,6 +75,9 @@ export default {
   createParticipantGoal: joiMiddleware(createParticipantGoalSchema),
   editParticipantGoal: joiMiddleware(editParticipantGoalSchema),
   deleteParticipantGoal: joiMiddleware(deleteParticipantGoalSchema),
+  deleteArchiveParticipantGoal: joiMiddleware(
+    deleteArchiveParticipantGoalSchema
+  ),
   getParticipantGoalById: joiMiddleware(getParticipantGoalByIdSchema),
   getParticipantGoals: joiMiddleware(getParticipantGoalSchema),
 };

@@ -72,6 +72,60 @@ class StaffSupervisionLogService {
     return updatedStaffSupervisionLog;
   }
 
+  async deleteArchiveStaffSupervisionLog(
+    props: DeleteStaffSupervisionLogProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the staffSupervisionLog by id and company
+    const staffSupervisionLog = await StaffSupervisionLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if staffSupervisionLog has been deleted, throw an error
+    if (!staffSupervisionLog) {
+      throw new CustomError(
+        404,
+        StaffSupervisionLogErrorCode.STAFF_SUPERVISION_LOG_NOT_FOUND
+      );
+    }
+
+    if (staffSupervisionLog.archived) {
+      // Check if staffSupervisionLog already exists
+      const existingStaffSupervisionLog =
+        await StaffSupervisionLogModel.findAll({
+          where: {
+            date: staffSupervisionLog.date,
+            staff: staffSupervisionLog.staff,
+            type: staffSupervisionLog.type,
+            nextDueOn: staffSupervisionLog.nextDueOn,
+            company: staffSupervisionLog.company,
+            archived: false,
+          },
+        });
+
+      if (existingStaffSupervisionLog.length > 0) {
+        throw new CustomError(
+          409,
+          StaffSupervisionLogErrorCode.STAFF_SUPERVISION_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the staffSupervisionLog update the Archive state
+    const [, [updatedStaffSupervisionLog]] =
+      await StaffSupervisionLogModel.update(
+        { archived: !staffSupervisionLog.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedStaffSupervisionLog;
+  }
+
   async deleteStaffSupervisionLog(props: DeleteStaffSupervisionLogProps) {
     // Props
     const { id, company } = props;

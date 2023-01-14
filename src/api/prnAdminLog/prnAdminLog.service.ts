@@ -49,6 +49,57 @@ class PrnAdminLogService {
     return updatedPrnAdminLog;
   }
 
+  async deleteArchivePrnAdminLog(props: DeletePrnAdminLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the prnAdminLog by id and company
+    const prnAdminLog = await PrnAdminLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if prnAdminLog has been deleted, throw an error
+    if (!prnAdminLog) {
+      throw new CustomError(404, PrnAdminLogErrorCode.PRN_ADMIN_LOG_NOT_FOUND);
+    }
+
+    if (prnAdminLog.archived) {
+      // Check if prnAdminLog already exists
+      const existingPrnAdminLog = await PrnAdminLogModel.findAll({
+        where: {
+          date: prnAdminLog.date,
+          time: prnAdminLog.time,
+          staff: prnAdminLog.staff,
+          client: prnAdminLog.client,
+          medication: prnAdminLog.medication,
+          dosage: prnAdminLog.dosage,
+          reason: prnAdminLog.reason,
+          outcome: prnAdminLog.outcome,
+          company: prnAdminLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingPrnAdminLog.length > 0) {
+        throw new CustomError(
+          409,
+          PrnAdminLogErrorCode.PRN_ADMIN_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the prnAdminLog update the Archive state
+    const [, [updatedPrnAdminLog]] = await PrnAdminLogModel.update(
+      { archived: !prnAdminLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedPrnAdminLog;
+  }
+
   async deletePrnAdminLog(props: DeletePrnAdminLogProps) {
     // Props
     const { id, company } = props;

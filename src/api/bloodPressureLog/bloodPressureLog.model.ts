@@ -28,6 +28,7 @@ class BloodPressureLogModel<
   Client: BloodPressureLog["Client"];
   company!: BloodPressureLog["company"];
   Company: BloodPressureLog["Company"];
+  archived: BloodPressureLog["archived"];
 }
 
 modelManager.init(
@@ -56,6 +57,9 @@ modelManager.init(
     },
     comments: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

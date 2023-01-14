@@ -40,6 +40,12 @@ const deleteBloodPressureLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveBloodPressureLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    bloodPressureLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getBloodPressureLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     bloodPressureLogId: requiredUUIDSchema(),
@@ -59,6 +65,9 @@ export default {
   createBloodPressureLog: joiMiddleware(createBloodPressureLogSchema),
   editBloodPressureLog: joiMiddleware(editBloodPressureLogSchema),
   deleteBloodPressureLog: joiMiddleware(deleteBloodPressureLogSchema),
+  deleteArchiveBloodPressureLog: joiMiddleware(
+    deleteArchiveBloodPressureLogSchema
+  ),
   getBloodPressureLogById: joiMiddleware(getBloodPressureLogByIdSchema),
   getBloodPressureLogs: joiMiddleware(getBloodPressureLogSchema),
 };

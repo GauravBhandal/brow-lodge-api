@@ -44,6 +44,12 @@ const deleteParticipantMedicationChartSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveParticipantMedicationChartSchema = wrapSchema({
+  params: Joi.object().keys({
+    participantMedicationChartId: requiredUUIDSchema(),
+  }),
+});
+
 const getParticipantMedicationChartByIdSchema = wrapSchema({
   params: Joi.object().keys({
     participantMedicationChartId: requiredUUIDSchema(),
@@ -68,6 +74,9 @@ export default {
   ),
   deleteParticipantMedicationChart: joiMiddleware(
     deleteParticipantMedicationChartSchema
+  ),
+  deleteArchiveParticipantMedicationChart: joiMiddleware(
+    deleteArchiveParticipantMedicationChartSchema
   ),
   getParticipantMedicationChartById: joiMiddleware(
     getParticipantMedicationChartByIdSchema
