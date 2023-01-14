@@ -52,6 +52,58 @@ class PrnBalanceLogService {
     return updatedPrnBalanceLog;
   }
 
+  async deleteArchivePrnBalanceLog(props: DeletePrnBalanceLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the prnBalanceLog by id and company
+    const prnBalanceLog = await PrnBalanceLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if prnBalanceLog has been deleted, throw an error
+    if (!prnBalanceLog) {
+      throw new CustomError(
+        404,
+        PrnBalanceLogErrorCode.PRN_BALANCE_LOG_NOT_FOUND
+      );
+    }
+
+    if (prnBalanceLog.archived) {
+      // Check if prnBalanceLog already exists
+      const existingPrnBalanceLog = await PrnBalanceLogModel.findAll({
+        where: {
+          date: prnBalanceLog.date,
+          time: prnBalanceLog.time,
+          staff: prnBalanceLog.staff,
+          client: prnBalanceLog.client,
+          name: prnBalanceLog.name,
+          balance: prnBalanceLog.balance,
+          company: prnBalanceLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingPrnBalanceLog.length > 0) {
+        throw new CustomError(
+          409,
+          PrnBalanceLogErrorCode.PRN_BALANCE_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the prnBalanceLog update the Archive state
+    const [, [updatedPrnBalanceLog]] = await PrnBalanceLogModel.update(
+      { archived: !prnBalanceLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedPrnBalanceLog;
+  }
+
   async deletePrnBalanceLog(props: DeletePrnBalanceLogProps) {
     // Props
     const { id, company } = props;

@@ -30,6 +30,20 @@ class RestrictivePracticeLogController {
     res.status(200).json(restrictivePracticeLog);
   }
 
+  async deleteArchiveRestrictivePracticeLog(req: Request, res: Response) {
+    const { restrictivePracticeLogId } = req.params;
+    const props = {
+      id: restrictivePracticeLogId,
+      company: req.auth.companyId,
+    };
+
+    await restrictivePracticeLogService.deleteArchiveRestrictivePracticeLog(
+      props
+    );
+
+    res.status(204).json();
+  }
+
   async deleteRestrictivePracticeLog(req: Request, res: Response) {
     const { restrictivePracticeLogId } = req.params;
     const props = {

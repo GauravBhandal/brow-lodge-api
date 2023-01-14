@@ -25,6 +25,7 @@ class PrnAdminLogModel<
   Client: PrnAdminLog["Client"];
   company!: PrnAdminLog["company"];
   Company: PrnAdminLog["Company"];
+  archived: PrnAdminLog["archived"];
 }
 
 modelManager.init(
@@ -54,6 +55,9 @@ modelManager.init(
     outcome: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

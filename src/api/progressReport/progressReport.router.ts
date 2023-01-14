@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateProgressReport)
 );
 
+router.put(
+  "/archive/:progressReportId",
+  canDo("delete", "progressReport"),
+  progressReportSchems.deleteArchiveProgressReport,
+  catchWrap(controller.deleteArchiveProgressReport)
+);
+
 router.delete(
   "/:progressReportId",
   canDo("delete", "progressReport"),
