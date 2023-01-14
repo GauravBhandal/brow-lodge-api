@@ -40,6 +40,12 @@ const deleteClientBehaviourSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveClientBehaviourSchema = wrapSchema({
+  params: Joi.object().keys({
+    clientBehaviourId: requiredUUIDSchema(),
+  }),
+});
+
 const getClientBehaviourByIdSchema = wrapSchema({
   params: Joi.object().keys({
     clientBehaviourId: requiredUUIDSchema(),
@@ -59,6 +65,9 @@ export default {
   createClientBehaviour: joiMiddleware(createClientBehaviourSchema),
   editClientBehaviour: joiMiddleware(editClientBehaviourSchema),
   deleteClientBehaviour: joiMiddleware(deleteClientBehaviourSchema),
+  deleteArchiveClientBehaviour: joiMiddleware(
+    deleteArchiveClientBehaviourSchema
+  ),
   getClientBehaviourById: joiMiddleware(getClientBehaviourByIdSchema),
   getClientBehaviours: joiMiddleware(getClientBehaviourSchema),
 };

@@ -40,6 +40,18 @@ class PrnAdminLogController {
     res.status(204).json();
   }
 
+  async deleteArchivePrnAdminLog(req: Request, res: Response) {
+    const { prnAdminLogId } = req.params;
+    const props = {
+      id: prnAdminLogId,
+      company: req.auth.companyId,
+    };
+
+    await prnAdminLogService.deleteArchivePrnAdminLog(props);
+
+    res.status(204).json();
+  }
+
   async getprnAdminLogById(req: Request, res: Response) {
     const { prnAdminLogId } = req.params;
     const props = {

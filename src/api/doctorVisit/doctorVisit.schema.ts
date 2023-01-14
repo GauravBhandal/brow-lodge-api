@@ -52,6 +52,12 @@ const deleteDoctorVisitSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveDoctorVisitSchema = wrapSchema({
+  params: Joi.object().keys({
+    doctorVisitId: requiredUUIDSchema(),
+  }),
+});
+
 const getDoctorVisitByIdSchema = wrapSchema({
   params: Joi.object().keys({
     doctorVisitId: requiredUUIDSchema(),
@@ -71,6 +77,7 @@ export default {
   createDoctorVisit: joiMiddleware(createDoctorVisitSchema),
   editDoctorVisit: joiMiddleware(editDoctorVisitSchema),
   deleteDoctorVisit: joiMiddleware(deleteDoctorVisitSchema),
+  deleteArchiveDoctorVisit: joiMiddleware(deleteArchiveDoctorVisitSchema),
   getDoctorVisitById: joiMiddleware(getDoctorVisitByIdSchema),
   getDoctorVisits: joiMiddleware(getDoctorVisitSchema),
 };

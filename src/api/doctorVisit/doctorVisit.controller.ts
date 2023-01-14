@@ -28,6 +28,18 @@ class DoctorVisitController {
     res.status(200).json(doctorVisit);
   }
 
+  async deleteArchiveDoctorVisit(req: Request, res: Response) {
+    const { doctorVisitId } = req.params;
+    const props = {
+      id: doctorVisitId,
+      company: req.auth.companyId,
+    };
+
+    await doctorVisitService.deleteArchiveDoctorVisit(props);
+
+    res.status(204).json();
+  }
+
   async deleteDoctorVisit(req: Request, res: Response) {
     const { doctorVisitId } = req.params;
     const props = {
