@@ -40,9 +40,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "participant_communication_logs" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "participant_medication_charts" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "participant_medication_charts"
+DROP COLUMN "archived";
+
 ALTER TABLE "participant_communication_logs"
 DROP COLUMN "archived";
 
