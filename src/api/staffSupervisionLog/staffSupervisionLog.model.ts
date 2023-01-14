@@ -25,6 +25,7 @@ class StaffSupervisionLogModel<
   company!: StaffSupervisionLog["company"];
   Company: StaffSupervisionLog["Company"];
   Attachments: StaffSupervisionLog["Attachments"];
+  archived: StaffSupervisionLog["archived"];
 }
 
 modelManager.init(
@@ -41,6 +42,7 @@ modelManager.init(
     },
     notes: { type: Sequelize.STRING },
     type: { type: Sequelize.STRING, allowNull: false },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {

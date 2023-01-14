@@ -28,6 +28,13 @@ router.put(
   catchWrap(controller.updateTeam)
 );
 
+router.put(
+  "/archive/:teamId",
+  canDo("delete", "team"),
+  teamSchems.deleteArchiveTeam,
+  catchWrap(controller.deleteArchiveTeam)
+);
+
 router.delete(
   "/:teamId",
   canDo("delete", "team"),

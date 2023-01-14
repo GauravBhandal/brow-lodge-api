@@ -48,6 +48,20 @@ class ParticipantMedicationChartController {
     res.status(204).json();
   }
 
+  async deleteArchiveParticipantMedicationChart(req: Request, res: Response) {
+    const { participantMedicationChartId } = req.params;
+    const props = {
+      id: participantMedicationChartId,
+      company: req.auth.companyId,
+    };
+
+    await participantMedicationChartService.deleteArchiveParticipantMedicationChart(
+      props
+    );
+
+    res.status(204).json();
+  }
+
   async getparticipantMedicationChartById(req: Request, res: Response) {
     const { participantMedicationChartId } = req.params;
     const props = {

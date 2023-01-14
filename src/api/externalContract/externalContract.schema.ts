@@ -38,6 +38,12 @@ const deleteExternalContractSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveExternalContractSchema = wrapSchema({
+  params: Joi.object().keys({
+    externalContractId: requiredUUIDSchema(),
+  }),
+});
+
 const getExternalContractByIdSchema = wrapSchema({
   params: Joi.object().keys({
     externalContractId: requiredUUIDSchema(),
@@ -57,6 +63,9 @@ export default {
   createExternalContract: joiMiddleware(createExternalContractSchema),
   editExternalContract: joiMiddleware(editExternalContractSchema),
   deleteExternalContract: joiMiddleware(deleteExternalContractSchema),
+  deleteArchiveExternalContract: joiMiddleware(
+    deleteArchiveExternalContractSchema
+  ),
   getExternalContractById: joiMiddleware(getExternalContractByIdSchema),
   getExternalContracts: joiMiddleware(getExternalContractSchema),
 };

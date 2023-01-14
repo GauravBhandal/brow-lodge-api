@@ -20,6 +20,7 @@ export interface MedicationRegister extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   client: ClientProfile["id"];
   Client?: ClientProfile;
+  archived?: boolean;
 }
 
 export interface CreateMedicationRegisterProps {

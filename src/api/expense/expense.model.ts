@@ -4,10 +4,7 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import {
-  Expense,
-  CreateExpenseProps,
-} from "./expense.types";
+import { Expense, CreateExpenseProps } from "./expense.types";
 
 class ExpenseModel<
     ModelAttributes = Expense,
@@ -29,7 +26,7 @@ class ExpenseModel<
   paymentReimbursed!: Expense["paymentReimbursed"];
   company!: Expense["company"];
   Company: Expense["Company"];
-  
+  archived: Expense["archived"];
 }
 
 modelManager.init(
@@ -59,6 +56,9 @@ modelManager.init(
     paymentReimbursed: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

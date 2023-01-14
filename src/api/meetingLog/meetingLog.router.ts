@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateMeetingLog)
 );
 
+router.put(
+  "/archive/:meetingLogId",
+  canDo("delete", "meetingLog"),
+  meetingLogSchems.deleteArchiveMeetingLog,
+  catchWrap(controller.deleteArchiveMeetingLog)
+);
+
 router.delete(
   "/:meetingLogId",
   canDo("delete", "meetingLog"),

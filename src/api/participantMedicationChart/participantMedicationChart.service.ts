@@ -55,7 +55,7 @@ class ParticipantMedicationChartService {
     if (!participantMedicationChart) {
       throw new CustomError(
         404,
-        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART
+        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART_NOT_FOUND
       );
     }
 
@@ -79,6 +79,63 @@ class ParticipantMedicationChartService {
     return updatedParticipantMedicationChart;
   }
 
+  async deleteArchiveParticipantMedicationChart(
+    props: DeleteParticipantMedicationChartProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the participantMedicationChart by id and company
+    const participantMedicationChart =
+      await ParticipantMedicationChartModel.findOne({
+        where: { id, company },
+      });
+
+    // if participantMedicationChart has been deleted, throw an error
+    if (!participantMedicationChart) {
+      throw new CustomError(
+        404,
+        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART_NOT_FOUND
+      );
+    }
+
+    if (participantMedicationChart.archived) {
+      // Check if participantMedicationChart already exists
+      const existingParticipantMedicationChart =
+        await ParticipantMedicationChartModel.findAll({
+          where: {
+            date: participantMedicationChart.date,
+            staff: participantMedicationChart.staff,
+            client: participantMedicationChart.client,
+            levelOfSupportRequired:
+              participantMedicationChart.levelOfSupportRequired,
+            notes: participantMedicationChart.notes,
+            company: participantMedicationChart.company,
+            archived: false,
+          },
+        });
+
+      if (existingParticipantMedicationChart.length > 0) {
+        throw new CustomError(
+          409,
+          ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the participantMedicationChart update the Archive state
+    const [, [updatedParticipantMedicationChart]] =
+      await ParticipantMedicationChartModel.update(
+        { archived: !participantMedicationChart.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedParticipantMedicationChart;
+  }
+
   async deleteParticipantMedicationChart(
     props: DeleteParticipantMedicationChartProps
   ) {
@@ -95,7 +152,7 @@ class ParticipantMedicationChartService {
     if (!participantMedicationChart) {
       throw new CustomError(
         404,
-        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART
+        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART_NOT_FOUND
       );
     }
 
@@ -137,7 +194,7 @@ class ParticipantMedicationChartService {
     if (!participantMedicationChart) {
       throw new CustomError(
         404,
-        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART
+        ParticipantMedicationChartErrorCode.PARTICIPANT_MEDICATION_CHART_NOT_FOUND
       );
     }
 
