@@ -10,11 +10,12 @@ import {
 } from "./restrictivePracticeLog.types";
 
 class RestrictivePracticeLogModel<
-  ModelAttributes = RestrictivePracticeLog,
-  ModelCreationAttributes = CreateRestrictivePracticeLogProps
->
+    ModelAttributes = RestrictivePracticeLog,
+    ModelCreationAttributes = CreateRestrictivePracticeLogProps
+  >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements RestrictivePracticeLog {
+  implements RestrictivePracticeLog
+{
   isAuthorised!: RestrictivePracticeLog["isAuthorised"];
   impactOnAnyPerson!: RestrictivePracticeLog["impactOnAnyPerson"];
   injuryToAnyPerson!: RestrictivePracticeLog["injuryToAnyPerson"];
@@ -35,6 +36,7 @@ class RestrictivePracticeLogModel<
   Client: RestrictivePracticeLog["Client"];
   company!: RestrictivePracticeLog["company"];
   Company: RestrictivePracticeLog["Company"];
+  archived: RestrictivePracticeLog["archived"];
 }
 
 modelManager.init(
@@ -104,6 +106,9 @@ modelManager.init(
     actionTakenLeadingUpTo: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

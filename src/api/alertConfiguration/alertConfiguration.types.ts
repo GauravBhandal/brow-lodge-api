@@ -26,3 +26,8 @@ export interface DeleteAlertConfigurationProps {
 export interface GetAlertConfigurationsProps {
   company: AlertConfiguration["company"];
 }
+
+export interface GetAlertConfigurationByNameProps {
+  company: AlertConfiguration["company"];
+  name: AlertConfiguration["name"];
+}

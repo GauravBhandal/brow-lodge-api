@@ -23,6 +23,7 @@ class ProgressNoteModel<
   Company: ProgressNote["Company"];
   Attachments: ProgressNote["Attachments"];
   customFieldsData: ProgressNote["customFieldsData"];
+  archived: ProgressNote["archived"];
 }
 
 modelManager.init(
@@ -47,6 +48,9 @@ modelManager.init(
     },
     customFieldsData: {
       type: Sequelize.JSONB,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateDoctorVisit)
 );
 
+router.put(
+  "/archive/:doctorVisitId",
+  canDo("delete", "doctorVisit"),
+  doctorVisitSchems.deleteArchiveDoctorVisit,
+  catchWrap(controller.deleteArchiveDoctorVisit)
+);
+
 router.delete(
   "/:doctorVisitId",
   canDo("delete", "doctorVisit"),
