@@ -20,6 +20,13 @@ router.put(
   catchWrap(controller.updateStaffSupervisionLog)
 );
 
+router.put(
+  "/archive/:staffSupervisionLogId",
+  canDo("delete", "staffSupervisionLog"),
+  staffSupervisionLogSchems.deleteArchiveStaffSupervisionLog,
+  catchWrap(controller.deleteArchiveStaffSupervisionLog)
+);
+
 router.delete(
   "/:staffSupervisionLogId",
   canDo("delete", "staffSupervisionLog"),

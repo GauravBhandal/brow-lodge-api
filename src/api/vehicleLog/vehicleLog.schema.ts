@@ -44,6 +44,12 @@ const deleteVehicleLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveVehicleLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    vehicleLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getVehicleLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     vehicleLogId: requiredUUIDSchema(),
@@ -63,6 +69,7 @@ export default {
   createVehicleLog: joiMiddleware(createVehicleLogSchema),
   editVehicleLog: joiMiddleware(editVehicleLogSchema),
   deleteVehicleLog: joiMiddleware(deleteVehicleLogSchema),
+  deleteArchiveVehicleLog: joiMiddleware(deleteArchiveVehicleLogSchema),
   getVehicleLogById: joiMiddleware(getVehicleLogByIdSchema),
   getVehicleLogs: joiMiddleware(getVehicleLogSchema),
 };

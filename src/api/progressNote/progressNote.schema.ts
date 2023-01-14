@@ -40,6 +40,12 @@ const deleteProgressNoteSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveProgressNoteSchema = wrapSchema({
+  params: Joi.object().keys({
+    progressNoteId: requiredUUIDSchema(),
+  }),
+});
+
 const getProgressNoteByIdSchema = wrapSchema({
   params: Joi.object().keys({
     progressNoteId: requiredUUIDSchema(),
@@ -59,6 +65,7 @@ export default {
   createProgressNote: joiMiddleware(createProgressNoteSchema),
   editProgressNote: joiMiddleware(editProgressNoteSchema),
   deleteProgressNote: joiMiddleware(deleteProgressNoteSchema),
+  deleteArchiveProgressNote: joiMiddleware(deleteArchiveProgressNoteSchema),
   getProgressNoteById: joiMiddleware(getProgressNoteByIdSchema),
   getProgressNotes: joiMiddleware(getProgressNoteSchema),
 };

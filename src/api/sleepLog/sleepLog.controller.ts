@@ -40,6 +40,18 @@ class SleepLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveSleepLog(req: Request, res: Response) {
+    const { sleepLogId } = req.params;
+    const props = {
+      id: sleepLogId,
+      company: req.auth.companyId,
+    };
+
+    await sleepLogService.deleteArchiveSleepLog(props);
+
+    res.status(204).json();
+  }
+
   async getsleepLogById(req: Request, res: Response) {
     const { sleepLogId } = req.params;
     const props = {

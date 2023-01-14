@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateRestrictivePracticeLog)
 );
 
+router.put(
+  "/archive/:restrictivePracticeLogId",
+  canDo("delete", "restrictivePracticeLog"),
+  restrictivePracticeLogSchems.deleteArchiveRestrictivePracticeLog,
+  catchWrap(controller.deleteArchiveRestrictivePracticeLog)
+);
+
 router.delete(
   "/:restrictivePracticeLogId",
   canDo("delete", "restrictivePracticeLog"),
