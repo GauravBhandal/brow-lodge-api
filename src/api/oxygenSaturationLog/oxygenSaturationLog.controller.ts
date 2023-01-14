@@ -30,6 +30,18 @@ class OxygenSaturationLogController {
     res.status(200).json(oxygenSaturationLog);
   }
 
+  async deleteArchiveOxygenSaturationLog(req: Request, res: Response) {
+    const { oxygenSaturationLogId } = req.params;
+    const props = {
+      id: oxygenSaturationLogId,
+      company: req.auth.companyId,
+    };
+
+    await oxygenSaturationLogService.deleteArchiveOxygenSaturationLog(props);
+
+    res.status(204).json();
+  }
+
   async deleteOxygenSaturationLog(req: Request, res: Response) {
     const { oxygenSaturationLogId } = req.params;
     const props = {

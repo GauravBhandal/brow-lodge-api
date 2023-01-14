@@ -23,6 +23,7 @@ class InjuryReportModel<
   company!: InjuryReport["company"];
   Company: InjuryReport["Company"];
   Attachments: InjuryReport["Attachments"];
+  archived: InjuryReport["archived"];
 }
 
 modelManager.init(
@@ -40,6 +41,9 @@ modelManager.init(
     description: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
