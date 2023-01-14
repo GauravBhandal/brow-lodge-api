@@ -42,6 +42,12 @@ const deleteOnCallLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveOnCallLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    onCallLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getOnCallLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     onCallLogId: requiredUUIDSchema(),
@@ -61,6 +67,7 @@ export default {
   createOnCallLog: joiMiddleware(createOnCallLogSchema),
   editOnCallLog: joiMiddleware(editOnCallLogSchema),
   deleteOnCallLog: joiMiddleware(deleteOnCallLogSchema),
+  deleteArchiveOnCallLog: joiMiddleware(deleteArchiveOnCallLogSchema),
   getOnCallLogById: joiMiddleware(getOnCallLogByIdSchema),
   getOnCallLogs: joiMiddleware(getOnCallLogSchema),
 };

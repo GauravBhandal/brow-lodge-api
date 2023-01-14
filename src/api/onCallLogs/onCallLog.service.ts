@@ -48,6 +48,55 @@ class OnCallLogService {
     return updatedOnCallLog;
   }
 
+  async deleteArchiveOnCallLog(props: DeleteOnCallLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the onCallLog by id and company
+    const onCallLog = await OnCallLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if onCallLog has been deleted, throw an error
+    if (!onCallLog) {
+      throw new CustomError(404, OnCallLogErrorCode.ON_CALL_LOG_NOT_FOUND);
+    }
+
+    if (onCallLog.archived) {
+      // Check if onCallLog already exists
+      const existingOnCallLog = await OnCallLogModel.findAll({
+        where: {
+          date: onCallLog.date,
+          time: onCallLog.time,
+          staff: onCallLog.staff,
+          duration: onCallLog.duration,
+          communicationWith: onCallLog.communicationWith,
+          description: onCallLog.description,
+          company: onCallLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingOnCallLog.length > 0) {
+        throw new CustomError(
+          409,
+          OnCallLogErrorCode.ON_CALL_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the onCallLog update the Archive state
+    const [, [updatedOnCallLog]] = await OnCallLogModel.update(
+      { archived: !onCallLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedOnCallLog;
+  }
+
   async deleteOnCallLog(props: DeleteOnCallLogProps) {
     // Props
     const { id, company } = props;

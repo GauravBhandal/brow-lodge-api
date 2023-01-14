@@ -46,7 +46,10 @@ class ExternalContractService {
 
     // if externalContract not found, throw an error
     if (!externalContract) {
-      throw new CustomError(404, ExternalContractErrorCode.EXTERNAL_CONTRACT);
+      throw new CustomError(
+        404,
+        ExternalContractErrorCode.EXTERNAL_CONTRACT_NOT_FOUND
+      );
     }
 
     // Finally, update the externalContract
@@ -71,6 +74,55 @@ class ExternalContractService {
     return updatedExternalContract;
   }
 
+  async deleteArchiveExternalContract(props: DeleteExternalContractProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the externalContract by id and company
+    const externalContract = await ExternalContractModel.findOne({
+      where: { id, company },
+    });
+
+    // if externalContract has been deleted, throw an error
+    if (!externalContract) {
+      throw new CustomError(
+        404,
+        ExternalContractErrorCode.EXTERNAL_CONTRACT_NOT_FOUND
+      );
+    }
+
+    if (externalContract.archived) {
+      // Check if externalContract already exists
+      const existingExternalContract = await ExternalContractModel.findAll({
+        where: {
+          date: externalContract.date,
+          staff: externalContract.staff,
+          name: externalContract.name,
+          company: externalContract.company,
+          archived: false,
+        },
+      });
+
+      if (existingExternalContract.length > 0) {
+        throw new CustomError(
+          409,
+          ExternalContractErrorCode.EXTERNAL_CONTRACT_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the externalContract update the Archive state
+    const [, [updatedExternalContract]] = await ExternalContractModel.update(
+      { archived: !externalContract.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedExternalContract;
+  }
+
   async deleteExternalContract(props: DeleteExternalContractProps) {
     // Props
     const { id, company } = props;
@@ -82,7 +134,10 @@ class ExternalContractService {
 
     // if externalContract has been deleted, throw an error
     if (!externalContract) {
-      throw new CustomError(404, ExternalContractErrorCode.EXTERNAL_CONTRACT);
+      throw new CustomError(
+        404,
+        ExternalContractErrorCode.EXTERNAL_CONTRACT_NOT_FOUND
+      );
     }
 
     return externalContract;
@@ -114,7 +169,10 @@ class ExternalContractService {
 
     // If no externalContract has been found, then throw an error
     if (!externalContract) {
-      throw new CustomError(404, ExternalContractErrorCode.EXTERNAL_CONTRACT);
+      throw new CustomError(
+        404,
+        ExternalContractErrorCode.EXTERNAL_CONTRACT_NOT_FOUND
+      );
     }
 
     return externalContract;
