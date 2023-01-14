@@ -1,7 +1,7 @@
 "use strict";
 
 const queryUp = `
-  ALTER TABLE "client_behaviours" 
+ALTER TABLE "client_behaviours" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
 `;
