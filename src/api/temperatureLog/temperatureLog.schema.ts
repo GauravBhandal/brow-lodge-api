@@ -36,6 +36,12 @@ const deleteTemperatureLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveTemperatureLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    temperatureLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getTemperatureLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     temperatureLogId: requiredUUIDSchema(),
@@ -55,6 +61,7 @@ export default {
   createTemperatureLog: joiMiddleware(createTemperatureLogSchema),
   editTemperatureLog: joiMiddleware(editTemperatureLogSchema),
   deleteTemperatureLog: joiMiddleware(deleteTemperatureLogSchema),
+  deleteArchiveTemperatureLog: joiMiddleware(deleteArchiveTemperatureLogSchema),
   getTemperatureLogById: joiMiddleware(getTemperatureLogByIdSchema),
   getTemperatureLogs: joiMiddleware(getTemperatureLogSchema),
 };

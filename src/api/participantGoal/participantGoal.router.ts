@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateParticipantGoal)
 );
 
+router.put(
+  "/archive/:participantGoalId",
+  canDo("delete", "participantGoal"),
+  participantGoalSchems.deleteArchiveParticipantGoal,
+  catchWrap(controller.deleteArchiveParticipantGoal)
+);
+
 router.delete(
   "/:participantGoalId",
   canDo("delete", "participantGoal"),

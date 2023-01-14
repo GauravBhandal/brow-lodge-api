@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateStaffSleepDisturbance)
 );
 
+router.put(
+  "/archive/:staffSleepDisturbanceId",
+  canDo("delete", "staffSleepDisturbance"),
+  staffSleepDisturbanceSchems.deleteArchiveStaffSleepDisturbance,
+  catchWrap(controller.deleteArchiveStaffSleepDisturbance)
+);
+
 router.delete(
   "/:staffSleepDisturbanceId",
   canDo("delete", "staffSleepDisturbance"),

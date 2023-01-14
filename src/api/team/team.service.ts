@@ -119,6 +119,47 @@ class TeamService {
     return updatedTeam;
   }
 
+  async deleteArchiveTeam(props: DeleteTeamProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the team by id and company
+    const team = await TeamModel.findOne({
+      where: { id, company },
+    });
+
+    // if team has been deleted, throw an error
+    if (!team) {
+      throw new CustomError(404, TeamErrorCode.TEAM_NOT_FOUND);
+    }
+
+    if (team.archived) {
+      // Check if team already exists
+      const existingTeam = await TeamModel.findAll({
+        where: {
+          name: team.name,
+          company: team.company,
+          archived: false,
+        },
+      });
+
+      if (existingTeam.length > 0) {
+        throw new CustomError(409, TeamErrorCode.TEAM_ALREADY_EXISTS);
+      }
+    }
+
+    // Finally, update the team update the Archive state
+    const [, [updatedTeam]] = await TeamModel.update(
+      { archived: !team.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedTeam;
+  }
+
   async deleteTeam(props: DeleteTeamProps) {
     // Props
     const { id, company } = props;

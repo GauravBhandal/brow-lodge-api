@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updatePrnAdminLog)
 );
 
+router.put(
+  "/archive/:prnAdminLogId",
+  canDo("delete", "prnAdminLog"),
+  prnAdminLogSchems.deleteArchivePrnAdminLog,
+  catchWrap(controller.deleteArchivePrnAdminLog)
+);
+
 router.delete(
   "/:prnAdminLogId",
   canDo("delete", "prnAdminLog"),
