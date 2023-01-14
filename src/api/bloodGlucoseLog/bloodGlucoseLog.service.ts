@@ -52,6 +52,56 @@ class BloodGlucoseLogService {
     return updatedBloodGlucoseLog;
   }
 
+  async deleteArchiveBloodGlucoseLog(props: DeleteBloodGlucoseLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the bloodGlucoseLog by id and company
+    const bloodGlucoseLog = await BloodGlucoseLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if bloodGlucoseLog has been deleted, throw an error
+    if (!bloodGlucoseLog) {
+      throw new CustomError(
+        404,
+        BloodGlucoseLogErrorCode.BLOOD_GLUCOSE_LOG_NOT_FOUND
+      );
+    }
+
+    if (bloodGlucoseLog.archived) {
+      // Check if bloodGlucoseLog already exists
+      const existingBloodGlucoseLog = await BloodGlucoseLogModel.findAll({
+        where: {
+          date: bloodGlucoseLog.date,
+          time: bloodGlucoseLog.time,
+          staff: bloodGlucoseLog.staff,
+          client: bloodGlucoseLog.client,
+          company: bloodGlucoseLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingBloodGlucoseLog.length > 0) {
+        throw new CustomError(
+          409,
+          BloodGlucoseLogErrorCode.BLOOD_GLUCOSE_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the bloodGlucoseLog update the Archive state
+    const [, [updatedBloodGlucoseLog]] = await BloodGlucoseLogModel.update(
+      { archived: !bloodGlucoseLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedBloodGlucoseLog;
+  }
+
   async deleteBloodGlucoseLog(props: DeleteBloodGlucoseLogProps) {
     // Props
     const { id, company } = props;

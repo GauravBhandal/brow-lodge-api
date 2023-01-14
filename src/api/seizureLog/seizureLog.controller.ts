@@ -40,6 +40,18 @@ class SeizureLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveSeizureLog(req: Request, res: Response) {
+    const { seizureLogId } = req.params;
+    const props = {
+      id: seizureLogId,
+      company: req.auth.companyId,
+    };
+
+    await seizureLogService.deleteArchiveSeizureLog(props);
+
+    res.status(204).json();
+  }
+
   async getseizureLogById(req: Request, res: Response) {
     const { seizureLogId } = req.params;
     const props = {

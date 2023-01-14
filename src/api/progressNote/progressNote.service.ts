@@ -88,6 +88,54 @@ class ProgressNoteService {
     return updatedProgressNote;
   }
 
+  async deleteArchiveProgressNote(props: DeleteProgressNoteProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the progressNote by id and company
+    const progressNote = await ProgressNoteModel.findOne({
+      where: { id, company },
+    });
+
+    // if progressNote has been deleted, throw an error
+    if (!progressNote) {
+      throw new CustomError(404, ProgressNoteErrorCode.PROGRESS_NOTE_NOT_FOUND);
+    }
+
+    if (progressNote.archived) {
+      // Check if progressNote already exists
+      const existingProgressNote = await ProgressNoteModel.findAll({
+        where: {
+          shiftStartTime: progressNote.shiftStartTime,
+          date: progressNote.date,
+          shiftEndTime: progressNote.shiftEndTime,
+          client: progressNote.client,
+          notes: progressNote.notes,
+          company: progressNote.company,
+          archived: false,
+        },
+      });
+
+      if (existingProgressNote.length > 0) {
+        throw new CustomError(
+          409,
+          ProgressNoteErrorCode.PROGRESS_NOTE_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the progressNote update the Archive state
+    const [, [updatedProgressNote]] = await ProgressNoteModel.update(
+      { archived: !progressNote.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedProgressNote;
+  }
+
   async deleteProgressNote(props: DeleteProgressNoteProps) {
     // Props
     const { id, company } = props;
@@ -164,10 +212,7 @@ class ProgressNoteService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          [Op.and]: [
-            { ...filters["Client"] },
-            { ...clientFilters, }
-          ]
+          [Op.and]: [{ ...filters["Client"] }, { ...clientFilters }],
         },
         duplicating: true,
         required: true,

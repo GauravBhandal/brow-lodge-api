@@ -23,6 +23,7 @@ class PrnBalanceLogModel<
   Client: PrnBalanceLog["Client"];
   company!: PrnBalanceLog["company"];
   Company: PrnBalanceLog["Company"];
+  archived: PrnBalanceLog["archived"];
 }
 
 modelManager.init(
@@ -44,6 +45,9 @@ modelManager.init(
     balance: {
       type: Sequelize.DECIMAL,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

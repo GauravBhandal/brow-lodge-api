@@ -40,6 +40,18 @@ class InjuryReportController {
     res.status(204).json();
   }
 
+  async deleteArchiveInjuryReport(req: Request, res: Response) {
+    const { injuryReportId } = req.params;
+    const props = {
+      id: injuryReportId,
+      company: req.auth.companyId,
+    };
+
+    await injuryReportService.deleteArchiveInjuryReport(props);
+
+    res.status(204).json();
+  }
+
   async getinjuryReportById(req: Request, res: Response) {
     const { injuryReportId } = req.params;
     const props = {

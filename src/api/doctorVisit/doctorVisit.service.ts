@@ -68,6 +68,57 @@ class DoctorVisitService {
     return updatedDoctorVisit;
   }
 
+  async deleteArchiveDoctorVisit(props: DeleteDoctorVisitProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the doctorVisit by id and company
+    const doctorVisit = await DoctorVisitModel.findOne({
+      where: { id, company },
+    });
+
+    // if doctorVisit has been deleted, throw an error
+    if (!doctorVisit) {
+      throw new CustomError(404, DoctorVisitErrorCode.DOCTOR_VISIT_NOT_FOUND);
+    }
+
+    if (doctorVisit.archived) {
+      // Check if doctorVisit already exists
+      const existingDoctorVisit = await DoctorVisitModel.findAll({
+        where: {
+          date: doctorVisit.date,
+          time: doctorVisit.time,
+          staff: doctorVisit.staff,
+          client: doctorVisit.client,
+          doctorName: doctorVisit.doctorName,
+          healthPractitioner: doctorVisit.healthPractitioner,
+          reasonForVisit: doctorVisit.reasonForVisit,
+          doctorInstructions: doctorVisit.doctorInstructions,
+          company: doctorVisit.company,
+          archived: false,
+        },
+      });
+
+      if (existingDoctorVisit.length > 0) {
+        throw new CustomError(
+          409,
+          DoctorVisitErrorCode.DOCTOR_VISIT_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the doctorVisit update the Archive state
+    const [, [updatedDoctorVisit]] = await DoctorVisitModel.update(
+      { archived: !doctorVisit.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedDoctorVisit;
+  }
+
   async deleteDoctorVisit(props: DeleteDoctorVisitProps) {
     // Props
     const { id, company } = props;

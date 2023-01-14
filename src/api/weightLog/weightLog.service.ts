@@ -46,6 +46,53 @@ class WeightLogService {
     return updatedWeightLog;
   }
 
+  async deleteArchiveWeightLog(props: DeleteWeightLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the weightLog by id and company
+    const weightLog = await WeightLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if weightLog has been deleted, throw an error
+    if (!weightLog) {
+      throw new CustomError(404, WeightLogErrorCode.WEIGHT_LOG_NOT_FOUND);
+    }
+
+    if (weightLog.archived) {
+      // Check if weightLog already exists
+      const existingWeightLog = await WeightLogModel.findAll({
+        where: {
+          date: weightLog.date,
+          time: weightLog.time,
+          company: weightLog.company,
+          staff: weightLog.staff,
+          client: weightLog.client,
+          archived: false,
+        },
+      });
+
+      if (existingWeightLog.length > 0) {
+        throw new CustomError(
+          409,
+          WeightLogErrorCode.WEIGHT_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the weightLog update the Archive state
+    const [, [updatedWeightLog]] = await WeightLogModel.update(
+      { archived: !weightLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedWeightLog;
+  }
+
   async deleteWeightLog(props: DeleteWeightLogProps) {
     // Props
     const { id, company } = props;
