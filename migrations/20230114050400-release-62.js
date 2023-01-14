@@ -34,9 +34,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "staff_supervision_logs" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "teams" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "teams"
+DROP COLUMN "archived";
+
 ALTER TABLE "staff_supervision_logs"
 DROP COLUMN "archived";
 
