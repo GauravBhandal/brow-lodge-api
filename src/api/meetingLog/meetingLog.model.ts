@@ -31,6 +31,7 @@ class MeetingLogModel<
   company!: MeetingLog["company"];
   Company: MeetingLog["Company"];
   Attachments: MeetingLog["Attachments"];
+  archived: MeetingLog["archived"];
 }
 
 modelManager.init(
@@ -80,6 +81,9 @@ modelManager.init(
     action: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

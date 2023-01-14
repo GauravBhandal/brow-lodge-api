@@ -26,6 +26,7 @@ class TemperatureLogModel<
   Client: TemperatureLog["Client"];
   company!: TemperatureLog["company"];
   Company: TemperatureLog["Company"];
+  archived: TemperatureLog["archived"];
 }
 
 modelManager.init(
@@ -46,6 +47,9 @@ modelManager.init(
     },
     comments: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

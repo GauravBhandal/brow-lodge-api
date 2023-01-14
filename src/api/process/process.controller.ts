@@ -1,16 +1,37 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import sendEmail from "../../components/email";
+import { alertConfigurationService } from "../alertConfiguration";
 
 import processService from "./process.service";
 
 class ProcessController {
   async createProcess(req: Request, res: Response) {
+    const company = req.auth.companyId
     const props = {
-      company: req.auth.companyId,
+      company,
       ...req.body,
     };
 
     const process = await processService.createProcess(props);
+
+    // Send Email after creating the entry if alerts are set and emails are present 
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'process' }).then((alertNotificationEmails) => {
+      if (alertNotificationEmails.length) {
+        const emailBody = `
+        Hi user!
+        <br>  
+        <br>  
+        New process is created recently please check it once!
+        <br>
+        <br>  
+        Best Regards,
+        <br>
+        Team Care Diary
+          `;
+        sendEmail(alertNotificationEmails, emailBody, "Process created successfully!")
+      }
+    });
 
     res.status(200).json(process);
   }

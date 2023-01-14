@@ -15,6 +15,7 @@ export interface WeightLog extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  archived?: boolean;
 }
 
 export interface CreateWeightLogProps {
