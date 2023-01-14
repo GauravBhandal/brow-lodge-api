@@ -22,9 +22,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "progress_reports" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "restrictive_practice_logs" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "restrictive_practice_logs"
+DROP COLUMN "archived";
+
 ALTER TABLE "progress_reports"
 DROP COLUMN "archived";
 
