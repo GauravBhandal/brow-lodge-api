@@ -1,16 +1,33 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { alertConfigurationService } from "../alertConfiguration";
 
 import policyService from "./policy.service";
 
 class PolicyController {
   async createPolicy(req: Request, res: Response) {
+    const company = req.auth.companyId;
     const props = {
-      company: req.auth.companyId,
+      company,
       ...req.body,
     };
 
     const policy = await policyService.createPolicy(props);
+
+    // Send Email after creating the entry if alerts are set and emails are present
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'policy' }).then((alertNotificationEmails) => {
+      if (alertNotificationEmails.length) {
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Name', value: policy.name },
+          { label: 'Version', value: policy.version },
+        ]
+        const url = `/company/policies/${policy.id}`
+        const emailBody = getTemplateContent('Policy Added', 'A new policy added with following details!', contentArray, url, 'Policy')
+        sendEmail(alertNotificationEmails, emailBody, "New policy added successfully!")
+      }
+    });
 
     res.status(200).json(policy);
   }

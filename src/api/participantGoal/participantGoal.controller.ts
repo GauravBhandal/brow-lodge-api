@@ -1,18 +1,38 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { formatDateToString } from "../../utils/shiftGenerator";
+import { alertConfigurationService } from "../alertConfiguration";
 
 import participantGoalService from "./participantGoal.service";
 
 class ParticipantGoalController {
   async createParticipantGoal(req: Request, res: Response) {
+    const company = req.auth.companyId;
     const props = {
-      company: req.auth.companyId,
+      company,
       ...req.body,
     };
 
     const participantGoal = await participantGoalService.createParticipantGoal(
       props
     );
+
+    // Send Email after creating the entry if alerts are set and emails are present 
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'participantGoal' }).then((alertNotificationEmails) => {
+      if (alertNotificationEmails.length) {
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Goal Title', value: participantGoal.title },
+          { label: 'Type', value: participantGoal.type },
+          { label: 'Start Date', value: formatDateToString(participantGoal.startDate, '', 'DD-MMM-YYYY') },
+          { label: 'Status', value: participantGoal.status },
+        ]
+        const url = `/participant/goals/${participantGoal.id}`
+        const emailBody = getTemplateContent('Participant Goal Received', 'A new participant goal received with following details!', contentArray, url, 'Participant Goal')
+        sendEmail(alertNotificationEmails, emailBody, "New participant goal received!")
+      }
+    });
 
     res.status(200).json(participantGoal);
   }

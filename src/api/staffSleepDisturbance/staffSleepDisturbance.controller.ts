@@ -1,17 +1,37 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { formatDateToString, getFormattedTime } from "../../utils/shiftGenerator";
+import { alertConfigurationService } from "../alertConfiguration";
 
 import staffSleepDisturbanceService from "./staffSleepDisturbance.service";
 
 class StaffSleepDisturbanceController {
   async createStaffSleepDisturbance(req: Request, res: Response) {
+    const company = req.auth.companyId
     const props = {
-      company: req.auth.companyId,
+      company,
       ...req.body,
     };
 
     const staffSleepDisturbance =
       await staffSleepDisturbanceService.createStaffSleepDisturbance(props);
+
+    // Send Email after creating the entry if alerts are set and emails are present 
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'sleepDisturbance' }).then((alertNotificationEmails) => {
+      if (alertNotificationEmails.length) {
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Date', value: formatDateToString(staffSleepDisturbance.date, '', 'DD-MMM-YYYY') },
+          { label: 'Start Time', value: `${getFormattedTime(staffSleepDisturbance.startTime)}` },
+          { label: 'End Time', value: `${getFormattedTime(staffSleepDisturbance.endTime)}` },
+          { label: 'Total Hours', value: `${staffSleepDisturbance.totalHours}` },
+        ]
+        const url = `/reporting/sleep-disturbances/${staffSleepDisturbance.id}`
+        const emailBody = getTemplateContent('Sleep Disturbance Added', 'A sleep disturbance added with following details!', contentArray, url, 'Sleep Disturbance')
+        sendEmail(alertNotificationEmails, emailBody, "New sleep disturbance added successfully!")
+      }
+    });
 
     res.status(200).json(staffSleepDisturbance);
   }

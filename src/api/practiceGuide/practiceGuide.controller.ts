@@ -1,16 +1,33 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { alertConfigurationService } from "../alertConfiguration";
 
 import practiceGuideService from "./practiceGuide.service";
 
 class PracticeGuideController {
   async createPracticeGuide(req: Request, res: Response) {
+    const company = req.auth.companyId
     const props = {
-      company: req.auth.companyId,
+      company,
       ...req.body,
     };
 
     const practiceGuide = await practiceGuideService.createPracticeGuide(props);
+
+    // Send Email after creating the entry if alerts are set and emails are present 
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'practiceGuide' }).then((alertNotificationEmails) => {
+      if (alertNotificationEmails.length) {
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Name', value: practiceGuide.name },
+          { label: 'Version', value: practiceGuide.version },
+        ]
+        const url = `/company/practice-guides/${practiceGuide.id}`
+        const emailBody = getTemplateContent('Practice Guide Added', 'A new practice guide added with following details!', contentArray, url, 'Practice Guide')
+        sendEmail(alertNotificationEmails, emailBody, "New practice guide added successfully!")
+      }
+    });
 
     res.status(200).json(practiceGuide);
   }

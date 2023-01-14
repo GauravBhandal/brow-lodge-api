@@ -1,16 +1,33 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { alertConfigurationService } from "../alertConfiguration";
 
 import processService from "./process.service";
 
 class ProcessController {
   async createProcess(req: Request, res: Response) {
+    const company = req.auth.companyId
     const props = {
-      company: req.auth.companyId,
+      company,
       ...req.body,
     };
 
     const process = await processService.createProcess(props);
+
+    // Send Email after creating the entry if alerts are set and emails are present 
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'process' }).then((alertNotificationEmails) => {
+      if (alertNotificationEmails.length) {
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Name', value: process.name },
+          { label: 'Version', value: process.version },
+        ]
+        const url = `/company/processes/${process.id}`
+        const emailBody = getTemplateContent('Process Added', 'A new process added with following details!', contentArray, url, 'Process')
+        sendEmail(alertNotificationEmails, emailBody, "New process added successfully!")
+      }
+    });
 
     res.status(200).json(process);
   }

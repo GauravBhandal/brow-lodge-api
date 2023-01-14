@@ -1,16 +1,36 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
+import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
+import { formatDateToString } from "../../utils/shiftGenerator";
+import { alertConfigurationService } from "../alertConfiguration";
 
 import corporateRiskService from "./corporateRisk.service";
 
 class CorporateRiskController {
   async createCorporateRisk(req: Request, res: Response) {
+    const company = req.auth.companyId;
     const props = {
-      company: req.auth.companyId,
+      company,
       ...req.body,
     };
 
     const corporateRisk = await corporateRiskService.createCorporateRisk(props);
+
+    // Send Email after creating the entry if alerts are set and emails are present
+    alertConfigurationService.getAlertConfigurationByName({ company, name: 'corporateRisk' }).then((alertNotificationEmails) => {
+      if (alertNotificationEmails.length) {
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Date', value: formatDateToString(corporateRisk.date, '', 'DD-MMM-YYYY') },
+          { label: 'Level Of Risk', value: corporateRisk.levelOfRisk },
+          { label: 'Likelihood', value: corporateRisk.likelihood },
+          { label: 'Consequences', value: corporateRisk.consequences },
+        ]
+        const url = `/compliance/corporate-risks/${corporateRisk.id}`
+        const emailBody = getTemplateContent('Corporate Risk Reported', 'A new corporate risk received with following details!', contentArray, url, 'Corporate Risk')
+        sendEmail(alertNotificationEmails, emailBody, "New corporate risk assessment received!")
+      }
+    });
 
     res.status(200).json(corporateRisk);
   }
