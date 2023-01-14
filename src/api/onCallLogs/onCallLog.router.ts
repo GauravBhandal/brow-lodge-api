@@ -20,6 +20,13 @@ router.put(
   catchWrap(controller.updateOnCallLog)
 );
 
+router.put(
+  "/archive/:onCallLogId",
+  canDo("delete", "onCallLog"),
+  onCallLogSchems.deleteArchiveOnCallLog,
+  catchWrap(controller.deleteArchiveOnCallLog)
+);
+
 router.delete(
   "/:onCallLogId",
   canDo("delete", "onCallLog"),

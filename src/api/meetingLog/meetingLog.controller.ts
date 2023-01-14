@@ -28,6 +28,18 @@ class MeetingLogController {
     res.status(200).json(meetingLog);
   }
 
+  async deleteArchiveMeetingLog(req: Request, res: Response) {
+    const { meetingLogId } = req.params;
+    const props = {
+      id: meetingLogId,
+      company: req.auth.companyId,
+    };
+
+    await meetingLogService.deleteArchiveMeetingLog(props);
+
+    res.status(204).json();
+  }
+
   async deleteMeetingLog(req: Request, res: Response) {
     const { meetingLogId } = req.params;
     const props = {

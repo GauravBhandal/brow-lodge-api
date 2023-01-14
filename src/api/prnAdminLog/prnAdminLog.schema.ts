@@ -40,6 +40,12 @@ const deletePrnAdminLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchivePrnAdminLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    prnAdminLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getPrnAdminLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     prnAdminLogId: requiredUUIDSchema(),
@@ -59,6 +65,7 @@ export default {
   createPrnAdminLog: joiMiddleware(createPrnAdminLogSchema),
   editPrnAdminLog: joiMiddleware(editPrnAdminLogSchema),
   deletePrnAdminLog: joiMiddleware(deletePrnAdminLogSchema),
+  deleteArchivePrnAdminLog: joiMiddleware(deleteArchivePrnAdminLogSchema),
   getPrnAdminLogById: joiMiddleware(getPrnAdminLogByIdSchema),
   getPrnAdminLogs: joiMiddleware(getPrnAdminLogSchema),
 };

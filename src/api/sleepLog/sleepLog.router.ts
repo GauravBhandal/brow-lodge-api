@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateSleepLog)
 );
 
+router.put(
+  "/archive/:sleepLogId",
+  canDo("delete", "sleepLog"),
+  sleepLogSchems.deleteArchiveSleepLog,
+  catchWrap(controller.deleteArchiveSleepLog)
+);
+
 router.delete(
   "/:sleepLogId",
   canDo("delete", "sleepLog"),

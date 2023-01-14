@@ -65,6 +65,62 @@ class MeetingLogService {
     return updatedMeetingLog;
   }
 
+  async deleteArchiveMeetingLog(props: DeleteMeetingLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the meetingLog by id and company
+    const meetingLog = await MeetingLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if meetingLog has been deleted, throw an error
+    if (!meetingLog) {
+      throw new CustomError(404, MeetingLogErrorCode.MEETING_LOG_NOT_FOUND);
+    }
+
+    if (meetingLog.archived) {
+      // Check if meetingLog already exists
+      const existingMeetingLog = await MeetingLogModel.findAll({
+        where: {
+          date: meetingLog.date,
+          startTime: meetingLog.startTime,
+          endTime: meetingLog.endTime,
+          staff: meetingLog.staff,
+          meetingType: meetingLog.meetingType,
+          client: meetingLog.client,
+          location: meetingLog.location,
+          purpose: meetingLog.purpose,
+          attendees: meetingLog.attendees,
+          apologies: meetingLog.apologies,
+          agenda: meetingLog.agenda,
+          discussion: meetingLog.discussion,
+          action: meetingLog.action,
+          company: meetingLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingMeetingLog.length > 0) {
+        throw new CustomError(
+          409,
+          MeetingLogErrorCode.MEETING_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the meetingLog update the Archive state
+    const [, [updatedMeetingLog]] = await MeetingLogModel.update(
+      { archived: !meetingLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedMeetingLog;
+  }
+
   async deleteMeetingLog(props: DeleteMeetingLogProps) {
     // Props
     const { id, company } = props;

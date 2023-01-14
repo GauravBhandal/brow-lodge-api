@@ -42,6 +42,18 @@ class ExternalContractController {
     res.status(204).json();
   }
 
+  async deleteArchiveExternalContract(req: Request, res: Response) {
+    const { externalContractId } = req.params;
+    const props = {
+      id: externalContractId,
+      company: req.auth.companyId,
+    };
+
+    await externalContractService.deleteArchiveExternalContract(props);
+
+    res.status(204).json();
+  }
+
   async getexternalContractById(req: Request, res: Response) {
     const { externalContractId } = req.params;
     const props = {

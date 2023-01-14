@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateBowelLog)
 );
 
+router.put(
+  "/archive/:bowelLogId",
+  canDo("delete", "bowelLog"),
+  bowelLogSchems.deleteArchiveBowelLog,
+  catchWrap(controller.deleteArchiveBowelLog)
+);
+
 router.delete(
   "/:bowelLogId",
   canDo("delete", "bowelLog"),
