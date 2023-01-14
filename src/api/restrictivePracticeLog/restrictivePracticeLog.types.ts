@@ -28,6 +28,7 @@ export interface RestrictivePracticeLog extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Type?: RestrictivePracticeLogType[];
+  archived?: boolean;
 }
 
 export interface CreateRestrictivePracticeLogProps {
@@ -64,7 +65,7 @@ export interface DeleteRestrictivePracticeLogProps {
 }
 
 export interface GetRestrictivePracticeLogByIdProps
-  extends DeleteRestrictivePracticeLogProps { }
+  extends DeleteRestrictivePracticeLogProps {}
 
 export interface GetRestrictivePracticeLogsProps extends QueryParams {
   company: RestrictivePracticeLog["company"];
