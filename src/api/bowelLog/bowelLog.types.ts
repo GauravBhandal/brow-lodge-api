@@ -15,6 +15,7 @@ export interface BowelLog extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  archived?: boolean;
 }
 
 export interface CreateBowelLogProps {

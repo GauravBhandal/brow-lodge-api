@@ -52,6 +52,56 @@ class BloodPressureLogService {
     return updatedBloodPressureLog;
   }
 
+  async deleteArchiveBloodPressureLog(props: DeleteBloodPressureLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the bloodPressureLog by id and company
+    const bloodPressureLog = await BloodPressureLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if bloodPressureLog has been deleted, throw an error
+    if (!bloodPressureLog) {
+      throw new CustomError(
+        404,
+        BloodPressureLogErrorCode.BLOOD_PRESSURE_LOG_NOT_FOUND
+      );
+    }
+
+    if (bloodPressureLog.archived) {
+      // Check if bloodPressureLog already exists
+      const existingBloodPressureLog = await BloodPressureLogModel.findAll({
+        where: {
+          date: bloodPressureLog.date,
+          time: bloodPressureLog.time,
+          staff: bloodPressureLog.staff,
+          client: bloodPressureLog.client,
+          company: bloodPressureLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingBloodPressureLog.length > 0) {
+        throw new CustomError(
+          409,
+          BloodPressureLogErrorCode.BLOOD_PRESSURE_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the bloodPressureLog update the Archive state
+    const [, [updatedBloodPressureLog]] = await BloodPressureLogModel.update(
+      { archived: !bloodPressureLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedBloodPressureLog;
+  }
+
   async deleteBloodPressureLog(props: DeleteBloodPressureLogProps) {
     // Props
     const { id, company } = props;

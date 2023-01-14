@@ -53,6 +53,60 @@ class ClientBehaviourService {
     return updatedClientBehaviour;
   }
 
+  async deleteArchiveClientBehaviour(props: DeleteClientBehaviourProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the clientBehaviour by id and company
+    const clientBehaviour = await ClientBehaviourModel.findOne({
+      where: { id, company },
+    });
+
+    // if clientBehaviour has been deleted, throw an error
+    if (!clientBehaviour) {
+      throw new CustomError(
+        404,
+        ClientBehaviourErrorCode.CLIENT_BEHAVIOUR_NOT_FOUND
+      );
+    }
+
+    if (clientBehaviour.archived) {
+      // Check if document already exists
+      const existingClientBehaviour = await ClientBehaviourModel.findAll({
+        where: {
+          date: clientBehaviour.date,
+          staff: clientBehaviour.staff,
+          client: clientBehaviour.client,
+          startTime: clientBehaviour.startTime,
+          endTime: clientBehaviour.endTime,
+          antecedents: clientBehaviour.antecedents,
+          behaviour: clientBehaviour.behaviour,
+          consequences: clientBehaviour.consequences,
+          company: clientBehaviour.company,
+          archived: false,
+        },
+      });
+
+      if (existingClientBehaviour.length > 0) {
+        throw new CustomError(
+          409,
+          ClientBehaviourErrorCode.CLIENT_BEHAVIOUR_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the clientBehaviour update the Archive state
+    const [, [updatedClientBehaviour]] = await ClientBehaviourModel.update(
+      { archived: !clientBehaviour.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedClientBehaviour;
+  }
+
   async deleteClientBehaviour(props: DeleteClientBehaviourProps) {
     // Props
     const { id, company } = props;
@@ -131,10 +185,7 @@ class ClientBehaviourService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          [Op.and]: [
-            { ...filters["Client"] },
-            { ...clientFilters, }
-          ]
+          [Op.and]: [{ ...filters["Client"] }, { ...clientFilters }],
         },
       },
     ];

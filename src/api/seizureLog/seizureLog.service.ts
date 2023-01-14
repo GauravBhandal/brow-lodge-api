@@ -46,6 +46,56 @@ class SeizureLogService {
     return updatedSeizureLog;
   }
 
+  async deleteArchiveSeizureLog(props: DeleteSeizureLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the seizureLog by id and company
+    const seizureLog = await SeizureLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if seizureLog has been deleted, throw an error
+    if (!seizureLog) {
+      throw new CustomError(404, SeizureLogErrorCode.SEIZURE_LOG_NOT_FOUND);
+    }
+
+    if (seizureLog.archived) {
+      // Check if seizureLog already exists
+      const existingSeizureLog = await SeizureLogModel.findAll({
+        where: {
+          date: seizureLog.date,
+          startTime: seizureLog.startTime,
+          endTime: seizureLog.endTime,
+          seizure: seizureLog.seizure,
+          staff: seizureLog.staff,
+          client: seizureLog.client,
+          recovery: seizureLog.recovery,
+          company: seizureLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingSeizureLog.length > 0) {
+        throw new CustomError(
+          409,
+          SeizureLogErrorCode.SEIZURE_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the seizureLog update the Archive state
+    const [, [updatedSeizureLog]] = await SeizureLogModel.update(
+      { archived: !seizureLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedSeizureLog;
+  }
+
   async deleteSeizureLog(props: DeleteSeizureLogProps) {
     // Props
     const { id, company } = props;

@@ -10,8 +10,7 @@ class ExpenseController {
       ...req.body,
     };
 
-    const expense =
-      await expenseService.createExpense(props);
+    const expense = await expenseService.createExpense(props);
 
     res.status(200).json(expense);
   }
@@ -24,8 +23,7 @@ class ExpenseController {
       ...req.body,
     };
 
-    const expense =
-      await expenseService.updateExpense(props);
+    const expense = await expenseService.updateExpense(props);
 
     res.status(200).json(expense);
   }
@@ -42,6 +40,18 @@ class ExpenseController {
     res.status(204).json();
   }
 
+  async deleteArchiveExpense(req: Request, res: Response) {
+    const { expenseId } = req.params;
+    const props = {
+      id: expenseId,
+      company: req.auth.companyId,
+    };
+
+    await expenseService.deleteArchiveExpense(props);
+
+    res.status(204).json();
+  }
+
   async getexpenseById(req: Request, res: Response) {
     const { expenseId } = req.params;
     const props = {
@@ -49,8 +59,7 @@ class ExpenseController {
       company: req.auth.companyId,
     };
 
-    const expense =
-      await expenseService.getExpenseById(props);
+    const expense = await expenseService.getExpenseById(props);
 
     res.status(200).json(expense);
   }
@@ -67,8 +76,7 @@ class ExpenseController {
       ...queryParams,
     };
 
-    const expenses =
-      await expenseService.getExpenses(props, req.auth.userId);
+    const expenses = await expenseService.getExpenses(props, req.auth.userId);
 
     res.status(200).json(expenses);
   }
