@@ -10,9 +10,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "injury_reports" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "prn_admin_logs" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "prn_admin_logs"
+DROP COLUMN "archived";
+
 ALTER TABLE "injury_reports"
 DROP COLUMN "archived";
 
