@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateExpense)
 );
 
+router.put(
+  "/archive/:expenseId",
+  canDo("delete", "expense"),
+  expenseSchems.deleteArchiveExpense,
+  catchWrap(controller.deleteArchiveExpense)
+);
+
 router.delete(
   "/:expenseId",
   canDo("delete", "expense"),

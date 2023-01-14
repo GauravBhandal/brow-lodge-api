@@ -26,6 +26,7 @@ class BloodGlucoseLogModel<
   Client: BloodGlucoseLog["Client"];
   company!: BloodGlucoseLog["company"];
   Company: BloodGlucoseLog["Company"];
+  archived: BloodGlucoseLog["archived"];
 }
 
 modelManager.init(
@@ -46,6 +47,9 @@ modelManager.init(
     },
     comments: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

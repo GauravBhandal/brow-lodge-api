@@ -46,18 +46,14 @@ class ExpenseService {
 
     // if expense not found, throw an error
     if (!expense) {
-      throw new CustomError(
-        404,
-        ExpenseErrorCode.EXPENSE_NOT_FOUND
-      );
+      throw new CustomError(404, ExpenseErrorCode.EXPENSE_NOT_FOUND);
     }
 
     // Finally, update the expense
-    const [, [updatedExpense]] =
-      await ExpenseModel.update(updateProps, {
-        where: { id, company },
-        returning: true,
-      });
+    const [, [updatedExpense]] = await ExpenseModel.update(updateProps, {
+      where: { id, company },
+      returning: true,
+    });
 
     // Update attachments
     if (props.attachments && props.attachments.length) {
@@ -66,6 +62,53 @@ class ExpenseService {
         attachments: props.attachments,
       });
     }
+    return updatedExpense;
+  }
+
+  async deleteArchiveExpense(props: DeleteExpenseProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the expense by id and company
+    const expense = await ExpenseModel.findOne({
+      where: { id, company },
+    });
+
+    // if expense has been deleted, throw an error
+    if (!expense) {
+      throw new CustomError(404, ExpenseErrorCode.EXPENSE_NOT_FOUND);
+    }
+
+    if (expense.archived) {
+      // Check if expense already exists
+      const existingExpense = await ExpenseModel.findAll({
+        where: {
+          date: expense.date,
+          staff: expense.staff,
+          totalExpense: expense.totalExpense,
+          description: expense.description,
+          paidBy: expense.paidBy,
+          status: expense.status,
+          paymentReimbursed: expense.paymentReimbursed,
+          company: expense.company,
+          archived: false,
+        },
+      });
+
+      if (existingExpense.length > 0) {
+        throw new CustomError(409, ExpenseErrorCode.EXPENSE_ALREADY_EXISTS);
+      }
+    }
+
+    // Finally, update the expense update the Archive state
+    const [, [updatedExpense]] = await ExpenseModel.update(
+      { archived: !expense.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
     return updatedExpense;
   }
 
@@ -80,10 +123,7 @@ class ExpenseService {
 
     // if expense has been deleted, throw an error
     if (!expense) {
-      throw new CustomError(
-        404,
-        ExpenseErrorCode.EXPENSE_NOT_FOUND
-      );
+      throw new CustomError(404, ExpenseErrorCode.EXPENSE_NOT_FOUND);
     }
 
     return expense;
@@ -120,10 +160,7 @@ class ExpenseService {
 
     // If no expense has been found, then throw an error
     if (!expense) {
-      throw new CustomError(
-        404,
-        ExpenseErrorCode.EXPENSE_NOT_FOUND
-      );
+      throw new CustomError(404, ExpenseErrorCode.EXPENSE_NOT_FOUND);
     }
 
     return expense;
@@ -153,12 +190,13 @@ class ExpenseService {
         model: ClientProfileModel,
         as: "Client",
         where: {
-          [Op.and]: [
-            { ...filters["Client"] },
-            { ...clientFilters, }
-          ]
+          [Op.and]: [{ ...filters["Client"] }, { ...clientFilters }],
         },
-        required: (filters["Client"] && Object.keys(filters["Client"]).length) || (Object.keys(clientFilters).length) ? true : false,
+        required:
+          (filters["Client"] && Object.keys(filters["Client"]).length) ||
+            Object.keys(clientFilters).length
+            ? true
+            : false,
       },
     ];
 
