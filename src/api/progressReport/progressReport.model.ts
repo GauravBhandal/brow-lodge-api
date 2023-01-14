@@ -37,6 +37,7 @@ class ProgressReportModel<
   company!: ProgressReport["company"];
   Company: ProgressReport["Company"];
   Attachments: ProgressReport["Attachments"];
+  archived: ProgressReport["archived"];
 }
 
 modelManager.init(
@@ -66,6 +67,7 @@ modelManager.init(
     ndisGoalSetting: { type: Sequelize.STRING },
     independentSkills: { type: Sequelize.STRING },
     communityAccess: { type: Sequelize.STRING },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {

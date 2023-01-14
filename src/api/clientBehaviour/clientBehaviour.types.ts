@@ -17,6 +17,7 @@ export interface ClientBehaviour extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  archived?: boolean;
 }
 
 export interface CreateClientBehaviourProps {

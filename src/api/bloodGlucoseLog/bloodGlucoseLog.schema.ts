@@ -36,6 +36,12 @@ const deleteBloodGlucoseLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveBloodGlucoseLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    bloodGlucoseLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getBloodGlucoseLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     bloodGlucoseLogId: requiredUUIDSchema(),
@@ -55,6 +61,9 @@ export default {
   createBloodGlucoseLog: joiMiddleware(createBloodGlucoseLogSchema),
   editBloodGlucoseLog: joiMiddleware(editBloodGlucoseLogSchema),
   deleteBloodGlucoseLog: joiMiddleware(deleteBloodGlucoseLogSchema),
+  deleteArchiveBloodGlucoseLog: joiMiddleware(
+    deleteArchiveBloodGlucoseLogSchema
+  ),
   getBloodGlucoseLogById: joiMiddleware(getBloodGlucoseLogByIdSchema),
   getBloodGlucoseLogs: joiMiddleware(getBloodGlucoseLogSchema),
 };

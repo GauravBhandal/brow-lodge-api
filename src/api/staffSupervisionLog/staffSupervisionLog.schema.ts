@@ -42,6 +42,12 @@ const deleteStaffSupervisionLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveStaffSupervisionLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    staffSupervisionLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getStaffSupervisionLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     staffSupervisionLogId: requiredUUIDSchema(),
@@ -61,6 +67,9 @@ export default {
   createStaffSupervisionLog: joiMiddleware(createStaffSupervisionLogSchema),
   editStaffSupervisionLog: joiMiddleware(editStaffSupervisionLogSchema),
   deleteStaffSupervisionLog: joiMiddleware(deleteStaffSupervisionLogSchema),
+  deleteArchiveStaffSupervisionLog: joiMiddleware(
+    deleteArchiveStaffSupervisionLogSchema
+  ),
   getStaffSupervisionLogById: joiMiddleware(getStaffSupervisionLogByIdSchema),
   getStaffSupervisionLogs: joiMiddleware(getStaffSupervisionLogSchema),
 };

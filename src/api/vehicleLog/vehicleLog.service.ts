@@ -46,6 +46,59 @@ class VehicleLogService {
     return updatedVehicleLog;
   }
 
+  async deleteArchiveVehicleLog(props: DeleteVehicleLogProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the vehicleLog by id and company
+    const vehicleLog = await VehicleLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if vehicleLog has been deleted, throw an error
+    if (!vehicleLog) {
+      throw new CustomError(404, VehicleLogErrorCode.VEHICLE_LOG_NOT_FOUND);
+    }
+
+    if (vehicleLog.archived) {
+      // Check if vehicleLog already exists
+      const existingVehicleLog = await VehicleLogModel.findAll({
+        where: {
+          date: vehicleLog.date,
+          startTime: vehicleLog.startTime,
+          endTime: vehicleLog.endTime,
+          odometerReadingStart: vehicleLog.odometerReadingStart,
+          odometerReadingEnd: vehicleLog.odometerReadingEnd,
+          purposeOfTheJourney: vehicleLog.purposeOfTheJourney,
+          totalKm: vehicleLog.totalKm,
+          vehicle: vehicleLog.vehicle,
+          staff: vehicleLog.staff,
+          client: vehicleLog.client,
+          company: vehicleLog.company,
+          archived: false,
+        },
+      });
+
+      if (existingVehicleLog.length > 0) {
+        throw new CustomError(
+          409,
+          VehicleLogErrorCode.VEHICLE_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the vehicleLog update the Archive state
+    const [, [updatedPracticeGuide]] = await VehicleLogModel.update(
+      { archived: !vehicleLog.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedPracticeGuide;
+  }
+
   async deleteVehicleLog(props: DeleteVehicleLogProps) {
     // Props
     const { id, company } = props;

@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updatePrnBalanceLog)
 );
 
+router.put(
+  "/archive/:prnBalanceLogId",
+  canDo("delete", "prnBalanceLog"),
+  prnBalanceLogSchems.deleteArchivePrnBalanceLog,
+  catchWrap(controller.deleteArchivePrnBalanceLog)
+);
+
 router.delete(
   "/:prnBalanceLogId",
   canDo("delete", "prnBalanceLog"),
