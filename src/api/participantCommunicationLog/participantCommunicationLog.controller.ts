@@ -48,6 +48,20 @@ class ParticipantCommunicationLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveParticipantCommunicationLog(req: Request, res: Response) {
+    const { participantCommunicationLogId } = req.params;
+    const props = {
+      id: participantCommunicationLogId,
+      company: req.auth.companyId,
+    };
+
+    await participantCommunicationLogService.deleteArchiveParticipantCommunicationLog(
+      props
+    );
+
+    res.status(204).json();
+  }
+
   async getparticipantCommunicationLogById(req: Request, res: Response) {
     const { participantCommunicationLogId } = req.params;
     const props = {

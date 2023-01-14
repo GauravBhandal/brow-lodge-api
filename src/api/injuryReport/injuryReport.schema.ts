@@ -40,6 +40,12 @@ const deleteInjuryReportSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveInjuryReportSchema = wrapSchema({
+  params: Joi.object().keys({
+    injuryReportId: requiredUUIDSchema(),
+  }),
+});
+
 const getInjuryReportByIdSchema = wrapSchema({
   params: Joi.object().keys({
     injuryReportId: requiredUUIDSchema(),
@@ -59,6 +65,7 @@ export default {
   createInjuryReport: joiMiddleware(createInjuryReportSchema),
   editInjuryReport: joiMiddleware(editInjuryReportSchema),
   deleteInjuryReport: joiMiddleware(deleteInjuryReportSchema),
+  deleteArchiveInjuryReport: joiMiddleware(deleteArchiveInjuryReportSchema),
   getInjuryReportById: joiMiddleware(getInjuryReportByIdSchema),
   getInjuryReports: joiMiddleware(getInjuryReportSchema),
 };

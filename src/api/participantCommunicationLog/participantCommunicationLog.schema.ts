@@ -46,6 +46,12 @@ const deleteParticipantCommunicationLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveParticipantCommunicationLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    participantCommunicationLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getParticipantCommunicationLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     participantCommunicationLogId: requiredUUIDSchema(),
@@ -70,6 +76,9 @@ export default {
   ),
   deleteParticipantCommunicationLog: joiMiddleware(
     deleteParticipantCommunicationLogSchema
+  ),
+  deleteArchiveParticipantCommunicationLog: joiMiddleware(
+    deleteArchiveParticipantCommunicationLogSchema
   ),
   getParticipantCommunicationLogById: joiMiddleware(
     getParticipantCommunicationLogByIdSchema

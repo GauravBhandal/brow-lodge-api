@@ -40,6 +40,12 @@ const deleteStaffSleepDisturbanceSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveStaffSleepDisturbanceSchema = wrapSchema({
+  params: Joi.object().keys({
+    staffSleepDisturbanceId: requiredUUIDSchema(),
+  }),
+});
+
 const getStaffSleepDisturbanceByIdSchema = wrapSchema({
   params: Joi.object().keys({
     staffSleepDisturbanceId: requiredUUIDSchema(),
@@ -59,6 +65,9 @@ export default {
   createStaffSleepDisturbance: joiMiddleware(createStaffSleepDisturbanceSchema),
   editStaffSleepDisturbance: joiMiddleware(editStaffSleepDisturbanceSchema),
   deleteStaffSleepDisturbance: joiMiddleware(deleteStaffSleepDisturbanceSchema),
+  deleteArchiveStaffSleepDisturbance: joiMiddleware(
+    deleteArchiveStaffSleepDisturbanceSchema
+  ),
   getStaffSleepDisturbanceById: joiMiddleware(
     getStaffSleepDisturbanceByIdSchema
   ),

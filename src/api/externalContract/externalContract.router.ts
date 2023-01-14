@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateExternalContract)
 );
 
+router.put(
+  "/archive/:externalContractId",
+  canDo("delete", "externalContract"),
+  externalContractSchems.deleteArchiveExternalContract,
+  catchWrap(controller.deleteArchiveExternalContract)
+);
+
 router.delete(
   "/:externalContractId",
   canDo("delete", "externalContract"),

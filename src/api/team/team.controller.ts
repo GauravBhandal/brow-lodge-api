@@ -39,6 +39,18 @@ class TeamController {
     res.status(200).json(team);
   }
 
+  async deleteArchiveTeam(req: Request, res: Response) {
+    const { teamId } = req.params;
+    const props = {
+      id: teamId,
+      company: req.auth.companyId,
+    };
+
+    await teamService.deleteArchiveTeam(props);
+
+    res.status(204).json();
+  }
+
   async deleteTeam(req: Request, res: Response) {
     const { teamId } = req.params;
     const props = {

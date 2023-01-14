@@ -36,6 +36,12 @@ const deleteWeightLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveWeightLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    weightLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getWeightLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     weightLogId: requiredUUIDSchema(),
@@ -55,6 +61,7 @@ export default {
   createWeightLog: joiMiddleware(createWeightLogSchema),
   editWeightLog: joiMiddleware(editWeightLogSchema),
   deleteWeightLog: joiMiddleware(deleteWeightLogSchema),
+  deleteArchiveWeightLog: joiMiddleware(deleteArchiveWeightLogSchema),
   getWeightLogById: joiMiddleware(getWeightLogByIdSchema),
   getWeightLogs: joiMiddleware(getWeightLogSchema),
 };

@@ -17,7 +17,10 @@ import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { restrictivePracticeLogStaffProfileService } from "./restrictivePracticeLogStaffProfile";
-import { RestrictivePracticeLogTypeModel, restrictivePracticeLogTypeService } from "./restrictivePracticeLogType";
+import {
+  RestrictivePracticeLogTypeModel,
+  restrictivePracticeLogTypeService,
+} from "./restrictivePracticeLogType";
 
 class RestrictivePracticeLogService {
   async createRestrictivePracticeLog(props: CreateRestrictivePracticeLogProps) {
@@ -92,6 +95,75 @@ class RestrictivePracticeLogService {
         }
       );
     }
+
+    return updatedRestrictivePracticeLog;
+  }
+
+  async deleteArchiveRestrictivePracticeLog(
+    props: DeleteRestrictivePracticeLogProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the restrictivePracticeLog by id and company
+    const restrictivePracticeLog = await RestrictivePracticeLogModel.findOne({
+      where: { id, company },
+    });
+
+    // if restrictivePracticeLog has been deleted, throw an error
+    if (!restrictivePracticeLog) {
+      throw new CustomError(
+        404,
+        RestrictivePracticeLogErrorCode.RESTRICTIVE_PRACTICE_LOG_NOT_FOUND
+      );
+    }
+
+    if (restrictivePracticeLog.archived) {
+      // Check if restrictivePracticeLog already exists
+      const existingRestrictivePracticeLog =
+        await RestrictivePracticeLogModel.findAll({
+          where: {
+            startDate: restrictivePracticeLog.startDate,
+            startTime: restrictivePracticeLog.startTime,
+            startLocation: restrictivePracticeLog.startLocation,
+            endDate: restrictivePracticeLog.endDate,
+            endTime: restrictivePracticeLog.endTime,
+            endLocation: restrictivePracticeLog.endLocation,
+            client: restrictivePracticeLog.client,
+            isAuthorised: restrictivePracticeLog.isAuthorised,
+            impactOnAnyPerson: restrictivePracticeLog.impactOnAnyPerson,
+            injuryToAnyPerson: restrictivePracticeLog.injuryToAnyPerson,
+            wasReportableIncident: restrictivePracticeLog.wasReportableIncident,
+            anyWitness: restrictivePracticeLog.anyWitness,
+            reasonBehindUse: restrictivePracticeLog.reasonBehindUse,
+            describeBehaviour: restrictivePracticeLog.describeBehaviour,
+            actionTakenInResponse: restrictivePracticeLog.actionTakenInResponse,
+            alternativesConsidered:
+              restrictivePracticeLog.alternativesConsidered,
+            actionTakenLeadingUpTo:
+              restrictivePracticeLog.actionTakenLeadingUpTo,
+            company: restrictivePracticeLog.company,
+            archived: false,
+          },
+        });
+
+      if (existingRestrictivePracticeLog.length > 0) {
+        throw new CustomError(
+          409,
+          RestrictivePracticeLogErrorCode.RESTRICTIVE_PRACTICE_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the restrictivePracticeLog update the Archive state
+    const [, [updatedRestrictivePracticeLog]] =
+      await RestrictivePracticeLogModel.update(
+        { archived: !restrictivePracticeLog.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
 
     return updatedRestrictivePracticeLog;
   }
