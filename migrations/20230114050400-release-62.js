@@ -49,9 +49,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "participant_goals" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "restrictive_practice_register" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "restrictive_practice_register"
+DROP COLUMN "archived";
+
 ALTER TABLE "participant_goals"
 DROP COLUMN "archived";
 
