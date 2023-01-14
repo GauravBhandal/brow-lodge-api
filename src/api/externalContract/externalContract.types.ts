@@ -14,6 +14,7 @@ export interface ExternalContract extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   Attachments: Attachment[];
+  archived?: boolean;
 }
 
 export interface CreateExternalContractProps {

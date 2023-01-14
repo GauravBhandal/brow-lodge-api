@@ -26,6 +26,7 @@ class OnCallLogModel<
   Client: OnCallLog["Client"];
   company!: OnCallLog["company"];
   Company: OnCallLog["Company"];
+  archived: OnCallLog["archived"];
 }
 
 modelManager.init(
@@ -45,6 +46,7 @@ modelManager.init(
     description: { type: Sequelize.STRING, allowNull: false },
     actions: { type: Sequelize.STRING },
     followup: { type: Sequelize.STRING },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {

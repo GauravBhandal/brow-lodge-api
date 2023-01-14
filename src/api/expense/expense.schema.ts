@@ -13,10 +13,11 @@ const createExpenseSchema = wrapSchema({
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .required(),
-      paidBy: Joi.string().valid("Company", "Participant", "Staff").required(),
-      status: Joi.string().valid("Approved", "Pending", "Rejected").required(),
-      paymentReimbursed: Joi.string().valid("Yes", "No", "Not Applicable").required(),
-
+    paidBy: Joi.string().valid("Company", "Participant", "Staff").required(),
+    status: Joi.string().valid("Approved", "Pending", "Rejected").required(),
+    paymentReimbursed: Joi.string()
+      .valid("Yes", "No", "Not Applicable")
+      .required(),
   }),
 });
 
@@ -33,12 +34,19 @@ const editExpenseSchema = wrapSchema({
       .required(),
     paidBy: Joi.string().valid("Company", "Participant", "Staff").required(),
     status: Joi.string().valid("Approved", "Pending", "Rejected").required(),
-    paymentReimbursed: Joi.string().valid("Yes", "No", "Not Applicable").required(),
-    
+    paymentReimbursed: Joi.string()
+      .valid("Yes", "No", "Not Applicable")
+      .required(),
   }),
 });
 
 const deleteExpenseSchema = wrapSchema({
+  params: Joi.object().keys({
+    expenseId: requiredUUIDSchema(),
+  }),
+});
+
+const deleteArchiveExpenseSchema = wrapSchema({
   params: Joi.object().keys({
     expenseId: requiredUUIDSchema(),
   }),
@@ -63,6 +71,7 @@ export default {
   createExpense: joiMiddleware(createExpenseSchema),
   editExpense: joiMiddleware(editExpenseSchema),
   deleteExpense: joiMiddleware(deleteExpenseSchema),
+  deleteArchiveExpense: joiMiddleware(deleteArchiveExpenseSchema),
   getExpenseById: joiMiddleware(getExpenseByIdSchema),
   getExpenses: joiMiddleware(getExpenseSchema),
 };
