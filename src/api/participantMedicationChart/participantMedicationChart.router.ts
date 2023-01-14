@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateParticipantMedicationChart)
 );
 
+router.put(
+  "/archive/:participantMedicationChartId",
+  canDo("delete", "participantMedicationChart"),
+  participantMedicationChartSchems.deleteArchiveParticipantMedicationChart,
+  catchWrap(controller.deleteArchiveParticipantMedicationChart)
+);
+
 router.delete(
   "/:participantMedicationChartId",
   canDo("delete", "participantMedicationChart"),
