@@ -28,6 +28,7 @@ class StaffSleepDisturbanceModel<
   Client: StaffSleepDisturbance["Client"];
   company!: StaffSleepDisturbance["company"];
   Company: StaffSleepDisturbance["Company"];
+  archived: StaffSleepDisturbance["archived"];
 }
 
 modelManager.init(
@@ -57,6 +58,9 @@ modelManager.init(
     actions: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {
