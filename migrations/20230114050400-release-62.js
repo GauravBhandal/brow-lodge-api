@@ -4,9 +4,14 @@ const queryUp = `
 ALTER TABLE "client_behaviours" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "doctor_visits" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "doctor_visits"
+DROP COLUMN "archived";
 
 ALTER TABLE "client_behaviours"
 DROP COLUMN "archived";
