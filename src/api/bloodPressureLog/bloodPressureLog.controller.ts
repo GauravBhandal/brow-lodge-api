@@ -42,6 +42,18 @@ class BloodPressureLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveBloodPressureLog(req: Request, res: Response) {
+    const { bloodPressureLogId } = req.params;
+    const props = {
+      id: bloodPressureLogId,
+      company: req.auth.companyId,
+    };
+
+    await bloodPressureLogService.deleteArchiveBloodPressureLog(props);
+
+    res.status(204).json();
+  }
+
   async getbloodPressureLogById(req: Request, res: Response) {
     const { bloodPressureLogId } = req.params;
     const props = {

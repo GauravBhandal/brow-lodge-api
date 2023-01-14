@@ -40,6 +40,18 @@ class PrnBalanceLogController {
     res.status(204).json();
   }
 
+  async deleteArchivePrnBalanceLog(req: Request, res: Response) {
+    const { prnBalanceLogId } = req.params;
+    const props = {
+      id: prnBalanceLogId,
+      company: req.auth.companyId,
+    };
+
+    await prnBalanceLogService.deleteArchivePrnBalanceLog(props);
+
+    res.status(204).json();
+  }
+
   async getprnBalanceLogById(req: Request, res: Response) {
     const { prnBalanceLogId } = req.params;
     const props = {

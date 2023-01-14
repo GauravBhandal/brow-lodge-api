@@ -44,6 +44,18 @@ class BloodGlucoseLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveBloodGlucoseLog(req: Request, res: Response) {
+    const { bloodGlucoseLogId } = req.params;
+    const props = {
+      id: bloodGlucoseLogId,
+      company: req.auth.companyId,
+    };
+
+    await bloodGlucoseLogService.deleteArchiveBloodGlucoseLog(props);
+
+    res.status(204).json();
+  }
+
   async getbloodGlucoseLogById(req: Request, res: Response) {
     const { bloodGlucoseLogId } = req.params;
     const props = {

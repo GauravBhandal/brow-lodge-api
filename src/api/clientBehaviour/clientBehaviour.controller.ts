@@ -32,6 +32,18 @@ class ClientBehaviourController {
     res.status(200).json(clientBehaviour);
   }
 
+  async deleteArchiveClientBehaviour(req: Request, res: Response) {
+    const { clientBehaviourId } = req.params;
+    const props = {
+      id: clientBehaviourId,
+      company: req.auth.companyId,
+    };
+
+    await clientBehaviourService.deleteArchiveClientBehaviour(props);
+
+    res.status(204).json();
+  }
+
   async deleteClientBehaviour(req: Request, res: Response) {
     const { clientBehaviourId } = req.params;
     const props = {

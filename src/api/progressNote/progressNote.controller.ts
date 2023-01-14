@@ -40,6 +40,18 @@ class ProgressNoteController {
     res.status(204).json();
   }
 
+  async deleteArchiveProgressNote(req: Request, res: Response) {
+    const { progressNoteId } = req.params;
+    const props = {
+      id: progressNoteId,
+      company: req.auth.companyId,
+    };
+
+    await progressNoteService.deleteArchiveProgressNote(props);
+
+    res.status(204).json();
+  }
+
   async getprogressNoteById(req: Request, res: Response) {
     const { progressNoteId } = req.params;
     const props = {

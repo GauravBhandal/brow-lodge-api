@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateProgressNote)
 );
 
+router.put(
+  "/archive/:progressNoteId",
+  canDo("delete", "progressNote"),
+  progressNoteSchems.deleteArchiveProgressNote,
+  catchWrap(controller.deleteArchiveProgressNote)
+);
+
 router.delete(
   "/:progressNoteId",
   canDo("delete", "progressNote"),
