@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateClientBehaviour)
 );
 
+router.put(
+  "/archive/:clientBehaviourId",
+  canDo("delete", "clientBehaviour"),
+  clientBehaviourSchems.deleteArchiveClientBehaviour,
+  catchWrap(controller.deleteArchiveClientBehaviour)
+);
+
 router.delete(
   "/:clientBehaviourId",
   canDo("delete", "clientBehaviour"),
