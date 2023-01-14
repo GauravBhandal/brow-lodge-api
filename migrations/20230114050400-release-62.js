@@ -16,9 +16,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "prn_balance_logs" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "progress_notes" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "progress_notes"
+DROP COLUMN "archived";
+
 ALTER TABLE "prn_balance_logs"
 DROP COLUMN "archived";
 
