@@ -42,6 +42,18 @@ class MedicationRegisterController {
     res.status(204).json();
   }
 
+  async deleteArchiveMedicationRegister(req: Request, res: Response) {
+    const { medicationRegisterId } = req.params;
+    const props = {
+      id: medicationRegisterId,
+      company: req.auth.companyId,
+    };
+
+    await medicationRegisterService.deleteArchiveMedicationRegister(props);
+
+    res.status(204).json();
+  }
+
   async getmedicationRegisterById(req: Request, res: Response) {
     const { medicationRegisterId } = req.params;
     const props = {
