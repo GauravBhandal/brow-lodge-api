@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import { pick as _pick } from "lodash";
 import sendEmail from "../../components/email";
+import { getTemplateContent } from "../../components/email/alertEmailTemplate";
 import { alertConfigurationService } from "../alertConfiguration";
 
 import processService from "./process.service";
@@ -18,18 +19,13 @@ class ProcessController {
     // Send Email after creating the entry if alerts are set and emails are present 
     alertConfigurationService.getAlertConfigurationByName({ company, name: 'process' }).then((alertNotificationEmails) => {
       if (alertNotificationEmails.length) {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        New process is created recently please check it once!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-        sendEmail(alertNotificationEmails, emailBody, "Process created successfully!")
+        const contentArray: { label: string, value: string }[] = [
+          { label: 'Name', value: process.name },
+          { label: 'Version', value: process.version },
+        ]
+        const url = `/company/processes/${process.id}`
+        const emailBody = getTemplateContent('Process Added', 'A new process added with following details!', contentArray, url, 'Process')
+        sendEmail(alertNotificationEmails, emailBody, "New process added successfully!")
       }
     });
 
