@@ -56,6 +56,12 @@ const deleteMeetingLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveMeetingLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    meetingLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getMeetingLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     meetingLogId: requiredUUIDSchema(),
@@ -75,6 +81,7 @@ export default {
   createMeetingLog: joiMiddleware(createMeetingLogSchema),
   editMeetingLog: joiMiddleware(editMeetingLogSchema),
   deleteMeetingLog: joiMiddleware(deleteMeetingLogSchema),
+  deleteArchiveMeetingLog: joiMiddleware(deleteArchiveMeetingLogSchema),
   getMeetingLogById: joiMiddleware(getMeetingLogByIdSchema),
   getMeetingLogs: joiMiddleware(getMeetingLogSchema),
 };

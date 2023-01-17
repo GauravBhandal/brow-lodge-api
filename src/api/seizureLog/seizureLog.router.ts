@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateSeizureLog)
 );
 
+router.put(
+  "/archive/:seizureLogId",
+  canDo("delete", "seizureLog"),
+  seizureLogSchems.deleteArchiveSeizureLog,
+  catchWrap(controller.deleteArchiveSeizureLog)
+);
+
 router.delete(
   "/:seizureLogId",
   canDo("delete", "seizureLog"),
