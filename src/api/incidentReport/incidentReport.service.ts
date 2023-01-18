@@ -126,32 +126,6 @@ class IncidentReportService {
       throw new CustomError(404, IncidentReportErrorCode.INCIDENT_NOT_FOUND);
     }
 
-    if (incidentReport.archived) {
-      // Check if incidentReport already exists
-      const existingIncidentReport = await IncidentReportModel.findAll({
-        where: {
-          date: incidentReport.date,
-          time: incidentReport.time,
-          location: incidentReport.location,
-          client: incidentReport.client,
-          incidentDescription: incidentReport.incidentDescription,
-          eventsPriorToIncident: incidentReport.eventsPriorToIncident,
-          actionsTakenByStaff: incidentReport.actionsTakenByStaff,
-          actionsTakenByOthers: incidentReport.actionsTakenByOthers,
-          anyOtherWitness: incidentReport.anyOtherWitness,
-          company: incidentReport.company,
-          archived: false,
-        },
-      });
-
-      if (existingIncidentReport.length > 0) {
-        throw new CustomError(
-          409,
-          IncidentReportErrorCode.INCIDENT_ALREADY_EXISTS
-        );
-      }
-    }
-
     // Finally, update the incidentReport update the Archive state
     const [, [updatedIncidentReport]] = await IncidentReportModel.update(
       { archived: !incidentReport.archived },
