@@ -52,6 +52,12 @@ const deleteFeedbackSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveFeedbackSchema = wrapSchema({
+  params: Joi.object().keys({
+    feedbackId: requiredUUIDSchema(),
+  }),
+});
+
 const getFeedbackByIdSchema = wrapSchema({
   params: Joi.object().keys({
     feedbackId: requiredUUIDSchema(),
@@ -71,6 +77,7 @@ export default {
   createFeedback: joiMiddleware(createFeedbackSchema),
   editFeedback: joiMiddleware(editFeedbackSchema),
   deleteFeedback: joiMiddleware(deleteFeedbackSchema),
+  deleteArchiveFeedback: joiMiddleware(deleteArchiveFeedbackSchema),
   getFeedbackById: joiMiddleware(getFeedbackByIdSchema),
   getFeedbacks: joiMiddleware(getFeedbackSchema),
 };
