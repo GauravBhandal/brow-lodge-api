@@ -80,6 +80,63 @@ class ParticipantCommunicationLogService {
     return updatedParticipantCommunicationLog;
   }
 
+  async deleteArchiveParticipantCommunicationLog(
+    props: DeleteParticipantCommunicationLogProps
+  ) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the participantCommunicationLog by id and company
+    const participantCommunicationLog =
+      await ParticipantCommunicationLogModel.findOne({
+        where: { id, company },
+      });
+
+    // if participantCommunicationLog has been deleted, throw an error
+    if (!participantCommunicationLog) {
+      throw new CustomError(
+        404,
+        ParticipantCommunicationLogErrorCode.PARTICIPANT_COMMUNICATION_LOG_NOT_FOUND
+      );
+    }
+
+    if (participantCommunicationLog.archived) {
+      // Check if participantCommunicationLog already exists
+      const existingParticipantCommunicationLog =
+        await ParticipantCommunicationLogModel.findAll({
+          where: {
+            date: participantCommunicationLog.date,
+            time: participantCommunicationLog.time,
+            staff: participantCommunicationLog.staff,
+            client: participantCommunicationLog.client,
+            subject: participantCommunicationLog.subject,
+            description: participantCommunicationLog.description,
+            company: participantCommunicationLog.company,
+            archived: false,
+          },
+        });
+
+      if (existingParticipantCommunicationLog.length > 0) {
+        throw new CustomError(
+          409,
+          ParticipantCommunicationLogErrorCode.PARTICIPANT_COMMUNICATION_LOG_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the participantCommunicationLog update the Archive state
+    const [, [updatedParticipantCommunicationLog]] =
+      await ParticipantCommunicationLogModel.update(
+        { archived: !participantCommunicationLog.archived },
+        {
+          where: { id, company },
+          returning: true,
+        }
+      );
+
+    return updatedParticipantCommunicationLog;
+  }
+
   async deleteParticipantCommunicationLog(
     props: DeleteParticipantCommunicationLogProps
   ) {

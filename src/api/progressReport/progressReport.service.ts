@@ -71,6 +71,62 @@ class ProgressReportService {
     return updatedProgressReport;
   }
 
+  async deleteArchiveProgressReport(props: DeleteProgressReportProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the progressReport by id and company
+    const progressReport = await ProgressReportModel.findOne({
+      where: { id, company },
+    });
+
+    // if progressReport has been deleted, throw an error
+    if (!progressReport) {
+      throw new CustomError(
+        404,
+        ProgressReportErrorCode.PROGRESS_REPORT_NOT_FOUND
+      );
+    }
+
+    if (progressReport.archived) {
+      // Check if progressReport already exists
+      const existingProgressReport = await ProgressReportModel.findAll({
+        where: {
+          startDate: progressReport.startDate,
+          endDate: progressReport.endDate,
+          documentedOn: progressReport.documentedOn,
+          staff: progressReport.staff,
+          client: progressReport.client,
+          progressNotes: progressReport.progressNotes,
+          behaviourOfConcerns: progressReport.behaviourOfConcerns,
+          diet: progressReport.diet,
+          fluids: progressReport.fluids,
+          activities: progressReport.activities,
+          company: progressReport.company,
+          archived: false,
+        },
+      });
+
+      if (existingProgressReport.length > 0) {
+        throw new CustomError(
+          409,
+          ProgressReportErrorCode.PROGRESS_REPORT_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the progressReport update the Archive state
+    const [, [updatedProgressReport]] = await ProgressReportModel.update(
+      { archived: !progressReport.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedProgressReport;
+  }
+
   async deleteProgressReport(props: DeleteProgressReportProps) {
     // Props
     const { id, company } = props;

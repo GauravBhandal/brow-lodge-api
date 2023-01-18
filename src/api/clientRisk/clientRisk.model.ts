@@ -29,6 +29,7 @@ class ClientRiskModel<
   company!: ClientRisk["company"];
   Company: ClientRisk["Company"];
   Attachments: ClientRisk["Attachments"];
+  archived: ClientRisk["archived"];
 }
 
 modelManager.init(
@@ -68,6 +69,9 @@ modelManager.init(
     },
     assessmentType: {
       type: Sequelize.STRING,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

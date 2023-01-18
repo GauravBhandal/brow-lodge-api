@@ -77,6 +77,7 @@ import { RegulatoryComplianceModel } from "../../api/regulatoryCompliance";
 import { MedicationRegisterModel } from "../../api/medicationRegister";
 import { ContinuousImprovementModel } from "../../api/continuousImprovement";
 import { RestrictivePracticeLogTypeModel } from "../../api/restrictivePracticeLog/restrictivePracticeLogType";
+import { SiteModel } from "../../api/site";
 
 export default {
   initialize() {
@@ -157,6 +158,7 @@ export default {
     initializeRegulatoryComplianceModelAssociations();
     initializeMedicationRegisterModelAssociations();
     initializeContinuousImprovementModelAssociations();
+    initializeSiteModelAssociations();
   },
 };
 
@@ -814,7 +816,7 @@ function initializeRestrictivePracticeLogModelAssociations() {
   RestrictivePracticeLogModel.hasMany(RestrictivePracticeLogTypeModel, {
     foreignKey: "restrictive_practice_log",
     sourceKey: "id",
-    as: 'Types',
+    as: "Types",
   });
 }
 
@@ -1269,5 +1271,17 @@ function initializeContinuousImprovementModelAssociations() {
   ContinuousImprovementModel.belongsTo(StaffProfileModel, {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
+  });
+}
+
+function initializeSiteModelAssociations() {
+  SiteModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  SiteModel.belongsToMany(ClientProfileModel, {
+    through: "sites_client_profiles",
+    foreignKey: "site",
+    otherKey: "client",
+    as: "Client",
   });
 }

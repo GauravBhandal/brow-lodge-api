@@ -52,6 +52,61 @@ class ParticipantGoalService {
     return updatedParticipantGoal;
   }
 
+  async deleteArchiveParticipantGoal(props: DeleteParticipantGoalProps) {
+    // Props
+    const { id, company } = props;
+
+    // Find and delete the participantGoal by id and company
+    const participantGoal = await ParticipantGoalModel.findOne({
+      where: { id, company },
+    });
+
+    // if participantGoal has been deleted, throw an error
+    if (!participantGoal) {
+      throw new CustomError(
+        404,
+        ParticipantGoalErrorCode.PARTICIPANT_GOAL_NOT_FOUND
+      );
+    }
+
+    if (participantGoal.archived) {
+      // Check if participantGoal already exists
+      const existingParticipantGoal = await ParticipantGoalModel.findAll({
+        where: {
+          title: participantGoal.title,
+          client: participantGoal.client,
+          description: participantGoal.description,
+          strategy: participantGoal.strategy,
+          support: participantGoal.support,
+          startDate: participantGoal.startDate,
+          staff: participantGoal.staff,
+          type: participantGoal.type,
+          status: participantGoal.status,
+          company: participantGoal.company,
+          archived: false,
+        },
+      });
+
+      if (existingParticipantGoal.length > 0) {
+        throw new CustomError(
+          409,
+          ParticipantGoalErrorCode.PARTICIPANT_GOAL_ALREADY_EXISTS
+        );
+      }
+    }
+
+    // Finally, update the participantGoal update the Archive state
+    const [, [updatedParticipantGoal]] = await ParticipantGoalModel.update(
+      { archived: !participantGoal.archived },
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
+
+    return updatedParticipantGoal;
+  }
+
   async deleteParticipantGoal(props: DeleteParticipantGoalProps) {
     // Props
     const { id, company } = props;
