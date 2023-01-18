@@ -64,6 +64,12 @@ const deleteIncidentReportSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveIncidentReportSchema = wrapSchema({
+  params: Joi.object().keys({
+    incidentReportId: requiredUUIDSchema(),
+  }),
+});
+
 const getIncidentReportByIdSchema = wrapSchema({
   params: Joi.object().keys({
     incidentReportId: requiredUUIDSchema(),
@@ -83,6 +89,7 @@ export default {
   createIncidentReport: joiMiddleware(createIncidentReportSchema),
   editIncidentReport: joiMiddleware(editIncidentReportSchema),
   deleteIncidentReport: joiMiddleware(deleteIncidentReportSchema),
+  deleteArchiveIncidentReport: joiMiddleware(deleteArchiveIncidentReportSchema),
   getIncidentReportById: joiMiddleware(getIncidentReportByIdSchema),
   getIncidentReports: joiMiddleware(getIncidentReportSchema),
 };
