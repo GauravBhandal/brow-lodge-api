@@ -19,6 +19,7 @@ class TeamModel<
   Client: Team["Client"];
   company!: Team["company"];
   Company: Team["Company"];
+  archived: Team["archived"];
 }
 
 modelManager.init(
@@ -30,6 +31,9 @@ modelManager.init(
       allowNull: false,
     },
     permissions: {
+      type: Sequelize.BOOLEAN,
+    },
+    archived: {
       type: Sequelize.BOOLEAN,
     },
   },

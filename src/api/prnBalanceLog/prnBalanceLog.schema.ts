@@ -36,6 +36,12 @@ const deletePrnBalanceLogSchema = wrapSchema({
   }),
 });
 
+const deleteArchivePrnBalanceLogSchema = wrapSchema({
+  params: Joi.object().keys({
+    prnBalanceLogId: requiredUUIDSchema(),
+  }),
+});
+
 const getPrnBalanceLogByIdSchema = wrapSchema({
   params: Joi.object().keys({
     prnBalanceLogId: requiredUUIDSchema(),
@@ -55,6 +61,7 @@ export default {
   createPrnBalanceLog: joiMiddleware(createPrnBalanceLogSchema),
   editPrnBalanceLog: joiMiddleware(editPrnBalanceLogSchema),
   deletePrnBalanceLog: joiMiddleware(deletePrnBalanceLogSchema),
+  deleteArchivePrnBalanceLog: joiMiddleware(deleteArchivePrnBalanceLogSchema),
   getPrnBalanceLogById: joiMiddleware(getPrnBalanceLogByIdSchema),
   getPrnBalanceLogs: joiMiddleware(getPrnBalanceLogSchema),
 };

@@ -11,6 +11,7 @@ export interface Team extends DefaultSchemaConfig {
   Company?: Company;
   Staff?: StaffProfile["id"][];
   Client?: ClientProfile["id"][];
+  archived?: boolean;
 }
 
 export interface CreateTeamProps {

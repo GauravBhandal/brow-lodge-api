@@ -40,6 +40,18 @@ class VehicleLogController {
     res.status(204).json();
   }
 
+  async deleteArchiveVehicleLog(req: Request, res: Response) {
+    const { vehicleLogId } = req.params;
+    const props = {
+      id: vehicleLogId,
+      company: req.auth.companyId,
+    };
+
+    await vehicleLogService.deleteArchiveVehicleLog(props);
+
+    res.status(204).json();
+  }
+
   async getvehicleLogById(req: Request, res: Response) {
     const { vehicleLogId } = req.params;
     const props = {

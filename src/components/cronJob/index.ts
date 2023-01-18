@@ -1,6 +1,8 @@
 import { clientDocumentService } from "../../api/clientDocument";
 import { staffDocumentService } from "../../api/staffDocument";
 import sendEmail from "../../components/email";
+import { formatDateToString } from "../../utils/shiftGenerator";
+import { getTemplateContent } from "../email/alertEmailTemplate";
 
 
 const cronJob = () => {
@@ -9,82 +11,66 @@ const cronJob = () => {
     notifyClientDocuments();
 };
 const notifyStaffDocuments = () => {
-    staffDocumentService.getExpiredStaffDocuments(30).then((documentsExpiresIn30Days) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Staff document will be expired in 30 days!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
+    staffDocumentService.getExpiredStaffDocuments(28).then((documentsExpiresIn28Days) => {
 
-        documentsExpiresIn30Days.forEach(document => {
+        documentsExpiresIn28Days.forEach(document => {
             if (document.Staff?.email) {
-                sendEmail([document.Staff?.email], emailBody, "Staff documents expiry reminder")
+                const contentArray: { label: string, value: string }[] = [
+                    { label: 'Type', value: `${document.Type?.name}` },
+                    { label: 'Category', value: `${document.Category?.name}` },
+                    { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
+                ]
+                const url = `/staff/documents/${document.id}`
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 28 days!', contentArray, url, 'document upload reminder')
+                sendEmail([document.Staff?.email], emailBody, "Staff document is about to expire in 28 days")
             }
         })
     })
 
     staffDocumentService.getExpiredStaffDocuments(14).then((documentsExpiresIn14Days) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Staff document will be expired in 14 days!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
+
 
         documentsExpiresIn14Days.forEach(document => {
             if (document.Staff?.email) {
-                sendEmail([document.Staff?.email], emailBody, "Staff documents expiry reminder")
+                const contentArray: { label: string, value: string }[] = [
+                    { label: 'Type', value: `${document.Type?.name}` },
+                    { label: 'Category', value: `${document.Category?.name}` },
+                    { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
+                ]
+                const url = `/staff/documents/${document.id}`
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 14 days!', contentArray, url, 'document upload reminder')
+                sendEmail([document.Staff?.email], emailBody, "Staff document is about to expire in 14 days")
             }
         })
     })
 
     staffDocumentService.getExpiredStaffDocuments(7).then((documentsExpiresIn7Days) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Staff document will be expired in 7 days!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
 
         documentsExpiresIn7Days.forEach(document => {
             if (document.Staff?.email) {
-                sendEmail([document.Staff?.email], emailBody, "Staff documents expiry reminder")
+                const contentArray: { label: string, value: string }[] = [
+                    { label: 'Type', value: `${document.Type?.name}` },
+                    { label: 'Category', value: `${document.Category?.name}` },
+                    { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
+                ]
+                const url = `/staff/documents/${document.id}`
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 7 days!', contentArray, url, 'document upload reminder')
+                sendEmail([document.Staff?.email], emailBody, "Staff document is about to expire in 7 days")
             }
         })
     })
 
     staffDocumentService.getExpiredStaffDocuments(1).then((documentsExpiresIn1Day) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Staff document will be expired in 1 day!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-
         documentsExpiresIn1Day.forEach(document => {
             if (document.Staff?.email) {
-                sendEmail([document.Staff?.email], emailBody, "Staff documents expiry reminder")
+                const contentArray: { label: string, value: string }[] = [
+                    { label: 'Type', value: `${document.Type?.name}` },
+                    { label: 'Category', value: `${document.Category?.name}` },
+                    { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
+                ]
+                const url = `/staff/documents/${document.id}`
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 24 hours!', contentArray, url, 'document upload reminder')
+                sendEmail([document.Staff?.email], emailBody, "Staff document is about to expire in 24 hours")
             }
         })
     })
@@ -92,82 +78,62 @@ const notifyStaffDocuments = () => {
 }
 
 const notifyClientDocuments = () => {
-    clientDocumentService.getExpiredClientDocuments(30).then((documentsExpiresIn30Days) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Participant document will be expired in 30 days!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-
-        documentsExpiresIn30Days.forEach(document => {
+    clientDocumentService.getExpiredClientDocuments(28).then((documentsExpiresIn28Days) => {
+        documentsExpiresIn28Days.forEach(document => {
             if (document.Client?.email) {
-                sendEmail([document.Client?.email], emailBody, "Participant documents expiry reminder")
+                const contentArray: { label: string, value: string }[] = [
+                    { label: 'Type', value: `${document.Type?.name}` },
+                    { label: 'Category', value: `${document.Category?.name}` },
+                    { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
+                ]
+                const url = `/participant/documents/${document.id}`
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 28 days!', contentArray, url, 'document upload reminder')
+                sendEmail([document.Client?.email], emailBody, "Participant document is about to expire in 28 days")
             }
         })
     })
 
     clientDocumentService.getExpiredClientDocuments(14).then((documentsExpiresIn14Days) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Participant document will be expired in 14 days!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-
         documentsExpiresIn14Days.forEach(document => {
             if (document.Client?.email) {
-                sendEmail([document.Client?.email], emailBody, "Participant documents expiry reminder")
+                const contentArray: { label: string, value: string }[] = [
+                    { label: 'Type', value: `${document.Type?.name}` },
+                    { label: 'Category', value: `${document.Category?.name}` },
+                    { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
+                ]
+                const url = `/participant/documents/${document.id}`
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 14 days!', contentArray, url, 'document upload reminder')
+                sendEmail([document.Client?.email], emailBody, "Participant document is about to expire in 14 days")
             }
         })
     })
 
     clientDocumentService.getExpiredClientDocuments(7).then((documentsExpiresIn7Days) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Participant document will be expired in 7 days!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-
         documentsExpiresIn7Days.forEach(document => {
             if (document.Client?.email) {
-                sendEmail([document.Client?.email], emailBody, "Participant documents expiry reminder")
+                const contentArray: { label: string, value: string }[] = [
+                    { label: 'Type', value: `${document.Type?.name}` },
+                    { label: 'Category', value: `${document.Category?.name}` },
+                    { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
+                ]
+                const url = `/participant/documents/${document.id}`
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 7 days!', contentArray, url, 'document upload reminder')
+                sendEmail([document.Client?.email], emailBody, "Participant document is about to expire in 7 days")
             }
         })
     })
 
     clientDocumentService.getExpiredClientDocuments(1).then((documentsExpiresIn1Day) => {
-        const emailBody = `
-        Hi user!
-        <br>  
-        <br>  
-        Participant document will be expired in 1 day!
-        <br>
-        <br>  
-        Best Regards,
-        <br>
-        Team Care Diary
-          `;
-
         documentsExpiresIn1Day.forEach(document => {
             if (document.Client?.email) {
-                sendEmail([document.Client?.email], emailBody, "Participant documents expiry reminder")
+                const contentArray: { label: string, value: string }[] = [
+                    { label: 'Type', value: `${document.Type?.name}` },
+                    { label: 'Category', value: `${document.Category?.name}` },
+                    { label: 'Expiry Date', value: formatDateToString(document.expiryDate, '', 'DD-MMM-YYYY') },
+                ]
+                const url = `/participant/documents/${document.id}`
+                const emailBody = getTemplateContent('Document Upload Reminder', 'A document with following details expires within 24 hours!', contentArray, url, 'document upload reminder')
+                sendEmail([document.Client?.email], emailBody, "Participant document is about to expire in 24 hours")
             }
         })
     })

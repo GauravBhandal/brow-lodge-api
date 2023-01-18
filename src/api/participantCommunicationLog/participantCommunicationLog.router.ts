@@ -20,6 +20,13 @@ router.put(
   catchWrap(controller.updateParticipantCommunicationLog)
 );
 
+router.put(
+  "/archive/:participantCommunicationLogId",
+  canDo("delete", "participantCommunicationLog"),
+  participantCommunicationLogSchems.deleteArchiveParticipantCommunicationLog,
+  catchWrap(controller.deleteArchiveParticipantCommunicationLog)
+);
+
 router.delete(
   "/:participantCommunicationLogId",
   canDo("delete", "participantCommunicationLog"),

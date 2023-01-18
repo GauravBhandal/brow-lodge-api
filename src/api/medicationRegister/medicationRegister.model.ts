@@ -31,6 +31,7 @@ class MedicationRegisterModel<
   nextReviewDate: MedicationRegister["nextReviewDate"];
   company!: MedicationRegister["company"];
   Company: MedicationRegister["Company"];
+  archived: MedicationRegister["archived"];
 }
 
 modelManager.init(
@@ -46,6 +47,7 @@ modelManager.init(
     isPrescribed: { type: Sequelize.STRING },
     notes: { type: Sequelize.STRING },
     nextReviewDate: { type: Sequelize.DATE },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {

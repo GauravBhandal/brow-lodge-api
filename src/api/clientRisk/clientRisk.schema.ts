@@ -48,6 +48,12 @@ const deleteClientRiskSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveClientRiskSchema = wrapSchema({
+  params: Joi.object().keys({
+    clientRiskId: requiredUUIDSchema(),
+  }),
+});
+
 const getClientRiskByIdSchema = wrapSchema({
   params: Joi.object().keys({
     clientRiskId: requiredUUIDSchema(),
@@ -67,6 +73,7 @@ export default {
   createClientRisk: joiMiddleware(createClientRiskSchema),
   editClientRisk: joiMiddleware(editClientRiskSchema),
   deleteClientRisk: joiMiddleware(deleteClientRiskSchema),
+  deleteArchiveClientRisk: joiMiddleware(deleteArchiveClientRiskSchema),
   getClientRiskById: joiMiddleware(getClientRiskByIdSchema),
   getClientRisks: joiMiddleware(getClientRiskSchema),
 };

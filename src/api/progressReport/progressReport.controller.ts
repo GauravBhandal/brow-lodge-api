@@ -44,6 +44,18 @@ class ProgressReportController {
     res.status(204).json();
   }
 
+  async deleteArchiveProgressReport(req: Request, res: Response) {
+    const { progressReportId } = req.params;
+    const props = {
+      id: progressReportId,
+      company: req.auth.companyId,
+    };
+
+    await progressReportService.deleteArchiveProgressReport(props);
+
+    res.status(204).json();
+  }
+
   async getprogressReportById(req: Request, res: Response) {
     const { progressReportId } = req.params;
     const props = {

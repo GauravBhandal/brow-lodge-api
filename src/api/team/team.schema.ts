@@ -35,6 +35,12 @@ const deleteTeamSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveTeamSchema = wrapSchema({
+  params: Joi.object().keys({
+    teamId: requiredUUIDSchema(),
+  }),
+});
+
 const getTeamByIdSchema = wrapSchema({
   params: Joi.object().keys({
     teamId: requiredUUIDSchema(),
@@ -61,6 +67,7 @@ export default {
   editTeam: joiMiddleware(editTeamSchema),
   updateTeamPermissions: joiMiddleware(updateTeamPermissionsSchema),
   deleteTeam: joiMiddleware(deleteTeamSchema),
+  deleteArchiveTeam: joiMiddleware(deleteArchiveTeamSchema),
   getTeamById: joiMiddleware(getTeamByIdSchema),
   getTeams: joiMiddleware(getTeamSchema),
 };

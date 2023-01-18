@@ -48,6 +48,20 @@ class RestrictivePracticeRegisterController {
     res.status(204).json();
   }
 
+  async deleteArchiveRestrictivePracticeRegister(req: Request, res: Response) {
+    const { restrictivePracticeRegisterId } = req.params;
+    const props = {
+      id: restrictivePracticeRegisterId,
+      company: req.auth.companyId,
+    };
+
+    await restrictivePracticeRegisterService.deleteArchiveRestrictivePracticeRegister(
+      props
+    );
+
+    res.status(204).json();
+  }
+
   async getrestrictivePracticeRegisterById(req: Request, res: Response) {
     const { restrictivePracticeRegisterId } = req.params;
     const props = {
