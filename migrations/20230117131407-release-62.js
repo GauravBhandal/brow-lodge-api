@@ -58,9 +58,15 @@ ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "incident_reports" 
 ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
 
+ALTER TABLE "feedbacks" 
+ADD COLUMN "archived" BOOLEAN NOT NULL DEFAULT FALSE;
+
 `;
 
 const queryDown = `
+ALTER TABLE "feedbacks"
+DROP COLUMN "archived";
+
 ALTER TABLE "incident_reports"
 DROP COLUMN "archived";
 
