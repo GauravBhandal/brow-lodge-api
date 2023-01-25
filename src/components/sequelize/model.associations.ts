@@ -505,6 +505,12 @@ function initializeRepairRequestModelAssociations() {
     foreignKey: { name: "staff", allowNull: false },
     as: "Staff",
   });
+  RepairRequestModel.belongsTo(StaffProfileModel, {
+    foreignKey: {
+      name: "closedBy",
+    },
+    as: "ClosedBy",
+  });
   RepairRequestModel.belongsToMany(AttachmentModel, {
     through: "repair_requests_attachments",
     foreignKey: "relation",
