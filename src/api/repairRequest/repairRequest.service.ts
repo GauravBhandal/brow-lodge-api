@@ -158,6 +158,10 @@ class RepairRequestService {
           as: "Staff",
         },
         {
+          model: StaffProfileModel,
+          as: "ClosedBy",
+        },
+        {
           model: AttachmentModel,
           through: {
             attributes: [],

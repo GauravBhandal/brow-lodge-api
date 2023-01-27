@@ -16,6 +16,8 @@ export interface RepairRequest extends DefaultSchemaConfig {
   Company?: Company;
   Attachments?: Attachment[];
   archived?: boolean;
+  closureDate?: Date;
+  closedBy?: StaffProfile["id"];
 }
 
 export interface CreateRepairRequestProps {
@@ -27,6 +29,8 @@ export interface CreateRepairRequestProps {
   staff: RepairRequest["staff"];
   company: RepairRequest["company"];
   attachments?: Attachment["id"][];
+  closureDate: RepairRequest["closureDate"];
+  closedBy: RepairRequest["closedBy"];
 }
 
 export interface UpdateRepairRequestProps extends CreateRepairRequestProps {

@@ -24,6 +24,8 @@ class RepairRequestModel<
   Company: RepairRequest["Company"];
   Attachments: RepairRequest["Attachments"];
   archived: RepairRequest["archived"];
+  closureDate: RepairRequest["closureDate"];
+  closedBy: RepairRequest["closedBy"];
 }
 
 modelManager.init(
@@ -52,6 +54,9 @@ modelManager.init(
     },
     archived: {
       type: Sequelize.BOOLEAN,
+    },
+    closureDate: {
+      type: Sequelize.DATE,
     },
   },
   {
