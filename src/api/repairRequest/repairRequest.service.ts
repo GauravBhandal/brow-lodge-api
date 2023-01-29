@@ -200,6 +200,10 @@ class RepairRequestService {
           ...filters["Staff"],
         },
       },
+      {
+        model: StaffProfileModel,
+        as: "ClosedBy",
+      },
     ];
 
     // Count total repairRequests in the given company
