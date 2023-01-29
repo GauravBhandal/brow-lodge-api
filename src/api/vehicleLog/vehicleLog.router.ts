@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateVehicleLog)
 );
 
+router.put(
+  "/archive/:vehicleLogId",
+  canDo("delete", "vehicleLog"),
+  vehicleLogSchems.deleteArchiveVehicleLog,
+  catchWrap(controller.deleteArchiveVehicleLog)
+);
+
 router.delete(
   "/:vehicleLogId",
   canDo("delete", "vehicleLog"),

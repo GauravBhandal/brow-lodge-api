@@ -27,6 +27,7 @@ class ParticipantMedicationChartModel<
   company!: ParticipantMedicationChart["company"];
   Company: ParticipantMedicationChart["Company"];
   Attachments: ParticipantMedicationChart["Attachments"];
+  archived: ParticipantMedicationChart["archived"];
 }
 
 modelManager.init(
@@ -47,6 +48,9 @@ modelManager.init(
     notes: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

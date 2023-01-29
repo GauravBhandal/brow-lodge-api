@@ -62,6 +62,20 @@ class StaffSleepDisturbanceController {
     res.status(204).json();
   }
 
+  async deleteArchiveStaffSleepDisturbance(req: Request, res: Response) {
+    const { staffSleepDisturbanceId } = req.params;
+    const props = {
+      id: staffSleepDisturbanceId,
+      company: req.auth.companyId,
+    };
+
+    await staffSleepDisturbanceService.deleteArchiveStaffSleepDisturbance(
+      props
+    );
+
+    res.status(204).json();
+  }
+
   async getstaffSleepDisturbanceById(req: Request, res: Response) {
     const { staffSleepDisturbanceId } = req.params;
     const props = {

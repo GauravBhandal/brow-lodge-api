@@ -44,6 +44,12 @@ const deleteMedicationRegisterSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveMedicationRegisterSchema = wrapSchema({
+  params: Joi.object().keys({
+    medicationRegisterId: requiredUUIDSchema(),
+  }),
+});
+
 const getMedicationRegisterByIdSchema = wrapSchema({
   params: Joi.object().keys({
     medicationRegisterId: requiredUUIDSchema(),
@@ -63,6 +69,9 @@ export default {
   createMedicationRegister: joiMiddleware(createMedicationRegisterSchema),
   editMedicationRegister: joiMiddleware(editMedicationRegisterSchema),
   deleteMedicationRegister: joiMiddleware(deleteMedicationRegisterSchema),
+  deleteArchiveMedicationRegister: joiMiddleware(
+    deleteArchiveMedicationRegisterSchema
+  ),
   getMedicationRegisterById: joiMiddleware(getMedicationRegisterByIdSchema),
   getMedicationRegisters: joiMiddleware(getMedicationRegisterSchema),
 };

@@ -58,6 +58,12 @@ const deleteProgressReportSchema = wrapSchema({
   }),
 });
 
+const deleteArchiveProgressReportSchema = wrapSchema({
+  params: Joi.object().keys({
+    progressReportId: requiredUUIDSchema(),
+  }),
+});
+
 const getProgressReportByIdSchema = wrapSchema({
   params: Joi.object().keys({
     progressReportId: requiredUUIDSchema(),
@@ -77,6 +83,7 @@ export default {
   createProgressReport: joiMiddleware(createProgressReportSchema),
   editProgressReport: joiMiddleware(editProgressReportSchema),
   deleteProgressReport: joiMiddleware(deleteProgressReportSchema),
+  deleteArchiveProgressReport: joiMiddleware(deleteArchiveProgressReportSchema),
   getProgressReportById: joiMiddleware(getProgressReportByIdSchema),
   getProgressReports: joiMiddleware(getProgressReportSchema),
 };

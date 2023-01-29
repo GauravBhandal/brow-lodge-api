@@ -28,6 +28,7 @@ class ClientBehaviourModel<
   Client: ClientBehaviour["Client"];
   company!: ClientBehaviour["company"];
   Company: ClientBehaviour["Company"];
+  archived: ClientBehaviour["archived"];
 }
 
 modelManager.init(
@@ -57,6 +58,9 @@ modelManager.init(
     consequences: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    archived: {
+      type: Sequelize.BOOLEAN,
     },
   },
   {

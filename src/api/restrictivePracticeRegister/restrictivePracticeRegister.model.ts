@@ -31,6 +31,7 @@ class RestrictivePracticeRegisterModel<
   Client: RestrictivePracticeRegister["Client"];
   company!: RestrictivePracticeRegister["company"];
   Company: RestrictivePracticeRegister["Company"];
+  archived: RestrictivePracticeRegister["archived"];
 }
 
 modelManager.init(
@@ -48,6 +49,7 @@ modelManager.init(
     isAuthorised: { type: Sequelize.STRING, allowNull: false },
     reportingFrequency: { type: Sequelize.STRING, allowNull: false },
     nextReviewDate: { type: Sequelize.DATE },
+    archived: { type: Sequelize.BOOLEAN },
   },
   {
     defaultScope: {

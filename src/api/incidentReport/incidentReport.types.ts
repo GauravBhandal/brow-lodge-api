@@ -28,6 +28,7 @@ export interface IncidentReport extends DefaultSchemaConfig {
   Attachments?: Attachment[];
   Staff?: StaffProfile[];
   Types?: IncidentType[];
+  archived?: boolean;
 }
 
 export interface CreateIncidentReportProps {

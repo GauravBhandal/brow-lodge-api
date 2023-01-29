@@ -21,6 +21,13 @@ router.put(
   catchWrap(controller.updateInjuryReport)
 );
 
+router.put(
+  "/archive/:injuryReportId",
+  canDo("delete", "injuryReport"),
+  injuryReportSchems.deleteArchiveInjuryReport,
+  catchWrap(controller.deleteArchiveInjuryReport)
+);
+
 router.delete(
   "/:injuryReportId",
   canDo("delete", "injuryReport"),
