@@ -158,6 +158,10 @@ class RepairRequestService {
           as: "Staff",
         },
         {
+          model: StaffProfileModel,
+          as: "ClosedBy",
+        },
+        {
           model: AttachmentModel,
           through: {
             attributes: [],
@@ -195,6 +199,10 @@ class RepairRequestService {
         where: {
           ...filters["Staff"],
         },
+      },
+      {
+        model: StaffProfileModel,
+        as: "ClosedBy",
       },
     ];
 

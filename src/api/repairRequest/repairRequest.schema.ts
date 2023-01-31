@@ -16,6 +16,8 @@ const createRepairRequestSchema = wrapSchema({
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
+    closureDate: Joi.date(),
+    closedBy: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 
@@ -33,6 +35,8 @@ const editRepairRequestSchema = wrapSchema({
     attachments: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
+    closureDate: Joi.date().allow(null),
+    closedBy: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });
 

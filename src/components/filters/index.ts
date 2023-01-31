@@ -94,7 +94,7 @@ export const addCientFiltersByTeams = async (
     page: 1,
     pageSize: 500,
     sort: "updated:DESC",
-    where: { "Staff.id_eq": user.Staff.id, permissions_eq: "true" },
+    where: { "Staff.id_eq": user.Staff.id, permissions_eq: "true", archived_eq: 'false' },
   });
   const clients: any = [];
   teams.data.forEach((team: any) => {
