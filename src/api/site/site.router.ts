@@ -44,7 +44,7 @@ router.get(
 
 router.get(
   "/",
-  canDo("read", "site"),
+  // canDo("read", "site"), TODO: Every user need to make a GET request
   siteSchems.getSites,
   catchWrap(controller.getSites)
 );
