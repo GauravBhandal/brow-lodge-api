@@ -51,7 +51,7 @@ router.get(
 
 router.get(
   "/",
-  canDo("read", "team"),
+  // canDo("read", "team"), TODO: Every user need to make a GET request
   teamSchems.getTeams,
   catchWrap(controller.getTeams)
 );
