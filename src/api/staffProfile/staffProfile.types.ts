@@ -33,6 +33,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   attachment?: Attachment["id"];
+  profileStatus?: string,
 }
 
 export interface CreateStaffProfileProps {
@@ -60,7 +61,7 @@ export interface GetStaffProfileByUserProps {
   company: StaffProfile["company"];
 }
 
-export interface GetStaffProfileByIdProps extends DeleteStaffProfileProps {}
+export interface GetStaffProfileByIdProps extends DeleteStaffProfileProps { }
 
 export interface GetStaffProfilesProps extends QueryParams {
   company: StaffProfile["company"];
