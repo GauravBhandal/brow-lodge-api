@@ -44,6 +44,7 @@ const editStaffProfileSchema = wrapSchema({
     user: requiredUUIDSchema(),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     paylevel: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
+    profileStatus: Joi.string().allow("", null),
   }),
 });
 
