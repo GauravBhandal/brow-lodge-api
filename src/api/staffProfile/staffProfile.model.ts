@@ -7,12 +7,11 @@ import modelManager, {
 import { StaffProfile, CreateStaffProfileProps } from "./staffProfile.types";
 
 class StaffProfileModel<
-    ModelAttributes = StaffProfile,
-    ModelCreationAttributes = CreateStaffProfileProps
-  >
+  ModelAttributes = StaffProfile,
+  ModelCreationAttributes = CreateStaffProfileProps
+>
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements StaffProfile
-{
+  implements StaffProfile {
   firstName!: StaffProfile["firstName"];
   lastName!: StaffProfile["lastName"];
   preferredName!: StaffProfile["preferredName"];
@@ -39,6 +38,7 @@ class StaffProfileModel<
   company!: StaffProfile["company"];
   Company: StaffProfile["Company"];
   attachment: StaffProfile["attachment"];
+  profileStatus: StaffProfile["profileStatus"];
 }
 
 modelManager.init(
@@ -102,6 +102,9 @@ modelManager.init(
     },
     archived: {
       type: Sequelize.BOOLEAN,
+    },
+    profileStatus: {
+      type: Sequelize.STRING,
     },
   },
   {
