@@ -188,8 +188,24 @@ class XeroService {
     const xeroTenantId = xero.tenants[0].tenantId;
 
     try {
-      //Get all the employees from xero
-      const response = await xero.payrollAUApi.getEmployees(xeroTenantId);
+      // TODO: This will only work for 200 employees on Xero
+
+      // Get 0 to 100 employees from xero
+      const response1 = await xero.payrollAUApi.getEmployees(xeroTenantId);
+
+      // Get 101 to 200 employees from xero
+      const response2 = await xero.payrollAUApi.getEmployees(
+        xeroTenantId,
+        undefined,
+        undefined,
+        undefined,
+        2
+      );
+
+      const response = [
+        ...(response1?.body.employees || []),
+        ...(response2?.body?.employees || []),
+      ];
 
       // Get the id for Xero integration from the integrations table
       const { id: integration } = await integrationService.getIntegrationByKey({
@@ -200,7 +216,7 @@ class XeroService {
       // Store the new list of employees from Xero in the database
       await integrationExternalDataService.createOrUpdateIntegrationExternalData(
         {
-          data: response.body,
+          data: { employees: response },
           type: XERO_EXTERNAL_DATA_TYPE.Employees,
           company,
           integration,
