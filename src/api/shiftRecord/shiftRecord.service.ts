@@ -543,6 +543,12 @@ class ShiftRecordService {
         duplicating: true,
         required: false,
       },
+      {
+        model: ServiceModel,
+        through: {
+          attributes: ["start_time"], //TODO: We need to do some cleanup here
+        },
+      },
     ];
 
     // Count total shiftRecords in the given company
