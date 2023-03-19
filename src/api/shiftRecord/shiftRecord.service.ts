@@ -18,7 +18,7 @@ import ShiftRecordErrorCode from "./shiftRecord.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel, companyService } from "../company";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import {
@@ -500,7 +500,7 @@ class ShiftRecordService {
     return shiftRecord;
   }
 
-  async getShiftRecords(props: GetShiftRecordsProps) {
+  async getShiftRecords(props: GetShiftRecordsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
@@ -508,8 +508,16 @@ class ShiftRecordService {
     const order = getSortingParams(sort);
     const filters = getFilters(where);
     // Helper fn. to return shifts by staff when called by myshift endpoint's controller
-    const checkClientPermissions = () => {
+    const checkStaffPermissions = () => {
       if (filters["Staff"] && Object.keys(filters["Staff"]).length !== 0) {
+        return { right: true };
+      }
+    };
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
+
+    const checkClientPermissions = () => {
+      if ((filters["Client"] && Object.keys(filters["Client"]).length !== 0)||(clientFilters&&Object.keys(clientFilters).length !== 0)) {
         return { right: true };
       }
     };
@@ -529,7 +537,7 @@ class ShiftRecordService {
         as: "Staff",
         duplicating: true,
         required: false,
-        ...checkClientPermissions(),
+        ...checkStaffPermissions(),
       },
       {
         model: ClientProfileModel,
@@ -538,10 +546,12 @@ class ShiftRecordService {
         },
         where: {
           ...filters["Client"],
+          ...clientFilters,
         },
         as: "Client",
         duplicating: true,
         required: false,
+        ...checkClientPermissions(),
       },
       {
         model: ServiceModel,
