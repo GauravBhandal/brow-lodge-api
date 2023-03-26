@@ -2,7 +2,7 @@ import { Op } from "sequelize";
 import { uniq as _uniq } from "lodash";
 
 import { UserErrorCode, userService } from "../../api/user";
-import { teamService } from "../../api/team";
+import { Team, teamService } from "../../api/team";
 import { CustomError } from "../errors";
 
 // Helper function to get sequelize OP operation based on provided props
@@ -137,15 +137,26 @@ export const addStaffFiltersByTeams = async (
   }
 
   // Find all the teams this staff belongs to and check if permissions if enabled for teams
-  const teams = await teamService.getTeamsForFilter({
+  const teams = await teamService.getTeams({
     company: companyId,
     page: 1,
     pageSize: 500,
     sort: "updated:DESC",
     where: { "Staff.id_eq": user.Staff.id, permissions_eq: "true", archived_eq: 'false' },
   });
+
+  const getTeamIds=teams.data.map((team:Team)=>team.id);
+
+  const teamsList = await teamService.getTeamsByIds({
+    company: companyId,
+    page: 1,
+    pageSize: 500,
+    sort: "updated:DESC",
+    ids: getTeamIds,
+    where: { permissions_eq: "true", archived_eq: 'false' },
+  });
   const staffList: any = [];
-  teams.data.forEach((team: any) => {
+  teamsList.data.forEach((team: any) => {
     if (team.Staff && team.Staff.length) {
       team.Staff.forEach((staff: any) => {
         staffList.push(staff.id);

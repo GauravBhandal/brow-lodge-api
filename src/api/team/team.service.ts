@@ -9,6 +9,7 @@ import {
   GetTeamByIdProps,
   GetTeamsProps,
   UpdateTeamPermissionsProps,
+  GetTeamByIds,
 } from "./team.types";
 import { CustomError } from "../../components/errors";
 import TeamErrorCode from "./team.error";
@@ -272,9 +273,9 @@ class TeamService {
 
     return response;
   }
-  async getTeamsForFilter(props: GetTeamsProps) {
+  async getTeamsByIds(props: GetTeamByIds) {
     // Props
-    const { page, pageSize, sort, where, company } = props;
+    const { page, pageSize, sort, where, company, ids } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
@@ -289,14 +290,7 @@ class TeamService {
         through: {
           attributes: [],
         },
-        ...(filters["Staff"] && {
-          where: {
-            ...filters["Staff"],
-          },
-        }),
         as: "Staff",
-        ...(filters["Staff"]&&{required: false,
-        right:true,})
       },
       {
         model: ClientProfileModel,
@@ -310,6 +304,7 @@ class TeamService {
     // Count total teams in the given company
     const count = await TeamModel.count({
       where: {
+        id:ids,
         company,
         ...filters["primaryFilters"],
       },
@@ -323,6 +318,7 @@ class TeamService {
       limit,
       order,
       where: {
+        id:ids,
         company,
         ...filters["primaryFilters"],
       },
