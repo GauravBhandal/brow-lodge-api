@@ -1,13 +1,14 @@
 import { omit as _omit } from "lodash";
-import { Op } from "sequelize";
+import { literal, Op } from "sequelize";
+import { orderBy as _orderBy } from "lodash";
 
 import StaffUnavailabilityModel from "./staffUnavailability.model";
 import {
-  CreateStaffUnavailabilityInBulkProps,
   CreateStaffUnavailabilityProps,
   DeleteStaffUnavailabilityProps,
   GetStaffUnavailabilityByIdProps,
   GetStaffUnavailabilitysProps,
+  StaffUnavailability,
 } from "./staffUnavailability.types";
 import { CustomError } from "../../components/errors";
 import StaffUnavailabilityErrorCode from "./staffUnavailability.error";
@@ -16,35 +17,154 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel, companyService } from "../company";
 import { getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
-import { StaffUnavailabilityRepeatModel, staffUnavailabilityRepeatService } from "../staffUnavailabilityRepeat";
 import { createUnavailableEntries } from "../../utils/unavailabilityGenerator";
+import { formatDateToString } from "../../utils/shiftGenerator";
+import { convertToFormattedTime } from "../../components/utils/date";
+import { uuid } from "aws-sdk/clients/customerprofiles";
+
+const maximumOfTwoStrings=(string1:string,string2:string)=> {
+  if(string1>=string2)
+  {
+    return string1;
+  }
+  return string2;
+}
+
+const getMergedTimeInterval = (timeIntervals:any=[]) => {
+
+  const sortedTimeIntervals = _orderBy(
+    timeIntervals,
+      ["startTime"],
+      ["asc"]
+    );
+
+    const finalTimeIntervals=[];
+    finalTimeIntervals.push(sortedTimeIntervals[0]);
+    let index=0;
+    for(let i=1;i<sortedTimeIntervals.length;i++)
+    {
+      if(finalTimeIntervals[index].endTime>=sortedTimeIntervals[i].startTime)
+      {
+        finalTimeIntervals[index].endTime=maximumOfTwoStrings(finalTimeIntervals[index].endTime,sortedTimeIntervals[i].endTime);
+      } else {
+        index++;
+        finalTimeIntervals.push(sortedTimeIntervals[i]);
+      }
+    }
+
+    return finalTimeIntervals;
+    
+}
+
+const addTimeInterval=(
+  dateList:any, 
+  item: {
+    startDateTime: Date|string,
+    endDateTime:Date|string,
+    id:uuid|string,
+    profile:any
+})=>{
+  const {startDateTime,endDateTime,id,profile}=item;
+  const startDate =  formatDateToString(startDateTime,'');
+  const endDate =  formatDateToString(endDateTime,'');
+
+  if(!dateList[id])
+  {
+    dateList[id]={};
+  }
+
+  if(!dateList[id]['profile'])
+  {
+    console.log('profilee',profile?.dataValues)
+    dateList[id]['profile']={
+      ...profile?.dataValues
+    }
+  }
+
+  if(!dateList[id][startDate])
+  {
+    dateList[id][startDate]=[];
+  }
+
+  if(!dateList[id][endDate])
+  {
+    dateList[id][endDate]=[];
+  }
+
+  const startTime = convertToFormattedTime(startDateTime);
+  const endTime = convertToFormattedTime(endDateTime);
+
+  if(startDate!==endDate)
+  {
+    dateList[id][startDate]=[...dateList[id][startDate],{startTime,endTime:'23:59'}]
+    dateList[id][endDate]=[...dateList[id][endDate],{startTime:'00:00',endTime}]
+  } else {
+    dateList[id][startDate]=[...dateList[id][startDate],{startTime,endTime}]
+  }
+}
+
+const getUnavailableStaffList = (UnavailabilityList:StaffUnavailability[],timezone:string|undefined) =>{
+  const dateList:any={};
+  console.log('timezone',timezone);
+  UnavailabilityList.forEach((item:StaffUnavailability)=>{
+    const {
+      repeat,
+      startDateTime,
+      endDateTime,
+      company,
+      staff,
+      Staff,
+    } = item;
+    if(item.repeat)
+    {
+      const getRepeatDataConfig=createUnavailableEntries({
+        repeat,
+        startDateTime,
+        endDateTime,
+        company,
+        staff,
+        timezone,
+      })
+      getRepeatDataConfig.forEach(repeatShift=>{
+        const {
+          startDateTime: repeatStartTime,
+          endDateTime: repeatEndTime,
+          staff: staffId,
+        }=repeatShift
+
+        addTimeInterval(dateList, {
+          startDateTime:repeatStartTime,
+          endDateTime:repeatEndTime,
+          id:staffId,
+          profile:Staff
+        })
+      })
+
+    } else {
+      addTimeInterval(dateList,{
+        startDateTime,
+        endDateTime,
+        id:staff,
+        profile:Staff
+      })
+    }
+    
+  })
+  Object.keys(dateList).forEach(staff=>{
+    Object.keys(dateList[staff]).forEach(date=>{
+      if(date!=='profile'){
+      dateList[staff][date]=[...getMergedTimeInterval(dateList[staff][date])];
+      }
+    })
+    
+  })
+
+  return dateList;
+
+}
 
 
 class StaffUnavailabilityService {
-  async createStaffUnavailabilityInBulk(props: CreateStaffUnavailabilityInBulkProps) {
-    const companyData = await companyService.getCompanyById({
-      company: props.company,
-    });
-
-    const createProps = createUnavailableEntries({
-      ...props,
-      timezone: companyData.timezone,
-    });
-
-    const staffUnavailabilityRepeat = await staffUnavailabilityRepeatService.createStaffUnavailabilityRepeat({
-      meta: props.repeat,
-      company: props.company,
-    });
-
-    const bulkCreateProps = createProps.map((staffUnavailable) => {
-      return { ...staffUnavailable, repeat: staffUnavailabilityRepeat.id };
-    });
-
-    // Create a staffUnavailabilitys in bulk
-    const staffUnavailabilitys = await StaffUnavailabilityModel.bulkCreate(bulkCreateProps);
-
-    return staffUnavailabilitys;
-  }
 
   async createStaffUnavailability(props: CreateStaffUnavailabilityProps) {
     // Create a new staffUnavailability
@@ -56,7 +176,7 @@ class StaffUnavailabilityService {
 
   async deleteStaffUnavailability(props: DeleteStaffUnavailabilityProps) {
     // Props
-    const { id, company, deleteRecurring } = props;
+    const { id, company } = props;
     // Find  the staffUnavailability by id and company
     const staffUnavailability = await StaffUnavailabilityModel.findOne({
       where: { id, company },
@@ -66,23 +186,13 @@ class StaffUnavailabilityService {
       throw new CustomError(404, StaffUnavailabilityErrorCode.STAFF_UNAVAILABILITY_NOT_FOUND);
     }
 
-    if (deleteRecurring && staffUnavailability.repeat) {
-      // Find and delete the staffUnavailabilitys by company, has repeat and date greater than equal to that shift
-      const staffUnavailabilitys = await StaffUnavailabilityModel.destroy({
-        where: {
-          company,
-          repeat: staffUnavailability.repeat,
-          startDateTime: { [Op.gte]: staffUnavailability.startDateTime },
-        },
-      });
-      return staffUnavailabilitys;
-    } else {
-      // Find and delete the staffUnavailability by id and company
-      const staffUnavailability = await StaffUnavailabilityModel.destroy({
-        where: { id, company },
-      });
-      return staffUnavailability;
-    }
+
+    // Find and delete the staffUnavailability by id and company
+    const deletedStaffUnavailability = await StaffUnavailabilityModel.destroy({
+      where: { id, company },
+    });
+    return deletedStaffUnavailability;
+    
   }
 
   async getStaffUnavailabilityById(props: GetStaffUnavailabilityByIdProps) {
@@ -133,10 +243,6 @@ class StaffUnavailabilityService {
           ...filters["Staff"],
         },
       },
-      {
-        model: StaffUnavailabilityRepeatModel,
-        as: "Repeat",
-      },
     ];
 
     // Count total staffUnavailabilitys in the given company
@@ -162,6 +268,48 @@ class StaffUnavailabilityService {
     });
 
     const response = getPagingData({ count, rows: data }, page, limit);
+
+    return response;
+  }
+
+  async getStaffUnavailabilityList(props: GetStaffUnavailabilitysProps) {
+    // Props
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+    const {  sort, where, company } = props;
+
+    const order = getSortingParams(sort);
+    const filters = getFilters(where);
+
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
+      },
+    ];
+
+    // Find all staffUnavailabilitys for matching props and company
+    const UnavailabilityList = await StaffUnavailabilityModel.findAll({
+      // offset, We don't need pagination for this endpoint
+      // limit,
+      order,
+      where: {
+        company,
+        ...filters["primaryFilters"],
+      },
+      include,
+    });
+
+    const getDateList=getUnavailableStaffList(UnavailabilityList, companyData.timezone);
+
+    const response = {data:getDateList};
 
     return response;
   }

@@ -52,9 +52,17 @@ const getStaffUnavailabilitySchema = wrapSchema({
   }),
 });
 
+const getStaffUnavailabilityListSchema = wrapSchema({
+  query: Joi.object().keys({
+    sort: Joi.string(),
+    where: Joi.any(), //TODO use regular operation for applying schema for where props
+  }),
+});
+
 export default {
   createStaffUnavailability: joiMiddleware(createStaffUnavailabilitySchema),
   deleteStaffUnavailability: joiMiddleware(deleteStaffUnavailabilitySchema),
   getStaffUnavailabilityById: joiMiddleware(getStaffUnavailabilityByIdSchema),
   getStaffUnavailabilitys: joiMiddleware(getStaffUnavailabilitySchema),
+  getStaffUnavailabilityList: joiMiddleware(getStaffUnavailabilityListSchema),
 };

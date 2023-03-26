@@ -10,15 +10,9 @@ class StaffUnavailabilityController {
       ...req.body,
     };
 
-    if (req.body.repeat) {
-      const staffUnavailabilitys = await staffUnavailabilityService.createStaffUnavailabilityInBulk(
-        props
-      );
-      res.status(200).json(staffUnavailabilitys);
-    } else {
-      const staffUnavailability = await staffUnavailabilityService.createStaffUnavailability(props);
-      res.status(200).json(staffUnavailability);
-    }
+    const staffUnavailability = await staffUnavailabilityService.createStaffUnavailability(props);
+    res.status(200).json(staffUnavailability);
+    
   }
 
   async deleteStaffUnavailability(req: Request, res: Response) {
@@ -61,6 +55,21 @@ class StaffUnavailabilityController {
     const staffUnavailabilitys = await staffUnavailabilityService.getStaffUnavailabilitys(props);
 
     res.status(200).json(staffUnavailabilitys);
+  }
+
+  async getStaffUnavailabilityList(req: Request, res: Response) {
+    const queryParams = _pick(req.query, [
+      "sort",
+      "where",
+    ]) as any;
+    const props = {
+      company: req.auth.companyId,
+      ...queryParams,
+    };
+
+    const staffUnavailabilityList = await staffUnavailabilityService.getStaffUnavailabilityList(props);
+
+    res.status(200).json(staffUnavailabilityList);
   }
 }
 

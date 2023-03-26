@@ -79,7 +79,6 @@ import { ContinuousImprovementModel } from "../../api/continuousImprovement";
 import { RestrictivePracticeLogTypeModel } from "../../api/restrictivePracticeLog/restrictivePracticeLogType";
 import { SiteModel } from "../../api/site";
 import { StaffUnavailabilityModel } from "../../api/staffUnavailability";
-import { StaffUnavailabilityRepeatModel } from "../../api/staffUnavailabilityRepeat";
 
 export default {
   initialize() {
@@ -129,7 +128,6 @@ export default {
     initializeTeamModelAssociations();
     initializePayLevelModelAssociations();
     initializeShiftRepeatModelAssociations();
-    initializeStaffUnavailabilityRepeatModelAssociations();
     initializeShiftRecordModelAssociations();
     initializeStaffUnavailabilityModelAssociations();
     initializePolicyModelAssociations();
@@ -885,22 +883,10 @@ function initializeStaffUnavailabilityModelAssociations() {
     foreignKey: { name: "staff" },
     as: "Staff",
   });
-  StaffUnavailabilityModel.belongsTo(StaffUnavailabilityRepeatModel, {
-    foreignKey: {
-      name: "repeat",
-    },
-    as: "Repeat",
-  });
 }
 
 function initializeShiftRepeatModelAssociations() {
   ShiftRepeatModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-}
-
-function initializeStaffUnavailabilityRepeatModelAssociations() {
-  StaffUnavailabilityRepeatModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
 }

@@ -33,6 +33,9 @@ modelManager.init(
       type: Sequelize.DATE,
       allowNull: false,
     },
+    repeat: {
+      type: Sequelize.JSONB,
+    },
   },
   {
     defaultScope: {

@@ -7,6 +7,13 @@ import { canDo } from "../../components/ability/canDo";
 
 const router = express.Router();
 
+router.get(
+  "/staffList",
+  canDo("read", "staffUnavailability"),
+  staffUnavailabilitySchemas.getStaffUnavailabilityList,
+  catchWrap(controller.getStaffUnavailabilityList)
+);
+
 router.post(
   "/",
   canDo("create", "staffUnavailability"),

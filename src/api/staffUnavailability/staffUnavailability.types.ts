@@ -2,7 +2,6 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 import { QueryParams } from "../../common/types";
 import { StaffProfile } from "../staffProfile";
-import { ClientProfile } from "../clientProfile";
 
 export interface StaffUnavailability extends DefaultSchemaConfig {
   startDateTime: Date;
@@ -11,7 +10,7 @@ export interface StaffUnavailability extends DefaultSchemaConfig {
   Staff?: StaffProfile;
   company: Company["id"];
   Company?: Company;
-  repeat?: StaffUnavailability["id"];
+  repeat?: JSON;
 }
 
 export interface CreateStaffUnavailabilityProps {
@@ -19,6 +18,7 @@ export interface CreateStaffUnavailabilityProps {
   endDateTime: StaffUnavailability["endDateTime"];
   staff: StaffProfile["id"];
   company: StaffUnavailability["company"];
+  repeat: any;
 }
 
 export interface CreateStaffUnavailabilityInBulkHelperProps {
@@ -41,7 +41,6 @@ export interface CreateStaffUnavailabilityInBulkProps {
 export interface DeleteStaffUnavailabilityProps {
   id: StaffUnavailability["id"];
   company: StaffUnavailability["company"];
-  deleteRecurring?: Boolean;
 }
 
 export interface GetStaffUnavailabilityByIdProps extends DeleteStaffUnavailabilityProps { }
