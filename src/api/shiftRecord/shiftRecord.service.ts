@@ -509,6 +509,54 @@ class ShiftRecordService {
     const filters = getFilters(where);
     const staffFilters = await addStaffFiltersByTeams(userId, company);
 
+    const INCLUDES = {
+      COMPANY: {
+        model: CompanyModel,
+      },
+      SERVICE: {
+        model: ServiceModel,
+        through: {
+          attributes: ["start_time"], //TODO: We need to do some cleanup here
+        },
+      },
+      STAFF: {
+        model: StaffProfileModel,
+      through: {
+        attributes: [],
+      },
+      where:{
+        ...filters["Staff"],
+      },
+      as: "Staff",
+      duplicating: true,
+      },
+      CLIENT: {
+        model: ClientProfileModel,
+        through: {
+          attributes: [],
+        },
+        as: "Client",
+        duplicating: true,
+      }
+    }
+
+    const include = [
+        {
+          ...INCLUDES.COMPANY,
+        },
+        {
+          ...INCLUDES.STAFF,
+          required: false,
+        },
+        {
+          ...INCLUDES.CLIENT,
+          required: false,
+        },
+        {
+          ...INCLUDES.SERVICE,
+        }
+    ];
+
     // Helper fn. to return shifts by staff when called by myshift endpoint's controller
     const shouldApplyFilters = () => {
     
@@ -524,36 +572,23 @@ class ShiftRecordService {
     {
       const includeForStaff=[
         {
-          model: CompanyModel,
+          ...INCLUDES.COMPANY
         },
         {
-          model: StaffProfileModel,
-          through: {
-            attributes: [],
-          },
+          ...INCLUDES.STAFF,
           where: {
             ...filters["Staff"],
             ...staffFilters,
           },
           as: "Staff",
-          duplicating: true,
-          required: false,
-          right: true,
-        },
-        {
-          model: ClientProfileModel,
-          through: {
-            attributes: [],
-          },
-          as: "Client",
-          duplicating: true,
           required: false,
         },
         {
-          model: ServiceModel,
-          through: {
-            attributes: ["start_time"], //TODO: We need to do some cleanup here
-          },
+          ...INCLUDES.CLIENT,
+          required: false,
+        },
+        {
+          ...INCLUDES.SERVICE,
         },
       ];
       // Find all shiftRecords for matching props and company
@@ -570,36 +605,22 @@ class ShiftRecordService {
 
       const includeForClient = [
         {
-          model: CompanyModel,
+          ...INCLUDES.COMPANY,
         },
         {
-          model: StaffProfileModel,
-          through: {
-            attributes: [],
-          },
-          as: "Staff",
-          duplicating: true,
+          ...INCLUDES.STAFF,
           required: false,
         },
         {
-          model: ClientProfileModel,
-          through: {
-            attributes: [],
-          },
+          ...INCLUDES.CLIENT,
           where: {
             ...filters["Client"],
             ...clientFilters,
           },
-          as: "Client",
-          duplicating: true,
           required: false,
-          right: true,
         },
         {
-          model: ServiceModel,
-          through: {
-            attributes: ["start_time"], //TODO: We need to do some cleanup here
-          },
+          ...INCLUDES.SERVICE,
         },
       ];
 
@@ -615,43 +636,40 @@ class ShiftRecordService {
         include:includeForClient,
       });
 
-      const finalShiftRecords=_uniq([...shiftsWithClient,...shiftsWithStaff]);
+      const shiftIdsOfStaff=shiftsWithStaff.map(shift=>shift.id);
+      const shiftIdsOfClients=shiftsWithClient.map(shift=>shift.id);
+
+      const totalShiftsInclude = [
+        {
+          ...INCLUDES.COMPANY,
+        },
+        {
+          ...INCLUDES.STAFF,
+        },
+        {
+          ...INCLUDES.CLIENT,
+        },
+        {
+          ...INCLUDES.SERVICE,
+        }
+      ]
+
+      const allShiftIds=_uniq([...shiftIdsOfStaff,...shiftIdsOfClients]);
+       // Find all shiftRecords for matching props and company
+       const finalShiftRecords = await ShiftRecordModel.findAll({
+        // offset, We don't need pagination for this endpoint
+        // limit,
+        order,
+        where: {
+          company,
+          id:allShiftIds,
+          ...filters["primaryFilters"],
+        },
+        include:totalShiftsInclude,
+      });
       const response = getPagingData({ count:finalShiftRecords.length, rows: finalShiftRecords }, page, limit);
       return response;
     }
-
-    const include = [
-      {
-        model: CompanyModel,
-      },
-      {
-        model: StaffProfileModel,
-        through: {
-          attributes: [],
-        },
-        where:{
-          ...filters["Staff"],
-        },
-        as: "Staff",
-        duplicating: true,
-        required: false,
-      },
-      {
-        model: ClientProfileModel,
-        through: {
-          attributes: [],
-        },
-        as: "Client",
-        duplicating: true,
-        required: false,
-      },
-      {
-        model: ServiceModel,
-        through: {
-          attributes: ["start_time"], //TODO: We need to do some cleanup here
-        },
-      },
-    ];
 
     // Count total shiftRecords in the given company
     const count = await ShiftRecordModel.count({
