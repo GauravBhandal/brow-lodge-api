@@ -272,6 +272,67 @@ class TeamService {
 
     return response;
   }
+  async getTeamsForFilter(props: GetTeamsProps) {
+    // Props
+    const { page, pageSize, sort, where, company } = props;
+
+    const { offset, limit } = getPagingParams(page, pageSize);
+    const order = getSortingParams(sort);
+    const filters = getFilters(where);
+
+    const include = [
+      {
+        model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        through: {
+          attributes: [],
+        },
+        ...(filters["Staff"] && {
+          where: {
+            ...filters["Staff"],
+          },
+        }),
+        as: "Staff",
+        ...(filters["Staff"]&&{required: false,
+        right:true,})
+      },
+      {
+        model: ClientProfileModel,
+        through: {
+          attributes: [],
+        },
+        as: "Client",
+      },
+    ];
+
+    // Count total teams in the given company
+    const count = await TeamModel.count({
+      where: {
+        company,
+        ...filters["primaryFilters"],
+      },
+      distinct: true,
+      include,
+    });
+
+    // Find all teams for matching props and company
+    const data = await TeamModel.findAll({
+      offset,
+      limit,
+      order,
+      where: {
+        company,
+        ...filters["primaryFilters"],
+      },
+      include,
+    });
+
+    const response = getPagingData({ count, rows: data }, page, limit);
+
+    return response;
+  }
 
   async updateTeamPermissions(props: UpdateTeamPermissionsProps) {
     const { permissions, company } = props;

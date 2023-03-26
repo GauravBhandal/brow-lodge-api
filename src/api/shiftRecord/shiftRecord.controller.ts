@@ -86,7 +86,7 @@ class ShiftRecordController {
         ...queryParams["where"],
       },
     };
-    const shiftRecords = await shiftRecordService.getShiftRecords(shiftProps, req.auth.userId);
+    const shiftRecords = await shiftRecordService.getMyShiftRecords(shiftProps, req.auth.userId);
 
     res.status(200).json(shiftRecords);
   }
