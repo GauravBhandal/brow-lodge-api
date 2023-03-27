@@ -578,11 +578,9 @@ class ShiftRecordService {
             ...staffFilters,
           },
           as: "Staff",
-          required: false,
         },
         {
           ...INCLUDES.CLIENT,
-          required: false,
         },
         {
           ...INCLUDES.SERVICE,
@@ -606,7 +604,6 @@ class ShiftRecordService {
         },
         {
           ...INCLUDES.STAFF,
-          required: false,
         },
         {
           ...INCLUDES.CLIENT,
@@ -614,7 +611,6 @@ class ShiftRecordService {
             ...filters["Client"],
             ...clientFilters,
           },
-          required: false,
         },
         {
           ...INCLUDES.SERVICE,
