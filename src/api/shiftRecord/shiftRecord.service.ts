@@ -524,9 +524,6 @@ class ShiftRecordService {
       through: {
         attributes: [],
       },
-      where:{
-        ...filters["Staff"],
-      },
       as: "Staff",
       duplicating: true,
       },
