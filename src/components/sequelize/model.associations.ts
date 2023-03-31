@@ -78,6 +78,7 @@ import { MedicationRegisterModel } from "../../api/medicationRegister";
 import { ContinuousImprovementModel } from "../../api/continuousImprovement";
 import { RestrictivePracticeLogTypeModel } from "../../api/restrictivePracticeLog/restrictivePracticeLogType";
 import { SiteModel } from "../../api/site";
+import { StaffUnavailabilityModel } from "../../api/staffUnavailability";
 
 export default {
   initialize() {
@@ -128,6 +129,7 @@ export default {
     initializePayLevelModelAssociations();
     initializeShiftRepeatModelAssociations();
     initializeShiftRecordModelAssociations();
+    initializeStaffUnavailabilityModelAssociations();
     initializePolicyModelAssociations();
     initializeProgressReportModelAssociations();
     initializePolicyReviewModelAssociations();
@@ -870,6 +872,16 @@ function initializeShiftRecordModelAssociations() {
       name: "repeat",
     },
     as: "Repeat",
+  });
+}
+
+function initializeStaffUnavailabilityModelAssociations() {
+  StaffUnavailabilityModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  StaffUnavailabilityModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff" },
+    as: "Staff",
   });
 }
 

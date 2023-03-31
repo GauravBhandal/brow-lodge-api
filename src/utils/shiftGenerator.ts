@@ -6,7 +6,7 @@ import {
   CreateShiftRecordInBulkHelperProps,
 } from "../api/shiftRecord";
 
-const daysOfWeek = [
+export const daysOfWeek = [
   "monday",
   "tuesday",
   "wednesday",
@@ -57,7 +57,7 @@ export const formatDateToString = (date: any, timezone: any, dateFormat: any = "
   makeMoment(date, timezone).format(dateFormat);
 
 //Convert any date to formatted date
-const convertDateToMoment = (date: string, timezone: any) =>
+export const convertDateToMoment = (date: string, timezone: any) =>
   makeMoment(date, timezone).format();
 
 // Add days in date
@@ -77,7 +77,7 @@ export const getDateInterval = (date: string | Date, numberOfDays: number) => {
 }
 
 // returns the specific day date of week e.g any date with sunday then returns date of that sunday in the week
-const specificDay = (
+export const specificDay = (
   date: string,
   numberOfWeeks: number,
   day: string,
@@ -107,7 +107,7 @@ export const getMinutesDiff = (startDate: any, endDate: any, timezone: any) => {
 };
 
 // If only end date is present for repeat shift then will return number of occurrences
-const getOccurrenceswithEndDate = (
+export const getOccurrenceswithEndDate = (
   repeatStartDate: any,
   repeatEndDate: any,
   every: any,
@@ -132,7 +132,7 @@ const getOccurrenceswithEndDate = (
 };
 
 // Function, is that day present in repeat shift
-const isDaySelected = (data: any, value: any) => {
+export const isDaySelected = (data: any, value: any) => {
   const isDayPresent = data.repeat.days.find((day: any) => day === value);
   return isDayPresent;
 };
