@@ -8,36 +8,36 @@ import { canDo } from "../../components/ability/canDo";
 const router = express.Router();
 
 router.get(
-  "/staffList",
-  canDo("read", "staffUnavailability"),
+  "/staff-list",
+  // canDo("read", "staffUnavailability"), //Everyone can make a call
   staffUnavailabilitySchemas.getStaffUnavailabilityList,
   catchWrap(controller.getStaffUnavailabilityList)
 );
 
 router.post(
   "/",
-  canDo("create", "staffUnavailability"),
+  canDo("create", "staffProfile"),
   staffUnavailabilitySchemas.createStaffUnavailability,
   catchWrap(controller.createStaffUnavailability)
 );
 
 router.delete(
   "/:staffUnavailabilityId",
-  canDo("delete", "staffUnavailability"),
+  canDo("delete", "staffProfile"),
   staffUnavailabilitySchemas.deleteStaffUnavailability,
   catchWrap(controller.deleteStaffUnavailability)
 );
 
 router.get(
   "/:staffUnavailabilityId",
-  canDo("read", "staffUnavailability"),
+  canDo("read", "staffProfile"),
   staffUnavailabilitySchemas.getStaffUnavailabilityById,
   catchWrap(controller.getstaffUnavailabilityById)
 );
 
 router.get(
   "/",
-  canDo("read", "staffUnavailability"),
+  canDo("read", "staffProfile"),
   staffUnavailabilitySchemas.getStaffUnavailabilitys,
   catchWrap(controller.getStaffUnavailabilitys)
 );

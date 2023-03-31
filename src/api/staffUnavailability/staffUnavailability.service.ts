@@ -18,9 +18,10 @@ import { CompanyModel, companyService } from "../company";
 import { getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { createUnavailableEntries } from "../../utils/unavailabilityGenerator";
-import { formatDateToString } from "../../utils/shiftGenerator";
+import { addDaysInDate, formatDateToString, getMinutesDiff } from "../../utils/shiftGenerator";
 import { convertToFormattedTime } from "../../components/utils/date";
 import { uuid } from "aws-sdk/clients/customerprofiles";
+import makeMoment from "../../components/moment";
 
 const maximumOfTwoStrings=(string1:string,string2:string)=> {
   if(string1>=string2)
@@ -75,7 +76,6 @@ const addTimeInterval=(
 
   if(!dateList[id]['profile'])
   {
-    console.log('profilee',profile?.dataValues)
     dateList[id]['profile']={
       ...profile?.dataValues
     }
@@ -105,7 +105,6 @@ const addTimeInterval=(
 
 const getUnavailableStaffList = (UnavailabilityList:StaffUnavailability[],timezone:string|undefined) =>{
   const dateList:any={};
-  console.log('timezone',timezone);
   UnavailabilityList.forEach((item:StaffUnavailability)=>{
     const {
       repeat,
@@ -228,6 +227,10 @@ class StaffUnavailabilityService {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
+    const companyData = await companyService.getCompanyById({
+      company: props.company,
+    });
+
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
@@ -245,18 +248,8 @@ class StaffUnavailabilityService {
       },
     ];
 
-    // Count total staffUnavailabilitys in the given company
-    const count = await StaffUnavailabilityModel.count({
-      where: {
-        company,
-        ...filters["primaryFilters"],
-      },
-      distinct: true,
-      include,
-    });
-
     // Find all staffUnavailabilitys for matching props and company
-    const data = await StaffUnavailabilityModel.findAll({
+    const unavailabilityList = await StaffUnavailabilityModel.findAll({
       // offset, We don't need pagination for this endpoint
       // limit,
       order,
@@ -267,7 +260,39 @@ class StaffUnavailabilityService {
       include,
     });
 
-    const response = getPagingData({ count, rows: data }, page, limit);
+    const filteredList=unavailabilityList.filter((entry:any)=>{
+      const { repeat = {}, startDateTime = "", endDateTime = "" }=entry;
+      let endDate = endDateTime;
+      if(repeat){
+        const {repeatEndDate = "", every = 1, frequency = "daily", occurrences = 0 } = repeat || {};
+        endDate = repeatEndDate;
+        if(occurrences > 0)
+        {
+          const interval = (frequency === "daily" ? 1 : 7 ) * every * occurrences;
+          const getMinutes = getMinutesDiff(startDateTime, endDateTime, companyData.timezone);
+          const startDate = addDaysInDate(
+            startDateTime,
+            interval,
+            "days",
+            companyData.timezone
+          );
+  
+          endDate=addDaysInDate(
+            startDate,
+            getMinutes,
+            "minutes",
+            companyData.timezone
+          );
+        }
+      }
+      
+      const todayDate = makeMoment(new Date(),companyData.timezone);
+      const endDateTillMid = makeMoment(endDate,companyData.timezone).endOf("day");
+      
+      return getMinutesDiff(todayDate,endDateTillMid,companyData.timezone) >= 0;
+    })
+
+    const response = getPagingData({ count:filteredList.length, rows: filteredList }, page, limit);
 
     return response;
   }
