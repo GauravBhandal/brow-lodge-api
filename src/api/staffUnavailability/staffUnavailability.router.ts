@@ -23,7 +23,7 @@ router.post(
 
 router.delete(
   "/:staffUnavailabilityId",
-  canDo("delete", "staffProfile"),
+  canDo("update", "staffProfile"),
   staffUnavailabilitySchemas.deleteStaffUnavailability,
   catchWrap(controller.deleteStaffUnavailability)
 );
