@@ -16,7 +16,7 @@ router.get(
 
 router.post(
   "/",
-  canDo("create", "staffProfile"),
+  canDo("update", "staffProfile"),
   staffUnavailabilitySchemas.createStaffUnavailability,
   catchWrap(controller.createStaffUnavailability)
 );
