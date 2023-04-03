@@ -64,7 +64,9 @@ const addTimeInterval=(
     endDateTime:Date|string,
     id:uuid|string,
     profile:any
-})=>{
+},
+timezone?:string
+)=>{
   const {startDateTime,endDateTime,id,profile}=item;
   const startDate =  formatDateToString(startDateTime,'');
   const endDate =  formatDateToString(endDateTime,'');
@@ -91,8 +93,8 @@ const addTimeInterval=(
     dateList[id][endDate]=[];
   }
 
-  const startTime = convertToFormattedTime(startDateTime);
-  const endTime = convertToFormattedTime(endDateTime);
+  const startTime = convertToFormattedTime(startDateTime,timezone);
+  const endTime = convertToFormattedTime(endDateTime,timezone);
 
   if(startDate!==endDate)
   {
@@ -136,7 +138,7 @@ const getUnavailableStaffList = (UnavailabilityList:StaffUnavailability[],timezo
           endDateTime:repeatEndTime,
           id:staffId,
           profile:Staff
-        })
+        },timezone)
       })
 
     } else {
@@ -145,7 +147,9 @@ const getUnavailableStaffList = (UnavailabilityList:StaffUnavailability[],timezo
         endDateTime,
         id:staff,
         profile:Staff
-      })
+      },
+      timezone
+      )
     }
     
   })
