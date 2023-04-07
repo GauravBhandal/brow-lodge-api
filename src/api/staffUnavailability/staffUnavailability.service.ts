@@ -98,7 +98,7 @@ timezone?:string
 
   if(startDate!==endDate)
   {
-    dateList[id][startDate]=[...dateList[id][startDate],{startTime,endTime:'23:59'}]
+    dateList[id][startDate]=[...dateList[id][startDate],{startTime,endTime:'24:00'}]
     dateList[id][endDate]=[...dateList[id][endDate],{startTime:'00:00',endTime}]
   } else {
     dateList[id][startDate]=[...dateList[id][startDate],{startTime,endTime}]
