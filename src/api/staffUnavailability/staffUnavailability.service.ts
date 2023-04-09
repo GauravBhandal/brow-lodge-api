@@ -88,18 +88,20 @@ timezone?:string
     dateList[id][startDate]=[];
   }
 
-  if(!dateList[id][endDate])
-  {
-    dateList[id][endDate]=[];
-  }
-
   const startTime = convertToFormattedTime(startDateTime,timezone);
   const endTime = convertToFormattedTime(endDateTime,timezone);
 
   if(startDate!==endDate)
   {
     dateList[id][startDate]=[...dateList[id][startDate],{startTime,endTime:'24:00'}]
-    dateList[id][endDate]=[...dateList[id][endDate],{startTime:'00:00',endTime}]
+    console.log('endTime',endTime);
+    if(endTime!=='00:00'){
+      if(!dateList[id][endDate])
+      {
+        dateList[id][endDate]=[];
+      }
+       dateList[id][endDate]=[...dateList[id][endDate],{startTime:'00:00',endTime}]
+    }
   } else {
     dateList[id][startDate]=[...dateList[id][startDate],{startTime,endTime}]
   }
