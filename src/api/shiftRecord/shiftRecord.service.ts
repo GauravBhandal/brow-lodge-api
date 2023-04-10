@@ -1,4 +1,4 @@
-import { omit as _omit } from "lodash";
+import { omit as _omit, uniq as _uniq } from "lodash";
 import { Op } from "sequelize";
 import moment from "moment";
 
@@ -18,7 +18,7 @@ import ShiftRecordErrorCode from "./shiftRecord.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel, companyService } from "../company";
-import { getFilters } from "../../components/filters";
+import { addCientFiltersByTeams, addStaffFiltersByTeams, getFilters } from "../../components/filters";
 import { StaffProfileModel } from "../staffProfile";
 import { ClientProfileModel } from "../clientProfile";
 import {
@@ -500,19 +500,204 @@ class ShiftRecordService {
     return shiftRecord;
   }
 
-  async getShiftRecords(props: GetShiftRecordsProps) {
+  async getShiftRecords(props: GetShiftRecordsProps, userId: string) {
     // Props
     const { page, pageSize, sort, where, company } = props;
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
-    // Helper fn. to return shifts by staff when called by myshift endpoint's controller
-    const checkClientPermissions = () => {
-      if (filters["Staff"] && Object.keys(filters["Staff"]).length !== 0) {
-        return { right: true };
+    const staffFilters = await addStaffFiltersByTeams(userId, company);
+
+    const INCLUDES = {
+      COMPANY: {
+        model: CompanyModel,
+      },
+      SERVICE: {
+        model: ServiceModel,
+        through: {
+          attributes: ["start_time"], //TODO: We need to do some cleanup here
+        },
+      },
+      STAFF: {
+        model: StaffProfileModel,
+      through: {
+        attributes: [],
+      },
+      as: "Staff",
+      duplicating: true,
+      },
+      CLIENT: {
+        model: ClientProfileModel,
+        through: {
+          attributes: [],
+        },
+        as: "Client",
+        duplicating: true,
       }
+    }
+
+    const include = [
+        {
+          ...INCLUDES.COMPANY,
+        },
+        {
+          ...INCLUDES.STAFF,
+          required: false,
+        },
+        {
+          ...INCLUDES.CLIENT,
+          required: false,
+        },
+        {
+          ...INCLUDES.SERVICE,
+        }
+    ];
+
+    // Helper fn. to return shifts by staff when called by myshift endpoint's controller
+    const shouldApplyFilters = () => {
+    
+      const hasStaffFilter=(filters["Staff"] && Object.keys(filters["Staff"]).length !== 0)||(staffFilters&&Object.keys(staffFilters).length !== 0);
+      const hasClientFilter=(filters["Client"] && Object.keys(filters["Client"]).length !== 0)||(clientFilters&&Object.keys(clientFilters).length !== 0);
+
+      return hasStaffFilter||hasClientFilter;
     };
+
+    const clientFilters = await addCientFiltersByTeams(userId, company);
+
+    if(shouldApplyFilters())
+    {
+      const includeForStaff=[
+        {
+          ...INCLUDES.COMPANY
+        },
+        {
+          ...INCLUDES.STAFF,
+          where: {
+            ...filters["Staff"],
+            ...staffFilters,
+          },
+          as: "Staff",
+        },
+        {
+          ...INCLUDES.CLIENT,
+        },
+        {
+          ...INCLUDES.SERVICE,
+        },
+      ];
+      // Find all shiftRecords for matching props and company
+      const shiftsWithStaff = await ShiftRecordModel.findAll({
+        // offset, We don't need pagination for this endpoint
+        // limit,
+        order,
+        where: {
+          company,
+          ...filters["primaryFilters"],
+        },
+        include:includeForStaff,
+      });
+
+      const includeForClient = [
+        {
+          ...INCLUDES.COMPANY,
+        },
+        {
+          ...INCLUDES.STAFF,
+        },
+        {
+          ...INCLUDES.CLIENT,
+          where: {
+            ...filters["Client"],
+            ...clientFilters,
+          },
+        },
+        {
+          ...INCLUDES.SERVICE,
+        },
+      ];
+
+      // Find all shiftRecords for matching props and company
+      const shiftsWithClient = await ShiftRecordModel.findAll({
+        // offset, We don't need pagination for this endpoint
+        // limit,
+        order,
+        where: {
+          company,
+          ...filters["primaryFilters"],
+        },
+        include:includeForClient,
+      });
+
+      const shiftIdsOfStaff=shiftsWithStaff.map(shift=>shift.id);
+      const shiftIdsOfClients=shiftsWithClient.map(shift=>shift.id);
+
+      const totalShiftsInclude = [
+        {
+          ...INCLUDES.COMPANY,
+        },
+        {
+          ...INCLUDES.STAFF,
+        },
+        {
+          ...INCLUDES.CLIENT,
+        },
+        {
+          ...INCLUDES.SERVICE,
+        }
+      ]
+
+      const allShiftIds=_uniq([...shiftIdsOfStaff,...shiftIdsOfClients]);
+       // Find all shiftRecords for matching props and company
+       const finalShiftRecords = await ShiftRecordModel.findAll({
+        // offset, We don't need pagination for this endpoint
+        // limit,
+        order,
+        where: {
+          company,
+          id:allShiftIds,
+          ...filters["primaryFilters"],
+        },
+        include:totalShiftsInclude,
+      });
+      const response = getPagingData({ count:finalShiftRecords.length, rows: finalShiftRecords }, page, limit);
+      return response;
+    }
+
+    // Count total shiftRecords in the given company
+    const count = await ShiftRecordModel.count({
+      where: {
+        company,
+        ...filters["primaryFilters"],
+      },
+      distinct: true,
+      include,
+    });
+
+    // Find all shiftRecords for matching props and company
+    const data = await ShiftRecordModel.findAll({
+      // offset, We don't need pagination for this endpoint
+      // limit,
+      order,
+      where: {
+        company,
+        ...filters["primaryFilters"],
+      },
+      include,
+    });
+
+    const response = getPagingData({ count, rows: data }, page, limit);
+
+    return response;
+  }
+
+  async getMyShiftRecords(props: GetShiftRecordsProps, userId: string) {
+    // Props
+    const { page, pageSize, sort, where, company } = props;
+
+    const { offset, limit } = getPagingParams(page, pageSize);
+    const order = getSortingParams(sort);
+    const filters = getFilters(where);
 
     const include = [
       {
@@ -523,21 +708,18 @@ class ShiftRecordService {
         through: {
           attributes: [],
         },
-        where: {
+        where:{
           ...filters["Staff"],
         },
         as: "Staff",
         duplicating: true,
         required: false,
-        ...checkClientPermissions(),
+        right:true,
       },
       {
         model: ClientProfileModel,
         through: {
           attributes: [],
-        },
-        where: {
-          ...filters["Client"],
         },
         as: "Client",
         duplicating: true,
