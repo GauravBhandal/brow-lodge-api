@@ -68,8 +68,8 @@ const addTimeInterval=(
 timezone?:string
 )=>{
   const {startDateTime,endDateTime,id,profile}=item;
-  const startDate =  formatDateToString(startDateTime,'');
-  const endDate =  formatDateToString(endDateTime,'');
+  const startDate =  formatDateToString(startDateTime,timezone);
+  const endDate =  formatDateToString(endDateTime,timezone);
 
   if(!dateList[id])
   {
@@ -94,7 +94,6 @@ timezone?:string
   if(startDate!==endDate)
   {
     dateList[id][startDate]=[...dateList[id][startDate],{startTime,endTime:'24:00'}]
-    console.log('endTime',endTime);
     if(endTime!=='00:00'){
       if(!dateList[id][endDate])
       {
