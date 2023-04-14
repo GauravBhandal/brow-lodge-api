@@ -77,16 +77,21 @@ class AlertConfigurationService {
     }
 
     const getAlertByName: any = alertConfiguration.find(alert => alert.name === name);
-    const { transport = {} } = getAlertByName;
     const alertsEmails = []
-    const primaryEmail = transport.primaryEmail.trim();
-    const secondaryEmail = transport.secondaryEmail.trim();
-    if (primaryEmail.length) {
-      alertsEmails.push(primaryEmail)
+
+    if(getAlertByName) {
+      const { transport = {} } = getAlertByName || {};
+      if(Object.keys(transport).length > 0) {
+      const primaryEmail = (transport.primaryEmail || '').trim();
+      const secondaryEmail = (transport.secondaryEmail || '').trim();
+      if (primaryEmail.length > 0) {
+        alertsEmails.push(primaryEmail)
+      }
+      if (secondaryEmail.length > 0) {
+        alertsEmails.push(secondaryEmail)
+      }
     }
-    if (secondaryEmail.length) {
-      alertsEmails.push(secondaryEmail)
-    }
+  }
     return alertsEmails;
   }
 }
