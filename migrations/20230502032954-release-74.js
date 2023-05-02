@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "clockin_clockouts" (
   "check_out_location" VARCHAR ,
   "check_in_attachment" UUID,
   "check_out_attachment" UUID,
-  "shift" UUID NOT NULL REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "shift_id" UUID NOT NULL REFERENCES "shift_records" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
   "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
