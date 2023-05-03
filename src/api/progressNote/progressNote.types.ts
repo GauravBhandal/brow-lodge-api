@@ -4,6 +4,7 @@ import { StaffProfile } from "../staffProfile";
 import { ClientProfile } from "../clientProfile";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
+import { ShiftRecord } from "../shiftRecord";
 
 export interface ProgressNote extends DefaultSchemaConfig {
   date: Date;
@@ -16,6 +17,7 @@ export interface ProgressNote extends DefaultSchemaConfig {
   Client?: ClientProfile;
   company: Company["id"];
   Company?: Company;
+  shift?: ShiftRecord["id"];
   Attachments?: Attachment[];
   archived?: boolean;
 }
@@ -28,6 +30,7 @@ export interface CreateProgressNoteProps {
   staff: StaffProfile["id"][];
   client: ProgressNote["client"];
   company: ProgressNote["company"];
+  shift: ProgressNote["shift"];
   attachments?: Attachment["id"][];
   customFieldsData?: ProgressNote["customFieldsData"];
 }
