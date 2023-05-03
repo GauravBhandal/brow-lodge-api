@@ -17,6 +17,7 @@ import { getFilters } from "../../components/filters";
 import { AttachmentModel } from "../attachment";
 import { ShiftRecordModel } from "../shiftRecord";
 import { ServiceModel } from "../service";
+import { StaffProfileModel } from "../staffProfile";
 
 class ClockInClockOutService {
   async createClockInClockOut(props: CreateClockInClockOutProps) {
@@ -87,6 +88,10 @@ class ClockInClockOutService {
           model: CompanyModel,
         },
         {
+          model: StaffProfileModel,
+          as: "Staff",
+        },
+        {
           model: AttachmentModel,
           through: {
             attributes: [],
@@ -117,6 +122,13 @@ class ClockInClockOutService {
     const include = [
       {
         model: CompanyModel,
+      },
+      {
+        model: StaffProfileModel,
+        as: "Staff",
+        where: {
+          ...filters["Staff"],
+        },
       },
       {
         model: ShiftRecordModel,

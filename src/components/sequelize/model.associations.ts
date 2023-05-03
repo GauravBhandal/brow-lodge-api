@@ -1311,8 +1311,12 @@ function initializeClockInClockOutModelAssociations() {
     foreignKey: { name: "company", allowNull: false },
   });
   ClockInClockOutModel.belongsTo(ShiftRecordModel, {
-    foreignKey: { name: "shiftId", allowNull: false },
-    as: "ShiftId",
+    foreignKey: { name: "shift", allowNull: false },
+    as: "Shift",
+  });
+  ClockInClockOutModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
   });
   ClockInClockOutModel.belongsTo(AttachmentModel, {
     foreignKey: "checkInAttachment",

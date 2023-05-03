@@ -13,7 +13,8 @@ const createClockInClockOutSchema = wrapSchema({
     checkIOutAttachment: Joi.string()
       .uuid({ version: "uuidv4" })
       .allow("", null),
-    shiftId: requiredUUIDSchema(),
+    shift: requiredUUIDSchema(),
+    staff: requiredUUIDSchema(),
   }),
 });
 
@@ -28,7 +29,8 @@ const editClockInClockOutSchema = wrapSchema({
     checkIOutAttachment: Joi.string()
       .uuid({ version: "uuidv4" })
       .allow("", null),
-    shiftId: requiredUUIDSchema(),
+    shift: requiredUUIDSchema(),
+    staff: requiredUUIDSchema(),
   }),
 });
 

@@ -24,8 +24,10 @@ class ClockInClockOutModel<
   checkOutAttachment: ClockInClockOut["checkOutAttachment"];
   company!: ClockInClockOut["company"];
   Company: ClockInClockOut["Company"];
-  shiftId!: ClockInClockOut["shiftId"];
-  ShiftId: ClockInClockOut["ShiftId"];
+  shift!: ClockInClockOut["shift"];
+  Shift: ClockInClockOut["Shift"];
+  staff!: ClockInClockOut["staff"];
+  Staff: ClockInClockOut["Staff"];
 }
 
 modelManager.init(

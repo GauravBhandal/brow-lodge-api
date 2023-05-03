@@ -3,6 +3,7 @@ import { Company } from "../company";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
 import { ShiftRecord } from "../shiftRecord";
+import { StaffProfile } from "../staffProfile";
 
 export interface ClockInClockOut extends DefaultSchemaConfig {
   startDateTime: Date;
@@ -11,10 +12,12 @@ export interface ClockInClockOut extends DefaultSchemaConfig {
   checkOutLocation?: string;
   checkInAttachment?: Attachment["id"];
   checkOutAttachment?: Attachment["id"];
-  shiftId: ShiftRecord["id"];
-  ShiftId?: ShiftRecord;
+  shift: ShiftRecord["id"];
+  Shift?: ShiftRecord;
   company: Company["id"];
   Company?: Company;
+  staff: StaffProfile["id"];
+  Staff?: StaffProfile;
 }
 
 export interface CreateClockInClockOutProps {
@@ -24,8 +27,9 @@ export interface CreateClockInClockOutProps {
   checkOutLocation: ClockInClockOut["checkOutLocation"];
   checkInAttachment: ClockInClockOut["checkInAttachment"];
   checkOutAttachment: ClockInClockOut["checkOutAttachment"];
-  shiftId: ClockInClockOut["shiftId"];
+  shift: ClockInClockOut["shift"];
   company: ClockInClockOut["company"];
+  staff: ClockInClockOut["staff"];
 }
 
 export interface UpdateClockInClockOutProps extends CreateClockInClockOutProps {
