@@ -80,7 +80,8 @@ type Subject =
   | "regulatoryCompliance"
   | "medicationRegister"
   | "continuousImprovement"
-  | "site";
+  | "site"
+  | "mobileSetting";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {

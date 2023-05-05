@@ -79,6 +79,7 @@ import { ContinuousImprovementModel } from "../../api/continuousImprovement";
 import { RestrictivePracticeLogTypeModel } from "../../api/restrictivePracticeLog/restrictivePracticeLogType";
 import { SiteModel } from "../../api/site";
 import { StaffUnavailabilityModel } from "../../api/staffUnavailability";
+import { MobileSettingModel } from "../../api/mobileSetting";
 
 export default {
   initialize() {
@@ -161,6 +162,7 @@ export default {
     initializeMedicationRegisterModelAssociations();
     initializeContinuousImprovementModelAssociations();
     initializeSiteModelAssociations();
+    initializeMobileSettingAssociations();
   },
 };
 
@@ -1301,5 +1303,11 @@ function initializeSiteModelAssociations() {
     foreignKey: "site",
     otherKey: "client",
     as: "Client",
+  });
+}
+
+function initializeMobileSettingAssociations() {
+  MobileSettingModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
   });
 }
