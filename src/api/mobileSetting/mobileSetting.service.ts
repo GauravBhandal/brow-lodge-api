@@ -27,7 +27,7 @@ class MobileSettingService {
     // Delete existing configurations
     await this.deleteMobileSetting({ company });
 
-    // Update alert configurations
+    // Update mobile setting
     const updatedMobileSettings = await this.createMobileSettingInBulk(
       updateProps
     );
