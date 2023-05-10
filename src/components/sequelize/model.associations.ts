@@ -79,6 +79,7 @@ import { ContinuousImprovementModel } from "../../api/continuousImprovement";
 import { RestrictivePracticeLogTypeModel } from "../../api/restrictivePracticeLog/restrictivePracticeLogType";
 import { SiteModel } from "../../api/site";
 import { StaffUnavailabilityModel } from "../../api/staffUnavailability";
+import { ClockInClockOutModel } from "../../api/clockInClockOut";
 
 export default {
   initialize() {
@@ -161,6 +162,7 @@ export default {
     initializeMedicationRegisterModelAssociations();
     initializeContinuousImprovementModelAssociations();
     initializeSiteModelAssociations();
+    initializeClockInClockOutModelAssociations();
   },
 };
 
@@ -1305,5 +1307,25 @@ function initializeSiteModelAssociations() {
     foreignKey: "site",
     otherKey: "client",
     as: "Client",
+  });
+}
+
+function initializeClockInClockOutModelAssociations() {
+  ClockInClockOutModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ClockInClockOutModel.belongsTo(ShiftRecordModel, {
+    foreignKey: { name: "shift", allowNull: false },
+    as: "Shift",
+  });
+  ClockInClockOutModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ClockInClockOutModel.belongsTo(AttachmentModel, {
+    foreignKey: "checkInAttachment",
+  });
+  ClockInClockOutModel.belongsTo(AttachmentModel, {
+    foreignKey: "checkOutAttachment",
   });
 }
