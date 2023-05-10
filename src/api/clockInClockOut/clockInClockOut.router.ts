@@ -9,35 +9,35 @@ const router = express.Router();
 
 router.post(
   "/",
-  canDo("create", "clockInClockOut"),
+  // canDo("create", "clockInClockOut"), TODO: will add permission before release
   clockInClockOutSchems.createClockInClockOut,
   catchWrap(controller.createClockInClockOut)
 );
 
 router.put(
   "/:clockInClockOutId",
-  canDo("update", "clockInClockOut"),
+  // canDo("update", "clockInClockOut"),
   clockInClockOutSchems.editClockInClockOut,
   catchWrap(controller.updateClockInClockOut)
 );
 
 router.delete(
   "/:clockInClockOutId",
-  canDo("delete", "clockInClockOut"),
+  // canDo("delete", "clockInClockOut"),
   clockInClockOutSchems.deleteClockInClockOut,
   catchWrap(controller.deleteClockInClockOut)
 );
 
 router.get(
   "/:clockInClockOutId",
-  canDo("read", "clockInClockOut"),
+  // canDo("read", "clockInClockOut"),
   clockInClockOutSchems.getClockInClockOutById,
   catchWrap(controller.getclockInClockOutById)
 );
 
 router.get(
   "/",
-  canDo("read", "clockInClockOut"),
+  // canDo("read", "clockInClockOut"),
   clockInClockOutSchems.getClockInClockOuts,
   catchWrap(controller.getClockInClockOuts)
 );
