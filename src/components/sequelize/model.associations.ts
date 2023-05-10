@@ -251,7 +251,7 @@ function initializeProgressNoteModelAssociations() {
     as: "Staff",
   });
   ProgressNoteModel.belongsTo(ShiftRecordModel, {
-    foreignKey: { name: "shift", allowNull: false },
+    foreignKey: { name: "shift"},
     as: "Shift",
   });
   ProgressNoteModel.belongsTo(ClientProfileModel, {

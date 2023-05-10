@@ -17,6 +17,7 @@ const createProgressNoteSchema = wrapSchema({
     client: requiredUUIDSchema(),
     attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     customFieldsData: Joi.object().allow(null),
+    shift: Joi.string().uuid({ version: "uuidv4" }).allow(null),
   }),
 });
 
@@ -31,6 +32,7 @@ const editProgressNoteSchema = wrapSchema({
     client: requiredUUIDSchema(),
     attachments: Joi.array().items(Joi.string().uuid({ version: "uuidv4" })),
     customFieldsData: Joi.object().allow(null),
+    shift: Joi.string().uuid({ version: "uuidv4" }).allow(null),
   }),
 });
 

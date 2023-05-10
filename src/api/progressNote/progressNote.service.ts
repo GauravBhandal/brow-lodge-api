@@ -241,6 +241,7 @@ class ProgressNoteService {
         where: {
           ...filters["Shift"],
         },
+        required: false,
         include: [
           {
             model: ServiceModel,

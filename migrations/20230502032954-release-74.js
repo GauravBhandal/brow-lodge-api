@@ -22,6 +22,7 @@ ALTER TABLE "clockin_clockouts" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "progress_notes" 
 ADD COLUMN "shift" UUID REFERENCES "shift_records" ("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
 `;
 
 const queryDown = `

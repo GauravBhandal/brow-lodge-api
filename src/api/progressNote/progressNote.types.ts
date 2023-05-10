@@ -18,6 +18,7 @@ export interface ProgressNote extends DefaultSchemaConfig {
   company: Company["id"];
   Company?: Company;
   shift?: ShiftRecord["id"];
+  Shift?: ShiftRecord;
   Attachments?: Attachment[];
   archived?: boolean;
 }
@@ -30,7 +31,7 @@ export interface CreateProgressNoteProps {
   staff: StaffProfile["id"][];
   client: ProgressNote["client"];
   company: ProgressNote["company"];
-  shift: ProgressNote["shift"];
+  shift?: ProgressNote["shift"];
   attachments?: Attachment["id"][];
   customFieldsData?: ProgressNote["customFieldsData"];
 }
