@@ -21,6 +21,8 @@ import { addCientFiltersByTeams } from "../../components/filters";
 import { progressNoteAttachmentService } from "./progressNoteAttachment";
 import { AttachmentModel } from "../attachment";
 import { progressNoteStaffProfileService } from "./progressNoteStaffProfile";
+import { ShiftRecordModel } from "../shiftRecord";
+import { ServiceModel } from "../service";
 
 class ProgressNoteService {
   async createProgressNote(props: CreateProgressNoteProps) {
@@ -176,6 +178,10 @@ class ProgressNoteService {
           as: "Client",
         },
         {
+          model: ShiftRecordModel,
+          as: "Shift",
+        },
+        {
           model: AttachmentModel,
           through: {
             attributes: [],
@@ -228,6 +234,22 @@ class ProgressNoteService {
         as: "Staff",
         duplicating: true,
         required: true,
+      },
+      {
+        model: ShiftRecordModel,
+        as: "Shift",
+        where: {
+          ...filters["Shift"],
+        },
+        required: false,
+        include: [
+          {
+            model: ServiceModel,
+            through: {
+              attributes: ["start_time"], //TODO: We need to do some cleanup here
+            },
+          },
+        ],
       },
     ];
 
