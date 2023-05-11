@@ -7,7 +7,7 @@ const editMobileSettingSchema = wrapSchema({
   body: Joi.object().keys({
     payload: Joi.array().items(
       Joi.object().keys({
-        transport: Joi.object().keys({
+        settings: Joi.object().keys({
           isClockRequired: Joi.boolean().allow("", null),
           isAttachmentRequired: Joi.boolean().allow("", null),
         }),

@@ -2,13 +2,13 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 
 export interface MobileSetting extends DefaultSchemaConfig {
-  transport?: Record<string, any>; // TODO: Remove this any
+  settings?: Record<string, any>; // TODO: Remove this any
   company: Company["id"];
   Company?: Company;
 }
 
 export interface CreateMobileSettingProps {
-  transport?: MobileSetting["transport"];
+  settings?: MobileSetting["settings"];
   company: MobileSetting["company"];
 }
 

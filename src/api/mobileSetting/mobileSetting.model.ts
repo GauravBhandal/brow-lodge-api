@@ -13,7 +13,7 @@ class MobileSettingModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements MobileSetting
 {
-  transport!: MobileSetting["transport"];
+  settings!: MobileSetting["settings"];
   company!: MobileSetting["company"];
   Company: MobileSetting["Company"];
 }
@@ -22,7 +22,7 @@ modelManager.init(
   "MobileSetting",
   MobileSettingModel,
   {
-    transport: {
+    settings: {
       type: Sequelize.JSONB,
     },
   },

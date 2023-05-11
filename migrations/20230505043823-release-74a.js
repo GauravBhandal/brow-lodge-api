@@ -4,7 +4,7 @@ const queryUp = `
 
 CREATE TABLE IF NOT EXISTS "mobile_settings" (
   "id" UUID NOT NULL,
-  "transport" JSONB,
+  "settings" JSONB,
   "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   "created" TIMESTAMP WITH TIME ZONE NOT NULL,
   "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
