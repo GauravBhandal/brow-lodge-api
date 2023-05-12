@@ -81,6 +81,7 @@ type Subject =
   | "medicationRegister"
   | "continuousImprovement"
   | "site"
+  | "mobileSetting"
   | "clockInClockOut";
 
 export const canDo = (action: Action, subject: Subject) => {

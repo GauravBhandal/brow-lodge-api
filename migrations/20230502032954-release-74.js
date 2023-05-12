@@ -23,9 +23,23 @@ ALTER TABLE "clockin_clockouts" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "progress_notes" 
 ADD COLUMN "shift" UUID REFERENCES "shift_records" ("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
+CREATE TABLE IF NOT EXISTS "mobile_settings" (
+  "id" UUID NOT NULL,
+  "settings" JSONB,
+  "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "deleted" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("id")
+);
+ALTER TABLE "mobile_settings" ENABLE ROW LEVEL SECURITY;
+
 `;
 
 const queryDown = `
+
+ALTER TABLE "mobile_settings" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "mobile_settings";
 
 ALTER TABLE "progress_notes"
 DROP COLUMN "shift";
