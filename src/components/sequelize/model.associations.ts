@@ -873,6 +873,12 @@ function initializeShiftRecordModelAssociations() {
     foreignKey: "shift",
     otherKey: "service",
   });
+  ShiftRecordModel.hasMany(ClockInClockOutModel, {
+    foreignKey: {
+      name: "shift",
+    },
+    as:"ClocksInClockOut"
+  });
   ShiftRecordModel.belongsTo(ShiftRepeatModel, {
     foreignKey: {
       name: "repeat",
@@ -1324,8 +1330,10 @@ function initializeClockInClockOutModelAssociations() {
   });
   ClockInClockOutModel.belongsTo(AttachmentModel, {
     foreignKey: "checkInAttachment",
+    as:"CheckInAttachment",
   });
   ClockInClockOutModel.belongsTo(AttachmentModel, {
     foreignKey: "checkOutAttachment",
+    as:"CheckOutAttachment",
   });
 }
