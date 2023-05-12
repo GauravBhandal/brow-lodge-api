@@ -88,6 +88,7 @@ class ServiceDeliveryService {
       client: props.client,
       company: props.company,
       notes: props.notes,
+      shift: props.shift,
     };
     const progressNote = await progressNoteService.createProgressNote(
       createProgressNoteProp
@@ -126,6 +127,7 @@ class ServiceDeliveryService {
       client: props.client,
       company: props.company,
       notes: props.notes,
+      shift: props.shift,
     };
     try {
       // Find progress notes by id

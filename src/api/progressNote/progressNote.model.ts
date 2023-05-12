@@ -19,6 +19,8 @@ class ProgressNoteModel<
   notes!: ProgressNote["notes"];
   client!: ProgressNote["client"];
   Client: ProgressNote["Client"];
+  shift: ProgressNote["shift"];
+  Shift: ProgressNote["Shift"];
   company!: ProgressNote["company"];
   Company: ProgressNote["Company"];
   Attachments: ProgressNote["Attachments"];

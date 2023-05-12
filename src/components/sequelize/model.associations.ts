@@ -80,6 +80,7 @@ import { RestrictivePracticeLogTypeModel } from "../../api/restrictivePracticeLo
 import { SiteModel } from "../../api/site";
 import { StaffUnavailabilityModel } from "../../api/staffUnavailability";
 import { MobileSettingModel } from "../../api/mobileSetting";
+import { ClockInClockOutModel } from "../../api/clockInClockOut";
 
 export default {
   initialize() {
@@ -163,6 +164,7 @@ export default {
     initializeContinuousImprovementModelAssociations();
     initializeSiteModelAssociations();
     initializeMobileSettingAssociations();
+    initializeClockInClockOutModelAssociations();
   },
 };
 
@@ -249,6 +251,10 @@ function initializeProgressNoteModelAssociations() {
     foreignKey: "progress_note",
     otherKey: "staff",
     as: "Staff",
+  });
+  ProgressNoteModel.belongsTo(ShiftRecordModel, {
+    foreignKey: { name: "shift"},
+    as: "Shift",
   });
   ProgressNoteModel.belongsTo(ClientProfileModel, {
     foreignKey: { name: "client", allowNull: false },
@@ -869,6 +875,12 @@ function initializeShiftRecordModelAssociations() {
     foreignKey: "shift",
     otherKey: "service",
   });
+  ShiftRecordModel.hasMany(ClockInClockOutModel, {
+    foreignKey: {
+      name: "shift",
+    },
+    as:"ClocksInClockOut"
+  });
   ShiftRecordModel.belongsTo(ShiftRepeatModel, {
     foreignKey: {
       name: "repeat",
@@ -1309,5 +1321,27 @@ function initializeSiteModelAssociations() {
 function initializeMobileSettingAssociations() {
   MobileSettingModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
+  });
+}
+
+function initializeClockInClockOutModelAssociations() {
+  ClockInClockOutModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ClockInClockOutModel.belongsTo(ShiftRecordModel, {
+    foreignKey: { name: "shift", allowNull: false },
+    as: "Shift",
+  });
+  ClockInClockOutModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ClockInClockOutModel.belongsTo(AttachmentModel, {
+    foreignKey: "checkInAttachment",
+    as:"CheckInAttachment",
+  });
+  ClockInClockOutModel.belongsTo(AttachmentModel, {
+    foreignKey: "checkOutAttachment",
+    as:"CheckOutAttachment",
   });
 }
