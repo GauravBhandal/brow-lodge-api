@@ -5,10 +5,9 @@ import mobileSettingService from "./mobileSetting.service";
 
 class MobileSettingController {
   async updateMobileSetting(req: Request, res: Response) {
-    const bodyParams = _pick(req.body, ["payload"]);
     const props = {
       company: req.auth.companyId,
-      ...bodyParams,
+      ...req.body,
     };
 
     const mobileSetting = await mobileSettingService.updateMobileSetting(props);

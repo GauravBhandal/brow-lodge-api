@@ -9,27 +9,21 @@ import {
 } from "./mobileSetting.types";
 
 class MobileSettingService {
-  async createMobileSettingInBulk(props: CreateMobileSettingProps[]) {
-    const mobileSettings = await MobileSettingModel.bulkCreate(props);
+  async createMobileSettingInBulk(props: CreateMobileSettingProps) {
+    const mobileSettings = await MobileSettingModel.create(props);
     return mobileSettings;
   }
 
   async updateMobileSetting(props: UpdateMobileSettingProps) {
     // Props
-    const { company, payload } = props;
-
-    // Create payload for update
-    const updateProps = payload.map((item) => ({
-      ...item,
-      company,
-    }));
+    const { company } = props;
 
     // Delete existing configurations
     await this.deleteMobileSetting({ company });
 
     // Update mobile setting
     const updatedMobileSettings = await this.createMobileSettingInBulk(
-      updateProps
+      props
     );
 
     return updatedMobileSettings;
@@ -52,13 +46,13 @@ class MobileSettingService {
     const { company } = props;
 
     // Find all mobileSettings for matching props and company
-    const data = await MobileSettingModel.findAll({
+    const mobileSettings = await MobileSettingModel.findOne({
       where: {
         company,
       },
     });
 
-    return data;
+    return mobileSettings || {};
   }
 }
 

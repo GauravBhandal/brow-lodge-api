@@ -2,7 +2,10 @@ import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
 
 export interface MobileSetting extends DefaultSchemaConfig {
-  settings?: Record<string, any>; // TODO: Remove this any
+  settings?: { 
+                allowClockInAndClockOutInRoster: boolean,
+                isAttachmentRequired: boolean
+              };
   company: Company["id"];
   Company?: Company;
 }
@@ -12,10 +15,7 @@ export interface CreateMobileSettingProps {
   company: MobileSetting["company"];
 }
 
-export interface UpdateMobileSettingProps {
-  company: MobileSetting["company"];
-  payload: CreateMobileSettingProps[];
-}
+export interface UpdateMobileSettingProps extends CreateMobileSettingProps {}
 
 export interface DeleteMobileSettingProps {
   company: MobileSetting["company"];
