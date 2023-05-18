@@ -208,6 +208,12 @@ class ProgressNoteService {
 
     const clientFilters = await addCientFiltersByTeams(userId, company);
 
+    const checkShiftPermissions = () => {
+      if (Object.keys(filters["Shift"]).length !== 0) {
+        return { right: true };
+      }
+    };
+
     const include = [
       {
         model: CompanyModel,
@@ -241,7 +247,7 @@ class ProgressNoteService {
         where: {
           ...filters["Shift"],
         },
-        required: false,
+        required: !!(filters["Shift"] && Object.keys(filters["Shift"]).length>0),
         include: [
           {
             model: ServiceModel,
