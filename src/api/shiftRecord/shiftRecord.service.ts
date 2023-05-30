@@ -698,7 +698,7 @@ class ShiftRecordService {
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
     const filters = getFilters(where);
-    console.log('filters',filters["Staff"])
+
     const include = [
       {
         model: CompanyModel,
