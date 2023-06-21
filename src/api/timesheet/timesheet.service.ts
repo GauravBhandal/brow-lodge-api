@@ -158,6 +158,13 @@ class TimesheetService {
             model: ClockInClockOutModel,
             as: "ClocksInClockOut",
           },
+          {
+            model: ClientProfileModel,
+            through: {
+              attributes: [],
+            },
+            as: "Client",
+          },
         ],
       },
     ];
