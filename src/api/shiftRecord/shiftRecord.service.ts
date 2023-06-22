@@ -34,7 +34,7 @@ import { shiftRecordServiceService } from "./shiftRecordService";
 import { ServiceModel } from "../service";
 import { TimesheetModel, timesheetService } from "../timesheet";
 import { InvoiceModel, invoiceService } from "../invoice";
-import { ShiftRecordStatus } from "./shiftRecord.constant";
+import { ClockInClockOutModel } from "../clockInClockOut";
 
 const getTimeForSelect = (date: any, timezone: any) =>
   date ? makeMoment(date, timezone).format("HH:mm") : null;
@@ -730,6 +730,19 @@ class ShiftRecordService {
         through: {
           attributes: ["start_time"], //TODO: We need to do some cleanup here
         },
+      },
+      {
+        model: ClockInClockOutModel,
+        include: [
+          {
+            model: StaffProfileModel,
+            as: "Staff",
+            where:{
+              ...filters["Staff"],
+            },
+          },
+        ],
+        as: "ClocksInClockOut",
       },
     ];
 

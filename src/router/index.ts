@@ -79,6 +79,8 @@ import { medicationRegisterRoutes } from "../api/medicationRegister";
 import { continuousImprovementRoutes } from "../api/continuousImprovement";
 import { siteRoutes } from "../api/site";
 import { staffUnavailabilityRoutes } from "../api/staffUnavailability";
+import { mobileSettingRoutes } from "../api/mobileSetting";
+import { clockInClockOutRoutes } from "../api/clockInClockOut";
 
 const router = express.Router();
 router.use(provideAbility);
@@ -160,5 +162,7 @@ router.use("/medication-register", medicationRegisterRoutes);
 router.use("/continuous-improvement", continuousImprovementRoutes);
 router.use("/site", siteRoutes);
 router.use("/staff-unavailability", staffUnavailabilityRoutes);
+router.use("/mobile-setting", mobileSettingRoutes);
+router.use("/clock-in-clock-out", clockInClockOutRoutes);
 
 export default router;

@@ -32,6 +32,7 @@ import {
 } from "../../utils/shiftGenerator";
 import { xeroService } from "../xero";
 import { PayLevelModel } from "../payLevel";
+import { ClockInClockOutModel } from "../clockInClockOut";
 
 class TimesheetService {
   async createTimesheetInBulk(props: CreateTimesheetProps) {
@@ -152,6 +153,19 @@ class TimesheetService {
         where: {
           ...filters["Shift"],
         },
+        include: [
+          {
+            model: ClockInClockOutModel,
+            as: "ClocksInClockOut",
+          },
+          {
+            model: ClientProfileModel,
+            through: {
+              attributes: [],
+            },
+            as: "Client",
+          },
+        ],
       },
     ];
 
