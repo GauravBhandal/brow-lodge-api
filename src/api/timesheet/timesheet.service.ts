@@ -157,6 +157,8 @@ class TimesheetService {
           {
             model: ClockInClockOutModel,
             as: "ClocksInClockOut",
+            required: false,
+            duplicating: false,
           },
           {
             model: ClientProfileModel,
@@ -164,6 +166,8 @@ class TimesheetService {
               attributes: [],
             },
             as: "Client",
+            required: false,
+            duplicating: false,
           },
         ],
       },
