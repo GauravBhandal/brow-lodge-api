@@ -146,6 +146,7 @@ class TimesheetService {
         where: {
           ...filters["Staff"],
         },
+        required:false
       },
       {
         model: ShiftRecordModel,
@@ -153,21 +154,17 @@ class TimesheetService {
         where: {
           ...filters["Shift"],
         },
+        required: false,
         include: [
           {
             model: ClockInClockOutModel,
             as: "ClocksInClockOut",
             required: false,
-            duplicating: false,
           },
           {
             model: ClientProfileModel,
-            through: {
-              attributes: [],
-            },
             as: "Client",
             required: false,
-            duplicating: false,
           },
         ],
       },
