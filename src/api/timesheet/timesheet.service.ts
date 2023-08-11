@@ -182,8 +182,6 @@ class TimesheetService {
 
     // Find all timesheets for matching props and company
     const data = await TimesheetModel.findAll({
-      offset,
-      limit,
       order,
       where: {
         company,
@@ -191,8 +189,10 @@ class TimesheetService {
       },
       include,
     });
+    
+    const paginatedResult = data.slice(offset,offset+limit);
 
-    const response = getPagingData({ count, rows: data }, page, limit);
+    const response = getPagingData({ count, rows: paginatedResult }, page, limit);
 
     return response;
   }
