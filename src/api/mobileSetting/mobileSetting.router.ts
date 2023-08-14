@@ -16,7 +16,7 @@ router.put(
 
 router.get(
   "/",
-  canDo("read", "mobileSetting"),
+  // canDo("read", "mobileSetting"), TODO: Need to allow user to call in mobile App
   catchWrap(controller.getMobileSettings)
 );
 
