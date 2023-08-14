@@ -146,7 +146,6 @@ class TimesheetService {
         where: {
           ...filters["Staff"],
         },
-        required:false
       },
       {
         model: ShiftRecordModel,
@@ -154,17 +153,21 @@ class TimesheetService {
         where: {
           ...filters["Shift"],
         },
-        required: false,
         include: [
           {
             model: ClockInClockOutModel,
             as: "ClocksInClockOut",
             required: false,
+            duplicating: false,
           },
           {
             model: ClientProfileModel,
+            through: {
+              attributes: [],
+            },
             as: "Client",
             required: false,
+            duplicating: false,
           },
         ],
       },
@@ -182,6 +185,8 @@ class TimesheetService {
 
     // Find all timesheets for matching props and company
     const data = await TimesheetModel.findAll({
+      offset,
+      limit,
       order,
       where: {
         company,
@@ -189,10 +194,8 @@ class TimesheetService {
       },
       include,
     });
-    
-    const paginatedResult = data.slice(offset,offset+limit);
 
-    const response = getPagingData({ count, rows: paginatedResult }, page, limit);
+    const response = getPagingData({ count, rows: data }, page, limit);
 
     return response;
   }
