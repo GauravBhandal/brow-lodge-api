@@ -157,8 +157,6 @@ class TimesheetService {
           {
             model: ClockInClockOutModel,
             as: "ClocksInClockOut",
-            required: false,
-            duplicating: false,
           },
           {
             model: ClientProfileModel,
@@ -166,8 +164,6 @@ class TimesheetService {
               attributes: [],
             },
             as: "Client",
-            required: false,
-            duplicating: false,
           },
         ],
       },
@@ -185,8 +181,6 @@ class TimesheetService {
 
     // Find all timesheets for matching props and company
     const data = await TimesheetModel.findAll({
-      offset,
-      limit,
       order,
       where: {
         company,
@@ -195,7 +189,9 @@ class TimesheetService {
       include,
     });
 
-    const response = getPagingData({ count, rows: data }, page, limit);
+    const paginatedResult = data.slice(offset,offset+limit);
+
+    const response = getPagingData({ count, rows: paginatedResult }, page, limit);
 
     return response;
   }
