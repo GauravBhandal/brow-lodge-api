@@ -187,6 +187,7 @@ class ClientProfileService {
       where: {
         company,
         ...filters["primaryFilters"],
+        ...clientFilters,
       },
       distinct: true,
     });
