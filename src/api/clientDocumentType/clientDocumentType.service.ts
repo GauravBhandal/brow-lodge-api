@@ -113,20 +113,6 @@ class ClientDocumentTypeService {
     // Props
     const { id, company } = props;
 
-    // Check if this document type is used by any document
-    const clientDocument = await clientDocumentService.getClientDocumentByType({
-      type: id,
-      company,
-    });
-
-    // If used, then don't allow the user to delete this
-    if (clientDocument && clientDocument.length > 0) {
-      throw new CustomError(
-        409,
-        ClientDocumentTypeErrorCode.DOCUMENT_TYPE_IN_USE
-      );
-    }
-
     // Find and delete the clientDocumentType by id and company
     const clientDocumentType = await ClientDocumentTypeModel.destroy({
       where: { id, company },
