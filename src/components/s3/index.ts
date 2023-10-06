@@ -3,10 +3,10 @@ import S3 from "aws-sdk/clients/s3";
 
 import config from "../../config/environment";
 
-const bucketName = config.AWS_S3_BUCKET_NAME;
-const region = config.AWS_REGION;
-const accessKeyId = config.AWS_ACCESS_KEY;
-const secretAccessKey = config.AWS_SECRET_KEY;
+const bucketName = "";
+const region = "";
+const accessKeyId = "";
+const secretAccessKey = "";
 
 const s3 = new S3({
   region,

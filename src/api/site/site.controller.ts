@@ -10,7 +10,8 @@ class SiteController {
       ...req.body,
     };
 
-    const site = await siteService.createSite(props);
+    const site =
+      await siteService.createSite(props);
 
     res.status(200).json(site);
   }
@@ -23,7 +24,8 @@ class SiteController {
       ...req.body,
     };
 
-    const site = await siteService.updateSite(props);
+    const site =
+      await siteService.updateSite(props);
 
     res.status(200).json(site);
   }
@@ -47,24 +49,10 @@ class SiteController {
       company: req.auth.companyId,
     };
 
-    const site = await siteService.getSiteById(props);
+    const site =
+      await siteService.getSiteById(props);
 
     res.status(200).json(site);
-  }
-
-  async getSiteClientProfiles(req: Request, res: Response) {
-    const queryParams = _pick(req.query, [
-      "sort",
-      "where",
-    ]) as any;
-    const props = {
-      company: req.auth.companyId,
-      ...queryParams,
-    };
-
-    const siteClientProfiles = await siteService.getSiteClientProfiles(props);
-
-    res.status(200).json(siteClientProfiles);
   }
 
   async getSites(req: Request, res: Response) {
@@ -79,7 +67,8 @@ class SiteController {
       ...queryParams,
     };
 
-    const sites = await siteService.getSites(props);
+    const sites =
+      await siteService.getSites(props);
 
     res.status(200).json(sites);
   }

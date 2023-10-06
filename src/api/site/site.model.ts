@@ -4,7 +4,10 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import { Site, CreateSiteProps } from "./site.types";
+import {
+  Site,
+  CreateSiteProps,
+} from "./site.types";
 
 class SiteModel<
     ModelAttributes = Site,
@@ -14,8 +17,8 @@ class SiteModel<
   implements Site
 {
   name!: Site["name"];
-  location!: Site["location"];
-  Client: Site["Client"];
+  address!: Site["address"];
+  numberOfEmployee!: Site["numberOfEmployee"];
   company!: Site["company"];
   Company: Site["Company"];
 }
@@ -28,8 +31,12 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    location: {
+    address: {
       type: Sequelize.STRING,
+      allowNull: false,
+    },
+    numberOfEmployee: {
+      type: Sequelize.NUMBER,
       allowNull: false,
     },
   },
@@ -41,7 +48,7 @@ modelManager.init(
     },
     underscored: true,
     paranoid: true,
-    tableName: "sites",
+    tableName: "site",
   }
 );
 

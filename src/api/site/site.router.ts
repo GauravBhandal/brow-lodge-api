@@ -7,13 +7,6 @@ import { canDo } from "../../components/ability/canDo";
 
 const router = express.Router();
 
-router.get(
-  "/clientProfiles",
-  canDo("create", "site"),
-  siteSchems.getSiteClientProfiles,
-  catchWrap(controller.getSiteClientProfiles)
-);
-
 router.post(
   "/",
   canDo("create", "site"),
@@ -44,7 +37,7 @@ router.get(
 
 router.get(
   "/",
-  // canDo("read", "site"), TODO: Every user need to make a GET request
+  canDo("read", "site"),
   siteSchems.getSites,
   catchWrap(controller.getSites)
 );

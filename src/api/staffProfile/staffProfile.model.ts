@@ -18,27 +18,16 @@ class StaffProfileModel<
   email!: StaffProfile["email"];
   dateOfBirth: StaffProfile["dateOfBirth"];
   gender: StaffProfile["gender"];
-  accountingCode: StaffProfile["accountingCode"];
   personalContactNumber: StaffProfile["personalContactNumber"];
-  workContactNumber: StaffProfile["workContactNumber"];
   address: StaffProfile["address"];
-  emergencyContactName: StaffProfile["emergencyContactName"];
-  emergencyContactPhone: StaffProfile["emergencyContactPhone"];
-  emergencyContactRelation: StaffProfile["emergencyContactRelation"];
   jobTitle: StaffProfile["jobTitle"];
   employmentStartDate: StaffProfile["employmentStartDate"];
   employmentEndDate: StaffProfile["employmentEndDate"];
-  employmentType: StaffProfile["employmentType"];
-  manager: StaffProfile["manager"];
-  archived: StaffProfile["archived"];
-  paylevel: StaffProfile["paylevel"];
-  Paylevel: StaffProfile["Paylevel"];
   user: StaffProfile["user"];
   User: StaffProfile["User"];
   company!: StaffProfile["company"];
   Company: StaffProfile["Company"];
   attachment: StaffProfile["attachment"];
-  profileStatus: StaffProfile["profileStatus"];
 }
 
 modelManager.init(
@@ -61,9 +50,6 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    accountingCode: {
-      type: Sequelize.STRING,
-    },
     dateOfBirth: {
       type: Sequelize.DATE,
     },
@@ -73,19 +59,7 @@ modelManager.init(
     personalContactNumber: {
       type: Sequelize.STRING,
     },
-    workContactNumber: {
-      type: Sequelize.STRING,
-    },
     address: {
-      type: Sequelize.STRING,
-    },
-    emergencyContactName: {
-      type: Sequelize.STRING,
-    },
-    emergencyContactPhone: {
-      type: Sequelize.STRING,
-    },
-    emergencyContactRelation: {
       type: Sequelize.STRING,
     },
     jobTitle: {
@@ -97,14 +71,8 @@ modelManager.init(
     employmentEndDate: {
       type: Sequelize.DATE,
     },
-    employmentType: {
-      type: Sequelize.STRING,
-    },
     archived: {
       type: Sequelize.BOOLEAN,
-    },
-    profileStatus: {
-      type: Sequelize.STRING,
     },
   },
   {

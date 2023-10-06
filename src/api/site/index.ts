@@ -4,4 +4,10 @@ import SiteModel from "./site.model";
 import { Site } from "./site.types";
 import siteService from "./site.service";
 
-export { siteRoutes, SiteErrorCode, SiteModel, Site, siteService };
+export {
+  siteRoutes,
+  SiteErrorCode,
+  SiteModel,
+  Site,
+  siteService,
+};

@@ -4,7 +4,6 @@ import { User } from "../user";
 import { Role } from "../role";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
-import { PayLevel } from "../payLevel";
 
 export interface StaffProfile extends DefaultSchemaConfig {
   firstName: string;
@@ -13,27 +12,17 @@ export interface StaffProfile extends DefaultSchemaConfig {
   email: string;
   gender?: "male" | "female" | "other";
   dateOfBirth?: Date;
-  accountingCode?: string;
   personalContactNumber?: string;
-  workContactNumber?: string;
   address?: string;
-  emergencyContactName?: string;
-  emergencyContactPhone?: string;
-  emergencyContactRelation?: string;
   jobTitle?: string;
   employmentStartDate?: Date;
   employmentEndDate?: Date;
-  employmentType?: string;
-  manager?: StaffProfile["id"];
   archived?: boolean;
-  paylevel?: PayLevel["id"];
-  Paylevel?: PayLevel;
   user?: User["id"];
   User?: User;
   company: Company["id"];
   Company?: Company;
   attachment?: Attachment["id"];
-  profileStatus?: string,
 }
 
 export interface CreateStaffProfileProps {

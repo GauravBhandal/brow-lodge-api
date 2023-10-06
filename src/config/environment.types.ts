@@ -13,15 +13,4 @@ export interface ProcessDotEnv {
 
   TOKEN_KEY: string;
   TOKEN_EXPIRY: string;
-
-  AWS_S3_BUCKET_NAME: string;
-  AWS_REGION: string;
-  AWS_ACCESS_KEY: string;
-  AWS_SECRET_KEY: string;
-
-  SENTRY_DNS: string;
-
-  XERO_CLIENT_ID: string;
-  XERO_CLIENT_SECRET: string;
-  XERO_REDIRECT_URI: string;
 }

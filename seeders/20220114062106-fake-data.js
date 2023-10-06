@@ -17,6 +17,14 @@ const permissions = {
       update: true,
     },
   },
+  site: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   policy: {
     actions: {
       read: true,
@@ -622,15 +630,10 @@ module.exports = {
           email: "yasmine@carediary.com.au",
           date_of_birth: new Date(),
           personal_contact_number: "23445323",
-          work_contact_number: "4345454",
           address: "23,seaton, sa",
-          emergency_contact_name: "Pavi",
-          emergency_contact_phone: "5454353",
-          emergency_contact_relation: "Husband",
           job_title: "dcsdcd",
           employment_start_date: new Date(),
           employment_end_date: new Date(),
-          employment_type: "fullTime",
           user: "fba6e9df-750f-4023-8dc0-d931e444f9e6",
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
@@ -644,43 +647,11 @@ module.exports = {
           email: "pavi@carediary.com.au",
           date_of_birth: new Date(),
           personal_contact_number: "7867868",
-          work_contact_number: "4545454",
           address: "54,seaton, sa",
-          emergency_contact_name: "Yasmine",
-          emergency_contact_phone: "65555",
-          emergency_contact_relation: "wife",
           job_title: "455354",
           employment_start_date: new Date(),
           employment_end_date: new Date(),
-          employment_type: "partTime",
           user: "54a46a5f-cd9d-435e-816c-c4c0702946aa",
-          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
-          created: new Date(),
-          updated: new Date(),
-        },
-      ],
-      {}
-    );
-
-    await queryInterface.bulkInsert(
-      "client_profiles",
-      [
-        {
-          id: "fcb57be9-002f-4691-92ca-b9c118fcefb3",
-          first_name: "Chris",
-          last_name: "Green",
-          preferred_name: "Chris",
-          email: "Chris@gmail.com",
-          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
-          created: new Date(),
-          updated: new Date(),
-        },
-        {
-          id: "346fd1cf-ceea-4e85-b8ac-54acca970843",
-          first_name: "John",
-          last_name: "Wills",
-          preferred_name: "John",
-          email: "John@gmail.com",
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
           created: new Date(),
           updated: new Date(),
@@ -712,40 +683,8 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.bulkDelete("feedbacks", null, {});
     await queryInterface.bulkDelete("attachments", null, {});
-    await queryInterface.bulkDelete("resources", null, {});
-    await queryInterface.bulkDelete("staff_sleep_disturbances", null, {});
-    await queryInterface.bulkDelete("client_risks", null, {});
-    await queryInterface.bulkDelete("meeting_logs", null, {});
-    await queryInterface.bulkDelete("participant_medication_charts", null, {});
-    await queryInterface.bulkDelete("corporate_risks", null, {});
-    await queryInterface.bulkDelete("conflict_of_interests", null, {});
-    await queryInterface.bulkDelete("doctor_visits", null, {});
-    await queryInterface.bulkDelete("injury_reports", null, {});
-    await queryInterface.bulkDelete("vehicle_logs", null, {});
-    await queryInterface.bulkDelete("participant_communication_logs", null, {});
-    await queryInterface.bulkDelete("client_behaviours", null, {});
-    await queryInterface.bulkDelete("prn_balance_logs", null, {});
-    await queryInterface.bulkDelete("prn_admin_logs", null, {});
-    await queryInterface.bulkDelete("seizure_logs", null, {});
-    await queryInterface.bulkDelete("oxygen_saturation_logs", null, {});
-    await queryInterface.bulkDelete("weight_logs", null, {});
-    await queryInterface.bulkDelete("temperature_logs", null, {});
-    await queryInterface.bulkDelete("blood_pressure_logs", null, {});
-    await queryInterface.bulkDelete("bowel_logs", null, {});
-    await queryInterface.bulkDelete("blood_glucose_logs", null, {});
-
-    await queryInterface.bulkDelete("attachments", null, {});
-
-    await queryInterface.bulkDelete("repair_requests", null, {});
-    await queryInterface.bulkDelete("client_assets", null, {});
-    await queryInterface.bulkDelete("company_assets", null, {});
-    await queryInterface.bulkDelete("maintenance_logs", null, {});
-    await queryInterface.bulkDelete("lease_and_utility_logs", null, {});
-
     await queryInterface.bulkDelete("users_roles", null, {});
-    await queryInterface.bulkDelete("client_profiles", null, {});
     await queryInterface.bulkDelete("staff_profiles", null, {});
     await queryInterface.bulkDelete("users", null, {});
     await queryInterface.bulkDelete("roles", null, {});

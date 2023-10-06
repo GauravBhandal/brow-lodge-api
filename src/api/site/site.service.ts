@@ -14,17 +14,14 @@ import SiteErrorCode from "./site.error";
 import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
-import { ClientProfileModel } from "../clientProfile";
 import { getFilters } from "../../components/filters";
-import { siteClientProfileService } from "./siteClientProfile";
-
 class SiteService {
-  async createSite(props: CreateSiteProps) {
-    // Props
-    const { company, name } = props;
 
-    // Check if site with same name already exists
-    const existingSite = await SiteModel.findOne({
+  async createSite(props: CreateSiteProps) {
+    const { name, company } = props;
+
+    // Check if type with same name already exists
+    const existingType = await SiteModel.findOne({
       where: {
         company,
         name: {
@@ -34,20 +31,13 @@ class SiteService {
     });
 
     // If exists, then throw an error
-    if (existingSite) {
-      throw new CustomError(409, SiteErrorCode.SITE_ALREADY_EXISTS);
+    if (existingType) {
+      throw new CustomError(
+        409,
+        SiteErrorCode.SITE_ALREADY_EXISTS
+      );
     }
-
-    // Otherwise, create a new site
     const site = await SiteModel.create(props);
-
-    // Add ClientProfiles
-    if (props.client && props.client.length) {
-      await siteClientProfileService.createBulkSiteClientProfile({
-        site: site.id,
-        client: props.client,
-      });
-    }
     return site;
   }
 
@@ -63,12 +53,15 @@ class SiteService {
 
     // if site not found, throw an error
     if (!site) {
-      throw new CustomError(404, SiteErrorCode.SITE_NOT_FOUND);
+      throw new CustomError(
+        404,
+        SiteErrorCode.SITE_NOT_FOUND
+      );
     }
 
     if (site.name.toLowerCase() !== props.name.toLowerCase()) {
-      // Check if site with same name already exists
-      const existingSite = await SiteModel.findOne({
+      // Check if type with same name already exists
+      const existingType = await SiteModel.findOne({
         where: {
           name: {
             [Op.iLike]: `${props.name}`,
@@ -78,25 +71,22 @@ class SiteService {
       });
 
       // If exists, then throw an error
-      if (existingSite) {
-        throw new CustomError(409, SiteErrorCode.SITE_ALREADY_EXISTS);
+      if (existingType) {
+        throw new CustomError(
+          409,
+          SiteErrorCode.SITE_ALREADY_EXISTS
+        );
       }
     }
 
     // Finally, update the site
-    const [, [updatedSite]] = await SiteModel.update(updateProps, {
-      where: { id, company },
-      returning: true,
-    });
-
-    // Update clientProfiles
-    if (props.client) {
-      await siteClientProfileService.updateBulkSiteClientProfile({
-        site: site.id,
-        client: props.client,
-      });
-    }
-
+    const [, [updatedSite]] = await SiteModel.update(
+      updateProps,
+      {
+        where: { id, company },
+        returning: true,
+      }
+    );
     return updatedSite;
   }
 
@@ -111,7 +101,10 @@ class SiteService {
 
     // if site has been deleted, throw an error
     if (!site) {
-      throw new CustomError(404, SiteErrorCode.SITE_NOT_FOUND);
+      throw new CustomError(
+        404,
+        SiteErrorCode.SITE_NOT_FOUND
+      );
     }
 
     return site;
@@ -126,85 +119,20 @@ class SiteService {
       where: { id, company },
       include: [
         {
-          model: ClientProfileModel,
-          through: {
-            attributes: [],
-          },
-          as: "Client",
-        },
-        {
           model: CompanyModel,
-        },
+        }
       ],
     });
 
     // If no site has been found, then throw an error
     if (!site) {
-      throw new CustomError(404, SiteErrorCode.SITE_NOT_FOUND);
+      throw new CustomError(
+        404,
+        SiteErrorCode.SITE_NOT_FOUND
+      );
     }
 
     return site;
-  }
-
-  /**
-   * getSiteClientProfiles - funtion to return list of clients which are not present in any site
-   */
-  async getSiteClientProfiles(props: GetSitesProps) {
-    // Props
-    const { sort, where, company } = props;
-
-    const order = getSortingParams(sort);
-    const filters = getFilters(where);
-
-    const include = [
-      {
-        model: CompanyModel,
-      },
-      {
-        model: ClientProfileModel,
-        through: {
-          attributes: [],
-        },
-        as: "Client",
-      },
-    ];
-
-    // Find all sites for matching props and company
-    const sitesList = await SiteModel.findAll({
-      where: {
-        company,
-      },
-      include,
-    });
-
-    /**
-     * sitesClientIds - get the clients ids by first get the clients array from sites then map their ids only
-     */
-    const sitesClientIds = sitesList
-      .reduce((prevData, site: any) => {
-        return prevData.concat(site.Client);
-      }, [])
-      .map((client: any) => client.id); //TODO: change any to some prop type
-
-    /**
-     * clientList get client list where sites client ids are not present
-     */
-    const clientList = await ClientProfileModel.findAll({
-      order,
-      where: {
-        company,
-        id: {
-          [Op.notIn]: sitesClientIds,
-        },
-        archived: false,
-        ...filters["primaryFilters"],
-      },
-      include: {
-        model: CompanyModel,
-      },
-    });
-
-    return clientList;
   }
 
   async getSites(props: GetSitesProps) {
@@ -218,13 +146,6 @@ class SiteService {
     const include = [
       {
         model: CompanyModel,
-      },
-      {
-        model: ClientProfileModel,
-        through: {
-          attributes: [],
-        },
-        as: "Client",
       },
     ];
 

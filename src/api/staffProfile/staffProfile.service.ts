@@ -16,8 +16,7 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { getFilters } from "../../components/filters";
 import { CompanyModel } from "../company";
-import { User, UserModel, userService } from "../user";
-import { PayLevelModel } from "../payLevel";
+import { User, UserModel, userService } from "../user"; 
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
@@ -161,6 +160,8 @@ class StaffProfileService {
       throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
     }
 
+    userService.deleteUser({id,company})
+
     return staffProfile;
   }
 
@@ -178,12 +179,6 @@ class StaffProfileService {
         {
           model: UserModel,
           as: "User",
-        },
-        { model: StaffProfileModel, as: "Manager" },
-        {
-          model: PayLevelModel,
-          required: false,
-          as: "Paylevel",
         },
       ],
     });
@@ -210,12 +205,6 @@ class StaffProfileService {
         {
           model: UserModel,
           as: "User",
-        },
-        { model: StaffProfileModel, as: "Manager" },
-        {
-          model: PayLevelModel,
-          required: false,
-          as: "Paylevel",
         },
       ],
     });
@@ -261,15 +250,6 @@ class StaffProfileService {
         where: {
           ...filters["User"],
         },
-      },
-      { model: StaffProfileModel, as: "Manager" },
-      {
-        model: PayLevelModel,
-        where: {
-          ...filters["Paylevel"],
-        },
-        required: false,
-        as: "Paylevel",
       },
     ];
 

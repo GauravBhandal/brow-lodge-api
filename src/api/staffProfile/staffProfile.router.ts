@@ -22,12 +22,12 @@ router.put(
 );
 
 // TODO: Currently we do not allow customers to delete a staff, we might need this in future
-// router.delete(
-//   "/:staffProfileId",
-//   canDo("delete", "staffProfile"),
-//   staffProfileSchems.deleteStaffProfile,
-//   catchWrap(controller.deleteStaffProfile)
-// );
+router.delete(
+  "/:staffProfileId",
+  // canDo("delete", "staffProfile"),
+  staffProfileSchems.deleteStaffProfile,
+  catchWrap(controller.deleteStaffProfile)
+);
 
 router.get(
   "/:staffProfileId",
