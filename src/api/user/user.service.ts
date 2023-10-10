@@ -227,9 +227,9 @@ class UserService {
     <br>  
     Best Regards,
     <br>
-    Team Care Diary
+    Team Punjab Police
       `;
-    await sendEmail([updatedUser.email], emailBody, "Reset your Care Diary password");
+    await sendEmail([updatedUser.email], emailBody, "Reset your Duty password");
 
     return {
       Status: "ok",

@@ -1,8 +1,16 @@
 import config from "../../config/environment";
 
-export const getTemplateContent = (title: string, subtitle: string, contentArray: { label: string, value: string }[], url: string, name: string, isExpiry: boolean = false) => {
-    const getContent = (contentList: { label: string, value: string }[]) => {
-        const result: string[] = contentList.map(content => (`<tr>
+export const getTemplateContent = (
+  title: string,
+  subtitle: string,
+  contentArray: { label: string; value: string }[],
+  url: string,
+  name: string,
+  isExpiry: boolean = false
+) => {
+  const getContent = (contentList: { label: string; value: string }[]) => {
+    const result: string[] = contentList.map(
+      (content) => `<tr>
         <td width="30%" align="left" valign="top" style="font-size: 14px; font-weight: 400; line-height: 130%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
         padding-top: 10px;
         color: #000000;
@@ -15,14 +23,18 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
             padding-top: 10px;color: #000000;font-family: sans-serif;" class="paragraph">
                 ${content.value}
             </td>
-        </tr>`))
-        const finalDataString = result.reduce((prevVal, curVal) => `${prevVal}${curVal}`, "")
-        return finalDataString;
-    }
+        </tr>`
+    );
+    const finalDataString = result.reduce(
+      (prevVal, curVal) => `${prevVal}${curVal}`,
+      ""
+    );
+    return finalDataString;
+  };
 
-    const getRenderUrl = (url: string) => (`${config.BASE_URL}${url}`)
+  const getRenderUrl = (url: string) => `${config.BASE_URL}${url}`;
 
-    return `<html xmlns="http://www.w3.org/1999/xhtml">
+  return `<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -145,7 +157,7 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
                         color: #FFFFFF;
                         font-family: 'Fredoka One';"
                                 >
-                                Care Diary
+                                Duty
                                 </a>
                         </td>
                         </tr>
@@ -233,8 +245,8 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
                         padding-bottom: 25px;
                         color: #000000;
                         font-family: sans-serif;" class="paragraph">
-                            Have a&nbsp;question? <a href="mailto:support@carediary.com.au" target="_blank"
-                                style="color: #127DB3; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 160%;">support@carediary.com.au</a>
+                            Have a&nbsp;question? <a href="mailto:" target="_blank"
+                                style="color: #127DB3; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 160%;">support</a>
                         </td>
                     </tr>
                     <!-- End of WRAPPER -->
@@ -249,7 +261,9 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
                         padding-bottom: 20px;
                         color: #999999;
                         font-family: sans-serif;" class="footer">
-                            You have received this email because your email has been listed as recipient email for${isExpiry ? '' : ' every new'} ${name} by the CareDiary admin.
+                            You have received this email because your email has been listed as recipient email for${
+                              isExpiry ? "" : " every new"
+                            } ${name} by the Duty admin.
                         </td>
                     </tr>
                     <!-- End of WRAPPER -->
@@ -260,5 +274,5 @@ export const getTemplateContent = (title: string, subtitle: string, contentArray
     </table>
 </body>
 
-    </html>`
-}
+    </html>`;
+};

@@ -589,9 +589,9 @@ module.exports = {
       [
         {
           id: "fba6e9df-750f-4023-8dc0-d931e444f9e6",
-          first_name: "Yasmine",
-          last_name: "Sidhu",
-          email: "yasmine@carediary.com.au",
+          first_name: "Riya",
+          last_name: "Savant",
+          email: "riya@gmail.com",
           password:
             "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
           reset_password_token:
@@ -603,9 +603,9 @@ module.exports = {
         },
         {
           id: "54a46a5f-cd9d-435e-816c-c4c0702946aa",
-          first_name: "Pavi",
-          last_name: "Sidhu",
-          email: "pavi@carediary.com.au",
+          first_name: "Gaurav",
+          last_name: "Bhandal",
+          email: "gaurav@gmail.com",
           password:
             "$2a$10$okPk0rYX36SPHFdzsfMJHOVP47ND9tPIHMMAX63Fx4sBwYLME9Vem",
           reset_password_token:
@@ -624,10 +624,10 @@ module.exports = {
       [
         {
           id: "1b89e290-f53c-4ce7-ad3e-5c54a94adb9a",
-          first_name: "Yasmine",
-          last_name: "Sidhu",
-          preferred_name: "Yasmine",
-          email: "yasmine@carediary.com.au",
+          first_name: "Riya",
+          last_name: "Savant",
+          preferred_name: "Riya",
+          email: "riya@gmail.com",
           date_of_birth: new Date(),
           personal_contact_number: "23445323",
           address: "23,seaton, sa",
@@ -641,10 +641,10 @@ module.exports = {
         },
         {
           id: "7b052282-d57e-45c0-8cef-b39c949294b5",
-          first_name: "Pavi",
-          last_name: "Sidhu",
+          first_name: "Gaurav",
+          last_name: "Bhandal",
           preferred_name: "Pavi",
-          email: "pavi@carediary.com.au",
+          email: "gaurav@gmail.com",
           date_of_birth: new Date(),
           personal_contact_number: "7867868",
           address: "54,seaton, sa",

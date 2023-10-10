@@ -16,7 +16,7 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { getFilters } from "../../components/filters";
 import { CompanyModel } from "../company";
-import { User, UserModel, userService } from "../user"; 
+import { User, UserModel, userService } from "../user";
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
@@ -150,6 +150,27 @@ class StaffProfileService {
     // Props
     const { id, company } = props;
 
+    const getStaffProfile = await StaffProfileModel.findOne({
+      where: { id, company },
+      include: [
+        {
+          model: CompanyModel,
+        },
+        {
+          model: UserModel,
+          as: "User",
+        },
+      ],
+    });
+
+    if (!getStaffProfile) {
+      throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
+    }
+
+    if (getStaffProfile?.user) {
+      userService.deleteUser({ id: getStaffProfile?.user, company });
+    }
+
     // Find and delete the staffProfile by id and company
     const staffProfile = await StaffProfileModel.destroy({
       where: { id, company },
@@ -159,8 +180,6 @@ class StaffProfileService {
     if (!staffProfile) {
       throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
     }
-
-    userService.deleteUser({id,company})
 
     return staffProfile;
   }

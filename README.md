@@ -1,13 +1,12 @@
-# Care Diary Core API
+# Duty Core API
 
-This is the backend of the Care Diary.
-
+This is the backend of the Duty.
 
 ---
 
 ## Get started
 
-To get the Care Diary Core API up and running follow these steps
+To get the Duty Core API up and running follow these steps
 
 1.  Clone the repo
 
@@ -27,31 +26,30 @@ To get the Care Diary Core API up and running follow these steps
 
 The following commands can be used to manage migration scripts.
 
-* Create a blank migration script
+- Create a blank migration script
 
         yarn sequelize-cli migration:generate --name test
 
-* Run new migrations
+- Run new migrations
 
         yarn sequelize-cli db:migrate
 
-* Undo last migrations
+- Undo last migrations
 
         yarn sequelize-cli db:migrate:undo
 
 The following commands can be used to manage seeders.
 
-* Create a blank seed script
+- Create a blank seed script
 
         yarn sequelize-cli seed:generate --name test
 
-* Run all seed scripts
+- Run all seed scripts
 
         yarn sequelize-cli db:seed:all
 
-* Undo all seed scripts
+- Undo all seed scripts
 
         yarn sequelize-cli db:seed:undo:all
 
 ---
-

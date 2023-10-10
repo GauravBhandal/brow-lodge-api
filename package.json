@@ -1,9 +1,9 @@
 {
-  "name": "care-diary-core-api",
+  "name": "duty-core-api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@bitbucket.org:pavi_sidhu_01/care-diary-core-api.git",
-  "author": "Care Diary Pty Ltd",
+  "repository": "https://github.com/GauravBhandal/Dynamic-duty-api",
+  "author": "Punjab Police Pty Ltd",
   "license": "UNLICENSED",
   "scripts": {
     "start": "nodemon ./src/app.ts",

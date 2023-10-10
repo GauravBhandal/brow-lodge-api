@@ -1,10 +1,14 @@
-export default function sendEmail(toemail: string[], emailBody: string, subject: string) {
+export default function sendEmail(
+  toemail: string[],
+  emailBody: string,
+  subject: string
+) {
   const params = {
-    Source: "support@carediary.com.au",
+    Source: "support",
     Destination: {
       ToAddresses: toemail,
     },
-    ReplyToAddresses: ["support@carediary.com.au"],
+    ReplyToAddresses: ["support"],
     Message: {
       Body: {
         Html: {
@@ -21,5 +25,3 @@ export default function sendEmail(toemail: string[], emailBody: string, subject:
 
   return null;
 }
-
-
