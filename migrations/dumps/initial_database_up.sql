@@ -99,7 +99,7 @@ ALTER TABLE "companies" ADD CONSTRAINT "fk_companies_attachments"
 FOREIGN KEY ("attachment") REFERENCES "attachments"("id") ON DELETE SET NULL ON UPDATE CASCADE; 
 
 -- 4. Create site table
-CREATE TABLE IF NOT EXISTS "site" (
+CREATE TABLE IF NOT EXISTS "sites" (
     "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
     "address" VARCHAR NOT NULL,
@@ -110,4 +110,18 @@ CREATE TABLE IF NOT EXISTS "site" (
     "deleted" TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY ("id")
 );
-ALTER TABLE "site" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "sites" ENABLE ROW LEVEL SECURITY;
+
+-- 5. Create shift table
+CREATE TABLE IF NOT EXISTS "shift_records" (
+    "id" UUID NOT NULL,
+    "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "site" UUID REFERENCES "sites" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "shift_records" ENABLE ROW LEVEL SECURITY;

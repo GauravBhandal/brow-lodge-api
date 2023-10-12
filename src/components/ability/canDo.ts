@@ -82,6 +82,7 @@ type Subject =
   | "continuousImprovement"
   | "site"
   | "mobileSetting"
+  | "shiftRecord"
   | "clockInClockOut";
 
 export const canDo = (action: Action, subject: Subject) => {

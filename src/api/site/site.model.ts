@@ -4,10 +4,7 @@ import { pick as _pick } from "lodash";
 import modelManager, {
   CommonSequelizeModel,
 } from "../../components/sequelize/manager";
-import {
-  Site,
-  CreateSiteProps,
-} from "./site.types";
+import { Site, CreateSiteProps } from "./site.types";
 
 class SiteModel<
     ModelAttributes = Site,
@@ -48,7 +45,7 @@ modelManager.init(
     },
     underscored: true,
     paranoid: true,
-    tableName: "site",
+    tableName: "sites",
   }
 );
 

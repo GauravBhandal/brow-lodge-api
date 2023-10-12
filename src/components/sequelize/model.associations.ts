@@ -11,6 +11,7 @@ import { StaffDocumentModel } from "../../api/staffDocument";
 import { IntegrationModel } from "../../api/integration";
 import IntegrationExternalDataModel from "../../api/integration/integrationExternalData/integrationExternalData.model";
 import { SiteModel } from "../../api/site";
+import { ShiftRecordModel } from "../../api/shiftRecord";
 
 export default {
   initialize() {
@@ -23,6 +24,7 @@ export default {
     initializeIntegrationModelAssociations();
     initializeIntegrationExternalDataModelAssociations();
     initializeSiteModelAssociations();
+    initializeShiftRecordModelAssociations();
   },
 };
 
@@ -50,7 +52,7 @@ function initializeStaffProfileModelAssociations() {
 
 function initializeUserModelAssociations() {
   UserModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false }, 
+    foreignKey: { name: "company", allowNull: false },
   });
   UserModel.belongsToMany(RoleModel, {
     through: "users_roles",
@@ -63,7 +65,6 @@ function initializeUserModelAssociations() {
     as: "Staff",
   });
 }
-
 
 function initializeStaffDocumentCategoryModelAssociations() {
   StaffDocumentCategoryModel.belongsTo(CompanyModel, {
@@ -115,6 +116,20 @@ function initializeStaffDocumentModelAssociations() {
   });
 }
 
+function initializeShiftRecordModelAssociations() {
+  ShiftRecordModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ShiftRecordModel.belongsTo(StaffProfileModel, {
+    foreignKey: { name: "staff", allowNull: false },
+    as: "Staff",
+  });
+  ShiftRecordModel.belongsTo(SiteModel, {
+    foreignKey: { name: "site" },
+    as: "Site",
+  });
+}
+
 function initializeIntegrationModelAssociations() {
   IntegrationModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -133,4 +148,3 @@ function initializeIntegrationExternalDataModelAssociations() {
     foreignKey: { name: "integration", allowNull: false },
   });
 }
-

@@ -8,6 +8,7 @@ import {
   DeleteSiteProps,
   GetSiteByIdProps,
   GetSitesProps,
+  GetSitesByIdsProps,
 } from "./site.types";
 import { CustomError } from "../../components/errors";
 import SiteErrorCode from "./site.error";
@@ -15,8 +16,8 @@ import { getPagingParams, getPagingData } from "../../components/paging";
 import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
+import { ShiftRecord, shiftRecordService } from "../shiftRecord";
 class SiteService {
-
   async createSite(props: CreateSiteProps) {
     const { name, company } = props;
 
@@ -32,10 +33,7 @@ class SiteService {
 
     // If exists, then throw an error
     if (existingType) {
-      throw new CustomError(
-        409,
-        SiteErrorCode.SITE_ALREADY_EXISTS
-      );
+      throw new CustomError(409, SiteErrorCode.SITE_ALREADY_EXISTS);
     }
     const site = await SiteModel.create(props);
     return site;
@@ -53,10 +51,7 @@ class SiteService {
 
     // if site not found, throw an error
     if (!site) {
-      throw new CustomError(
-        404,
-        SiteErrorCode.SITE_NOT_FOUND
-      );
+      throw new CustomError(404, SiteErrorCode.SITE_NOT_FOUND);
     }
 
     if (site.name.toLowerCase() !== props.name.toLowerCase()) {
@@ -72,21 +67,15 @@ class SiteService {
 
       // If exists, then throw an error
       if (existingType) {
-        throw new CustomError(
-          409,
-          SiteErrorCode.SITE_ALREADY_EXISTS
-        );
+        throw new CustomError(409, SiteErrorCode.SITE_ALREADY_EXISTS);
       }
     }
 
     // Finally, update the site
-    const [, [updatedSite]] = await SiteModel.update(
-      updateProps,
-      {
-        where: { id, company },
-        returning: true,
-      }
-    );
+    const [, [updatedSite]] = await SiteModel.update(updateProps, {
+      where: { id, company },
+      returning: true,
+    });
     return updatedSite;
   }
 
@@ -101,10 +90,7 @@ class SiteService {
 
     // if site has been deleted, throw an error
     if (!site) {
-      throw new CustomError(
-        404,
-        SiteErrorCode.SITE_NOT_FOUND
-      );
+      throw new CustomError(404, SiteErrorCode.SITE_NOT_FOUND);
     }
 
     return site;
@@ -120,19 +106,48 @@ class SiteService {
       include: [
         {
           model: CompanyModel,
-        }
+        },
       ],
     });
 
     // If no site has been found, then throw an error
     if (!site) {
-      throw new CustomError(
-        404,
-        SiteErrorCode.SITE_NOT_FOUND
-      );
+      throw new CustomError(404, SiteErrorCode.SITE_NOT_FOUND);
     }
 
     return site;
+  }
+
+  async getSitesWithoutIds(props: GetSitesByIdsProps) {
+    const { company, staff, alreadyAssignedSiteIds } = props;
+    const fifteenDaysAgo = new Date();
+    fifteenDaysAgo.setDate(fifteenDaysAgo.getDate() - 15);
+    const getLastFifteenShifts = await shiftRecordService.getShiftRecords({
+      page: 1,
+      pageSize: 15,
+      company,
+      sort: "date:ASC",
+      where: {
+        date_gte: fifteenDaysAgo,
+        date_lte: new Date(),
+        staff_eq: staff,
+      },
+    });
+    const getSiteIds = getLastFifteenShifts.data.map(
+      (shift: ShiftRecord) => shift.site
+    );
+    const getAllShifts = await SiteModel.findAll({
+      where: {
+        company,
+        id: {
+          [Op.notIn]: [...getSiteIds, ...alreadyAssignedSiteIds],
+        },
+      },
+      include: {
+        model: CompanyModel,
+      },
+    });
+    return getAllShifts;
   }
 
   async getSites(props: GetSitesProps) {

@@ -9,6 +9,7 @@ import {
   GetStaffProfileByIdProps,
   GetStaffProfilesProps,
   GetStaffProfileByUserProps,
+  GetAllStaffProfilesProps,
 } from "./staffProfile.types";
 import { CustomError } from "../../components/errors";
 import StaffProfileErrorCode from "./staffProfile.error";
@@ -234,6 +235,24 @@ class StaffProfileService {
     }
 
     return staffProfile;
+  }
+
+  async getAllStaffProfiles(props: GetAllStaffProfilesProps) {
+    const { company } = props;
+    const include = [
+      {
+        model: CompanyModel,
+      },
+    ];
+
+    const staffProfilesList = await StaffProfileModel.findAll({
+      where: {
+        company,
+      },
+      include,
+    });
+
+    return staffProfilesList;
   }
 
   async getStaffProfiles(props: GetStaffProfilesProps) {

@@ -50,8 +50,12 @@ export interface GetStaffProfileByUserProps {
   company: StaffProfile["company"];
 }
 
-export interface GetStaffProfileByIdProps extends DeleteStaffProfileProps { }
+export interface GetStaffProfileByIdProps extends DeleteStaffProfileProps {}
 
 export interface GetStaffProfilesProps extends QueryParams {
+  company: StaffProfile["company"];
+}
+
+export interface GetAllStaffProfilesProps {
   company: StaffProfile["company"];
 }

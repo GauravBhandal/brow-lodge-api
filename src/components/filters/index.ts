@@ -27,7 +27,6 @@ const getFilterOperations = (op: string, value: string) => {
 export const getFilters = (whereProps: any = {}) => {
   let filters: Record<string, any> = {}; //Var to store final filters
   let orFilterForSameKey: Array<any> = []; //Var to store filter operations for same key
-
   Object.keys(whereProps).forEach((prop) => {
     //Loop through every where prop
     const subStrings = prop.split("_"); //split the where prop in substring by key and operation

@@ -10,6 +10,7 @@ import { staffDocumentTypeRoutes } from "../api/staffDocumentType";
 import { staffDocumentRoutes } from "../api/staffDocument";
 import { staffProfileRoutes } from "../api/staffProfile";
 import { siteRoutes } from "../api/site";
+import { shiftRecordRoutes } from "../api/shiftRecord";
 
 const router = express.Router();
 router.use(provideAbility);
@@ -22,5 +23,6 @@ router.use("/staff-document-category", staffDocumentCategoryRoutes);
 router.use("/staff-document-type", staffDocumentTypeRoutes);
 router.use("/staff-document", staffDocumentRoutes);
 router.use("/site", siteRoutes);
+router.use("/shift-record", shiftRecordRoutes);
 
 export default router;
