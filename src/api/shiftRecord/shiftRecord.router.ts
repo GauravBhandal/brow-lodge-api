@@ -9,35 +9,35 @@ const router = express.Router();
 
 router.post(
   "/",
-  // canDo("create", "shiftRecord"),
+  canDo("create", "shiftRecord"),
   shiftRecordSchems.createAllShiftRecord,
   catchWrap(controller.createShiftRecord)
 );
 
 router.put(
   "/:shiftRecordId",
-  // canDo("update", "shiftRecord"),
+  canDo("update", "shiftRecord"),
   shiftRecordSchems.editShiftRecord,
   catchWrap(controller.updateShiftRecord)
 );
 
 router.delete(
   "/:shiftRecordId",
-  // canDo("delete", "shiftRecord"),
+  canDo("delete", "shiftRecord"),
   shiftRecordSchems.deleteShiftRecord,
   catchWrap(controller.deleteShiftRecord)
 );
 
 router.get(
   "/:shiftRecordId",
-  // canDo("read", "shiftRecord"),
+  canDo("read", "shiftRecord"),
   shiftRecordSchems.getShiftRecordById,
   catchWrap(controller.getshiftRecordById)
 );
 
 router.get(
   "/",
-  // canDo("read", "shiftRecord"),
+  canDo("read", "shiftRecord"),
   shiftRecordSchems.getShiftRecords,
   catchWrap(controller.getShiftRecords)
 );

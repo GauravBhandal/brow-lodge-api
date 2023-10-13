@@ -1,15 +1,7 @@
 "use strict";
 
-const permissions = {
+const superPermissions = {
   role: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  team: {
     actions: {
       read: true,
       create: true,
@@ -25,15 +17,7 @@ const permissions = {
       update: true,
     },
   },
-  policy: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  roster: {
+  shiftRecord: {
     actions: {
       read: true,
       create: true,
@@ -47,7 +31,10 @@ const permissions = {
       update: true,
     },
   },
-  expense: {
+};
+
+const userPermissions = {
+  role: {
     actions: {
       read: true,
       create: true,
@@ -55,487 +42,26 @@ const permissions = {
       update: true,
     },
   },
-  invoice: {
+  site: {
+    actions: {
+      read: true,
+      create: false,
+      delete: false,
+      update: false,
+    },
+  },
+  shiftRecord: {
+    actions: {
+      read: true,
+      create: false,
+      delete: false,
+      update: false,
+    },
+  },
+  company: {
     actions: {
       read: true,
       update: true,
-    },
-  },
-  process: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  bowelLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  feedback: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  resource: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  sleepLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  template: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  onCallLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  timesheet: {
-    actions: {
-      read: true,
-      update: true,
-    },
-  },
-  weightLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientRisk: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  meetingLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  seizureLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  vehicleLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientAsset: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  doctorVisit: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  keyDecision: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  prnAdminLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  companyAsset: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  injuryReport: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  policyReview: {
-    actions: {
-      read: true,
-      delete: true,
-      update: true,
-    },
-  },
-  progressNote: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  staffProfile: {
-    actions: {
-      read: true,
-      create: true,
-      update: true,
-    },
-  },
-  clientProfile: {
-    actions: {
-      read: true,
-      create: true,
-      update: true,
-    },
-  },
-  corporateRisk: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  practiceGuide: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  prnBalanceLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  repairRequest: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  rosterSetting: {
-    actions: {
-      read: true,
-      update: true,
-    },
-  },
-  rpdhsResource: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  staffArchived: {
-    actions: {
-      read: true,
-      update: true,
-    },
-  },
-  staffDocument: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientArchived: {
-    actions: {
-      read: true,
-      update: true,
-    },
-  },
-  clientDocument: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  companyExpense: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  incidentReport: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  maintenanceLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  progressReport: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  temperatureLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  bloodGlucoseLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientBehaviour: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  participantGoal: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  serviceDelivery: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  bloodPressureLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  internalRegister: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  leadershipMeeting: {
-    actions: {
-      read: true,
-    },
-  },
-  staffDocumentType: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientDocumentType: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  conflictOfInterest: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  leaseAndUtilityLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  legislationRegister: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  oxygenSaturationLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  staffSupervisionLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  expenseReimbursement: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  progressNoteSettings: {
-    actions: {
-      read: true,
-      update: true,
-    },
-  },
-  staffDocumentCategory: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  staffSleepDisturbance: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  clientDocumentCategory: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  restrictivePracticeLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  participantMedicationChart: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  participantCommunicationLog: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  restrictivePracticeRegister: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
-  participantConfidentialDocument: {
-    actions: {
-      read: true,
     },
   },
 };
@@ -567,7 +93,15 @@ module.exports = {
         {
           id: "ae09d6cb-7cb8-49bb-90d9-e2e6801ad70e",
           name: "Super Admin",
-          permissions: JSON.stringify(permissions),
+          permissions: JSON.stringify(superPermissions),
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "5e6f59bc-617e-4783-90b2-5440256a1c3a",
+          name: "Admin",
+          permissions: JSON.stringify(userPermissions),
           company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
           created: new Date(),
           updated: new Date(),
@@ -575,7 +109,15 @@ module.exports = {
         {
           id: "88316c9b-e3ca-4e83-a6cd-3df7b95837b3",
           name: "Super Admin",
-          permissions: JSON.stringify(permissions),
+          permissions: JSON.stringify(superPermissions),
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "c0f70357-3848-4e71-8669-eff19cf64c4a",
+          name: "Admin",
+          permissions: JSON.stringify(userPermissions),
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
           created: new Date(),
           updated: new Date(),
@@ -592,6 +134,20 @@ module.exports = {
           first_name: "Riya",
           last_name: "Savant",
           email: "riya@gmail.com",
+          password:
+            "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
+          reset_password_token:
+            "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
+          blocked: false,
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "85bb62eb-4b2c-4300-be64-3ecc3cc3ae0c",
+          first_name: "Riya 2",
+          last_name: "Savant",
+          email: "riya2@gmail.com",
           password:
             "$2a$10$qXfVzBGer9Tu5sjuTW45Susi1hVaHEWaeASiE7QDoRz9Kvq9ZnzPa",
           reset_password_token:
@@ -640,10 +196,27 @@ module.exports = {
           updated: new Date(),
         },
         {
+          id: "f74e8000-b15b-4ae1-934d-b207ad385ca1",
+          first_name: "Riya 2",
+          last_name: "Savant",
+          preferred_name: "Riya 2",
+          email: "riya2@gmail.com",
+          date_of_birth: new Date(),
+          personal_contact_number: "23445323",
+          address: "23,seaton, sa",
+          job_title: "dcsdcd",
+          employment_start_date: new Date(),
+          employment_end_date: new Date(),
+          user: "85bb62eb-4b2c-4300-be64-3ecc3cc3ae0c",
+          company: "a10a18e1-c4ca-44ca-9065-7b23ad84e3bd",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
           id: "7b052282-d57e-45c0-8cef-b39c949294b5",
           first_name: "Gaurav",
           last_name: "Bhandal",
-          preferred_name: "Pavi",
+          preferred_name: "Gaurav",
           email: "gaurav@gmail.com",
           date_of_birth: new Date(),
           personal_contact_number: "7867868",
@@ -667,6 +240,13 @@ module.exports = {
           id: "60e422c0-efdd-4fac-8230-5cc56de5aa8d",
           user: "fba6e9df-750f-4023-8dc0-d931e444f9e6",
           role: "ae09d6cb-7cb8-49bb-90d9-e2e6801ad70e",
+          created: new Date(),
+          updated: new Date(),
+        },
+        {
+          id: "d3ef9452-8663-49d0-8955-fd6f5f4e8672",
+          user: "85bb62eb-4b2c-4300-be64-3ecc3cc3ae0c",
+          role: "5e6f59bc-617e-4783-90b2-5440256a1c3a",
           created: new Date(),
           updated: new Date(),
         },

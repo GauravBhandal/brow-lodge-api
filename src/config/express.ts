@@ -4,7 +4,6 @@ import compressionMiddleware from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import cron from "node-cron";
 
 import sequelize from "./sequelize";
 import config from "../config/environment";
@@ -14,7 +13,6 @@ import modelsAssociations from "../components/sequelize/model.associations";
 import joiErrorMiddleware from "../components/joi/middleware";
 import rateLimitMiddleware from "../components/rateLimiter";
 import authMiddleware from "../components/auth";
-import cronJob from "../components/cronJob";
 
 export default function (app: Express) {
   // TODO: Currently, allowing all CROS requests
@@ -48,10 +46,6 @@ export default function (app: Express) {
   app.use(cors()); //TODO: Currently, allowing all CROS requests
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json({ type: ["json", "+json"] }));
-
-  cron.schedule("0 0 * * *", function () {
-    cronJob()
-  });
 
   app.use((req, res, next) => {
     res.header("Cache-Control", "private, no-cache");
