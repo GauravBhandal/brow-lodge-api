@@ -1,5 +1,4 @@
 import { omit as _omit } from "lodash";
-import { Op } from "sequelize";
 
 import ShiftRecordModel from "./shiftRecord.model";
 import {
@@ -57,46 +56,56 @@ class ShiftRecordService {
     const alreadyAssignedSiteIds: Site["id"][] = [];
     let siteMap: any = {};
 
+    const deleteAllShiftRecords = await ShiftRecordModel.destroy({
+      where: {
+        company,
+        date: new Date(),
+      },
+    });
+
     const getAllStaffList = await staffProfileService.getAllStaffProfiles({
       company,
     });
-    getAllStaffList.forEach(async (staff: StaffProfile) => {
-      const getAllSites = await siteService.getSitesWithoutIds({
-        company,
-        staff: staff.id,
-        alreadyAssignedSiteIds,
-      });
-      const sitesLength = getAllSites.length;
-      let selectedSite = null;
-      if (sitesLength > 0) {
-        const randomIndex = Math.floor(Math.random() * sitesLength);
-        const selectedSite = getAllSites[randomIndex];
-        const createShift = await this.createShiftRecord({
+    for (const staff of getAllStaffList) {
+      await siteService
+        .getSitesWithoutIds({
           company,
           staff: staff.id,
-          date: new Date(),
-          site: selectedSite.id,
+          alreadyAssignedSiteIds,
+        })
+        .then(async (getAllSites) => {
+          const sitesLength = getAllSites.length;
+          let selectedSite = null;
+          if (sitesLength > 0) {
+            const randomIndex = Math.floor(Math.random() * sitesLength);
+            const selectedSite = getAllSites[randomIndex];
+            const createShift = await this.createShiftRecord({
+              company,
+              staff: staff.id,
+              date: new Date(),
+              site: selectedSite.id,
+            });
+            shiftRecordsList.push(createShift);
+            if (!siteMap[selectedSite.id]) {
+              siteMap[selectedSite.id] = 0;
+            }
+            siteMap = {
+              ...siteMap,
+              [selectedSite.id]: siteMap[selectedSite.id] + 1,
+            };
+            if (siteMap[selectedSite.id] == selectedSite.numberOfEmployee) {
+              alreadyAssignedSiteIds.push(selectedSite.id);
+            }
+          } else {
+            const createShift = await this.createShiftRecord({
+              company,
+              staff: staff.id,
+              date: new Date(),
+            });
+            shiftRecordsList.push(createShift);
+          }
         });
-        shiftRecordsList.push(createShift);
-        if (!siteMap[selectedSite.id]) {
-          siteMap[selectedSite.id] = 0;
-        }
-        siteMap = {
-          ...siteMap,
-          [selectedSite.id]: siteMap[selectedSite.id] + 1,
-        };
-        if (siteMap[selectedSite.id] >= selectedSite.numberOfEmployee) {
-          alreadyAssignedSiteIds.push(selectedSite.id);
-        }
-      } else {
-        const createShift = await this.createShiftRecord({
-          company,
-          staff: staff.id,
-          date: new Date(),
-        });
-        shiftRecordsList.push(createShift);
-      }
-    });
+    }
     return shiftRecordsList;
   }
 
