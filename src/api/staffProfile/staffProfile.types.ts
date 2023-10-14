@@ -9,7 +9,7 @@ export interface StaffProfile extends DefaultSchemaConfig {
   firstName: string;
   lastName: string;
   preferredName: string;
-  email: string;
+  email?: string;
   gender?: "male" | "female" | "other";
   dateOfBirth?: Date;
   personalContactNumber?: string;
@@ -30,6 +30,8 @@ export interface CreateStaffProfileProps {
   lastName: StaffProfile["lastName"];
   preferredName: StaffProfile["preferredName"];
   email: StaffProfile["email"];
+  gender?: StaffProfile["gender"];
+  jobTitle?: StaffProfile["jobTitle"];
   password: User["password"];
   blocked: User["blocked"];
   company: User["company"];

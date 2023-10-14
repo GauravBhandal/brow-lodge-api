@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "last_name" VARCHAR NOT NULL,
     "preferred_name" VARCHAR NOT NULL,
     "attachment" UUID,
-    "email" VARCHAR NOT NULL,
+    "email" VARCHAR,
     "gender" VARCHAR (255),
     "date_of_birth" TIMESTAMP WITH TIME ZONE,
     "personal_contact_number" VARCHAR,

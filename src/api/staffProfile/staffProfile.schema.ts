@@ -8,12 +8,14 @@ const createStaffProfileSchema = wrapSchema({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
     preferredName: Joi.string().required(),
-    email: Joi.string().required(),
-    password: Joi.string().required(),
+    jobTitle: Joi.string().allow("", null),
+    gender: Joi.string().valid("Male", "Female", "Other").allow(null),
+    email: Joi.string().allow("", null),
+    password: Joi.string().allow("", null),
     blocked: Joi.boolean().required(),
     roles: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
-      .required(),
+      .allow("", null),
   }),
 });
 
@@ -25,7 +27,7 @@ const editStaffProfileSchema = wrapSchema({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
     preferredName: Joi.string().required(),
-    email: Joi.string().required(),
+    email: Joi.string().allow("", null),
     dateOfBirth: Joi.date().allow(null),
     gender: Joi.string().valid("Male", "Female", "Other").allow(null),
     personalContactNumber: Joi.string().allow("", null),
@@ -34,7 +36,7 @@ const editStaffProfileSchema = wrapSchema({
     employmentStartDate: Joi.date().allow(null),
     employmentEndDate: Joi.date().allow(null),
     archived: Joi.boolean(),
-    user: requiredUUIDSchema(),
+    user: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
     attachment: Joi.string().uuid({ version: "uuidv4" }).allow("", null),
   }),
 });

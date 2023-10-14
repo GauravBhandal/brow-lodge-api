@@ -1,4 +1,4 @@
-import { omit as _omit } from "lodash";
+import { isString, omit as _omit } from "lodash";
 import { Op } from "sequelize";
 
 import StaffProfileModel from "./staffProfile.model";
@@ -33,23 +33,29 @@ class StaffProfileService {
       },
     });
 
-    const existingStaffWithEmail = await StaffProfileModel.findOne({
-      where: {
-        email: {
-          [Op.iLike]: `${email}`,
-        },
-        company: props.company,
-      },
-    });
+    let existingStaffWithEmail = null;
 
-    // TODO: We are not using company id here which might be a problem
-    const existingStaffWithUser = await UserModel.findOne({
-      where: {
-        email: {
-          [Op.iLike]: `${email}`,
+    let existingStaffWithUser = null;
+
+    if (isString(email) && email.length > 0) {
+      existingStaffWithEmail = await StaffProfileModel.findOne({
+        where: {
+          email: {
+            [Op.iLike]: `${email}`,
+          },
+          company: props.company,
         },
-      },
-    });
+      });
+
+      // TODO: We are not using company id here which might be a problem
+      existingStaffWithUser = await UserModel.findOne({
+        where: {
+          email: {
+            [Op.iLike]: `${email}`,
+          },
+        },
+      });
+    }
 
     // if the staff exists, throw an error
     if (existingStaffWithName) {
@@ -64,16 +70,24 @@ class StaffProfileService {
         StaffProfileErrorCode.STAFF_PROFILE_EMAIL_ALREADY_EXIST
       );
     }
-    const createUserProps = _omit(props, ["preferredName"]);
-    const user = (await userService.createUser(createUserProps)) as User;
+    let user = null;
+    if (email && isString(email) && email.length > 0 && props.roles) {
+      const createUserProps = _omit(props, ["preferredName"]);
+      user = (await userService.createUser({
+        ...createUserProps,
+        email: email ? email : "",
+      })) as User;
+    }
 
     const createStaffProps = {
       firstName: props.firstName,
       lastName: props.lastName,
       preferredName: props.preferredName,
       email: props.email,
-      user: user.id,
+      user: user ? user.id : null,
       company: props.company,
+      gender: props.gender,
+      jobTitle: props.jobTitle,
     };
 
     const staffProfile = await StaffProfileModel.create(createStaffProps);
@@ -117,7 +131,11 @@ class StaffProfileService {
       }
     }
 
-    if (staffProfile.email.toLowerCase() !== props.email.toLowerCase()) {
+    if (
+      staffProfile.email &&
+      props.email &&
+      staffProfile.email.toLowerCase() !== props.email.toLowerCase()
+    ) {
       // Check if Staff with same email already exists
       const existingStaff = await StaffProfileModel.findOne({
         where: {
@@ -225,6 +243,7 @@ class StaffProfileService {
         {
           model: UserModel,
           as: "User",
+          required: false,
         },
       ],
     });
@@ -285,6 +304,7 @@ class StaffProfileService {
       {
         model: UserModel,
         as: "User",
+        required: false,
         where: {
           ...filters["User"],
         },

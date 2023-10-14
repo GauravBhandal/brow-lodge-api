@@ -17,6 +17,14 @@ const superPermissions = {
       update: true,
     },
   },
+  staffProfile: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   shiftRecord: {
     actions: {
       read: true,
@@ -48,6 +56,14 @@ const userPermissions = {
       create: false,
       delete: false,
       update: false,
+    },
+  },
+  staffProfile: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
     },
   },
   shiftRecord: {

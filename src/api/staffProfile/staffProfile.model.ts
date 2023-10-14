@@ -7,15 +7,16 @@ import modelManager, {
 import { StaffProfile, CreateStaffProfileProps } from "./staffProfile.types";
 
 class StaffProfileModel<
-  ModelAttributes = StaffProfile,
-  ModelCreationAttributes = CreateStaffProfileProps
->
+    ModelAttributes = StaffProfile,
+    ModelCreationAttributes = CreateStaffProfileProps
+  >
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
-  implements StaffProfile {
+  implements StaffProfile
+{
   firstName!: StaffProfile["firstName"];
   lastName!: StaffProfile["lastName"];
   preferredName!: StaffProfile["preferredName"];
-  email!: StaffProfile["email"];
+  email: StaffProfile["email"];
   dateOfBirth: StaffProfile["dateOfBirth"];
   gender: StaffProfile["gender"];
   personalContactNumber: StaffProfile["personalContactNumber"];
@@ -48,7 +49,6 @@ modelManager.init(
     },
     email: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     dateOfBirth: {
       type: Sequelize.DATE,
