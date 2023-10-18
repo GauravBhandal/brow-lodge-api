@@ -1,9 +1,9 @@
 {
-  "name": "duty-core-api",
+  "name": "brow-lodge-api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/GauravBhandal/Dynamic-duty-api",
-  "author": "Punjab Police Pty Ltd",
+  "repository": "https://github.com/GauravBhandal/brow-lodge-api.git",
+  "author": "Brow Lodge",
   "license": "UNLICENSED",
   "scripts": {
     "start": "nodemon ./src/app.ts",

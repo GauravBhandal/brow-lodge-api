@@ -4,13 +4,7 @@ import { ForbiddenError } from "@casl/ability";
 import { CustomError } from "../errors";
 
 type Action = "read" | "create" | "update" | "delete";
-type Subject =
-  | "user"
-  | "role"
-  | "company"
-  | "shiftRecord"
-  | "staffProfile"
-  | "site";
+type Subject = "user" | "role" | "company" | "staffProfile" | "clientProfile";
 
 export const canDo = (action: Action, subject: Subject) => {
   return function (req: Request, res: Response, next: NextFunction) {

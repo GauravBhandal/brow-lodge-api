@@ -68,6 +68,28 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
 );
 ALTER TABLE "staff_profiles" ENABLE ROW LEVEL SECURITY;
 
+
+-- 4. Create client_profiles table
+CREATE TABLE IF NOT EXISTS "client_profiles" (
+    "id" UUID NOT NULL,
+    "first_name" VARCHAR NOT NULL,
+    "last_name" VARCHAR NOT NULL,
+    "preferred_name" VARCHAR NOT NULL,
+    "attachment" UUID,
+    "email" VARCHAR,
+    "gender" VARCHAR (255),
+    "date_of_birth" TIMESTAMP WITH TIME ZONE,
+    "personal_contact_number" VARCHAR,
+    "address" VARCHAR,
+    "archived" BOOLEAN NOT NULL DEFAULT FALSE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "client_profiles" ENABLE ROW LEVEL SECURITY;
+
 -- 7. Create users_roles table
 CREATE TABLE IF NOT EXISTS "users_roles" (
     "id" UUID NOT NULL,
@@ -97,31 +119,3 @@ ALTER TABLE "attachments" ENABLE ROW LEVEL SECURITY;
 -- 35. Add attachment to companies table
 ALTER TABLE "companies" ADD CONSTRAINT "fk_companies_attachments"
 FOREIGN KEY ("attachment") REFERENCES "attachments"("id") ON DELETE SET NULL ON UPDATE CASCADE; 
-
--- 4. Create site table
-CREATE TABLE IF NOT EXISTS "sites" (
-    "id" UUID NOT NULL,
-    "name" VARCHAR NOT NULL,
-    "address" VARCHAR NOT NULL,
-    "number_of_employee" BIGINT NOT NULL,
-    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "deleted" TIMESTAMP WITH TIME ZONE,
-    PRIMARY KEY ("id")
-);
-ALTER TABLE "sites" ENABLE ROW LEVEL SECURITY;
-
--- 5. Create shift table
-CREATE TABLE IF NOT EXISTS "shift_records" (
-    "id" UUID NOT NULL,
-    "date" DATE NOT NULL,
-    "site" UUID REFERENCES "sites" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
-    "staff" UUID NOT NULL REFERENCES "staff_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "deleted" TIMESTAMP WITH TIME ZONE,
-    PRIMARY KEY ("id")
-);
-ALTER TABLE "shift_records" ENABLE ROW LEVEL SECURITY;

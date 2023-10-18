@@ -4,17 +4,14 @@ import { UserModel } from "../../api/user";
 import { CompanyModel } from "../../api/company";
 
 import { AttachmentModel } from "../../api/attachment";
-
-import { SiteModel } from "../../api/site";
-import { ShiftRecordModel } from "../../api/shiftRecord";
+import { ClientProfileModel } from "../../api/clientProfile";
 
 export default {
   initialize() {
     initializeRoleModelAssociations();
     initializeStaffProfileModelAssociations();
+    initializeClientProfileModelAssociations;
     initializeUserModelAssociations();
-    initializeSiteModelAssociations();
-    initializeShiftRecordModelAssociations();
   },
 };
 
@@ -40,6 +37,15 @@ function initializeStaffProfileModelAssociations() {
   });
 }
 
+function initializeClientProfileModelAssociations() {
+  ClientProfileModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ClientProfileModel.belongsTo(AttachmentModel, {
+    foreignKey: "attachment",
+  });
+}
+
 function initializeUserModelAssociations() {
   UserModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -53,25 +59,5 @@ function initializeUserModelAssociations() {
       name: "user",
     },
     as: "Staff",
-  });
-}
-
-function initializeSiteModelAssociations() {
-  SiteModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-}
-
-function initializeShiftRecordModelAssociations() {
-  ShiftRecordModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  ShiftRecordModel.belongsTo(StaffProfileModel, {
-    foreignKey: { name: "staff", allowNull: false },
-    as: "Staff",
-  });
-  ShiftRecordModel.belongsTo(SiteModel, {
-    foreignKey: { name: "site" },
-    as: "Site",
   });
 }
