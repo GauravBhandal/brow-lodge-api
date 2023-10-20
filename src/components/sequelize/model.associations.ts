@@ -10,7 +10,7 @@ export default {
   initialize() {
     initializeRoleModelAssociations();
     initializeStaffProfileModelAssociations();
-    initializeClientProfileModelAssociations;
+    initializeClientProfileModelAssociations();
     initializeUserModelAssociations();
   },
 };
@@ -37,15 +37,6 @@ function initializeStaffProfileModelAssociations() {
   });
 }
 
-function initializeClientProfileModelAssociations() {
-  ClientProfileModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  ClientProfileModel.belongsTo(AttachmentModel, {
-    foreignKey: "attachment",
-  });
-}
-
 function initializeUserModelAssociations() {
   UserModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -59,5 +50,14 @@ function initializeUserModelAssociations() {
       name: "user",
     },
     as: "Staff",
+  });
+}
+
+function initializeClientProfileModelAssociations() {
+  ClientProfileModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  ClientProfileModel.belongsTo(AttachmentModel, {
+    foreignKey: "attachment",
   });
 }

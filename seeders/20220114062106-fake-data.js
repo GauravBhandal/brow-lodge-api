@@ -302,6 +302,7 @@ module.exports = {
     await queryInterface.bulkDelete("attachments", null, {});
     await queryInterface.bulkDelete("users_roles", null, {});
     await queryInterface.bulkDelete("staff_profiles", null, {});
+    await queryInterface.bulkDelete("client_profiles", null, {});
     await queryInterface.bulkDelete("users", null, {});
     await queryInterface.bulkDelete("roles", null, {});
     await queryInterface.bulkDelete("companies", null, {});

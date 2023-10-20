@@ -1,7 +1,5 @@
 import { DefaultSchemaConfig } from "../../components/sequelize/manager";
 import { Company } from "../company";
-import { User } from "../user";
-import { Role } from "../role";
 import { QueryParams } from "../../common/types";
 import { Attachment } from "../attachment";
 
@@ -25,7 +23,7 @@ export interface CreateClientProfileProps {
   lastName: ClientProfile["lastName"];
   preferredName: ClientProfile["preferredName"];
   email: ClientProfile["email"];
-  gender?: ClientProfile["gender"];
+  gender: ClientProfile["gender"];
   company: ClientProfile["company"];
 }
 

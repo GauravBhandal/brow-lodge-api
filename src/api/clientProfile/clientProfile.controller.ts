@@ -9,7 +9,7 @@ class ClientProfileController {
       company: req.auth.companyId,
       ...req.body,
     };
-
+    console.log("props======>", props);
     const clientProfile = await clientProfileService.createClientProfile(props);
 
     res.status(200).json(clientProfile);

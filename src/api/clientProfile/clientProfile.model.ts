@@ -24,6 +24,7 @@ class ClientProfileModel<
   company!: ClientProfile["company"];
   Company: ClientProfile["Company"];
   attachment: ClientProfile["attachment"];
+  archived: ClientProfile["archived"];
 }
 
 modelManager.init(
