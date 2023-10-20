@@ -227,6 +227,7 @@ class ClientProfileService {
   async getClientProfiles(props: GetClientProfilesProps) {
     // Props
     const { page, pageSize, sort, where, company } = props;
+    console.log("props==>", props);
 
     const { offset, limit } = getPagingParams(page, pageSize);
     const order = getSortingParams(sort);
@@ -247,12 +248,6 @@ class ClientProfileService {
       };
     }
 
-    const include = [
-      {
-        model: CompanyModel,
-      },
-    ];
-
     // Count total clientProfiles in the given company
     const count = await ClientProfileModel.count({
       where: {
@@ -260,7 +255,6 @@ class ClientProfileService {
         ...filters["primaryFilters"],
       },
       distinct: true,
-      include,
     });
 
     // Find all clientProfiles for matching props and company
@@ -272,7 +266,6 @@ class ClientProfileService {
         company,
         ...filters["primaryFilters"],
       },
-      include,
     });
 
     const response = getPagingData({ count, rows: data }, page, limit);

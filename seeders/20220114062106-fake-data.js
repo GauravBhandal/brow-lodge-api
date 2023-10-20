@@ -25,7 +25,7 @@ const superPermissions = {
       update: true,
     },
   },
-  shiftRecord: {
+  clientProfile: {
     actions: {
       read: true,
       create: true,
@@ -241,6 +241,26 @@ module.exports = {
           employment_start_date: new Date(),
           employment_end_date: new Date(),
           user: "54a46a5f-cd9d-435e-816c-c4c0702946aa",
+          company: "d587b3ba-69a6-4d46-a42a-113eed378310",
+          created: new Date(),
+          updated: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      "client_profiles",
+      [
+        {
+          id: "52a432d9-498e-45c0-98fb-4b6b2bae2599",
+          first_name: "Gaurav",
+          last_name: "Bhandal",
+          preferred_name: "Gaurav",
+          email: "gaurav@gmail.com",
+          date_of_birth: new Date(),
+          personal_contact_number: "7867868",
+          address: "54,seaton, sa",
           company: "d587b3ba-69a6-4d46-a42a-113eed378310",
           created: new Date(),
           updated: new Date(),
