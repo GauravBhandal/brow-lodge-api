@@ -33,6 +33,22 @@ const superPermissions = {
       update: true,
     },
   },
+  eyelashExtension: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  eyelashExtensionDetail: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   company: {
     actions: {
       read: true,

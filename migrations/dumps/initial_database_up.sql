@@ -119,3 +119,42 @@ ALTER TABLE "attachments" ENABLE ROW LEVEL SECURITY;
 -- 35. Add attachment to companies table
 ALTER TABLE "companies" ADD CONSTRAINT "fk_companies_attachments"
 FOREIGN KEY ("attachment") REFERENCES "attachments"("id") ON DELETE SET NULL ON UPDATE CASCADE; 
+
+CREATE TABLE IF NOT EXISTS "eyelash_extension" (
+    "id" UUID NOT NULL,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "day" VARCHAR NOT NULL,
+    "evening" VARCHAR NOT NULL,
+    "technician_name" VARCHAR NOT NULL,
+    "doctor_name" VARCHAR NOT NULL,
+    "doctor_address" VARCHAR NOT NULL,
+    "is_pregnant" BOOLEAN NOT NULL DEFAULT FALSE,
+    "eye_syndrome" BOOLEAN NOT NULL DEFAULT FALSE,
+    "hrt" BOOLEAN NOT NULL DEFAULT FALSE,
+    "eye_complaint" BOOLEAN NOT NULL DEFAULT FALSE,
+    "skin_patch_test" BOOLEAN NOT NULL DEFAULT FALSE,
+    "skin_patch_test_date" DATE,
+    "date" DATE NOT NULL,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "eyelash_extension" ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS "eyelash_extension_details" (
+    "id" UUID NOT NULL,
+    "date" DATE NOT NULL,
+    "therapist" VARCHAR NOT NULL,
+    "feedback" VARCHAR,
+    "eye_feedback" VARCHAR,
+    "care_feedback" VARCHAR,
+    "eyelash" UUID NOT NULL REFERENCES "eyelash_extension" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "eyelash_extension_details" ENABLE ROW LEVEL SECURITY;

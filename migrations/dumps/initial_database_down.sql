@@ -1,3 +1,9 @@
+ALTER TABLE "eyelash_extension_details" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "eyelash_extension_details";
+
+ALTER TABLE "eyelash_extension" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "eyelash_extension";
+
 ALTER TABLE "companies" DROP CONSTRAINT "fk_companies_attachments";
 
 ALTER TABLE "attachments" DISABLE ROW LEVEL SECURITY;
