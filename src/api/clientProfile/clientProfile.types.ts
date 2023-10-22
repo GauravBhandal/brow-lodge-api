@@ -25,6 +25,9 @@ export interface CreateClientProfileProps {
   email: ClientProfile["email"];
   gender: ClientProfile["gender"];
   company: ClientProfile["company"];
+  dateOfBirth: ClientProfile["dateOfBirth"];
+  address: ClientProfile["address"];
+  personalContactNumber: ClientProfile["personalContactNumber"];
 }
 
 export interface UpdateClientProfileProps extends CreateClientProfileProps {

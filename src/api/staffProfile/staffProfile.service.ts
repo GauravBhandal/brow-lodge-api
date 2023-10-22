@@ -21,7 +21,7 @@ import { User, UserModel, userService } from "../user";
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
-    const { preferredName, email } = props;
+    const { preferredName, email, password } = props;
 
     // Check if staff already exist
     const existingStaffWithName = await StaffProfileModel.findOne({
@@ -37,7 +37,12 @@ class StaffProfileService {
 
     let existingStaffWithUser = null;
 
-    if (isString(email) && email.length > 0) {
+    if (
+      isString(email) &&
+      email.length > 0 &&
+      isString(password) &&
+      password.length > 0
+    ) {
       existingStaffWithEmail = await StaffProfileModel.findOne({
         where: {
           email: {

@@ -10,6 +10,9 @@ const createClientProfileSchema = wrapSchema({
     preferredName: Joi.string().required(),
     gender: Joi.string().valid("Male", "Female", "Other").allow(null),
     email: Joi.string().allow("", null),
+    dateOfBirth: Joi.date().allow(null),
+    address: Joi.string().allow("", null),
+    personalContactNumber: Joi.string().allow("", null),
   }),
 });
 

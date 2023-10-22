@@ -15,6 +15,7 @@ import { getSortingParams } from "../../components/sorting";
 import { CompanyModel } from "../company";
 import { getFilters } from "../../components/filters";
 import { EyelashExtensionDetailModel } from "../eyelashExtensionDetail";
+import { ClientProfileModel } from "../clientProfile";
 
 class EyelashExtensionService {
   async createEyelashExtension(props: CreateEyelashExtensionProps) {
@@ -136,6 +137,10 @@ class EyelashExtensionService {
       {
         model: EyelashExtensionDetailModel,
         as: "Details",
+      },
+      {
+        model: ClientProfileModel,
+        as: "Client",
       },
     ];
 
