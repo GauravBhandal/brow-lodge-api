@@ -22,7 +22,7 @@ router.use("/staff-profile", staffProfileRoutes);
 router.use("/client-profile", clientProfileRoutes);
 router.use("/eyelash-extension", eyelashExtensionRoutes);
 router.use("/eyelash-extension-details", eyelashExtensionDetailRoutes);
-router.use("/wax-consoltation", waxConsultationRoutes);
-router.use("/wax-consoltation-details", waxConsultationDetailRoutes);
+router.use("/wax-consultation", waxConsultationRoutes);
+router.use("/wax-consultation-details", waxConsultationDetailRoutes);
 
 export default router;
