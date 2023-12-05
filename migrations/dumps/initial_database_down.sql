@@ -1,3 +1,9 @@
+ALTER TABLE "wax_consultation_details" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "wax_consultation_details";
+
+ALTER TABLE "wax_consultation" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "wax_consultation";
+
 ALTER TABLE "eyelash_extension_details" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "eyelash_extension_details";
 

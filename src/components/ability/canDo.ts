@@ -11,6 +11,8 @@ type Subject =
   | "staffProfile"
   | "clientProfile"
   | "eyelashExtension"
+  | "waxConsultation"
+  | "waxConsultationDetail"
   | "eyelashExtensionDetail";
 
 export const canDo = (action: Action, subject: Subject) => {

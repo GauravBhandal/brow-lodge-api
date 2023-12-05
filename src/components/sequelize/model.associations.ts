@@ -7,6 +7,8 @@ import { AttachmentModel } from "../../api/attachment";
 import { ClientProfileModel } from "../../api/clientProfile";
 import { EyelashExtensionModel } from "../../api/eyelashExtension";
 import { EyelashExtensionDetailModel } from "../../api/eyelashExtensionDetail";
+import { WaxConsultationDetailModel } from "../../api/waxConsultationDetail";
+import { WaxConsultationModel } from "../../api/waxConsultation";
 
 export default {
   initialize() {
@@ -16,6 +18,8 @@ export default {
     initializeUserModelAssociations();
     initializeEyelashExtensionModelAssociations();
     initializeEyelashExtentionDetailModelAssociations();
+    initializeWaxConsultationModelAssociations();
+    initializeWaxConsultationDetailModelAssociations();
   },
 };
 
@@ -88,5 +92,30 @@ function initializeEyelashExtentionDetailModelAssociations() {
   EyelashExtensionDetailModel.belongsTo(EyelashExtensionModel, {
     foreignKey: { name: "eyelash" },
     as: "Eyelash",
+  });
+}
+
+function initializeWaxConsultationDetailModelAssociations() {
+  WaxConsultationDetailModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  WaxConsultationDetailModel.belongsTo(WaxConsultationModel, {
+    foreignKey: { name: "wax" },
+    as: "Wax",
+  });
+}
+
+function initializeWaxConsultationModelAssociations() {
+  WaxConsultationModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  WaxConsultationModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client" },
+    as: "Client",
+  });
+  WaxConsultationModel.hasMany(WaxConsultationDetailModel, {
+    foreignKey: "wax",
+    sourceKey: "id",
+    as: "Details",
   });
 }

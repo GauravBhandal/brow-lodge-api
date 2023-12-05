@@ -158,3 +158,39 @@ CREATE TABLE IF NOT EXISTS "eyelash_extension_details" (
     PRIMARY KEY ("id")
 );
 ALTER TABLE "eyelash_extension_details" ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS "wax_consultation" (
+    "id" UUID NOT NULL,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "doctor_name" VARCHAR NOT NULL,
+    "doctor_address" VARCHAR NOT NULL,
+    "disease" VARCHAR[],
+    "contain_products" VARCHAR[],
+    "wax_treatment" BOOLEAN NOT NULL DEFAULT FALSE,
+    "date" DATE NOT NULL,
+    "client_sign" VARCHAR,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "wax_consultation" ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS "wax_consultation_details" (
+    "id" UUID NOT NULL,
+    "date" DATE NOT NULL,
+    "therapist" VARCHAR NOT NULL,
+    "skin_before" VARCHAR,
+    "treatment" VARCHAR,
+    "skin_after" VARCHAR,
+    "care_given" BOOLEAN NOT NULL DEFAULT FALSE,
+    "client_sign" VARCHAR,
+    "wax" UUID NOT NULL REFERENCES "wax_consultation" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "wax_consultation_details" ENABLE ROW LEVEL SECURITY;

@@ -9,6 +9,8 @@ import { staffProfileRoutes } from "../api/staffProfile";
 import { clientProfileRoutes } from "../api/clientProfile";
 import { eyelashExtensionRoutes } from "../api/eyelashExtension";
 import { eyelashExtensionDetailRoutes } from "../api/eyelashExtensionDetail";
+import { waxConsultationRoutes } from "../api/waxConsultation";
+import { waxConsultationDetailRoutes } from "../api/waxConsultationDetail";
 
 const router = express.Router();
 router.use(provideAbility);
@@ -20,5 +22,7 @@ router.use("/staff-profile", staffProfileRoutes);
 router.use("/client-profile", clientProfileRoutes);
 router.use("/eyelash-extension", eyelashExtensionRoutes);
 router.use("/eyelash-extension-details", eyelashExtensionDetailRoutes);
+router.use("/wax-consoltation", waxConsultationRoutes);
+router.use("/wax-consoltation-details", waxConsultationDetailRoutes);
 
 export default router;
