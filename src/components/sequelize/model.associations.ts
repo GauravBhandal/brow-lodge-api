@@ -22,8 +22,8 @@ export default {
     initializeEyelashExtentionDetailModelAssociations();
     initializeWaxConsultationModelAssociations();
     initializeWaxConsultationDetailModelAssociations();
-    initializeTintConsultationDetailModelAssociations();
     initializeTintConsultationModelAssociations();
+    initializeTintConsultationDetailModelAssociations();
   },
 };
 
@@ -99,16 +99,6 @@ function initializeEyelashExtentionDetailModelAssociations() {
   });
 }
 
-function initializeWaxConsultationDetailModelAssociations() {
-  WaxConsultationDetailModel.belongsTo(CompanyModel, {
-    foreignKey: { name: "company", allowNull: false },
-  });
-  WaxConsultationDetailModel.belongsTo(WaxConsultationModel, {
-    foreignKey: { name: "wax" },
-    as: "Wax",
-  });
-}
-
 function initializeWaxConsultationModelAssociations() {
   WaxConsultationModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
@@ -124,13 +114,13 @@ function initializeWaxConsultationModelAssociations() {
   });
 }
 
-function initializeTintConsultationDetailModelAssociations() {
-  TintConsultationDetailModel.belongsTo(CompanyModel, {
+function initializeWaxConsultationDetailModelAssociations() {
+  WaxConsultationDetailModel.belongsTo(CompanyModel, {
     foreignKey: { name: "company", allowNull: false },
   });
-  TintConsultationDetailModel.belongsTo(TintConsultationModel, {
-    foreignKey: { name: "tint" },
-    as: "Tint",
+  WaxConsultationDetailModel.belongsTo(WaxConsultationModel, {
+    foreignKey: { name: "wax" },
+    as: "Wax",
   });
 }
 
@@ -146,5 +136,15 @@ function initializeTintConsultationModelAssociations() {
     foreignKey: "tint",
     sourceKey: "id",
     as: "Details",
+  });
+}
+
+function initializeTintConsultationDetailModelAssociations() {
+  TintConsultationDetailModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TintConsultationDetailModel.belongsTo(TintConsultationModel, {
+    foreignKey: { name: "tint" },
+    as: "Tint",
   });
 }
