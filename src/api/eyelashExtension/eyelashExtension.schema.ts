@@ -5,8 +5,6 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createEyelashExtensionSchema = wrapSchema({
   body: Joi.object().keys({
-    day: Joi.string().required().trim(),
-    evening: Joi.string().required().trim(),
     technicianName: Joi.string().required().trim(),
     doctorName: Joi.string().required().trim(),
     doctorAddress: Joi.string().required().trim(),
@@ -24,8 +22,6 @@ const createEyelashExtensionSchema = wrapSchema({
 const editEyelashExtensionSchema = wrapSchema({
   params: Joi.object().keys({ eyelashExtensionId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    day: Joi.string().required().trim(),
-    evening: Joi.string().required().trim(),
     technicianName: Joi.string().required().trim(),
     doctorName: Joi.string().required().trim(),
     doctorAddress: Joi.string().required().trim(),

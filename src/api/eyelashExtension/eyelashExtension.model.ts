@@ -16,8 +16,6 @@ class EyelashExtensionModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements EyelashExtension
 {
-  day!: EyelashExtension["day"];
-  evening!: EyelashExtension["evening"];
   technicianName!: EyelashExtension["technicianName"];
   doctorName!: EyelashExtension["doctorName"];
   doctorAddress!: EyelashExtension["doctorAddress"];
@@ -38,14 +36,6 @@ modelManager.init(
   "EyelashExtension",
   EyelashExtensionModel,
   {
-    day: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    evening: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
     technicianName: {
       type: Sequelize.STRING,
       allowNull: false,

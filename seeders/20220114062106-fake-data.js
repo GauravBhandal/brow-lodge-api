@@ -9,14 +9,6 @@ const superPermissions = {
       update: true,
     },
   },
-  site: {
-    actions: {
-      read: true,
-      create: true,
-      delete: true,
-      update: true,
-    },
-  },
   staffProfile: {
     actions: {
       read: true,
@@ -98,14 +90,6 @@ const userPermissions = {
       update: true,
     },
   },
-  site: {
-    actions: {
-      read: true,
-      create: false,
-      delete: false,
-      update: false,
-    },
-  },
   staffProfile: {
     actions: {
       read: true,
@@ -114,12 +98,12 @@ const userPermissions = {
       update: true,
     },
   },
-  shiftRecord: {
+  clientProfile: {
     actions: {
       read: true,
-      create: false,
-      delete: false,
-      update: false,
+      create: true,
+      delete: true,
+      update: true,
     },
   },
   company: {

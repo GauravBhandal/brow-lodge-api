@@ -123,8 +123,6 @@ FOREIGN KEY ("attachment") REFERENCES "attachments"("id") ON DELETE SET NULL ON 
 CREATE TABLE IF NOT EXISTS "eyelash_extension" (
     "id" UUID NOT NULL,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "day" VARCHAR NOT NULL,
-    "evening" VARCHAR NOT NULL,
     "technician_name" VARCHAR NOT NULL,
     "doctor_name" VARCHAR NOT NULL,
     "doctor_address" VARCHAR NOT NULL,

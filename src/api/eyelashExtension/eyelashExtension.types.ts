@@ -5,8 +5,6 @@ import { QueryParams } from "../../common/types";
 import { ClientProfile } from "../clientProfile";
 
 export interface EyelashExtension extends DefaultSchemaConfig {
-  day: string;
-  evening: string;
   technicianName: string;
   doctorName: string;
   doctorAddress: string;
@@ -24,8 +22,6 @@ export interface EyelashExtension extends DefaultSchemaConfig {
 }
 
 export interface CreateEyelashExtensionProps {
-  day: EyelashExtension["day"];
-  evening: EyelashExtension["evening"];
   technicianName: EyelashExtension["technicianName"];
   doctorName: EyelashExtension["doctorName"];
   doctorAddress: EyelashExtension["doctorAddress"];
