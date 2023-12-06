@@ -9,6 +9,8 @@ import { EyelashExtensionModel } from "../../api/eyelashExtension";
 import { EyelashExtensionDetailModel } from "../../api/eyelashExtensionDetail";
 import { WaxConsultationDetailModel } from "../../api/waxConsultationDetail";
 import { WaxConsultationModel } from "../../api/waxConsultation";
+import { TintConsultationDetailModel } from "../../api/tintConsultationDetail";
+import { TintConsultationModel } from "../../api/tintConsultation";
 
 export default {
   initialize() {
@@ -20,6 +22,8 @@ export default {
     initializeEyelashExtentionDetailModelAssociations();
     initializeWaxConsultationModelAssociations();
     initializeWaxConsultationDetailModelAssociations();
+    initializeTintConsultationDetailModelAssociations();
+    initializeTintConsultationModelAssociations();
   },
 };
 
@@ -115,6 +119,31 @@ function initializeWaxConsultationModelAssociations() {
   });
   WaxConsultationModel.hasMany(WaxConsultationDetailModel, {
     foreignKey: "wax",
+    sourceKey: "id",
+    as: "Details",
+  });
+}
+
+function initializeTintConsultationDetailModelAssociations() {
+  TintConsultationDetailModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TintConsultationDetailModel.belongsTo(TintConsultationModel, {
+    foreignKey: { name: "tint" },
+    as: "Tint",
+  });
+}
+
+function initializeTintConsultationModelAssociations() {
+  TintConsultationModel.belongsTo(CompanyModel, {
+    foreignKey: { name: "company", allowNull: false },
+  });
+  TintConsultationModel.belongsTo(ClientProfileModel, {
+    foreignKey: { name: "client" },
+    as: "Client",
+  });
+  TintConsultationModel.hasMany(TintConsultationDetailModel, {
+    foreignKey: "tint",
     sourceKey: "id",
     as: "Details",
   });

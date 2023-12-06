@@ -12,6 +12,8 @@ type Subject =
   | "clientProfile"
   | "eyelashExtension"
   | "waxConsultation"
+  | "tintConsultation"
+  | "tintConsultationDetail"
   | "waxConsultationDetail"
   | "eyelashExtensionDetail";
 

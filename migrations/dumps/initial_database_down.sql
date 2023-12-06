@@ -1,3 +1,9 @@
+ALTER TABLE "tint_consultation_details" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "tint_consultation_details";
+
+ALTER TABLE "tint_consultation" DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS "tint_consultation";
+
 ALTER TABLE "wax_consultation_details" DISABLE ROW LEVEL SECURITY;
 DROP TABLE IF EXISTS "wax_consultation_details";
 

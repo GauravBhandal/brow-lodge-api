@@ -194,3 +194,41 @@ CREATE TABLE IF NOT EXISTS "wax_consultation_details" (
     PRIMARY KEY ("id")
 );
 ALTER TABLE "wax_consultation_details" ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS "tint_consultation" (
+    "id" UUID NOT NULL,
+    "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "doctor_name" VARCHAR NOT NULL,
+    "doctor_address" VARCHAR NOT NULL,
+    "colour_eyebrow" VARCHAR NOT NULL,
+    "colour_eyelash" VARCHAR NOT NULL,
+    "disease" VARCHAR[],
+    "skin_patch_test" BOOLEAN NOT NULL DEFAULT FALSE,
+    "skin_patch_test_date" DATE,
+    "date" DATE NOT NULL,
+    "client_sign" VARCHAR,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "tint_consultation" ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS "tint_consultation_details" (
+    "id" UUID NOT NULL,
+    "date" DATE NOT NULL,
+    "therapist" VARCHAR NOT NULL,
+    "browColour" VARCHAR,
+    "lashColour" VARCHAR,
+    "overleafCondition" VARCHAR,
+    "care_given" BOOLEAN NOT NULL DEFAULT FALSE,
+    "client_sign" VARCHAR,
+    "tint" UUID NOT NULL REFERENCES "tint_consultation" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "company" UUID NOT NULL REFERENCES "companies" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "created" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updated" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "deleted" TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY ("id")
+);
+ALTER TABLE "tint_consultation_details" ENABLE ROW LEVEL SECURITY;
