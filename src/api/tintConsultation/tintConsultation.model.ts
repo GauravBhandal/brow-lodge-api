@@ -78,7 +78,7 @@ modelManager.init(
     },
     underscored: true,
     paranoid: false,
-    tableName: "eyelash_extension",
+    tableName: "tint_consultation",
   }
 );
 
