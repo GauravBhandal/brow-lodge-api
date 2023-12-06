@@ -22,6 +22,7 @@ class WaxConsultationModel<
   containProducts: WaxConsultation["containProducts"];
   disease: WaxConsultation["disease"];
   clientSign: WaxConsultation["clientSign"];
+  prescribedMedicine: WaxConsultation["prescribedMedicine"];
   date!: WaxConsultation["date"];
   client!: WaxConsultation["client"];
   Client: WaxConsultation["Client"];
@@ -40,6 +41,9 @@ modelManager.init(
     doctorAddress: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    prescribedMedicine: {
+      type: Sequelize.STRING,
     },
     clientSign: {
       type: Sequelize.STRING,

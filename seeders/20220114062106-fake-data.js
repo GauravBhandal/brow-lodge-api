@@ -49,6 +49,38 @@ const superPermissions = {
       update: true,
     },
   },
+  waxConsultation: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  tintConsultation: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  tintConsultationDetail: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
+  waxConsultationDetail: {
+    actions: {
+      read: true,
+      create: true,
+      delete: true,
+      update: true,
+    },
+  },
   company: {
     actions: {
       read: true,

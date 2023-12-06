@@ -166,6 +166,7 @@ CREATE TABLE IF NOT EXISTS "wax_consultation" (
     "doctor_address" VARCHAR NOT NULL,
     "disease" VARCHAR[],
     "contain_products" VARCHAR[],
+    "prescribed_medicine" VARCHAR,
     "wax_treatment" BOOLEAN NOT NULL DEFAULT FALSE,
     "date" DATE NOT NULL,
     "client_sign" VARCHAR,

@@ -8,6 +8,7 @@ export interface WaxConsultation extends DefaultSchemaConfig {
   doctorAddress: string;
   clientSign?: string;
   waxTreatment: boolean;
+  prescribedMedicine?: string,
   containProducts?: string[];
   disease?: string[];
   date: Date;
@@ -21,6 +22,7 @@ export interface CreateWaxConsultationProps {
   doctorName: WaxConsultation["doctorName"];
   doctorAddress: WaxConsultation["doctorAddress"];
   clientSign: WaxConsultation["clientSign"];
+  prescribedMedicine: WaxConsultation["prescribedMedicine"];
   waxTreatment: WaxConsultation["waxTreatment"];
   containProducts: WaxConsultation["containProducts"];
   disease: WaxConsultation["disease"];
