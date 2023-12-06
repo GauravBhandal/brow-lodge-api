@@ -141,6 +141,9 @@ class EyelashExtensionService {
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
     ];
 

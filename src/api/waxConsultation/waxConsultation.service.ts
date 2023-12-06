@@ -141,6 +141,9 @@ class WaxConsultationService {
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
     ];
 

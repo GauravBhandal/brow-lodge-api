@@ -141,6 +141,9 @@ class TintConsultationService {
       {
         model: ClientProfileModel,
         as: "Client",
+        where: {
+          ...filters["Client"],
+        },
       },
     ];
 
