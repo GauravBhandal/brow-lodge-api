@@ -51,7 +51,7 @@ modelManager.init(
       type: Sequelize.STRING,
     },
     careGiven: {
-      type: Sequelize.BOOLEAN,
+      type: Sequelize.STRING,
     },
     clientSign: {
       type: Sequelize.STRING,

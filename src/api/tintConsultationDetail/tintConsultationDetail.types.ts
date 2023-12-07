@@ -9,7 +9,7 @@ export interface TintConsultationDetail extends DefaultSchemaConfig {
   browColour?: string;
   lashColour?: string;
   overleafCondition?: string;
-  careGiven?: boolean;
+  careGiven?: string;
   clientSign?: string;
   company: Company["id"];
   Company?: Company;

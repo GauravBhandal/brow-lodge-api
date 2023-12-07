@@ -65,6 +65,9 @@ class ClientProfileService {
       email: props.email,
       company: props.company,
       gender: props.gender,
+      address: props.address,
+      personalContactNumber: props.personalContactNumber,
+      dateOfBirth: props.dateOfBirth
     };
 
     const clientProfile = await ClientProfileModel.create(createClientProps);

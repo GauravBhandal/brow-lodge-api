@@ -7,6 +7,7 @@ const createEyelashExtensionDetailSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
     therapist: Joi.string().required().trim(),
+    clientSign: Joi.string().required().trim(),
     feedback: Joi.string().allow("", null),
     eyeFeedback: Joi.string().allow("", null),
     careFeedback: Joi.string().allow("", null),
@@ -19,6 +20,7 @@ const editEyelashExtensionDetailSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
     therapist: Joi.string().required().trim(),
+    clientSign: Joi.string().required().trim(),
     feedback: Joi.string().allow("", null),
     eyeFeedback: Joi.string().allow("", null),
     careFeedback: Joi.string().allow("", null),

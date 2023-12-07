@@ -9,7 +9,7 @@ export interface WaxConsultationDetail extends DefaultSchemaConfig {
   skinBefore?: string;
   treatment?: string;
   skinAfter?: string;
-  careGiven?: boolean;
+  careGiven?: string;
   clientSign?: string;
   company: Company["id"];
   Company?: Company;

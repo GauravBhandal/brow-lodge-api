@@ -17,6 +17,7 @@ class EyelashExtensionModel<
   implements EyelashExtension
 {
   technicianName!: EyelashExtension["technicianName"];
+  clientSign!: EyelashExtension["clientSign"];
   doctorName!: EyelashExtension["doctorName"];
   doctorAddress!: EyelashExtension["doctorAddress"];
   isPregnant!: EyelashExtension["isPregnant"];
@@ -37,6 +38,10 @@ modelManager.init(
   EyelashExtensionModel,
   {
     technicianName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    clientSign: {
       type: Sequelize.STRING,
       allowNull: false,
     },

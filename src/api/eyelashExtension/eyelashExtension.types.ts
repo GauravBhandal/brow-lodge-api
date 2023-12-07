@@ -14,6 +14,7 @@ export interface EyelashExtension extends DefaultSchemaConfig {
   eyeComplaint: boolean;
   skinPatchTest: boolean;
   date: Date;
+  clientSign: string;
   skinPatchTestDate?: Date;
   client: ClientProfile["id"];
   Client?: ClientProfile;
@@ -24,6 +25,7 @@ export interface EyelashExtension extends DefaultSchemaConfig {
 export interface CreateEyelashExtensionProps {
   technicianName: EyelashExtension["technicianName"];
   doctorName: EyelashExtension["doctorName"];
+  clientSign: EyelashExtension["clientSign"];
   doctorAddress: EyelashExtension["doctorAddress"];
   isPregnant: EyelashExtension["isPregnant"];
   eyeSyndrome: EyelashExtension["eyeSyndrome"];

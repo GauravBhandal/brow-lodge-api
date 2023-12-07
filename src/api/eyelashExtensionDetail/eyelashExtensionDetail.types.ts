@@ -6,6 +6,7 @@ import { EyelashExtension } from "../eyelashExtension";
 export interface EyelashExtensionDetail extends DefaultSchemaConfig {
   date: Date;
   therapist: string;
+  clientSign: string;
   feedback?: string;
   eyeFeedback?: string;
   careFeedback?: string;
@@ -18,6 +19,7 @@ export interface EyelashExtensionDetail extends DefaultSchemaConfig {
 export interface CreateBulkEyelashExtensionDetailProps {
   date: EyelashExtensionDetail["date"];
   therapist: EyelashExtensionDetail["therapist"];
+  clientSign: EyelashExtensionDetail["clientSign"];
   feedback: EyelashExtensionDetail["feedback"];
   eyeFeedback: EyelashExtensionDetail["eyeFeedback"];
   careFeedback: EyelashExtensionDetail["careFeedback"];
@@ -28,6 +30,7 @@ export interface CreateBulkEyelashExtensionDetailProps {
 export interface CreateEyelashExtensionDetailProps {
   date: EyelashExtensionDetail["date"];
   therapist: EyelashExtensionDetail["therapist"];
+  clientSign: EyelashExtensionDetail["clientSign"];
   feedback: EyelashExtensionDetail["feedback"];
   eyeFeedback: EyelashExtensionDetail["eyeFeedback"];
   careFeedback: EyelashExtensionDetail["careFeedback"];

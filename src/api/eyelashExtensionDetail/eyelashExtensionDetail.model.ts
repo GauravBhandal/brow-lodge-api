@@ -17,6 +17,7 @@ class EyelashExtensionDetailModel<
   implements EyelashExtensionDetail
 {
   date!: EyelashExtensionDetail["date"];
+  clientSign!: EyelashExtensionDetail["clientSign"];
   therapist!: EyelashExtensionDetail["therapist"];
   feedback: EyelashExtensionDetail["feedback"];
   eyeFeedback: EyelashExtensionDetail["eyeFeedback"];
@@ -36,6 +37,10 @@ modelManager.init(
       allowNull: false,
     },
     therapist: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    clientSign: {
       type: Sequelize.STRING,
       allowNull: false,
     },
