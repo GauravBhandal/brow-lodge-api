@@ -5,7 +5,6 @@
   "repository": "https://github.com/GauravBhandal/brow-lodge-api.git",
   "author": "Brow Lodge",
   "license": "UNLICENSED",
-  "type": "module",
   "scripts": {
     "start": "nodemon ./src/app.ts",
     "compile": "tsc -p .",
