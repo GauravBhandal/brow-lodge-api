@@ -21,13 +21,16 @@ import { User, UserModel, userService } from "../user";
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
-    const { preferredName, email, password } = props;
+    const { email, password, firstName, lastName } = props;
 
     // Check if staff already exist
     const existingStaffWithName = await StaffProfileModel.findOne({
       where: {
-        preferredName: {
-          [Op.iLike]: `${preferredName}`,
+        firstName: {
+          [Op.iLike]: `${firstName}`,
+        },
+        lastName: {
+          [Op.iLike]: `${lastName}`,
         },
         company: props.company,
       },
@@ -77,9 +80,8 @@ class StaffProfileService {
     }
     let user = null;
     if (email && isString(email) && email.length > 0 && props.roles) {
-      const createUserProps = _omit(props, ["preferredName"]);
       user = (await userService.createUser({
-        ...createUserProps,
+        ...props,
         email: email ? email : "",
       })) as User;
     }
@@ -87,12 +89,13 @@ class StaffProfileService {
     const createStaffProps = {
       firstName: props.firstName,
       lastName: props.lastName,
-      preferredName: props.preferredName,
       email: props.email,
       user: user ? user.id : null,
       company: props.company,
       gender: props.gender,
       jobTitle: props.jobTitle,
+      address: props.address,
+      
     };
 
     const staffProfile = await StaffProfileModel.create(createStaffProps);
@@ -114,14 +117,18 @@ class StaffProfileService {
       throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
     }
     if (
-      staffProfile.preferredName.toLowerCase() !==
-      props.preferredName.toLowerCase()
+      staffProfile.firstName.toLowerCase() !==
+      props.firstName.toLowerCase() && staffProfile.lastName.toLowerCase() !==
+      props.lastName.toLowerCase()
     ) {
-      // Check if Staff with same preferred name already exists
+      // Check if Staff with same name already exists
       const existingStaff = await StaffProfileModel.findOne({
         where: {
-          preferredName: {
-            [Op.iLike]: `${props.preferredName}`,
+          firstName: {
+            [Op.iLike]: `${props.firstName}`,
+          },
+          lastName: {
+            [Op.iLike]: `${props.lastName}`,
           },
           company,
         },

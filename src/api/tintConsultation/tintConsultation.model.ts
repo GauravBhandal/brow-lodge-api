@@ -17,6 +17,7 @@ class TintConsultationModel<
   implements TintConsultation
 {
   doctorName!: TintConsultation["doctorName"];
+  technicianName!: TintConsultation["technicianName"];
   doctorAddress!: TintConsultation["doctorAddress"];
   colourEyebrow!: TintConsultation["colourEyebrow"];
   colourEyelash!: TintConsultation["colourEyelash"];
@@ -36,6 +37,10 @@ modelManager.init(
   TintConsultationModel,
   {
     doctorName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    technicianName: {
       type: Sequelize.STRING,
       allowNull: false,
     },

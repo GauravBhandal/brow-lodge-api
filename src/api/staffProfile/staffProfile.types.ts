@@ -8,7 +8,6 @@ import { Attachment } from "../attachment";
 export interface StaffProfile extends DefaultSchemaConfig {
   firstName: string;
   lastName: string;
-  preferredName: string;
   email?: string;
   gender?: "male" | "female" | "other";
   dateOfBirth?: Date;
@@ -28,10 +27,11 @@ export interface StaffProfile extends DefaultSchemaConfig {
 export interface CreateStaffProfileProps {
   firstName: StaffProfile["firstName"];
   lastName: StaffProfile["lastName"];
-  preferredName: StaffProfile["preferredName"];
   email: StaffProfile["email"];
   gender?: StaffProfile["gender"];
   jobTitle?: StaffProfile["jobTitle"];
+  dateOfBirth?: StaffProfile["dateOfBirth"];
+  address?: StaffProfile["address"];
   password: User["password"];
   blocked: User["blocked"];
   company: User["company"];

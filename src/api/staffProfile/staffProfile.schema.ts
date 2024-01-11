@@ -7,12 +7,13 @@ const createStaffProfileSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    preferredName: Joi.string().required(),
     jobTitle: Joi.string().allow("", null),
     gender: Joi.string().valid("Male", "Female", "Other").allow(null),
     email: Joi.string().allow("", null),
     password: Joi.string().allow("", null),
     blocked: Joi.boolean().required(),
+    dateOfBirth: Joi.date().allow(null),
+    address: Joi.string().allow("", null),
     roles: Joi.array()
       .items(Joi.string().uuid({ version: "uuidv4" }))
       .allow("", null),
@@ -26,7 +27,6 @@ const editStaffProfileSchema = wrapSchema({
   body: Joi.object().keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    preferredName: Joi.string().required(),
     email: Joi.string().allow("", null),
     dateOfBirth: Joi.date().allow(null),
     gender: Joi.string().valid("Male", "Female", "Other").allow(null),

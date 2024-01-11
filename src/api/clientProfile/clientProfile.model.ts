@@ -15,7 +15,6 @@ class ClientProfileModel<
 {
   firstName!: ClientProfile["firstName"];
   lastName!: ClientProfile["lastName"];
-  preferredName!: ClientProfile["preferredName"];
   email: ClientProfile["email"];
   dateOfBirth: ClientProfile["dateOfBirth"];
   gender: ClientProfile["gender"];
@@ -36,10 +35,6 @@ modelManager.init(
       allowNull: false,
     },
     lastName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    preferredName: {
       type: Sequelize.STRING,
       allowNull: false,
     },

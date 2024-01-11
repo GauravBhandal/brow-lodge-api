@@ -17,6 +17,7 @@ class WaxConsultationModel<
   implements WaxConsultation
 {
   doctorName!: WaxConsultation["doctorName"];
+  technicianName!: WaxConsultation["technicianName"];
   doctorAddress!: WaxConsultation["doctorAddress"];
   waxTreatment!: WaxConsultation["waxTreatment"];
   containProducts: WaxConsultation["containProducts"];
@@ -35,6 +36,10 @@ modelManager.init(
   WaxConsultationModel,
   {
     doctorName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    technicianName: {
       type: Sequelize.STRING,
       allowNull: false,
     },

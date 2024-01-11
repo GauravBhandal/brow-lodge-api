@@ -5,6 +5,7 @@ import { ClientProfile } from "../clientProfile";
 
 export interface TintConsultation extends DefaultSchemaConfig {
   doctorName: string;
+  technicianName: string;
   doctorAddress: string;
   colourEyebrow: string;
   colourEyelash: string;
@@ -21,6 +22,7 @@ export interface TintConsultation extends DefaultSchemaConfig {
 
 export interface CreateTintConsultationProps {
   doctorName: TintConsultation["doctorName"];
+  technicianName: TintConsultation["technicianName"]
   doctorAddress: TintConsultation["doctorAddress"];
   clientSign: TintConsultation["clientSign"];
   colourEyebrow: TintConsultation["colourEyebrow"];

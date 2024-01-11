@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS "staff_profiles" (
     "id" UUID NOT NULL,
     "first_name" VARCHAR NOT NULL,
     "last_name" VARCHAR NOT NULL,
-    "preferred_name" VARCHAR NOT NULL,
     "attachment" UUID,
     "email" VARCHAR,
     "gender" VARCHAR (255),
@@ -74,7 +73,6 @@ CREATE TABLE IF NOT EXISTS "client_profiles" (
     "id" UUID NOT NULL,
     "first_name" VARCHAR NOT NULL,
     "last_name" VARCHAR NOT NULL,
-    "preferred_name" VARCHAR NOT NULL,
     "attachment" UUID,
     "email" VARCHAR,
     "gender" VARCHAR (255),
@@ -162,6 +160,7 @@ ALTER TABLE "eyelash_extension_details" ENABLE ROW LEVEL SECURITY;
 CREATE TABLE IF NOT EXISTS "wax_consultation" (
     "id" UUID NOT NULL,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+     "technician_name" VARCHAR NOT NULL,
     "doctor_name" VARCHAR NOT NULL,
     "doctor_address" VARCHAR NOT NULL,
     "disease" VARCHAR[],
@@ -199,6 +198,7 @@ ALTER TABLE "wax_consultation_details" ENABLE ROW LEVEL SECURITY;
 CREATE TABLE IF NOT EXISTS "tint_consultation" (
     "id" UUID NOT NULL,
     "client" UUID NOT NULL REFERENCES "client_profiles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+     "technician_name" VARCHAR NOT NULL,
     "doctor_name" VARCHAR NOT NULL,
     "doctor_address" VARCHAR NOT NULL,
     "colour_eyebrow" VARCHAR NOT NULL,
