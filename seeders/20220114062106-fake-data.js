@@ -86,7 +86,7 @@ const userPermissions = {
     actions: {
       read: true,
       create: true,
-      delete: true,
+      delete: false,
       update: true,
     },
   },
@@ -94,7 +94,7 @@ const userPermissions = {
     actions: {
       read: true,
       create: true,
-      delete: true,
+      delete: false,
       update: true,
     },
   },
@@ -102,7 +102,55 @@ const userPermissions = {
     actions: {
       read: true,
       create: true,
-      delete: true,
+      delete: false,
+      update: true,
+    },
+  },
+  eyelashExtension: {
+    actions: {
+      read: true,
+      create: true,
+      delete: false,
+      update: true,
+    },
+  },
+  eyelashExtensionDetail: {
+    actions: {
+      read: true,
+      create: true,
+      delete: false,
+      update: true,
+    },
+  },
+  waxConsultation: {
+    actions: {
+      read: true,
+      create: true,
+      delete: false,
+      update: true,
+    },
+  },
+  tintConsultation: {
+    actions: {
+      read: true,
+      create: true,
+      delete: false,
+      update: true,
+    },
+  },
+  tintConsultationDetail: {
+    actions: {
+      read: true,
+      create: true,
+      delete: false,
+      update: true,
+    },
+  },
+  waxConsultationDetail: {
+    actions: {
+      read: true,
+      create: true,
+      delete: false,
       update: true,
     },
   },
