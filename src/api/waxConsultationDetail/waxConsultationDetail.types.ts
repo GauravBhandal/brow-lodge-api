@@ -5,7 +5,7 @@ import { WaxConsultation } from "../waxConsultation";
 
 export interface WaxConsultationDetail extends DefaultSchemaConfig {
   date: Date;
-  therapist: string;
+  therapist?: string;
   skinBefore?: string;
   treatment?: string;
   skinAfter?: string;

@@ -8,11 +8,11 @@ export interface EyelashExtension extends DefaultSchemaConfig {
   technicianName: string;
   doctorName: string;
   doctorAddress: string;
-  isPregnant: boolean;
-  eyeSyndrome: boolean;
-  hrt: boolean;
-  eyeComplaint: boolean;
-  skinPatchTest: boolean;
+  isPregnant?: boolean;
+  eyeSyndrome?: boolean;
+  hrt?: boolean;
+  eyeComplaint?: boolean;
+  skinPatchTest?: boolean;
   date: Date;
   clientSign: string;
   skinPatchTestDate?: Date;

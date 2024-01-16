@@ -315,7 +315,6 @@ module.exports = {
           id: "52a432d9-498e-45c0-98fb-4b6b2bae2599",
           first_name: "Gaurav",
           last_name: "Bhandal",
-          preferred_name: "Gaurav",
           email: "gaurav@gmail.com",
           date_of_birth: new Date(),
           personal_contact_number: "7867868",

@@ -8,7 +8,7 @@ export interface WaxConsultation extends DefaultSchemaConfig {
   technicianName: string;
   doctorAddress: string;
   clientSign?: string;
-  waxTreatment: boolean;
+  waxTreatment?: boolean;
   prescribedMedicine?: string,
   containProducts?: string[];
   disease?: string[];

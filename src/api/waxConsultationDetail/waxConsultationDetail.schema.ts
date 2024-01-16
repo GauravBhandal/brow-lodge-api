@@ -6,7 +6,7 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createWaxConsultationDetailSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    therapist: Joi.string().required().trim(),
+    therapist: Joi.string().allow("", null),
     skinBefore: Joi.string().allow("", null),
     treatment: Joi.string().allow("", null),
     skinAfter: Joi.string().allow("", null),
@@ -20,7 +20,7 @@ const editWaxConsultationDetailSchema = wrapSchema({
   params: Joi.object().keys({ waxConsultationDetailId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    therapist: Joi.string().required().trim(),
+    therapist: Joi.string().allow("", null),
     skinBefore: Joi.string().allow("", null),
     treatment: Joi.string().allow("", null),
     skinAfter: Joi.string().allow("", null),

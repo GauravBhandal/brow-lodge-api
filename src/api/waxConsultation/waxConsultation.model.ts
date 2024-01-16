@@ -19,7 +19,7 @@ class WaxConsultationModel<
   doctorName!: WaxConsultation["doctorName"];
   technicianName!: WaxConsultation["technicianName"];
   doctorAddress!: WaxConsultation["doctorAddress"];
-  waxTreatment!: WaxConsultation["waxTreatment"];
+  waxTreatment: WaxConsultation["waxTreatment"];
   containProducts: WaxConsultation["containProducts"];
   disease: WaxConsultation["disease"];
   clientSign: WaxConsultation["clientSign"];
@@ -56,7 +56,6 @@ modelManager.init(
     },
     waxTreatment: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     containProducts: {
       type: Sequelize.ARRAY(Sequelize.STRING),

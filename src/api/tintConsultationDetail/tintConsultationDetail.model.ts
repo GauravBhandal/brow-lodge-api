@@ -17,7 +17,7 @@ class TintConsultationDetailModel<
   implements TintConsultationDetail
 {
   date!: TintConsultationDetail["date"];
-  therapist!: TintConsultationDetail["therapist"];
+  therapist: TintConsultationDetail["therapist"];
   browColour: TintConsultationDetail["browColour"];
   lashColour: TintConsultationDetail["lashColour"];
   overleafCondition: TintConsultationDetail["overleafCondition"];
@@ -39,7 +39,6 @@ modelManager.init(
     },
     therapist: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     browColour: {
       type: Sequelize.STRING,
