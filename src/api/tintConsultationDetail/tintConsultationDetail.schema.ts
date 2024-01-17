@@ -6,7 +6,7 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 const createTintConsultationDetailSchema = wrapSchema({
   body: Joi.object().keys({
     date: Joi.date().required(),
-    therapist: Joi.string().required().trim(),
+    therapist: Joi.string().allow("", null),
     browColour: Joi.string().allow("", null),
     lashColour: Joi.string().allow("", null),
     overleafCondition: Joi.string().allow("", null),
@@ -20,7 +20,7 @@ const editTintConsultationDetailSchema = wrapSchema({
   params: Joi.object().keys({ tintConsultationDetailId: requiredUUIDSchema() }),
   body: Joi.object().keys({
     date: Joi.date().required(),
-    therapist: Joi.string().required().trim(),
+    therapist: Joi.string().allow("", null),
     browColour: Joi.string().allow("", null),
     lashColour: Joi.string().allow("", null),
     overleafCondition: Joi.string().allow("", null),

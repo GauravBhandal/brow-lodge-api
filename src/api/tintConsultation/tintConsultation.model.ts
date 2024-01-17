@@ -17,10 +17,11 @@ class TintConsultationModel<
   implements TintConsultation
 {
   doctorName!: TintConsultation["doctorName"];
+  technicianName!: TintConsultation["technicianName"];
   doctorAddress!: TintConsultation["doctorAddress"];
-  colourEyebrow!: TintConsultation["colourEyebrow"];
-  colourEyelash!: TintConsultation["colourEyelash"];
-  skinPatchTest!: TintConsultation["skinPatchTest"];
+  colourEyebrow: TintConsultation["colourEyebrow"];
+  colourEyelash: TintConsultation["colourEyelash"];
+  skinPatchTest: TintConsultation["skinPatchTest"];
   skinPatchTestDate: TintConsultation["skinPatchTestDate"];
   disease: TintConsultation["disease"];
   clientSign: TintConsultation["clientSign"];
@@ -39,6 +40,10 @@ modelManager.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    technicianName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     doctorAddress: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -49,7 +54,6 @@ modelManager.init(
     },
     colourEyelash: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     clientSign: {
       type: Sequelize.STRING,
@@ -57,7 +61,6 @@ modelManager.init(
     },
     skinPatchTest: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     disease: {
       type: Sequelize.ARRAY(Sequelize.STRING),

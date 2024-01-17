@@ -17,7 +17,7 @@ class WaxConsultationDetailModel<
   implements WaxConsultationDetail
 {
   date!: WaxConsultationDetail["date"];
-  therapist!: WaxConsultationDetail["therapist"];
+  therapist: WaxConsultationDetail["therapist"];
   skinBefore: WaxConsultationDetail["skinBefore"];
   treatment: WaxConsultationDetail["treatment"];
   skinAfter: WaxConsultationDetail["skinAfter"];
@@ -39,7 +39,6 @@ modelManager.init(
     },
     therapist: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     skinBefore: {
       type: Sequelize.STRING,

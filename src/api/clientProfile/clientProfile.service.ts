@@ -19,13 +19,16 @@ import { CompanyModel } from "../company";
 
 class ClientProfileService {
   async createClientProfile(props: CreateClientProfileProps) {
-    const { preferredName, email } = props;
+    const { email, firstName, lastName } = props;
 
     // Check if client already exist
     const existingClientWithName = await ClientProfileModel.findOne({
       where: {
-        preferredName: {
-          [Op.iLike]: `${preferredName}`,
+        firstName: {
+          [Op.iLike]: `${firstName}`,
+        },
+        lastName: {
+          [Op.iLike]: `${lastName}`,
         },
         company: props.company,
       },
@@ -61,7 +64,6 @@ class ClientProfileService {
     const createClientProps = {
       firstName: props.firstName,
       lastName: props.lastName,
-      preferredName: props.preferredName,
       email: props.email,
       company: props.company,
       gender: props.gender,
@@ -92,14 +94,18 @@ class ClientProfileService {
       );
     }
     if (
-      clientProfile.preferredName.toLowerCase() !==
-      props.preferredName.toLowerCase()
+      clientProfile.firstName.toLowerCase() !==
+      props.firstName.toLowerCase() && clientProfile.lastName.toLowerCase() !==
+      props.lastName.toLowerCase()
     ) {
       // Check if Client with same preferred name already exists
       const existingClient = await ClientProfileModel.findOne({
         where: {
-          preferredName: {
-            [Op.iLike]: `${props.preferredName}`,
+          firstName: {
+            [Op.iLike]: `${props.firstName}`,
+          },
+          lastName: {
+            [Op.iLike]: `${props.lastName}`,
           },
           company,
         },

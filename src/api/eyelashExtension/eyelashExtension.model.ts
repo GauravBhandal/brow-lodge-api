@@ -20,11 +20,11 @@ class EyelashExtensionModel<
   clientSign!: EyelashExtension["clientSign"];
   doctorName!: EyelashExtension["doctorName"];
   doctorAddress!: EyelashExtension["doctorAddress"];
-  isPregnant!: EyelashExtension["isPregnant"];
-  eyeSyndrome!: EyelashExtension["eyeSyndrome"];
-  hrt!: EyelashExtension["hrt"];
-  eyeComplaint!: EyelashExtension["eyeComplaint"];
-  skinPatchTest!: EyelashExtension["skinPatchTest"];
+  isPregnant: EyelashExtension["isPregnant"];
+  eyeSyndrome: EyelashExtension["eyeSyndrome"];
+  hrt: EyelashExtension["hrt"];
+  eyeComplaint: EyelashExtension["eyeComplaint"];
+  skinPatchTest: EyelashExtension["skinPatchTest"];
   date!: EyelashExtension["date"];
   skinPatchTestDate: EyelashExtension["skinPatchTestDate"];
   client!: EyelashExtension["client"];
@@ -55,23 +55,18 @@ modelManager.init(
     },
     isPregnant: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     eyeSyndrome: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     hrt: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     eyeComplaint: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     skinPatchTest: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     date: {
       type: Sequelize.DATEONLY,

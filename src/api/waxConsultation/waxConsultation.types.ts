@@ -5,9 +5,10 @@ import { ClientProfile } from "../clientProfile";
 
 export interface WaxConsultation extends DefaultSchemaConfig {
   doctorName: string;
+  technicianName: string;
   doctorAddress: string;
   clientSign?: string;
-  waxTreatment: boolean;
+  waxTreatment?: boolean;
   prescribedMedicine?: string,
   containProducts?: string[];
   disease?: string[];
@@ -20,6 +21,7 @@ export interface WaxConsultation extends DefaultSchemaConfig {
 
 export interface CreateWaxConsultationProps {
   doctorName: WaxConsultation["doctorName"];
+  technicianName: WaxConsultation["technicianName"];
   doctorAddress: WaxConsultation["doctorAddress"];
   clientSign: WaxConsultation["clientSign"];
   prescribedMedicine: WaxConsultation["prescribedMedicine"];

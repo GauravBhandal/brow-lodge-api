@@ -18,7 +18,7 @@ class EyelashExtensionDetailModel<
 {
   date!: EyelashExtensionDetail["date"];
   clientSign!: EyelashExtensionDetail["clientSign"];
-  therapist!: EyelashExtensionDetail["therapist"];
+  therapist: EyelashExtensionDetail["therapist"];
   feedback: EyelashExtensionDetail["feedback"];
   eyeFeedback: EyelashExtensionDetail["eyeFeedback"];
   careFeedback: EyelashExtensionDetail["careFeedback"];

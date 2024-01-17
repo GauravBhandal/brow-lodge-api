@@ -166,7 +166,6 @@ class UserService {
     const staffProfile = await staffProfileService.createStaffProfile({
       firstName: props.firstName,
       lastName: props.lastName,
-      preferredName: props.firstName,
       email: props.email,
       password: props.password,
       blocked: false,

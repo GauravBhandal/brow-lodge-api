@@ -15,7 +15,6 @@ class StaffProfileModel<
 {
   firstName!: StaffProfile["firstName"];
   lastName!: StaffProfile["lastName"];
-  preferredName!: StaffProfile["preferredName"];
   email: StaffProfile["email"];
   dateOfBirth: StaffProfile["dateOfBirth"];
   gender: StaffProfile["gender"];
@@ -40,10 +39,6 @@ modelManager.init(
       allowNull: false,
     },
     lastName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    preferredName: {
       type: Sequelize.STRING,
       allowNull: false,
     },

@@ -5,7 +5,7 @@ import { TintConsultation } from "../tintConsultation";
 
 export interface TintConsultationDetail extends DefaultSchemaConfig {
   date: Date;
-  therapist: string;
+  therapist?: string;
   browColour?: string;
   lashColour?: string;
   overleafCondition?: string;

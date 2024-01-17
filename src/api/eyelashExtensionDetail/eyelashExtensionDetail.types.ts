@@ -5,7 +5,7 @@ import { EyelashExtension } from "../eyelashExtension";
 
 export interface EyelashExtensionDetail extends DefaultSchemaConfig {
   date: Date;
-  therapist: string;
+  therapist?: string;
   clientSign: string;
   feedback?: string;
   eyeFeedback?: string;
