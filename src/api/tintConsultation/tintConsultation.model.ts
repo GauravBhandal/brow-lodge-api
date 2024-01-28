@@ -16,9 +16,9 @@ class TintConsultationModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements TintConsultation
 {
-  doctorName!: TintConsultation["doctorName"];
+  doctorName: TintConsultation["doctorName"];
   technicianName!: TintConsultation["technicianName"];
-  doctorAddress!: TintConsultation["doctorAddress"];
+  doctorAddress: TintConsultation["doctorAddress"];
   colourEyebrow: TintConsultation["colourEyebrow"];
   colourEyelash: TintConsultation["colourEyelash"];
   skinPatchTest: TintConsultation["skinPatchTest"];
@@ -38,7 +38,6 @@ modelManager.init(
   {
     doctorName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     technicianName: {
       type: Sequelize.STRING,
@@ -46,7 +45,6 @@ modelManager.init(
     },
     doctorAddress: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     colourEyebrow: {
       type: Sequelize.STRING,

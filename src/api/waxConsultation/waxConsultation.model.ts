@@ -16,9 +16,9 @@ class WaxConsultationModel<
   extends CommonSequelizeModel<ModelAttributes, ModelCreationAttributes>
   implements WaxConsultation
 {
-  doctorName!: WaxConsultation["doctorName"];
+  doctorName: WaxConsultation["doctorName"];
   technicianName!: WaxConsultation["technicianName"];
-  doctorAddress!: WaxConsultation["doctorAddress"];
+  doctorAddress: WaxConsultation["doctorAddress"];
   waxTreatment: WaxConsultation["waxTreatment"];
   containProducts: WaxConsultation["containProducts"];
   disease: WaxConsultation["disease"];
@@ -37,7 +37,6 @@ modelManager.init(
   {
     doctorName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     technicianName: {
       type: Sequelize.STRING,
@@ -45,7 +44,6 @@ modelManager.init(
     },
     doctorAddress: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     prescribedMedicine: {
       type: Sequelize.STRING,
