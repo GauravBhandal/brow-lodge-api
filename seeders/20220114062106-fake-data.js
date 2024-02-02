@@ -103,7 +103,7 @@ const userPermissions = {
       read: true,
       create: true,
       delete: false,
-      update: true,
+      update: false,
     },
   },
   eyelashExtension: {
