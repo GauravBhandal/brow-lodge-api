@@ -5,9 +5,9 @@ import { requiredUUIDSchema, wrapSchema } from "../../common/joiSchemas";
 
 const createTintConsultationSchema = wrapSchema({
   body: Joi.object().keys({
-    doctorName: Joi.string().required().trim(),
+    doctorName: Joi.string().allow("", null),
     technicianName: Joi.string().required().trim(),
-    doctorAddress: Joi.string().required().trim(),
+    doctorAddress: Joi.string().allow("", null),
     colourEyebrow: Joi.string().allow("", null),
     colourEyelash: Joi.string().allow("", null),
     skinPatchTest: Joi.boolean().allow(null),
@@ -22,9 +22,9 @@ const createTintConsultationSchema = wrapSchema({
 const editTintConsultationSchema = wrapSchema({
   params: Joi.object().keys({ tintConsultationId: requiredUUIDSchema() }),
   body: Joi.object().keys({
-    doctorName: Joi.string().required().trim(),
+    doctorName: Joi.string().allow("", null),
     technicianName: Joi.string().required().trim(),
-    doctorAddress: Joi.string().required().trim(),
+    doctorAddress: Joi.string().allow("", null),
     colourEyebrow: Joi.string().allow("", null),
     colourEyelash: Joi.string().allow("", null),
     skinPatchTest: Joi.boolean().allow(null),

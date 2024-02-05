@@ -18,8 +18,8 @@ class EyelashExtensionModel<
 {
   technicianName!: EyelashExtension["technicianName"];
   clientSign!: EyelashExtension["clientSign"];
-  doctorName!: EyelashExtension["doctorName"];
-  doctorAddress!: EyelashExtension["doctorAddress"];
+  doctorName: EyelashExtension["doctorName"];
+  doctorAddress: EyelashExtension["doctorAddress"];
   isPregnant: EyelashExtension["isPregnant"];
   eyeSyndrome: EyelashExtension["eyeSyndrome"];
   hrt: EyelashExtension["hrt"];
@@ -47,11 +47,9 @@ modelManager.init(
     },
     doctorName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     doctorAddress: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     isPregnant: {
       type: Sequelize.BOOLEAN,

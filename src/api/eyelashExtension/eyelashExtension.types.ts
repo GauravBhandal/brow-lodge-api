@@ -6,8 +6,8 @@ import { ClientProfile } from "../clientProfile";
 
 export interface EyelashExtension extends DefaultSchemaConfig {
   technicianName: string;
-  doctorName: string;
-  doctorAddress: string;
+  doctorName?: string;
+  doctorAddress?: string;
   isPregnant?: boolean;
   eyeSyndrome?: boolean;
   hrt?: boolean;

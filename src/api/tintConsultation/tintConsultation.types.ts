@@ -4,9 +4,9 @@ import { QueryParams } from "../../common/types";
 import { ClientProfile } from "../clientProfile";
 
 export interface TintConsultation extends DefaultSchemaConfig {
-  doctorName: string;
+  doctorName?: string;
   technicianName: string;
-  doctorAddress: string;
+  doctorAddress?: string;
   colourEyebrow?: string;
   colourEyelash?: string;
   clientSign?: string;
