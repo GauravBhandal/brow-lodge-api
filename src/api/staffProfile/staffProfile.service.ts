@@ -21,20 +21,7 @@ import { User, UserModel, userService } from "../user";
 
 class StaffProfileService {
   async createStaffProfile(props: CreateStaffProfileProps) {
-    const { email, password, firstName, lastName } = props;
-
-    // Check if staff already exist
-    const existingStaffWithName = await StaffProfileModel.findOne({
-      where: {
-        firstName: {
-          [Op.iLike]: `${firstName}`,
-        },
-        lastName: {
-          [Op.iLike]: `${lastName}`,
-        },
-        company: props.company,
-      },
-    });
+    const { email, password } = props;
 
     let existingStaffWithEmail = null;
 
@@ -65,13 +52,6 @@ class StaffProfileService {
       });
     }
 
-    // if the staff exists, throw an error
-    if (existingStaffWithName) {
-      throw new CustomError(
-        409,
-        StaffProfileErrorCode.STAFF_PROFILE_NAME_ALREADY_EXIST
-      );
-    }
     if (existingStaffWithEmail || existingStaffWithUser) {
       throw new CustomError(
         409,
@@ -115,32 +95,6 @@ class StaffProfileService {
     // if staffProfile not found, throw an error
     if (!staffProfile) {
       throw new CustomError(404, StaffProfileErrorCode.STAFF_PROFILE_NOT_FOUND);
-    }
-    if (
-      staffProfile.firstName.toLowerCase() !==
-      props.firstName.toLowerCase() && staffProfile.lastName.toLowerCase() !==
-      props.lastName.toLowerCase()
-    ) {
-      // Check if Staff with same name already exists
-      const existingStaff = await StaffProfileModel.findOne({
-        where: {
-          firstName: {
-            [Op.iLike]: `${props.firstName}`,
-          },
-          lastName: {
-            [Op.iLike]: `${props.lastName}`,
-          },
-          company,
-        },
-      });
-
-      // If exists, then throw an error
-      if (existingStaff) {
-        throw new CustomError(
-          409,
-          StaffProfileErrorCode.STAFF_PROFILE_NAME_ALREADY_EXIST
-        );
-      }
     }
 
     if (

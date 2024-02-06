@@ -19,28 +19,7 @@ import { CompanyModel } from "../company";
 
 class ClientProfileService {
   async createClientProfile(props: CreateClientProfileProps) {
-    const { email, firstName, lastName } = props;
-
-    // Check if client already exist
-    const existingClientWithName = await ClientProfileModel.findOne({
-      where: {
-        firstName: {
-          [Op.iLike]: `${firstName}`,
-        },
-        lastName: {
-          [Op.iLike]: `${lastName}`,
-        },
-        company: props.company,
-      },
-    });
-
-    // if the client exists, throw an error
-    if (existingClientWithName) {
-      throw new CustomError(
-        409,
-        ClientProfileErrorCode.CLIENT_PROFILE_NAME_ALREADY_EXIST
-      );
-    }
+    const { email } = props;
 
     let existingClientWithEmail = null;
 
@@ -93,33 +72,7 @@ class ClientProfileService {
         ClientProfileErrorCode.CLIENT_PROFILE_NOT_FOUND
       );
     }
-    if (
-      clientProfile.firstName.toLowerCase() !==
-      props.firstName.toLowerCase() && clientProfile.lastName.toLowerCase() !==
-      props.lastName.toLowerCase()
-    ) {
-      // Check if Client with same preferred name already exists
-      const existingClient = await ClientProfileModel.findOne({
-        where: {
-          firstName: {
-            [Op.iLike]: `${props.firstName}`,
-          },
-          lastName: {
-            [Op.iLike]: `${props.lastName}`,
-          },
-          company,
-        },
-      });
-
-      // If exists, then throw an error
-      if (existingClient) {
-        throw new CustomError(
-          409,
-          ClientProfileErrorCode.CLIENT_PROFILE_NAME_ALREADY_EXIST
-        );
-      }
-    }
-
+    
     if (
       clientProfile.email &&
       props.email &&
