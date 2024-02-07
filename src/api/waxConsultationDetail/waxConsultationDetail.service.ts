@@ -137,6 +137,9 @@ class WaxConsultationDetailService {
       {
         model: WaxConsultationModel,
         as: "Wax",
+        where: {
+          ...filters["Wax"],
+        }
       },
     ];
 

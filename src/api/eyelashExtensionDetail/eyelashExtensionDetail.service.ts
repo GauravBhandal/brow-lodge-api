@@ -137,6 +137,9 @@ class EyelashExtensionDetailService {
       {
         model: EyelashExtensionModel,
         as: "Eyelash",
+        where: {
+          ...filters["Eyelash"],
+        }
       },
     ];
 

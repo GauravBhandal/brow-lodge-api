@@ -19,27 +19,6 @@ import { CompanyModel } from "../company";
 
 class ClientProfileService {
   async createClientProfile(props: CreateClientProfileProps) {
-    const { email } = props;
-
-    let existingClientWithEmail = null;
-
-    if (isString(email) && email.length > 0) {
-      existingClientWithEmail = await ClientProfileModel.findOne({
-        where: {
-          email: {
-            [Op.iLike]: `${email}`,
-          },
-          company: props.company,
-        },
-      });
-    }
-    if (existingClientWithEmail) {
-      throw new CustomError(
-        409,
-        ClientProfileErrorCode.CLIENT_PROFILE_EMAIL_ALREADY_EXIST
-      );
-    }
-
     const createClientProps = {
       firstName: props.firstName,
       lastName: props.lastName,

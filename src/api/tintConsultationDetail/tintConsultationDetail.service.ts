@@ -137,6 +137,9 @@ class TintConsultationDetailService {
       {
         model: TintConsultationModel,
         as: "Tint",
+        where: {
+          ...filters["Tint"],
+        }
       },
     ];
 
