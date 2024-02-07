@@ -52,28 +52,6 @@ class ClientProfileService {
       );
     }
     
-    if (
-      clientProfile.email &&
-      props.email &&
-      clientProfile.email.toLowerCase() !== props.email.toLowerCase()
-    ) {
-      // Check if Client with same email already exists
-      const existingClient = await ClientProfileModel.findOne({
-        where: {
-          email: {
-            [Op.iLike]: `${props.email}`, // We are not using company here
-          },
-        },
-      });
-
-      // If exists, then throw an error
-      if (existingClient) {
-        throw new CustomError(
-          409,
-          ClientProfileErrorCode.CLIENT_PROFILE_EMAIL_ALREADY_EXIST
-        );
-      }
-    }
     // Finally, update the clientProfile
     const [, [updatedClientProfile]] = await ClientProfileModel.update(
       updateProps,
